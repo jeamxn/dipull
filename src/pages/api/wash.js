@@ -1,0 +1,239 @@
+import { connectToDatabase } from "@/utils/db";
+import getTokenInfo from "@/utils/getTokenInfo";
+
+const isAllPermit = false;
+const washerData = {
+  "W1N": {
+    grade: isAllPermit ? [1, 2, 3] : [1],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+    }
+  },
+  "W2N": {
+    grade: isAllPermit ? [1, 2, 3] : [2],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+    }
+  },
+  "W3N": {
+    grade: isAllPermit ? [1, 2, 3] : [3],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+    }
+  },
+  "H2R": {
+    grade: isAllPermit ? [1, 2, 3] : [1],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+    }
+  },
+  "H4L": {
+    grade: isAllPermit ? [1, 2, 3] : [1],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+    }
+  },
+  "H4R": {
+    grade: isAllPermit ? [1, 2, 3] : [2],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+    }
+  },
+  "H5N": {
+    grade: isAllPermit ? [1, 2, 3] : [2],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+    }
+  },
+  "H2C": {
+    grade: isAllPermit ? [1, 2, 3] : [3],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+    }
+  },
+  "H2L": {
+    grade: isAllPermit ? [1, 2, 3] : [3],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+    }
+  }
+};
+
+const handler = async (req, res) => {
+  const id = (await getTokenInfo(req, res)).id;
+  if(!id) {
+    res.status(200).json("");
+    return;
+  }
+  if(req.method === "POST") post(req, res, id);
+  else if(req.method === "GET") get(req, res, id);
+  else if(req.method === "DELETE") del(req, res, id);
+};
+
+const get = async (req, res, id) => {
+  const client = await connectToDatabase();
+  const washCollection = client.db().collection("wash");
+  const data = await washCollection.find({
+    date: new Date().toISOString().slice(0, 10)
+  }).toArray();
+
+  const copyWasherData = JSON.parse(JSON.stringify(washerData));
+
+  data.forEach((item) => {
+    if(!copyWasherData[item.washer].time[item.time]) copyWasherData[item.washer].time[item.time] = [];
+    copyWasherData[item.washer].time[item.time].push(item.owner);
+  });
+
+  const usersCollection = await client.db().collection("users");
+  const userInfo = await usersCollection.findOne({ id: Number(id) });
+  const mysub = await washCollection.findOne({ owner: `${userInfo.number} ${userInfo.name}` });
+
+  res.status(200).json({
+    washerData: copyWasherData,
+    myWasherData: mysub
+  });
+};
+
+const post = async (req, res, id) => {
+  const { washer, time } = req.body;
+
+  if(!washer || !time) {
+    res.status(200).json({
+      success: false,
+      message: "세탁기와 시간을 선택해주세요."
+    });
+    return;
+  }
+
+  if(!washerData[washer]?.time[time] === undefined) {
+    res.status(200).json({
+      success: false,
+      message: "혹시 없는 세탁기와 시간을 만들 수 있니?"
+    });
+    return;
+  }
+
+  const client = await connectToDatabase();
+  const washCollection = client.db().collection("wash");
+  const usersCollection = await client.db().collection("users");
+  const userInfo = await usersCollection.findOne({ id: Number(id) });
+  const isISubed = await washCollection.findOne({ owner: `${userInfo.number} ${userInfo.name}` });
+  if(isISubed) {
+    res.status(200).json({
+      success: false,
+      message: "이미 예약한 세탁기가 있습니다."
+    });
+    return;
+  }
+
+  const data = await washCollection.find({
+    date: new Date().toISOString().slice(0, 10),
+    washer: washer,
+    time: time
+  }).toArray();
+
+  if(data.length > 0) {
+    res.status(200).json({
+      success: false,
+      message: "이미 예약된 세탁기입니다."
+    });
+    return;
+  }
+
+  if(washer[0] === "W" && userInfo.gender !== "female") {
+    res.status(200).json({
+      success: false,
+      message: "혹시 여자이신가요?"
+    });
+    return;
+  }
+  else if(washer[0] === "H" && userInfo.gender !== "male") {
+    res.status(200).json({
+      success: false,
+      message: "혹시 남자이신가요?"
+    });
+    return;
+  }
+
+  if(!washerData[washer].grade.includes(Math.floor(userInfo.number / 1000))) {
+    res.status(200).json({
+      success: false,
+      message: "님 나이 조작함?"
+    });
+    return;
+  }
+
+  const { _id, ...rest } = await washCollection.insertOne({
+    washer: washer,
+    time: time,
+    date: new Date().toISOString().slice(0, 10),
+    owner: `${userInfo.number} ${userInfo.name}`
+  });
+
+  res.status(200).json({
+    success: true,
+    message: "예약되었습니다."
+  });
+};
+
+const del = async (req, res, id) => {
+  try{
+    const client = await connectToDatabase();
+    const washCollection = client.db().collection("wash");
+    const usersCollection = await client.db().collection("users");
+    const userInfo = await usersCollection.findOne({ id: Number(id) });
+    const mysub = await washCollection.deleteOne({ owner: `${userInfo.number} ${userInfo.name}` });
+  
+    if(mysub.deletedCount){
+      res.status(200).json({
+        success: true,
+        message: "예약이 취소되었습니다.",
+      });
+    }
+  }
+  catch{
+    res.status(200).json({
+      success: true,
+      message: "예약이 취소 실패~~!~!"
+    });
+  }
+};
+
+
+export default handler;
