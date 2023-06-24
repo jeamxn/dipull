@@ -1,6 +1,6 @@
 import { connectToDatabase } from "@/utils/db";
 import getTokenInfo from "@/utils/getTokenInfo";
-
+import stayStates from "@/utils/stayStates";
 
 const handler = async (req, res) => {
   const id = (await getTokenInfo(req, res)).id;
@@ -14,6 +14,8 @@ const handler = async (req, res) => {
 };
 
 const get = async (req, res, id) => {
+  const stayStatesRow = await stayStates();
+
   const client = await connectToDatabase();
   const stayCollection = await client.db().collection("stay");
   const usersCollection = await client.db().collection("users");
@@ -24,7 +26,8 @@ const get = async (req, res, id) => {
   if(!searchMyData) {
     res.status(200).json({
       success: false,
-      message: "잔류 신청을 하지 않았습니다."
+      message: "잔류 신청을 하지 않았습니다.",
+      isOpened: stayStatesRow.isOpened[Math.floor(userInfo.number / 1000) - 1]
     });
     return;
   }
@@ -32,12 +35,14 @@ const get = async (req, res, id) => {
   res.status(200).json({
     success: true,
     message: "잔류 신청을 하였습니다.",
-    data: searchMyData.outing
+    data: searchMyData.outing,
+    isOpened: stayStatesRow.isOpened[Math.floor(userInfo.number / 1000) - 1]
   });
 };
 
 const post = async (req, res, id) => {
   const { type, reason, meal } = req.body;
+  const stayStatesRow = await stayStates();
 
   if(!type || !reason || !meal) {
     res.status(200).json({
@@ -52,6 +57,14 @@ const post = async (req, res, id) => {
   const usersCollection = await client.db().collection("users");
   const userInfo = await usersCollection.findOne({ id: Number(id) });
   const name = `${userInfo.number} ${userInfo.name}`;
+
+  if(!stayStatesRow.isOpened[Math.floor(userInfo.number / 1000) - 1]) {
+    res.status(200).json({
+      success: false,
+      message: "잔류(외출) 신청 기간이 아닙니다."
+    });
+    return;
+  }
 
   const update = await stayCollection.updateOne({ name }, {
     $set: {

@@ -23,7 +23,7 @@ export default function Login() {
       <DefaultHead></DefaultHead>
       <main className="main">
         <div className={styles.login}>
-          <div className={styles.title}>디미고인 PULL 서비스</div>
+          <div className={styles.title}>디미고인 풀 서비스</div>
           <div className={styles.kakaoLogin} onClick={handleLogin}>
             <div className={styles.kakaoLoginLogo}></div>
             <div className={styles.kakaoLoginText}>카카오 계정으로 로그인하기</div>

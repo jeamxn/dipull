@@ -38,6 +38,7 @@ const Outing = () => {
   const [outTime, setOutTime] = useState(["10:20", "14:00"]);
   const [selectMeal, setSelectMeal] = useState([true, true, true]);
   const [checker, setChecker] = useRecoilState(userInfoAtom);
+  const [isOpened, setIsOpened] = useState(false);
 
   const [data, setData] = useState(null);
 
@@ -47,17 +48,22 @@ const Outing = () => {
       method: "GET",
       url: "/api/outing",
     });
+    setIsOpened(axiosData.isOpened);
+
     setData(axiosData.success ? axiosData.data : null);
     
     if(axiosData.success){
       const newChecker = { ...checker };
-      newChecker.outing = axiosData.data["토요일"].reason.length || axiosData.data["일요일"].reason.length ? true : false;
-      setChecker(newChecker);
+      if(newChecker.outing !== undefined) {
+        newChecker.outing = axiosData.data["토요일"].reason.length || axiosData.data["일요일"].reason.length ? true : false;
+        setChecker(newChecker);
+      }
     }
     setLoading(false);
   };
 
   const Apply = async () => {
+    if(!isOpened) return;
     setLoading(true);
     const {data: axiosData} = await axios({
       method: "POST",
@@ -169,15 +175,16 @@ const Outing = () => {
                 </div>
                 <input
                   type="button"
-                  value="외출 신청"
+                  value={isOpened ? "외출 신청하기" : "잔류(외출) 신청 기간이 끝났습니다."}
                   className={styles.applyBtn}
                   onClick={Apply}
                   style={{
                     opacity: selected === "" || outReason === "" || outTime[0] === "" || outTime[1] === "" ? .5 : 1
                   }}
-                  disabled={selected === "" || outReason === "" || outTime[0] === "" || outTime[1] === ""}
+                  disabled={selected === "" || outReason === "" || outTime[0] === "" || outTime[1] === "" || !isOpened}
                 />
               </div>
+              
             </div>
             <div className={styles.box}>
               <div className={styles.title}>외출 신청 현황</div>
