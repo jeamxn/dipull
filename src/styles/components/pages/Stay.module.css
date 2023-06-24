@@ -163,11 +163,15 @@
 	justify-content: center;
 	margin-bottom: 10px;
 	gap: 10px;
+	text-align: center;
 }
 .btnBoxCont{
 	font-size: 15px;
 	font-weight: 500;
 	color: rgba(var(--color-primary), .5)
+}
+.btnBoxCont1{
+	margin-bottom: 5px;
 }
 
 .btn{

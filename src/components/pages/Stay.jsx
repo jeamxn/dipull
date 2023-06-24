@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
 import styles from "&/pages/Stay.module.css";
-import { isLoadingAtom, myInfoAtom } from "@/utils/states";
+import { isLoadingAtom, myInfoAtom, userInfoAtom } from "@/utils/states";
 
 
 export default function Stay() {
@@ -16,6 +16,7 @@ export default function Stay() {
   const [myStayData, setMyStayData] = useState(null);
   const [studentList, setStudentList] = useState({});
   const [isOpened, setIsOpened] = useState(false);
+  const [checker, setChecker] = useRecoilState(userInfoAtom);
 
   const dataLoad = async () => {
     setLoading(true);
@@ -29,6 +30,15 @@ export default function Stay() {
     setMyStayData(data.myStay);
     setStudentList(data.students);
     setIsOpened(data.isOpened);
+
+    //myStayData
+    const newChecker = { ...checker };
+    newChecker.stay = data.myStay ? true : false;
+    if(!data.myStay) {
+      newChecker.outing = false;
+    }
+    setChecker(newChecker);
+
     setLoading(false);
   };
 
@@ -79,7 +89,7 @@ export default function Stay() {
   return (
     <div className={styles.stay}>
       <div className={styles.box}>
-        <div className={styles.title}>잔류 신청 / 현황</div>
+        <div className={styles.title}>잔류 신청하기 / 현황</div>
         <table className={styles.table}>
           <tbody className={styles.tableI}>
             <tr className={styles.tr}>
@@ -113,7 +123,7 @@ export default function Stay() {
 
                         return (
                           <td 
-                            key={(i + 1) * 10 + (j + 1)}
+                            key={j}
                             onClick={() => {
                               if(!selectAble) return;
 
@@ -149,6 +159,7 @@ export default function Stay() {
           myStayData ? (
             <>
               <div className={styles.btnBoxCont}>{myStayData.seat === "#0" ? "교실" : `좌석 ${myStayData.seat}에`} 잔류 신청이 완료되었습니다!</div>
+              {isOpened && <div className={[styles.btnBoxCont, styles.btnBoxCont1].join(" ")}>잔류 취소 시, 외출 및 금귀 신청 내역시 함께 삭제됩니다.</div>}
               <input
                 type="button"
                 className={styles.btn}

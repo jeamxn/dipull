@@ -1,14 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 
 import styles from "&/UserInfo.module.css";
-import { myInfoAtom } from "@/utils/states";
+import { myInfoAtom, userInfoAtom } from "@/utils/states";
 
 const UserInfo = () => {
   const router = useRouter();
   const [myInfo, setMyInfo] = useRecoilState(myInfoAtom);
+  const [checker, setChecker] = useRecoilState(userInfoAtom);
+
+  useEffect(() => {
+    if(!myInfo) return;
+    setChecker(myInfo.userInfo);
+  }, [myInfo, setChecker]);
+
   if(!myInfo) return null;
 
   return (
@@ -22,21 +30,21 @@ const UserInfo = () => {
         <div className={styles.check}>
           <div className={styles.info}>
             <div className={styles.infoTitle}>세탁</div>
-            <div className={styles.infoCont}>신청완료</div>
+            <Image src={checker.wash ? "/icons/check.svg" : "/icons/no.svg"} width={20} height={20} alt="check" />
           </div>
 
           <div className={styles.infoLine}></div>
 
           <div className={styles.info}>
             <div className={styles.infoTitle}>잔류</div>
-            <div className={styles.infoCont}>신청완료</div>
+            <Image src={checker.stay ? "/icons/check.svg" : "/icons/no.svg"} width={20} height={20} alt="check" />
           </div>
 
           <div className={styles.infoLine}></div>
 
           <div className={styles.info}>
-            <div className={styles.infoTitle}>금귀</div>
-            <div className={styles.infoCont}>신청완료</div>
+            <div className={styles.infoTitle}>외출</div>
+            <Image src={checker.outing ? "/icons/check.svg" : "/icons/no.svg"} width={20} height={20} alt="check" />
           </div>
         </div>
       </div>
@@ -58,5 +66,4 @@ const UserInfo = () => {
     </div>
   );
 };
-
 export default UserInfo;

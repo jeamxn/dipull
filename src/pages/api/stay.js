@@ -190,7 +190,6 @@ const post = async (req, res, id) => {
   }
 
   const searchUser = await stayCollection.find({ name: name }).toArray();
-  console.log(rowData, searchUser);
   if(searchUser.length > 0) {
     res.status(200).json({
       success: false,
@@ -199,7 +198,21 @@ const post = async (req, res, id) => {
     return;
   }
 
-  const insertOne = await stayCollection.insertOne({ seat, name, gender: userInfo.gender });
+  const insertOne = await stayCollection.insertOne({ 
+    seat, 
+    name, 
+    gender: userInfo.gender,
+    outing: {
+      "토요일": {
+        "reason": [],
+        "meal": [true, true, true]
+      },
+      "일요일": {
+        "reason": [],
+        "meal": [true, true, true]
+      },
+    }
+  });
   res.status(200).json({
     success: true,
     message: "신청되었습니다."

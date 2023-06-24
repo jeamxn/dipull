@@ -69,7 +69,6 @@ const verifiedToken = async (req, res) => {
         Authorization: `Bearer ${access_token}`,
       },
     });
-    // console.log(tokenInfo);
     if (tokenInfo.expiresInMillis < 0) {
       const data = await tryNew();
       if(data.success) {

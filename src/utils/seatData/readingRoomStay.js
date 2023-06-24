@@ -1,5 +1,13 @@
 const readingRoomStay = [
   {
+    "grade": [1, 2],
+    "gender": "male",
+    "color": "#eb8334",
+    "seat": {
+      "N": [1, 2, 3, 4, 5, 6, 7, 8, /* 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 */],
+    }
+  },
+  {
     "grade": [2, 3],
     "gender": "male",
     "color": "#3B89FF",

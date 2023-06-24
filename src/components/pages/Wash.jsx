@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
 import styles from "&/pages/Wash.module.css";
-import { isLoadingAtom, myInfoAtom } from "@/utils/states";
+import { isLoadingAtom, myInfoAtom, userInfoAtom } from "@/utils/states";
 
 const washerId2Name = (id) => {
   const where = id[0] == "W" ? "우정학사" : "학봉관";
@@ -166,12 +166,18 @@ const Wash = () => {
   const [washdata, setWashdata] = useState({});
   const [myWasherData, setMyWasherData] = useState(null);
   const [loading, setLoading] = useRecoilState(isLoadingAtom);
+  const [checker, setChecker] = useRecoilState(userInfoAtom);
 
   const LoadData = async () => {
     setLoading(true);
     const { data } = await axios.get("/api/wash");
     setWashdata(data.washerData);
     setMyWasherData(data.myWasherData);
+
+    const newChecker = { ...checker };
+    newChecker.wash = data.myWasherData ? true : false;
+    setChecker(newChecker);
+    
     setLoading(false);
   };
 
