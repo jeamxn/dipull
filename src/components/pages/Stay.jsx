@@ -33,11 +33,13 @@ export default function Stay() {
 
     //myStayData
     const newChecker = { ...checker };
-    newChecker.stay = data.myStay ? true : false;
-    if(!data.myStay) {
-      newChecker.outing = false;
+    if(newChecker.stay !== undefined){
+      newChecker.stay = data.myStay ? true : false;
+      if(!data.myStay) {
+        newChecker.outing = false;
+      }
+      setChecker(newChecker);
     }
-    setChecker(newChecker);
 
     setLoading(false);
   };
@@ -180,7 +182,7 @@ export default function Stay() {
               <input
                 type="button"
                 className={styles.btn}
-                value={isOpened ? "잔류 신청" : "잔류 신청 기간이 끝났습니다."}
+                value={isOpened ? "잔류 신청하기" : "잔류(외출) 신청 기간이 끝났습니다."}
                 disabled={!isOpened}
                 style={{ cursor: isOpened ? "pointer" : "no-drop", opacity: isOpened ? 1 : 0.5 }}
                 onClick={submit}

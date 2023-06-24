@@ -12,9 +12,5 @@ export const isLoadingAtom = atom({
 
 export const userInfoAtom = atom({  
   key: "userInfoState",
-  default: {
-    wash: false,
-    stay: false,
-    outing: false
-  },
+  default: {},
 });

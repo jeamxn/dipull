@@ -1,10 +1,10 @@
 import { connectToDatabase } from "@/utils/db";
 import getTokenInfo from "@/utils/getTokenInfo";
+import stayStates from "@/utils/stayStates";
 
-const isAllPermit = false;
-const washerData = {
+const commonWasherData = {
   "W1N": {
-    grade: isAllPermit ? [1, 2, 3] : [1],
+    grade: [1],
     time: {
       "오후 6시 35분": "",
       "오후 7시 35분": "",
@@ -14,7 +14,7 @@ const washerData = {
     }
   },
   "W2N": {
-    grade: isAllPermit ? [1, 2, 3] : [2],
+    grade: [2],
     time: {
       "오후 6시 35분": "",
       "오후 7시 35분": "",
@@ -24,7 +24,7 @@ const washerData = {
     }
   },
   "W3N": {
-    grade: isAllPermit ? [1, 2, 3] : [3],
+    grade: [3],
     time: {
       "오후 6시 35분": "",
       "오후 7시 35분": "",
@@ -34,7 +34,7 @@ const washerData = {
     }
   },
   "H2R": {
-    grade: isAllPermit ? [1, 2, 3] : [1],
+    grade: [1],
     time: {
       "오후 6시 35분": "",
       "오후 7시 35분": "",
@@ -44,7 +44,7 @@ const washerData = {
     }
   },
   "H4L": {
-    grade: isAllPermit ? [1, 2, 3] : [1],
+    grade: [1],
     time: {
       "오후 6시 35분": "",
       "오후 7시 35분": "",
@@ -54,7 +54,7 @@ const washerData = {
     }
   },
   "H4R": {
-    grade: isAllPermit ? [1, 2, 3] : [2],
+    grade: [2],
     time: {
       "오후 6시 35분": "",
       "오후 7시 35분": "",
@@ -64,7 +64,7 @@ const washerData = {
     }
   },
   "H5N": {
-    grade: isAllPermit ? [1, 2, 3] : [2],
+    grade: [2],
     time: {
       "오후 6시 35분": "",
       "오후 7시 35분": "",
@@ -74,7 +74,7 @@ const washerData = {
     }
   },
   "H2C": {
-    grade: isAllPermit ? [1, 2, 3] : [3],
+    grade: [3],
     time: {
       "오후 6시 35분": "",
       "오후 7시 35분": "",
@@ -84,13 +84,123 @@ const washerData = {
     }
   },
   "H2L": {
-    grade: isAllPermit ? [1, 2, 3] : [3],
+    grade: [3],
     time: {
       "오후 6시 35분": "",
       "오후 7시 35분": "",
       "오후 8시 30분": "",
       "오후 9시 30분": "",
       "오후 10시 30분": "",
+    }
+  }
+};
+const stayWasherData = {
+  "W1N": {
+    grade: [1, 2, 3],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+      "* 오후 12시 00분": "",
+      "* 오후 1시 00분": "",
+    }
+  },
+  "W2N": {
+    grade: [1, 2, 3],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+      "* 오후 12시 00분": "",
+      "* 오후 1시 00분": "",
+    }
+  },
+  "W3N": {
+    grade: [1, 2, 3],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+      "* 오후 12시 00분": "",
+      "* 오후 1시 00분": "",
+    }
+  },
+  "H2R": {
+    grade: [1, 2, 3],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+      "* 오후 12시 00분": "",
+      "* 오후 1시 00분": "",
+    }
+  },
+  "H4L": {
+    grade: [1, 2, 3],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+      "* 오후 12시 00분": "",
+      "* 오후 1시 00분": "",
+    }
+  },
+  "H4R": {
+    grade: [1, 2, 3],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+      "* 오후 12시 00분": "",
+      "* 오후 1시 00분": "",
+    }
+  },
+  "H5N": {
+    grade: [1, 2, 3],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+      "* 오후 12시 00분": "",
+      "* 오후 1시 00분": "",
+    }
+  },
+  "H2C": {
+    grade: [1, 2, 3],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+      "* 오후 12시 00분": "",
+      "* 오후 1시 00분": "",
+    }
+  },
+  "H2L": {
+    grade: [1, 2, 3],
+    time: {
+      "오후 6시 35분": "",
+      "오후 7시 35분": "",
+      "오후 8시 30분": "",
+      "오후 9시 30분": "",
+      "오후 10시 30분": "",
+      "* 오후 12시 00분": "",
+      "* 오후 1시 00분": "",
     }
   }
 };
@@ -107,6 +217,7 @@ const handler = async (req, res) => {
 };
 
 const get = async (req, res, id) => {
+  const washerData = (await stayStates()).isStay ? stayWasherData : commonWasherData;
   const client = await connectToDatabase();
   const washCollection = client.db().collection("wash");
 
@@ -140,6 +251,7 @@ const get = async (req, res, id) => {
 };
 
 const post = async (req, res, id) => {
+  const washerData = (await stayStates()).isStay ? stayWasherData : commonWasherData;
   const { washer, time } = req.body;
 
   const date = new Date();

@@ -11,7 +11,6 @@ import Header from "@/components/Header";
 import Loading from "@/components/Loading";
 import Outing from "@/components/pages/Outing";
 import Stay from "@/components/pages/Stay";
-import Wakeup from "@/components/pages/Wakeup";
 import Wash from "@/components/pages/Wash";
 import UserInfo from "@/components/UserInfo";
 import loginCheck from "@/utils/loginCheck";
@@ -29,17 +28,13 @@ const menu = [
   {
     name: "외출",
     body: Outing
-  },
-  {
-    name: "기상송",
-    body: Wakeup
   }
 ];
 
 export default function Home() {
   const router = useRouter();
   const [myInfo, setMyInfo] = useRecoilState(myInfoAtom);
-  const [selected, setSelected] = useState(menu[3]);
+  const [selected, setSelected] = useState(menu[0]);
   const [loading, setLoading] = useRecoilState(isLoadingAtom);
 
   useEffect(() => {

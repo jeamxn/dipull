@@ -2,10 +2,8 @@ import { connectToDatabase } from "@/utils/db";
 import getTokenInfo from "@/utils/getTokenInfo";
 import classStay from "@/utils/seatData/classStay";
 import readingRoomStay from "@/utils/seatData/readingRoomStay";
+import stayStates from "@/utils/stayStates";
 
-const isOpened = true;
-const isClassStay = true;
-const seatDatas = isClassStay ? classStay : readingRoomStay;
 
 const handler = async (req, res) => {
   const id = (await getTokenInfo(req, res)).id;
@@ -19,6 +17,9 @@ const handler = async (req, res) => {
 };
 
 const get = async (req, res, id) => {
+  const stayStatesRow = await stayStates();
+  const seatDatas = stayStatesRow.isClassStay ? classStay : readingRoomStay;
+
   const client = await connectToDatabase();
   const stayCollection = await client.db().collection("stay");
   const rowData = await stayCollection.find({}).toArray();
@@ -131,25 +132,20 @@ const get = async (req, res, id) => {
   res.status(200).json({
     myStay: mysub,
     seat: seatData,
-    isClassStay: isClassStay,
+    isClassStay: stayStatesRow.isClassStay,
     seatData: seatDatas,
     students: students,
-    isOpened: isOpened
+    isOpened: stayStatesRow.isOpened[Math.floor(userInfo.number / 1000) - 1]
   });
 };
 
 const post = async (req, res, id) => {
   let { seat } = req.body;
 
-  if(!isOpened) {
-    res.status(200).json({
-      success: false,
-      message: "잔류 신청 기간이 아닙니다."
-    });
-    return;
-  }
+  const stayStatesRow = await stayStates();
+  const seatDatas = stayStatesRow.isClassStay ? classStay : readingRoomStay;
 
-  if(!seat && !isClassStay) {
+  if(!seat && !stayStatesRow.isClassStay) {
     res.status(200).json({
       success: false,
       message: "좌석을 선택해주세요."
@@ -162,6 +158,19 @@ const post = async (req, res, id) => {
   
   const client = await connectToDatabase();
   const stayCollection = await client.db().collection("stay");
+  const usersCollection = await client.db().collection("users");
+  const userInfo = await usersCollection.findOne({ id: Number(id) });
+  const name = `${userInfo.number} ${userInfo.name}`;
+  const gender = userInfo.gender;
+
+  if(!stayStatesRow.isOpened[Math.floor(userInfo.number / 1000) - 1]) {
+    res.status(200).json({
+      success: false,
+      message: "잔류(외출) 신청 기간이 아닙니다."
+    });
+    return;
+  }
+
   const rowData = await stayCollection.find({
     seat: seat
   }).toArray();
@@ -173,10 +182,7 @@ const post = async (req, res, id) => {
     });
     return;
   }
-  const usersCollection = await client.db().collection("users");
-  const userInfo = await usersCollection.findOne({ id: Number(id) });
-  const name = `${userInfo.number} ${userInfo.name}`;
-  const gender = userInfo.gender;
+
 
   for(const e of seatDatas) {
     if(!e.seat[seat[0]]?.includes(Number(seat.slice(1, 3)))) continue;
@@ -220,13 +226,7 @@ const post = async (req, res, id) => {
 };
 
 const del = async (req, res, id) => {
-  if(!isOpened) {
-    res.status(200).json({
-      success: false,
-      message: "잔류 신청 기간이 아닙니다."
-    });
-    return;
-  }
+  const stayStatesRow = await stayStates();
 
   try{
     const client = await connectToDatabase();
@@ -235,6 +235,14 @@ const del = async (req, res, id) => {
     const userInfo = await usersCollection.findOne({ id: Number(id) });
     const mysub = await stayCollection.deleteOne({ name: `${userInfo.number} ${userInfo.name}` });
   
+    if(!stayStatesRow.isOpened[Math.floor(userInfo.number / 1000) - 1]) {
+      res.status(200).json({
+        success: false,
+        message: "잔류(외출) 신청 기간이 아닙니다."
+      });
+      return;
+    }
+
     if(mysub.deletedCount){
       res.status(200).json({
         success: true,

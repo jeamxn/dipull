@@ -175,9 +175,10 @@ const Wash = () => {
     setMyWasherData(data.myWasherData);
 
     const newChecker = { ...checker };
-    newChecker.wash = data.myWasherData ? true : false;
-    setChecker(newChecker);
-    
+    if(newChecker.wash !== undefined) {
+      newChecker.wash = data.myWasherData ? true : false;
+      setChecker(newChecker); 
+    }
     setLoading(false);
   };
 
