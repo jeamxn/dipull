@@ -109,8 +109,14 @@ const handler = async (req, res) => {
 const get = async (req, res, id) => {
   const client = await connectToDatabase();
   const washCollection = client.db().collection("wash");
+
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
   const data = await washCollection.find({
-    date: new Date().toISOString().slice(0, 10)
+    date: `${year}-${month}-${day}`
   }).toArray();
 
   const copyWasherData = JSON.parse(JSON.stringify(washerData));
@@ -122,7 +128,10 @@ const get = async (req, res, id) => {
 
   const usersCollection = await client.db().collection("users");
   const userInfo = await usersCollection.findOne({ id: Number(id) });
-  const mysub = await washCollection.findOne({ owner: `${userInfo.number} ${userInfo.name}` });
+  const mysub = await washCollection.findOne({ 
+    owner: `${userInfo.number} ${userInfo.name}` ,
+    date: `${year}-${month}-${day}`
+  });
 
   res.status(200).json({
     washerData: copyWasherData,
@@ -132,6 +141,11 @@ const get = async (req, res, id) => {
 
 const post = async (req, res, id) => {
   const { washer, time } = req.body;
+
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
 
   if(!washer || !time) {
     res.status(200).json({
@@ -153,7 +167,10 @@ const post = async (req, res, id) => {
   const washCollection = client.db().collection("wash");
   const usersCollection = await client.db().collection("users");
   const userInfo = await usersCollection.findOne({ id: Number(id) });
-  const isISubed = await washCollection.findOne({ owner: `${userInfo.number} ${userInfo.name}` });
+  const isISubed = await washCollection.findOne({ 
+    owner: `${userInfo.number} ${userInfo.name}`,
+    date: `${year}-${month}-${day}`
+  });
   if(isISubed) {
     res.status(200).json({
       success: false,
@@ -163,7 +180,7 @@ const post = async (req, res, id) => {
   }
 
   const data = await washCollection.find({
-    date: new Date().toISOString().slice(0, 10),
+    date: `${year}-${month}-${day}`,
     washer: washer,
     time: time
   }).toArray();
@@ -202,7 +219,7 @@ const post = async (req, res, id) => {
   const { _id, ...rest } = await washCollection.insertOne({
     washer: washer,
     time: time,
-    date: new Date().toISOString().slice(0, 10),
+    date: `${year}-${month}-${day}`,
     owner: `${userInfo.number} ${userInfo.name}`
   });
 
@@ -214,11 +231,19 @@ const post = async (req, res, id) => {
 
 const del = async (req, res, id) => {
   try{
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
     const client = await connectToDatabase();
     const washCollection = client.db().collection("wash");
     const usersCollection = await client.db().collection("users");
     const userInfo = await usersCollection.findOne({ id: Number(id) });
-    const mysub = await washCollection.deleteOne({ owner: `${userInfo.number} ${userInfo.name}` });
+    const mysub = await washCollection.deleteOne({ 
+      owner: `${userInfo.number} ${userInfo.name}`,
+      date: `${year}-${month}-${day}`
+    });
   
     if(mysub.deletedCount){
       res.status(200).json({

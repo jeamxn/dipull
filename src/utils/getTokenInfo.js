@@ -8,13 +8,9 @@ import * as env from "@/utils/env";
 const getTokenInfo = async (req, res) => {
   const data = await verifiedToken(req, res);
   const { success, access_token } = data;
-  // console.log(`start verifiedToken ${success} ${access_token}`);
-  // console.log(data);
 
   if(!success) return;
 
-  // console.log(`end verifiedToken ${access_token}`);
-	
   //get userinfo
   const { data: tokenInfo } = await axios({
     method: "get",
