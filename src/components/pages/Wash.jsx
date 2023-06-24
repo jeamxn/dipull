@@ -167,12 +167,14 @@ const Wash = () => {
   const [myWasherData, setMyWasherData] = useState(null);
   const [loading, setLoading] = useRecoilState(isLoadingAtom);
   const [checker, setChecker] = useRecoilState(userInfoAtom);
+  const [washerAvailable, setWasherAvailable] = useState(false);
 
   const LoadData = async () => {
     setLoading(true);
     const { data } = await axios.get("/api/wash");
     setWashdata(data.washerData);
     setMyWasherData(data.myWasherData);
+    setWasherAvailable(data.isWasherAvailable);
 
     const newChecker = { ...checker };
     if(newChecker.wash !== undefined) {
@@ -191,10 +193,17 @@ const Wash = () => {
       <div className={styles.box}>
         <div className={styles.title}>세탁 신청하기</div>
         {
-          myWasherData ? 
+          washerAvailable ? myWasherData ? 
             <WashApplyed myWasherDataState={[myWasherData, setMyWasherData]} LoadData={LoadData} />
             : 
             <WashApply washdataState={[washdata, setWashdata]} LoadData={LoadData} />
+            :
+            (
+              <div className={styles.applyEnd}>
+                <div className={styles.applyEndInfo}>세탁 예약 시간이 아니에요.</div>
+                <div className={styles.applyEndData}>오전 6시 35분부터 자정까지 신청 가능합니다.</div>
+              </div>
+            )
         }
       </div>
 

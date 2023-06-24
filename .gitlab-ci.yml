@@ -33,7 +33,7 @@ deploy-job:
       --restart always
       --label traefik.enable=true
       --label traefik.http.routers.$CI_PROJECT_PATH_SLUG.entrypoints=https,http
-      --label traefik.http.routers.$CI_PROJECT_PATH_SLUG.rule='Host(`anony.kr`)'
+      --label traefik.http.routers.$CI_PROJECT_PATH_SLUG.rule='Host(`dimigo.net`)'
       --label traefik.http.routers.$CI_PROJECT_PATH_SLUG.tls=true
       --label traefik.http.routers.$CI_PROJECT_PATH_SLUG.tls.certresolver=letsencrypt
       --label traefik.http.routers.$CI_PROJECT_PATH_SLUG.service=$CI_PROJECT_PATH_SLUG

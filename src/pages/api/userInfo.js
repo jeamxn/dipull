@@ -53,6 +53,23 @@ const get = async (req, res, id) => {
 const post = async (req, res, id) => {
   const {number, name, gender} = req.body;
 
+  if(
+    !number || !name || !gender ||
+    String(number).length !== 4 ||
+    !(1 <= Number(String(number)[0]) && Number(String(number)[0]) <= 3) || 
+    !(1 <= Number(String(number)[1]) && Number(String(number)[1]) <= 6) || 
+    !(0 <= Number(String(number)[2]) && Number(String(number)[2]) <= 3) ||
+    !(0 <= Number(String(number)[3]) && Number(String(number)[3]) <= 9) ||
+    String(name).length < 2 || String(name).length > 10 ||
+    !(gender === "male" || gender === "female")
+  ) {
+    res.status(200).json({
+      success: false,
+      message: "잘못된 요청입니다."
+    });
+    return;
+  }
+
   const client = await connectToDatabase();
   const usersCollection = await client.db().collection("users");
   //update userInfo
@@ -61,10 +78,18 @@ const post = async (req, res, id) => {
   }, {
     $set: {
       number: Number(number),
-      name: name,
+      name: String(name),
       gender: String(gender)
     }
   });
+
+  if(!update?.acknowledged) {
+    res.status(200).json({
+      success: false,
+      message: "수정에 실패하였습니다."
+    });
+    return;
+  }
 
   res.status(200).json({
     success: true,

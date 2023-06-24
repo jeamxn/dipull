@@ -1,7 +1,6 @@
 import { connectToDatabase } from "@/utils/db";
 
 const fixedData = {
-
 };
 
 const isWeekend = () => {
@@ -14,13 +13,33 @@ const isWeekend = () => {
 const stayStates = async () => {
   const client = await connectToDatabase();
   const stayCollection = await client.db().collection("states");
-  const {isStay, ...searchStates} = await stayCollection.findOne({});
+  const {
+    isStay, washerTime, 
+    ...searchStates
+  } = await stayCollection.findOne({});
   
-  return {
+  const startHour = washerTime.start[0];
+  const startMinute = washerTime.start[1];
+  const endHour = washerTime.end[0];
+  const endMinute = washerTime.end[1];
+
+  const today = new Date();
+  const hour = today.getHours();
+  const minute = today.getMinutes();
+
+  const isWasherAvailable = 
+    (hour > startHour || (hour === startHour && minute >= startMinute)) 
+    && (hour < endHour || (hour === endHour && minute <= endMinute));
+
+  
+  const returndata = {
     isStay: isWeekend() || isStay,
+    isWasherAvailable,
     ...searchStates,
     ...fixedData
   };
+
+  return returndata;
 };
 
 export default stayStates;

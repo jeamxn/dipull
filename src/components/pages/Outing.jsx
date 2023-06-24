@@ -94,6 +94,7 @@ const Outing = () => {
                 <select 
                   className={styles.applySelect} 
                   value={selected}
+                  disabled={!isOpened}
                   onChange={e => {
                     setSelected(e.target.value);
                     if(e.target.value === "su-y") {
@@ -125,7 +126,7 @@ const Outing = () => {
                   value={outReason.replaceAll(" ", "")}
                   placeholder="외출 사유를 입력해 주세요."
                   onChange={e => setOutReason(e.target.value)}
-                  disabled={selected === "su-y"}
+                  disabled={selected === "su-y" || !isOpened}
                 />
                 <div className={styles.times}>
                   <div className={styles.timesBox}>
@@ -134,7 +135,7 @@ const Outing = () => {
                       value={outTime[0]}
                       onChange={e => setOutTime([e.target.value, outTime[1]])}
                       className={styles.applyInputTime}
-                      disabled={selected === "su-y"}
+                      disabled={selected === "su-y" || !isOpened}
                     />
                   </div>
                   <div>~</div>
@@ -144,7 +145,7 @@ const Outing = () => {
                       value={outTime[1]}
                       onChange={e => setOutTime([outTime[0], e.target.value])}
                       className={styles.applyInputTime}
-                      disabled={selected === "su-y"}
+                      disabled={selected === "su-y" || !isOpened}
                     />
                   </div>
                 </div>
@@ -159,6 +160,7 @@ const Outing = () => {
                             backgroundColor: !selectMeal[i] ? "rgba(var(--color-primary), .05)" : ""
                           }}
                           onClick={() => {
+                            if(!isOpened) return;
                             const temp = [...selectMeal];
                             temp[i] = !temp[i];
                             setSelectMeal(temp);
@@ -179,7 +181,7 @@ const Outing = () => {
                   className={styles.applyBtn}
                   onClick={Apply}
                   style={{
-                    opacity: selected === "" || outReason === "" || outTime[0] === "" || outTime[1] === "" ? .5 : 1
+                    opacity: selected === "" || outReason === "" || outTime[0] === "" || outTime[1] || !isOpened === "" ? .5 : 1
                   }}
                   disabled={selected === "" || outReason === "" || outTime[0] === "" || outTime[1] === "" || !isOpened}
                 />

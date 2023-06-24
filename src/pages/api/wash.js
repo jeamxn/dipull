@@ -217,7 +217,8 @@ const handler = async (req, res) => {
 };
 
 const get = async (req, res, id) => {
-  const washerData = (await stayStates()).isStay ? stayWasherData : commonWasherData;
+  const stayStatesRow = await stayStates();
+  const washerData = stayStatesRow.isStay ? stayWasherData : commonWasherData;
   const client = await connectToDatabase();
   const washCollection = client.db().collection("wash");
 
@@ -246,13 +247,23 @@ const get = async (req, res, id) => {
 
   res.status(200).json({
     washerData: copyWasherData,
-    myWasherData: mysub
+    myWasherData: mysub,
+    isWasherAvailable: stayStatesRow.isWasherAvailable
   });
 };
 
 const post = async (req, res, id) => {
-  const washerData = (await stayStates()).isStay ? stayWasherData : commonWasherData;
+  const stayStatesRow = await stayStates();
+  const washerData = stayStatesRow.isStay ? stayWasherData : commonWasherData;
   const { washer, time } = req.body;
+
+  if(!stayStatesRow.isWasherAvailable){
+    res.status(200).json({
+      success: false,
+      message: "세탁 신청 시간이 아닙니다."
+    });
+    return;
+  }
 
   const date = new Date();
   const year = date.getFullYear();
