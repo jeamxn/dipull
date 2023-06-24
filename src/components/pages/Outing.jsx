@@ -184,7 +184,7 @@ const Outing = () => {
                   disabled={selected === "" || outReason === "" || outTime[0] === "" || outTime[1] === "" || !isOpened}
                 />
               </div>
-              
+              {isOpened && <div className={styles.btnBoxCont}>외출 취소는 잔류 취소를 이용해주세요.</div>}
             </div>
             <div className={styles.box}>
               <div className={styles.title}>외출 신청 현황</div>

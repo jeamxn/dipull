@@ -168,7 +168,7 @@
 .btnBoxCont{
 	font-size: 15px;
 	font-weight: 500;
-	color: rgba(var(--color-primary), .5)
+	color: rgba(var(--color-primary), .5);
 }
 .btnBoxCont1{
 	margin-bottom: 5px;

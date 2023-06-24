@@ -200,3 +200,13 @@
 
 	transition: opacity .2s ease-in-out;
 }
+
+
+.btnBoxCont{
+	margin-top: 10px;
+	width: 100%;
+	text-align: center;
+	font-size: 15px;
+	font-weight: 500;
+	color: rgba(var(--color-primary), .5);
+}

@@ -37,7 +37,6 @@ const auth = async (req, res) => {
       nickname: data.properties.nickname,
       profile_image: data.properties.profile_image,
       thumbnail_image: data.properties.thumbnail_image,
-      gender: data.kakao_account.gender,
     },
   };
   const options = { upsert: true };
@@ -59,12 +58,18 @@ const auth = async (req, res) => {
     // secure: true,
   });
   // tokenCheck(kakaoTokens.access_token, kakaoTokens.refresh_token);
-
   res.setHeader("Set-Cookie", [
     refresh_token,
     access_token
   ]);
-  res.redirect("/");
+
+  const myInfoData = await userCollection.findOne({ id: user.id });
+  if(!myInfoData.gender || !myInfoData.number || !myInfoData.name) {
+    res.redirect("/edit");
+  }
+  else {
+    res.redirect("/");
+  }
 };
 
 export default auth;

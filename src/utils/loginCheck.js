@@ -7,7 +7,7 @@ const loginCheck = async (setMyInfo, router) => {
   };
   try{
     const { data } = await axios.get("/api/userInfo");
-    if(!data) {
+    if(!data || !data.gender || !data.number || !data.name) {
       noPermission();
       return;
     }

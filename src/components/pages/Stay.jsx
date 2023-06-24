@@ -161,7 +161,7 @@ export default function Stay() {
           myStayData ? (
             <>
               <div className={styles.btnBoxCont}>{myStayData.seat === "#0" ? "교실" : `좌석 ${myStayData.seat}에`} 잔류 신청이 완료되었습니다!</div>
-              {isOpened && <div className={[styles.btnBoxCont, styles.btnBoxCont1].join(" ")}>잔류 취소 시, 외출 및 금귀 신청 내역시 함께 삭제됩니다.</div>}
+              {isOpened && <div className={[styles.btnBoxCont, styles.btnBoxCont1].join(" ")}>잔류 취소 시, 외출 및 금귀 신청 내역이 함께 삭제됩니다.</div>}
               <input
                 type="button"
                 className={styles.btn}
