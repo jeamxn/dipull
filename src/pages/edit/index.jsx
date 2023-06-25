@@ -33,7 +33,7 @@ const Edit = () => {
         }
       });
       alert(data.message);
-      if(data.success) router.push("/");
+      router.push("/");
     }
     catch{
       alert("로그인 후 이용해주세요.");
@@ -51,7 +51,7 @@ const Edit = () => {
         <Header></Header>
         <div className={styles.register}>
           <div className={[styles.box, styles.defaultSetting].join(" ")}>
-            <div className={styles.title}>기초 정보 입력(수정)</div>
+            <div className={styles.title}>기초 정보 입력</div>
             <div className={styles.select}>
               <div className={styles.rowInput}>
                 <input
@@ -94,7 +94,7 @@ const Edit = () => {
 
             <input
               type="button"
-              value="입력(수정)하기"
+              value="입력하기"
               style={{ opacity: myNumber && myName ? 1 : 0.5 }}
               disabled={!myNumber || !myName}
               onClick={update}

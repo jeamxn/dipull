@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 
@@ -23,7 +24,10 @@ export default function Login() {
       <DefaultHead></DefaultHead>
       <main className="main">
         <div className={styles.login}>
-          <div className={styles.title}>디미고인 풀 서비스</div>
+          <div className={styles.titles}>
+            <Image src="/icon.png" width="50" height="50" alt="logo" />
+            <div className={styles.title}>디미고인 풀 서비스</div>
+          </div>
           <div className={styles.kakaoLogin} onClick={handleLogin}>
             <div className={styles.kakaoLoginLogo}></div>
             <div className={styles.kakaoLoginText}>카카오 계정으로 로그인하기</div>

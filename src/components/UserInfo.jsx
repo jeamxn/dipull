@@ -51,7 +51,7 @@ const UserInfo = () => {
 
       <div className={styles.names}>
         <div className={styles.name}>{myInfo.number} {myInfo.name}</div>
-        <div 
+        {/* <div 
           className={styles.logout}
           onClick={() => {
             router.push("/edit");
@@ -59,7 +59,7 @@ const UserInfo = () => {
         >
           정보수정
         </div>
-        <div className={styles.id}>|</div>
+        <div className={styles.id}>|</div> */}
         <div 
           className={styles.logout}
           onClick={() => {

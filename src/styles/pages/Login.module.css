@@ -44,3 +44,10 @@
 	font-weight: 700;
 	color: rgba(var(--color-primary), 1);
 }
+.titles{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+}

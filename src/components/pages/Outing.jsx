@@ -181,7 +181,7 @@ const Outing = () => {
                   className={styles.applyBtn}
                   onClick={Apply}
                   style={{
-                    opacity: selected === "" || outReason === "" || outTime[0] === "" || outTime[1] || !isOpened === "" ? .5 : 1
+                    opacity: selected === "" || outReason === "" || outTime[0] === "" || outTime[1] === "" || !isOpened ? .5 : 1
                   }}
                   disabled={selected === "" || outReason === "" || outTime[0] === "" || outTime[1] === "" || !isOpened}
                 />
