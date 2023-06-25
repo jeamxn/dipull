@@ -1,39 +1,38 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { atom, useRecoilState } from "recoil";
-import { utils, writeFile } from "xlsx";
 
 import styles from "%/Sheet.module.css";
 import DefaultHead from "@/components/DefaultHead";
 import Header from "@/components/Header";
+import table2xlsx from "@/utils/table2xlsx";
 
 const outingData = atom({
   key: "outingData",
   default: {},
 });
 
-const workbook = utils.book_new();
-const refs = {
+const PrintData = {
   "1": {
-    "토요일": null,
-    "일요일": null,
+    "토요일": [],
+    "일요일": [],
   },
   "2": {
-    "토요일": null,
-    "일요일": null,
+    "토요일": [],
+    "일요일": [],
   },
   "3": {
-    "토요일": null,
-    "일요일": null,
+    "토요일": [],
+    "일요일": [],
   },
 };
 
 const SheetTable = ({showDate, showGrade}) => {
   const [outingList, setOutingList] = useRecoilState(outingData);
-  refs[showGrade][showDate] = useRef(null);
+  PrintData[showGrade][showDate] = [];
 
-  return [(
-    <table className={styles.table} ref={refs[showGrade][showDate]} key={showGrade}>
+  return (
+    <table className={[styles.table, "table"].join(" ")} key={showGrade}>
       <thead>
         <tr>
           <th colSpan={11}>{showGrade}학년&nbsp;{showDate}&nbsp;잔류자 외출 신청 현황</th>
@@ -58,19 +57,33 @@ const SheetTable = ({showDate, showGrade}) => {
             const countGrade = outingList[showGrade].count;
             return outingList[showGrade][showClass].data?.map((item, i2) => {
               const countClass = outingList[showGrade][showClass].count;
+              const _data = {
+                grade: i1 === 0 ? [Math.floor(item.number / 1000), countGrade] : "",
+                class: i2 === 0 ? [Math.floor(item.number / 100) % 10, countClass] : "",
+                count: i2 === 0 ? [outingList[showGrade][showClass].count, countClass] : "",
+                number: item.number,
+                name: item.name,
+                gender: item.gender === "male" ? "남" : "여",
+                breakfast: item.outing[showDate].meal[0] ? "O" : "X",
+                lunch: item.outing[showDate].meal[1] ? "O" : "X",
+                dinner: item.outing[showDate].meal[2] ? "O" : "X",
+                outing: item.outing[showDate].reason.join(" "),
+                etc: "",
+              };
+              PrintData[showGrade][showDate].push(_data);
               return (
                 <tr key={i2}>
-                  {i1 === 0 && <td rowSpan={countGrade}>{Math.floor(item.number / 1000)}</td>}
-                  {i2 === 0 && <td rowSpan={countClass}>{Math.floor(item.number / 100) % 10}</td>}
+                  {i1 === 0 && <td rowSpan={countGrade}>{_data.grade[0]}</td>}
+                  {i2 === 0 && <td rowSpan={countClass}>{_data.class[0]}</td>}
                   {i2 === 0 && <td rowSpan={countClass}>{countClass}</td>}
-                  <td>{item.number}</td>
-                  <td>{item.name}</td>
-                  <td>{item.gender === "male" ? "남" : "여"}</td>
-                  <td>{item.outing[showDate].meal[0] ? "O" : "X"}</td>
-                  <td>{item.outing[showDate].meal[1] ? "O" : "X"}</td>
-                  <td>{item.outing[showDate].meal[2] ? "O" : "X"}</td>
-                  <td>{item.outing[showDate].reason.join(" ")}</td>
-                  <td></td>
+                  <td>{_data.number}</td>
+                  <td>{_data.name}</td>
+                  <td>{_data.gender}</td>
+                  <td>{_data.breakfast}</td>
+                  <td>{_data.lunch}</td>
+                  <td>{_data.dinner}</td>
+                  <td>{_data.outing}</td>
+                  <td>{_data.etc}</td>
                 </tr>
               );
             });
@@ -82,7 +95,7 @@ const SheetTable = ({showDate, showGrade}) => {
         }
       </tbody>
     </table>
-  ), refs[showGrade][showDate]];
+  );
 };
 
 const Sheet = () => {
@@ -102,18 +115,8 @@ const Sheet = () => {
   }, []);
 
   const download = () => {
-    console.log(workbook);
-    console.log(refs);
-    const newWorkbook = utils.book_new();
-    Object.keys(refs).forEach(grade => {
-      Object.keys(refs[grade]).forEach(date => {
-        const worksheet = utils.table_to_sheet(refs[grade][date].current);
-        console.log(worksheet);
-        const workSheetName = `${grade}학년 ${date}`;
-        utils.book_append_sheet(newWorkbook, worksheet, workSheetName);
-      });
-    });
-    writeFile(newWorkbook, "잔류자 외출 및 급식 취소 명단.xlsx");
+    console.log(PrintData);
+    table2xlsx(PrintData, "잔류자 외출 및 급식 취소 명단.xlsx");
   };
 
   return (
@@ -124,23 +127,18 @@ const Sheet = () => {
         <div className={styles.Sheet}>
           <div className={styles.box}>
             <div className={styles.titles}>
-              <div className={styles.title3}>잔류 및 외출 신청 현황</div>
+              <div className={styles.title3}>잔류자 외출 및 급식 취소 명단</div>
               <div className={styles.download} onClick={download}>파일 다운로드</div>
             </div>
             {
-              Array(3).fill(0).map((_, i2) => ["토요일", "일요일"].map((showDate, i1) => {
-                const table = SheetTable({ showDate, showGrade: i2 + 1});
-
-                // const worksheet = utils.table_to_sheet(table[1].current);
-                // utils.book_append_sheet(workbook, worksheet, `${i2 + 1}학년 ${day}`);
-                // utils.sheet_add_aoa(worksheet, [["학년", "반", "인원", "학번", "이름", "조식", "중식", "석식", "외출", "비고"]], { origin: "A1" });
-                      
-                return (
-                  <div className={styles.tableDiv} key={i1}>
-                    {table[0]}
-                  </div>
-                );
-              }))
+              Object.entries(PrintData).map((_, i1) => Object.keys(_[1]).map((showDate, i2) => (
+                <div className={styles.tableDiv} key={i2}>
+                  <SheetTable
+                    showDate={showDate}
+                    showGrade={i1 + 1}
+                  />
+                </div>
+              )))
             }
           </div>
         </div>
