@@ -35,7 +35,7 @@
     ],
     "react-native/no-inline-styles": "off",
     "react-hooks/exhaustive-deps": "warn",
-    "no-unused-vars": "warn",
+    "no-unused-vars": "off",
     "import/order": [
       "error",
       {

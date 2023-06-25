@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { atom, useRecoilState } from "recoil";
 
 import styles from "%/Sheet.module.css";
