@@ -72,6 +72,17 @@ const post = async (req, res, id) => {
 
   const client = await connectToDatabase();
   const usersCollection = await client.db().collection("users");
+
+  const myData = await usersCollection.findOne({ id: Number(id) });
+  if(myData.number && myData.name && myData.gender) {
+    res.status(200).json({
+      success: false,
+      message: "이미 등록되어 있습니다."
+    });
+    return;
+  }
+
+
   //update userInfo
   const update = await usersCollection.updateOne({
     id: Number(id)

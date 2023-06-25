@@ -40,27 +40,34 @@ export default function Home() {
 
   const Inner = selected.body;
 
-  return myInfo && (
+  return (
     <>
       <DefaultHead></DefaultHead>
       <main className={["main", styles.main].join(" ")}>
         <Loading show={loading}></Loading>
-        <Header></Header>
-        <UserInfo></UserInfo>
-        <div className={styles.homeType}>
-          {
-            menu.map((item, i) => (
-              <div 
-                className={[styles.homeTypeBtn, selected.name === item.name && styles.homeTypeBtnSelected].join(" ")} 
-                key={i}
-                onClick={() => setSelected(item)}
-              >
-                {item.name}
+        {
+          myInfo && (
+            <>
+              <Header></Header>
+              <UserInfo></UserInfo>
+              <div className={styles.homeType}>
+                {
+                  menu.map((item, i) => (
+                    <div 
+                      className={[styles.homeTypeBtn, selected.name === item.name && styles.homeTypeBtnSelected].join(" ")} 
+                      key={i}
+                      onClick={() => setSelected(item)}
+                    >
+                      {item.name}
+                    </div>
+                  ))
+                }
               </div>
-            ))
-          }
-        </div>
-        <Inner />
+              <Inner />
+            </>
+          )
+        }
+        
       </main>
     </>
   );
