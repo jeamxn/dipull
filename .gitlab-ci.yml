@@ -31,6 +31,9 @@ deploy-job:
       docker run -d
       --name $CI_PROJECT_PATH_SLUG
       --restart always
+      -e KAKAO_REST_API_KEY="$KAKAO_REST_API_KEY"
+      -e MOGODB_URL="$MOGODB_URL"
+      -e KAKAO_REDIRECT_URI="$KAKAO_REDIRECT_URI"
       --label traefik.enable=true
       --label traefik.http.routers.$CI_PROJECT_PATH_SLUG.entrypoints=https,http
       --label traefik.http.routers.$CI_PROJECT_PATH_SLUG.rule='Host(`dimigo.net`)'
