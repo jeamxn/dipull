@@ -35,7 +35,7 @@ const SheetTable = ({showDate, showGrade}) => {
     <table className={[styles.table, "table"].join(" ")} key={showGrade}>
       <thead>
         <tr>
-          <th colSpan={11}>{showGrade}학년&nbsp;{showDate}&nbsp;잔류자 외출 신청 현황</th>
+          <th colSpan={11}>{showGrade}학년&nbsp;{showDate}&nbsp;잔류자 외출 및 급식 취소 명단</th>
         </tr>
         <tr>
           <th>학년</th>

@@ -19,7 +19,13 @@ const table2xlsx = async (PrintData, filePath) => {
       },
     };
 
-    worksheet.headerFooter.oddHeader = "ㅁㄴㅇㄹ";
+    worksheet.mergeCells("A1:K1");
+
+    worksheet.getRow(1).getCell(1).value = `${_[0]}학년 ${showDate}`;
+
+    worksheet.getRow(2).values = [
+      "학년", "반", "인원", "학번", "이름", "성별", "조식", "중식", "석식", "외출", "비고"
+    ];
 
     worksheet.columns = [
       { header: "학년", key: "grade", width: 10, style: columnsStyle },
@@ -77,6 +83,10 @@ const table2xlsx = async (PrintData, filePath) => {
       name: "맑은 고딕", 
       size: 12,
     };
+    const cellAlignment = {
+      horizontal: "center",
+      vertical: "middle",
+    };
 
     worksheet.addRow({grade: `총원 ( ${data.length}명 )`});
 
@@ -91,29 +101,39 @@ const table2xlsx = async (PrintData, filePath) => {
       });
     });
 
+    worksheet.getRow(1).height = 25;
+    worksheet.getRow(1).getCell(1).value = `${_[0]}학년 ${showDate} 잔류자 외출 및 급식 취소 명단`;
     Array(11).fill(0).map((_, i) => {
       worksheet.getRow(1).getCell(i + 1).fill = cellFill;
-      worksheet.getRow(1).getCell(i + 1).font = cellFont;
-      worksheet.getRow(data.length + 2).getCell(i + 1).fill = cellFill;
-      worksheet.getRow(data.length + 2).getCell(i + 1).border = cellBorder;
-      worksheet.getRow(data.length + 2).getCell(i + 1).font = cellFont;
+      worksheet.getRow(1).getCell(i + 1).font = {
+        bold: true,
+        name: "맑은 고딕", 
+        size: 16,
+      };
+      worksheet.getRow(1).getCell(i + 1).alignment = cellAlignment;
+      worksheet.getRow(2).getCell(i + 1).fill = cellFill;
+      worksheet.getRow(2).getCell(i + 1).font = cellFont;
+      worksheet.getRow(2).getCell(i + 1).alignment = cellAlignment;
+      worksheet.getRow(data.length + 3).getCell(i + 1).fill = cellFill;
+      worksheet.getRow(data.length + 3).getCell(i + 1).border = cellBorder;
+      worksheet.getRow(data.length + 3).getCell(i + 1).font = cellFont;
     });
 
     _[1][showDate].map((_, i) => {
       let { grade, class: _class, count, ...dt } = _;
       if(grade[1]) {
-        worksheet.mergeCells(`A${i + 2}:A${i + grade[1] + 1}`);
+        worksheet.mergeCells(`A${i + 3}:A${i + grade[1] + 2}`);
       }
       if(_class[1]) {
-        worksheet.mergeCells(`B${i + 2}:B${i + _class[1] + 1}`);
-        worksheet.mergeCells(`C${i + 2}:C${i + _class[1] + 1}`);
+        worksheet.mergeCells(`B${i + 3}:B${i + _class[1] + 2}`);
+        worksheet.mergeCells(`C${i + 3}:C${i + _class[1] + 2}`);
       }
       return {
         ...dt
       };
     });
-    worksheet.mergeCells(`A${data.length + 2}:C${data.length + 2}`);
-    worksheet.mergeCells(`D${data.length + 2}:K${data.length + 2}`);
+    worksheet.mergeCells(`A${data.length + 3}:C${data.length + 3}`);
+    worksheet.mergeCells(`D${data.length + 3}:K${data.length + 3}`);
   }));
 
   const buffer = await workbook.xlsx.writeBuffer();
