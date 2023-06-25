@@ -1,6 +1,10 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-/src/utils/env.js
+.env
+.env.development
+.env.production
+.env.test
+.env.local
 
 # dependencies
 /node_modules

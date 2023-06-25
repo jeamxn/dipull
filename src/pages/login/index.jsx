@@ -1,11 +1,13 @@
+import getConfig from "next/config";
 import Image from "next/image";
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 
 import styles from "%/Login.module.css";
 import DefaultHead from "@/components/DefaultHead";
-import * as env from "@/utils/env";
 import { myInfoAtom } from "@/utils/states";
+
+const { publicRuntimeConfig } = getConfig();
 
 export default function Login() {
   const [myInfo, setMyInfo] = useRecoilState(myInfoAtom);
@@ -15,7 +17,7 @@ export default function Login() {
     document.cookie = "refresh_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
   }, []);
 
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${env.KAKAO_REST_API_KEY}&redirect_uri=${env.KAKAO_REDIRECT_URI}&response_type=code`;
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${publicRuntimeConfig.KAKAO_REST_API_KEY}&redirect_uri=${publicRuntimeConfig.KAKAO_REDIRECT_URI}&response_type=code`;
   const handleLogin = ()=>{
     window.location.href = kakaoURL;
   };
