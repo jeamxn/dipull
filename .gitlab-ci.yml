@@ -20,7 +20,13 @@ build-job:
   stage: build
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE .
+    - >
+      docker build
+      -t $CI_REGISTRY_IMAGE
+      --build-arg KAKAO_REST_API_KEY="$KAKAO_REST_API_KEY"
+      --build-arg MOGODB_URL="$MOGODB_URL"
+      --build-arg KAKAO_REDIRECT_URI="$KAKAO_REDIRECT_URI"
+      --no-cache .
     - docker push $CI_REGISTRY_IMAGE
 
 deploy-job:
