@@ -1,4 +1,7 @@
 FROM node:18-alpine
+
+RUN apk add tzdata && ln -snf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
+
 COPY . /app
 WORKDIR /app
 
