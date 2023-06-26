@@ -52,7 +52,9 @@ export default function Home() {
   return (
     <>
       <DefaultHead></DefaultHead>
-      <main className={["main", styles.main].join(" ")}>
+      <main className={["main", styles.main].join(" ")} style={{
+        paddingBottom: selected.name !== "급식" && "30px"
+      }}>
         <Loading show={loading}></Loading>
         {
           myInfo && (
@@ -73,7 +75,7 @@ export default function Home() {
                 }
               </div>
               <Inner />
-              <div className={styles.error}>오류 및 기타 문의 사항은 <a href="https://open.kakao.com/me/Jeamxn" target="_blank" rel="noreferrer">최재민</a>에게 연락바랍니다!</div>
+              {selected.name !== "급식" && <div className={styles.error}>오류 및 기타 문의 사항은 <a href="https://open.kakao.com/me/Jeamxn" target="_blank" rel="noreferrer">최재민</a>에게 연락바랍니다!</div>}
             </>
           )
         }

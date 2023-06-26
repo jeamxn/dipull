@@ -3,8 +3,6 @@
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
-
-	padding-bottom: 30px;
 }
 
 .homeType{
@@ -62,8 +60,14 @@
 .meal{
 	width: 100%;
 	height: 100%;
+	min-height: calc(100vh - 51.5px);
 	border: 0;
 	padding: 0;
 	margin: 0;
 	outline: 0;
+}
+@supports(height: 100dvh){
+	.meal{
+		min-height: calc(100dvh - 51.5px);
+	}
 }
