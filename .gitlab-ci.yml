@@ -46,6 +46,7 @@ deploy-job:
       --label traefik.http.routers.$CI_PROJECT_PATH_SLUG.tls=true
       --label traefik.http.routers.$CI_PROJECT_PATH_SLUG.tls.certresolver=letsencrypt
       --label traefik.http.routers.$CI_PROJECT_PATH_SLUG.service=$CI_PROJECT_PATH_SLUG
+      --label traefik.http.routers.$CI_PROJECT_PATH_SLUG.middlewares=error-handler@file
       --label traefik.http.services.$CI_PROJECT_PATH_SLUG.loadbalancer.server.port=3000
       --network proxy
       $CI_REGISTRY_IMAGE:latest
