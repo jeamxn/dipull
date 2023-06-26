@@ -25,6 +25,15 @@ const menu = [
   {
     name: "외출",
     body: Outing
+  },
+  {
+    name: "급식",
+    body: () => (
+      <iframe
+        src="https://디미고급식.com/"
+        className={styles.meal}
+      />
+    )
   }
 ];
 
@@ -64,6 +73,7 @@ export default function Home() {
                 }
               </div>
               <Inner />
+              <div className={styles.error}>오류 및 기타 문의 사항은 <a href="https://open.kakao.com/me/Jeamxn" target="_blank" rel="noreferrer">최재민</a>에게 연락바랍니다!</div>
             </>
           )
         }

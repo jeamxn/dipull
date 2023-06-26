@@ -68,7 +68,6 @@ const UserInfo = () => {
         >
           로그아웃
         </div>
-
       </div>
 
 
