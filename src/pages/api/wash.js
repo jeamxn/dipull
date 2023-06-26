@@ -278,7 +278,7 @@ const post = async (req, res, id) => {
     return;
   }
 
-  if(!washerData[washer]?.time[time] === undefined) {
+  if(washerData[washer].time[time] === undefined) {
     res.status(200).json({
       success: false,
       message: "혹시 없는 세탁기와 시간을 만들 수 있니?"
