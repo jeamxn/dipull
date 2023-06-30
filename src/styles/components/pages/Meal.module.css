@@ -91,3 +91,17 @@
 .today{
 	max-width: 150px;
 }
+
+.dimigomeal{
+	width: 100%;
+	text-align: center;
+	font-size: 13px;
+	font-weight: 400;
+	padding: 5px 0;
+	color: rgba(var(--color-primary), .3);
+}
+.dimigomeal > a{
+	color: rgba(var(--color-8), .5);
+	text-decoration: underline;
+	text-align: center;
+}

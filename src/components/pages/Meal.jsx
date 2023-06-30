@@ -86,6 +86,7 @@ const Meal = () => {
             <Image src="/icons/next.svg" width={20} height={20} alt="next" />
           </div>
         </div>
+        <div className={styles.dimigomeal}>급식 정보 제공: <a target="_blank" href="https://디미고급식.com" rel="noreferrer">디미고급식.com</a></div>
       </div>
     </div>
   );
