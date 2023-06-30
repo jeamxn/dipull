@@ -23,7 +23,7 @@ const WashNowBox = ({data}) => {
   const [show, setShow] = useState(false);
   return (
     <div className={styles.nowBox} onClick={() => setShow(!show)}>
-      <div className={styles.nowTitle}>[{data[1].grade.join(", ")}학년] {washerId2Name(data[0])}</div>
+      <div className={styles.nowTitle}>[{data[1].grade.join(", ") === "1, 2, 3" ? "전체" : data[1].grade.join(", ")}학년] {washerId2Name(data[0])}</div>
       {
         show && (
           <div className={styles.nowInfo}>
@@ -94,7 +94,7 @@ const WashApply = ({washdataState, LoadData}) => {
                     ((data[0][0] === "W" ? "female" : "male") !== myInfo.gender)
               }
             >
-                  [{data[1].grade.join(", ")}학년] {washerId2Name(data[0])}
+              [{data[1].grade.join(", ") === "1, 2, 3" ? "전체" : data[1].grade.join(", ")}학년] {washerId2Name(data[0])}
             </option>
           ))
         }
