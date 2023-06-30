@@ -4,6 +4,12 @@
 	font-weight: 600;
 	padding: 0 0 10px 0;
 }
+.dateTitle{
+	width: 100%;
+	font-size: 18px;
+	font-weight: 600;
+	padding: 0 0 5px 0;
+}
 .meal{
 	width: 100%;
 	padding-top: 20px;

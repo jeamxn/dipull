@@ -51,7 +51,8 @@ const Meal = () => {
   return (
     <div className={styles.meal}>
       <div className={styles.box}>
-        <div className={styles.title}>급식 정보 | {date.getFullYear()}년 {date.getMonth() + 1}월 {date.getDate()}일 {dayDate[date.getDay()]}요일</div>
+        <div className={styles.title}>급식 정보</div>
+        <div className={styles.dateTitle}>{date.getFullYear()}년 {date.getMonth() + 1}월 {date.getDate()}일 {dayDate[date.getDay()]}요일</div>
         <div className={styles.meals}>
           <div className={styles.mealsInner}>
             <MealTime when="아침" data={mealData.breakfast} />
