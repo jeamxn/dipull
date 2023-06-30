@@ -6,6 +6,7 @@ import styles from "%/Home.module.css";
 import DefaultHead from "@/components/DefaultHead";
 import Header from "@/components/Header";
 import Loading from "@/components/Loading";
+import Meal from "@/components/pages/Meal";
 import Outing from "@/components/pages/Outing";
 import Stay from "@/components/pages/Stay";
 import Wash from "@/components/pages/Wash";
@@ -28,12 +29,7 @@ const menu = [
   },
   {
     name: "급식",
-    body: () => (
-      <iframe
-        src="https://디미고급식.com/"
-        className={styles.meal}
-      />
-    )
+    body: Meal
   }
 ];
 
