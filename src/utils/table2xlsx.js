@@ -3,12 +3,10 @@ import * as Excel from "exceljs";
 import {saveAs} from "file-saver";
 
 const table2xlsx = async (PrintData, filePath) => {
-  console.log(PrintData);
 
   const workbook = new Excel.Workbook();
 	
   Object.entries(PrintData).map((_, i1) => Object.keys(_[1]).map((showDate, i2) => {
-    console.log(_[1][showDate]);
     const worksheet = workbook.addWorksheet(`${_[0]}학년 ${showDate}`);
 
     const columnsStyle = { 
