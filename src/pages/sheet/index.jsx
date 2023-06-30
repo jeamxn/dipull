@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { atom, useRecoilState } from "recoil";
 
 import styles from "%/Sheet.module.css";
@@ -100,13 +100,13 @@ const SheetTable = ({showDate, showGrade}) => {
 
 const Sheet = () => {
   const [outingList, setOutingList] = useRecoilState(outingData);
+  const [grade, setGrade] = useState(-1);
 
   const loadData = async () => {
     const {data} = await axios({
       method: "GET",
       url: "/api/sheet"
     });
-    console.log(data);
     setOutingList(data);
   };
 
@@ -114,10 +114,20 @@ const Sheet = () => {
     loadData();
   }, []);
 
-  const download = () => {
-    console.log(PrintData);
-    table2xlsx(PrintData, "잔류자 외출 및 급식 취소 명단.xlsx");
+  const download = (e) => {
+    if (e.target.value === "-1") return;
+    setGrade(e.target.value);
   };
+
+  useEffect(() => {
+    if (grade == -1) return;
+    if (grade == 0) table2xlsx(PrintData, "전체 잔류자 외출 및 급식 취소 명단.xlsx");
+    else {
+      console.log(PrintData[grade]);
+      table2xlsx(Object.fromEntries([[grade, PrintData[grade]]]), `${grade}학년 잔류자 외출 및 급식 취소 명단.xlsx`);
+    }
+    setGrade(-1);
+  }, [grade]);
 
   return (
     <>
@@ -128,7 +138,14 @@ const Sheet = () => {
           <div className={styles.box}>
             <div className={styles.titles}>
               <div className={styles.title3}>잔류자 외출 및 급식 취소 명단</div>
-              <div className={styles.download} onClick={download}>파일 다운로드</div>
+              <select className={styles.download} onChange={download} value={grade}>
+                <option value="-1">파일 다운로드</option>
+                <option value="0">전체</option>
+                <option value="1">1학년</option>
+                <option value="2">2학년</option>
+                <option value="3">3학년</option>
+              </select>
+              {/* <div className={styles.download} onClick={download}>파일 다운로드</div> */}
             </div>
             {
               Object.entries(PrintData).map((_, i1) => Object.keys(_[1]).map((showDate, i2) => (
