@@ -27,8 +27,6 @@ const get = async (req, res, id) => {
       url: `https://디미고급식.com/api/${date}`,
     });
 	
-    console.log(data, date);
-	
     res.status(200).json(data);
   }
   catch {
