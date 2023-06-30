@@ -168,6 +168,10 @@ const Wash = () => {
   const [loading, setLoading] = useRecoilState(isLoadingAtom);
   const [checker, setChecker] = useRecoilState(userInfoAtom);
   const [washerAvailable, setWasherAvailable] = useState(false);
+  const [washerTime, setWasherTime] = useState({
+    start: [null, null],
+    end: [null, null]
+  });
 
   const LoadData = async () => {
     setLoading(true);
@@ -175,6 +179,7 @@ const Wash = () => {
     setWashdata(data.washerData);
     setMyWasherData(data.myWasherData);
     setWasherAvailable(data.isWasherAvailable);
+    setWasherTime(data.washerTime);
 
     const newChecker = { ...checker };
     if(newChecker.wash !== undefined) {
@@ -201,7 +206,13 @@ const Wash = () => {
             (
               <div className={styles.applyEnd}>
                 <div className={styles.applyEndInfo}>세탁 예약 시간이 아니에요.</div>
-                <div className={styles.applyEndData}>오전 6시 35분부터 자정까지 신청 가능합니다.</div>
+                <div className={styles.applyEndData}>
+                  {
+                    washerTime.start[0] ? 
+                      `${String(washerTime.start[0]).padStart(2, "0")}시 ${String(washerTime.start[1]).padStart(2, "0")}분부터 ${String(washerTime.end[0]).padStart(2, "0")}시 ${String(washerTime.end[1]).padStart(2, "0")}분까지 신청 가능합니다.`
+                      : "아직 세탁기 예약 시간이 아닙니다."
+                  }
+                </div>
               </div>
             )
         }
