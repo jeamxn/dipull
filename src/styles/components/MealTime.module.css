@@ -1,5 +1,7 @@
 .mealInfo{
 	width: fit-content;
+	min-width: 206.6px;
+
 	height: 100%;
 
 	display: flex;

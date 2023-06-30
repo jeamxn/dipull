@@ -245,10 +245,15 @@ const get = async (req, res, id) => {
     date: `${year}-${month}-${day}`
   });
 
+  const statesection = await client.db().collection("states");
+  const statesectionRow = await statesection.findOne({ });
+  const {washerTime} = statesectionRow;
+
   res.status(200).json({
     washerData: copyWasherData,
     myWasherData: mysub,
-    isWasherAvailable: stayStatesRow.isWasherAvailable
+    isWasherAvailable: stayStatesRow.isWasherAvailable,
+    washerTime: washerTime
   });
 };
 

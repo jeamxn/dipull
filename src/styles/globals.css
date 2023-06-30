@@ -41,6 +41,7 @@ body {
   overflow-x: hidden;
   border-top: 0;
   border-bottom: 0;
+  padding-bottom: 30px;
 }
 .main{
   display: flex;

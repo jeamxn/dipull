@@ -5,8 +5,10 @@ import styles from "&/Loading.module.css";
 const Loading = ({show}) => {
   return show && (
     <div className={styles.box}>
-      <span className={styles.loader}></span>
-      <div>로딩중...</div>
+      <div className={styles.boxInner}>
+        <span className={styles.loader}></span>
+        <div className={styles.title}>로딩중...</div>
+      </div>
     </div>
   );
 };
