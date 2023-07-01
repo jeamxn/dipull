@@ -150,7 +150,7 @@ const WashApplyed = ({myWasherDataState, LoadData}) => {
   return (
     <div className={styles.applyEnd}>
       <div className={styles.applyEndInfo}>오늘 예약한 세탁기가 있어요.</div>
-      <div className={styles.applyEndData}>{washerId2Name(myWasherData.washer)} {myWasherData.time}</div>
+      <div className={styles.applyEndData}>{washerId2Name(myWasherData.washer)} {myWasherData.time.replaceAll("* ", "")}</div>
       <input 
         className={styles.applyEndBtn}
         type="button"
