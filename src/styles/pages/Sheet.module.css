@@ -23,6 +23,7 @@
 	width: 100%;
 }
 .download{
+	background-color: rgba(0, 0, 0, 0);
 	font-size: 16px;
 	font-weight: 400;
 	color: rgba(var(--color-8), .5);

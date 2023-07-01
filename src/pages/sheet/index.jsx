@@ -145,7 +145,6 @@ const Sheet = () => {
                 <option value="2">2학년</option>
                 <option value="3">3학년</option>
               </select>
-              {/* <div className={styles.download} onClick={download}>파일 다운로드</div> */}
             </div>
             {
               Object.entries(PrintData).map((_, i1) => Object.keys(_[1]).map((showDate, i2) => (
