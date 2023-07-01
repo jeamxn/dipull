@@ -26,10 +26,8 @@
   padding: 20px 30px 13px 30px;
   border-radius: 20px;
   gap: 15px;
-  background: rgba(var(--color-white), .8);
-  border: 1px solid rgba(var(--color-8), .1);
-  /* box-shadow: 0 0 20px rgba(var(--color-8), .05); */
-	backdrop-filter: blur(5px);
+  background: rgba(var(--color-white), 1);
+  border: 1px solid rgba(var(--color-primary), .1);
 }
 
 .loader {

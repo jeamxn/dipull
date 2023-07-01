@@ -34,7 +34,7 @@
       "always"
     ],
     "react-native/no-inline-styles": "off",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": "off",
     "no-unused-vars": "off",
     "import/order": [
       "error",
