@@ -69,7 +69,7 @@ export default function Home() {
                 }
               </div>
               <Inner />
-              <div className={styles.error}>오류 및 기타 문의 사항은 <a href="kakaoopen://join?l=%2Fme%2FJeamxn&r=EW" target="_blank" rel="noreferrer">최재민</a>에게 연락바랍니다!</div>
+              <div className={styles.error}>오류 및 기타 문의 사항은 <a href="kakaoopen://join?l=%2Fme%2FJeamxn&r=EW" rel="noreferrer">최재민</a>에게 연락바랍니다!</div>
             </>
           )
         }
