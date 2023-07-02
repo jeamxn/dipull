@@ -30,6 +30,7 @@ const PrintData = {
 const SheetTable = ({showDate, showGrade}) => {
   const [outingList, setOutingList] = useRecoilState(outingData);
   PrintData[showGrade][showDate] = [];
+  let cnt = 0;
 
   return (
     <table className={[styles.table, "table"].join(" ")} key={showGrade}>
@@ -57,8 +58,9 @@ const SheetTable = ({showDate, showGrade}) => {
             const countGrade = outingList[showGrade].count;
             return outingList[showGrade][showClass].data?.map((item, i2) => {
               const countClass = outingList[showGrade][showClass].count;
+              cnt++;
               const _data = {
-                grade: i1 === 0 ? [Math.floor(item.number / 1000), countGrade] : "",
+                grade: cnt === 1 ? [Math.floor(item.number / 1000), countGrade] : "",
                 class: i2 === 0 ? [Math.floor(item.number / 100) % 10, countClass] : "",
                 count: i2 === 0 ? [outingList[showGrade][showClass].count, countClass] : "",
                 number: item.number,
@@ -73,7 +75,7 @@ const SheetTable = ({showDate, showGrade}) => {
               PrintData[showGrade][showDate].push(_data);
               return (
                 <tr key={i2}>
-                  {i1 === 0 && <td rowSpan={countGrade}>{_data.grade[0]}</td>}
+                  {cnt === 1 && <td rowSpan={countGrade}>{_data.grade[0]}</td>}
                   {i2 === 0 && <td rowSpan={countClass}>{_data.class[0]}</td>}
                   {i2 === 0 && <td rowSpan={countClass}>{countClass}</td>}
                   <td>{_data.number}</td>

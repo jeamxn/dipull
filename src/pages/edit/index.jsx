@@ -59,8 +59,8 @@ const Edit = () => {
                   value={myNumber.replace(/[^0-9]/g, "")}
                   onChange={(e) => {
                     if(e.target.value.length > 4) return;
-                    if(!(1<= Number(e.target.value[0]) && Number(e.target.value[0]) <= 3) && e.target.value[0]) return;
-                    if(!(1<= Number(e.target.value[1]) && Number(e.target.value[1]) <= 6) && e.target.value[1]) return;
+                    if(!(0<= Number(e.target.value[0]) && Number(e.target.value[0]) <= 9) && e.target.value[0]) return;
+                    if(!(0<= Number(e.target.value[1]) && Number(e.target.value[1]) <= 9) && e.target.value[1]) return;
                     setMyNumber(e.target.value);
                   }}
                   className={styles.input}
