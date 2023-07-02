@@ -56,9 +56,9 @@ const post = async (req, res, id) => {
   if(
     !number || !name || !gender ||
     String(number).length !== 4 ||
-    !(1 <= Number(String(number)[0]) && Number(String(number)[0]) <= 3) || 
-    !(1 <= Number(String(number)[1]) && Number(String(number)[1]) <= 6) || 
-    !(0 <= Number(String(number)[2]) && Number(String(number)[2]) <= 3) ||
+    !(0 <= Number(String(number)[0]) && Number(String(number)[0]) <= 9) || 
+    !(0 <= Number(String(number)[1]) && Number(String(number)[1]) <= 9) || 
+    !(0 <= Number(String(number)[2]) && Number(String(number)[2]) <= 9) ||
     !(0 <= Number(String(number)[3]) && Number(String(number)[3]) <= 9) ||
     String(name).length < 2 || String(name).length > 10 ||
     !(gender === "male" || gender === "female")
