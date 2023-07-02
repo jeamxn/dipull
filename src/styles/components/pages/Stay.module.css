@@ -195,7 +195,6 @@
 	border: 1px solid rgba(var(--color-primary), .1);
 	padding: 10px 10px;
 	font-size: 15px;
-	font-weight: 600;
 	background-color: rgba(var(--color-white), 1);
 }
 .adminInputs{
