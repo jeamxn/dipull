@@ -205,7 +205,7 @@ const post = async (req, res, id) => {
   }
 
   const insertOne = await stayCollection.insertOne({ 
-    seat, 
+    seat: String(seat).toUpperCase(), 
     name, 
     gender: userInfo.gender,
     outing: {

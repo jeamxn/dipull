@@ -62,7 +62,7 @@ const post = async (req, res, id) => {
 
   if(oldSelect) {
     const deleteOlder = await stayCollection.deleteOne({
-      seat: oldSelect,
+      seat: String(oldSelect).toUpperCase(),
       name: `${userInfo.number} ${userInfo.name}`
     });
     if(deleteOlder.deletedCount === 0) {
@@ -76,7 +76,7 @@ const post = async (req, res, id) => {
 
   if(newSelect) {
     const insertNew = await stayCollection.insertOne({
-      seat: newSelect,
+      seat: String(newSelect).toUpperCase(),
       name: `${userInfo.number} ${userInfo.name}`,
       gender: userInfo.gender,
       outing: {
