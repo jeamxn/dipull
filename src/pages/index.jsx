@@ -12,7 +12,7 @@ import Stay from "@/components/pages/Stay";
 import Wash from "@/components/pages/Wash";
 import UserInfo from "@/components/UserInfo";
 import loginCheck from "@/utils/loginCheck";
-import { isLoadingAtom, myInfoAtom } from "@/utils/states";
+import { isAdminAtom, isLoadingAtom, myInfoAtom } from "@/utils/states";
 
 const menu = [
   {
@@ -36,12 +36,17 @@ const menu = [
 export default function Home() {
   const router = useRouter();
   const [myInfo, setMyInfo] = useRecoilState(myInfoAtom);
+  const [isAdmin, setIsAdmin] = useRecoilState(isAdminAtom);
   const [selected, setSelected] = useState(menu[0]);
   const [loading, setLoading] = useRecoilState(isLoadingAtom);
 
   useEffect(() => {
-    loginCheck(setMyInfo, router);
+    loginCheck(setMyInfo, setIsAdmin, router);
   }, []);
+
+  useEffect(() => {
+    console.log(`isAdmin: ${isAdmin}`);
+  }, [isAdmin]);
 
   const Inner = selected.body;
 

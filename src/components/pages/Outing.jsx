@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
 import styles from "&/pages/Outing.module.css";
-import { isLoadingAtom, userInfoAtom } from "@/utils/states";
+import { isAdminAtom, isLoadingAtom, userInfoAtom } from "@/utils/states";
 
 const MealInfo = ({ when, info, meal }) => {
   return (
@@ -32,6 +32,8 @@ const MealInfo = ({ when, info, meal }) => {
 };
 
 const Outing = () => {
+  const [isAdmin, setIsAdmin] = useRecoilState(isAdminAtom);
+
   const [loading, setLoading] = useRecoilState(isLoadingAtom);
   const [selected, setSelected] = useState("");
   const [outReason, setOutReason] = useState("");

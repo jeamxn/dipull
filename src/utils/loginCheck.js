@@ -1,6 +1,6 @@
 const { default: axios } = require("axios");
 
-const loginCheck = async (setMyInfo, router) => {
+const loginCheck = async (setMyInfo, setIsAdmin, router) => {
   const noPermission = () => {
     setMyInfo(false);
     router.push("/login");
@@ -12,6 +12,7 @@ const loginCheck = async (setMyInfo, router) => {
       return;
     }
     setMyInfo(data);
+    setIsAdmin(Boolean(data.admin));
   }
   catch{
     noPermission();

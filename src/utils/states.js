@@ -14,3 +14,8 @@ export const userInfoAtom = atom({
   key: "userInfoState",
   default: {},
 });
+
+export const isAdminAtom = atom({
+  key: "isAdminState",
+  default: false,
+});
