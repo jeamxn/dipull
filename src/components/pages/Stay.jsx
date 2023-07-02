@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
 import styles from "&/pages/Stay.module.css";
-import { isLoadingAtom, myInfoAtom, userInfoAtom } from "@/utils/states";
+import { isAdminAtom, isLoadingAtom, myInfoAtom, userInfoAtom } from "@/utils/states";
 
 
 export default function Stay() {
@@ -17,6 +17,12 @@ export default function Stay() {
   const [studentList, setStudentList] = useState({});
   const [isOpened, setIsOpened] = useState(false);
   const [checker, setChecker] = useRecoilState(userInfoAtom);
+
+  const [isAdmin, setIsAdmin] = useRecoilState(isAdminAtom);
+  const [adminNumber, setAdminNumber] = useState("");
+  const [adminName, setAdminName] = useState("");
+  const [adminOldSelect, setAdminOldSelect] = useState("");
+  const [adminNewSelect, setAdminNewSelect] = useState("");
 
   const dataLoad = async () => {
     setLoading(true);
@@ -66,6 +72,29 @@ export default function Stay() {
     });
     alert(data.message);
     setSelect("#0");
+    await dataLoad();
+    setLoading(false);
+  };
+
+  const modify = async () => {
+    setLoading(true);
+
+    const { data } = await axios({
+      method: "POST",
+      url: "/api/admin/stay",
+      data: {
+        number: adminNumber,
+        name: adminName,
+        oldSelect: adminOldSelect,
+        newSelect: adminNewSelect,
+      },
+    });
+    alert(data.message);
+
+    setSelect("#0");
+    setAdminName("");
+    setAdminNumber("");
+    setAdminOldSelect("");
     await dataLoad();
     setLoading(false);
   };
@@ -123,6 +152,8 @@ export default function Stay() {
                           seat?.grade.includes(Math.floor(myInfo.number / 1000)) && 
                           !name && !myStayData;
 
+                        selectAble = selectAble || isAdmin;
+
                         return (
                           <td 
                             key={j}
@@ -131,8 +162,16 @@ export default function Stay() {
 
                               if (select === `${n}${j + 1}`) {
                                 setSelect("#0");
+                                setAdminName("");
+                                setAdminNumber("");
+                                setAdminOldSelect("");
+                                setAdminNewSelect("");
                               } else {
                                 setSelect(`${n}${j + 1}`);
+                                setAdminOldSelect(`${n}${j + 1}`);
+                                setAdminNewSelect(`${n}${j + 1}`);
+                                setAdminName(name?.split(" ")[1] || "");
+                                setAdminNumber(name?.split(" ")[0] || "");
                               }
                             }}
                             style={{ 
@@ -159,37 +198,107 @@ export default function Stay() {
 		
       <div className={[styles.box, styles.btnBox].join(" ")}>
         {
-          myStayData ? (
-            <>
-              <div className={styles.btnBoxCont}>{myStayData.seat === "#0" ? "교실" : `좌석 ${myStayData.seat}에`} 잔류 신청이 완료되었습니다!</div>
-              {isOpened && <div className={[styles.btnBoxCont, styles.btnBoxCont1].join(" ")}>잔류 취소 시, 외출 및 금귀 신청 내역이 함께 삭제됩니다.</div>}
-              <input
-                type="button"
-                className={styles.btn}
-                value={isOpened ? "잔류 신청 취소" : "잔류 신청 기간이 끝났습니다."}
-                disabled={!isOpened}
-                style={{ cursor: isOpened ? "pointer" : "no-drop", opacity: isOpened ? 1 : 0.5 }}
-                onClick={cancle}
-              />
-            </>
-          ) : (
-            <>
-              {
-                isClassStay ?
-                  <div className={styles.btnBoxCont}>좌석을 선택하지 않으면 교실로 선택됩니다!</div>
-                  :
-                  <div className={styles.btnBoxCont}>잔류 할 열람실 좌석을 선택해 주세요!</div>
-              }
-              <input
-                type="button"
-                className={styles.btn}
-                value={isOpened ? "잔류 신청하기" : "잔류(외출) 신청 기간이 끝났습니다."}
-                disabled={!isOpened}
-                style={{ cursor: isOpened ? "pointer" : "no-drop", opacity: isOpened ? 1 : 0.5 }}
-                onClick={submit}
-              />
-            </>
-          )
+          isAdmin ? 
+            (
+              <>
+                {
+                  isClassStay ?
+                    <div className={styles.btnBoxCont}>좌석을 선택하지 않으면 교실로 선택됩니다!</div>
+                    :
+                    <div className={styles.btnBoxCont}>잔류 할 열람실 좌석을 선택해 주세요!</div>
+                }
+                <div className={styles.adminInputs}>
+                  <div className={styles.adminInn}>학번</div>
+                  <input
+                    type="number"
+                    className={styles.input}
+                    placeholder="학번"
+                    value={adminNumber.replace(/[^0-9]/g, "")}
+                    onChange={(e) => {
+                      if(e.target.value.length > 4) return;
+                      if(!(0<= Number(e.target.value[0]) && Number(e.target.value[0]) <= 9) && e.target.value[0]) return;
+                      if(!(0<= Number(e.target.value[1]) && Number(e.target.value[1]) <= 9) && e.target.value[1]) return;
+                      setAdminNumber(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className={styles.adminInputs}>
+                  <div className={styles.adminInn}>이름</div>
+                  <input
+                    type="text"
+                    value={adminName.replaceAll(" ", "")}
+                    onChange={(e) => setAdminName(e.target.value)}
+                    className={styles.input}
+                    placeholder="이름"
+                  />
+                </div>
+                <div className={styles.adminInputs}>
+                  <div className={styles.adminInn}>기존 좌석</div>
+                  <input
+                    type="text"
+                    value={adminOldSelect.toUpperCase()}
+                    onChange={(e) => {
+                      if(e.target.value.length > 3) return;
+                      setAdminOldSelect(e.target.value);
+                    }}
+                    className={styles.input}
+                    placeholder="기존 좌석을 입력해주세요 (잔류 추가 신청 시 비워두세요)"
+                  />
+                </div>
+                <div className={styles.adminInputs}>
+                  <div className={styles.adminInn}>새 좌석</div>
+                  <input
+                    type="text"
+                    value={adminNewSelect.toUpperCase()}
+                    className={styles.input}
+                    onChange={(e) => {
+                      if(e.target.value.length > 3) return;
+                      setAdminNewSelect(e.target.value);
+                    }}
+                    placeholder="이 칸을 비워두면 잔류 취소됩니다"
+                  />
+                </div>
+
+                <input
+                  type="button"
+                  className={styles.btn}
+                  value={"잔류 신청 또는 수정하기"}
+                  style={{ cursor: "pointer", opacity: 1 }}
+                  onClick={modify}
+                />
+              </>
+            ) 
+            : myStayData ? (
+              <>
+                <div className={styles.btnBoxCont}>{myStayData.seat === "#0" ? "교실" : `좌석 ${myStayData.seat}에`} 잔류 신청이 완료되었습니다!</div>
+                {isOpened && <div className={[styles.btnBoxCont, styles.btnBoxCont1].join(" ")}>잔류 취소 시, 외출 및 금귀 신청 내역이 함께 삭제됩니다.</div>}
+                <input
+                  type="button"
+                  className={styles.btn}
+                  value={isOpened ? "잔류 신청 취소" : "잔류 신청 기간이 끝났습니다."}
+                  disabled={!isOpened}
+                  style={{ cursor: isOpened ? "pointer" : "no-drop", opacity: isOpened ? 1 : 0.5 }}
+                  onClick={cancle}
+                />
+              </>
+            ) : (
+              <>
+                {
+                  isClassStay ?
+                    <div className={styles.btnBoxCont}>좌석을 선택하지 않으면 교실로 선택됩니다!</div>
+                    :
+                    <div className={styles.btnBoxCont}>잔류 할 열람실 좌석을 선택해 주세요!</div>
+                }
+                <input
+                  type="button"
+                  className={styles.btn}
+                  value={isOpened ? "잔류 신청하기" : "잔류(외출) 신청 기간이 끝났습니다."}
+                  disabled={!isOpened}
+                  style={{ cursor: isOpened ? "pointer" : "no-drop", opacity: isOpened ? 1 : 0.5 }}
+                  onClick={submit}
+                />
+              </>
+            )
         }
       </div>
 
