@@ -6,7 +6,7 @@ import * as env from "@/utils/env";
 const verifiedToken = async (req, res) => {
   const { access_token, refresh_token } = req.cookies;
 
-  if (!access_token || !refresh_token) {
+  if (!refresh_token) {
     res.status(401).json({ message: "토큰이 없습니다." });
     return {
       success: false,
