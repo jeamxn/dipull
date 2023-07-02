@@ -136,7 +136,8 @@ export default function Stay() {
                               }
                             }}
                             style={{ 
-                              backgroundColor: seat?.color,
+                              background: select === `${n}${j + 1}` ? "rgba(var(--color-8), 1)" : seat?.color,
+                              color: select === `${n}${j + 1}` ? "rgba(var(--color-0), 1)" : "rgba(var(--color-primary), 1)",
                               cursor: selectAble ? "pointer" : "no-drop"
                             }}
                             className={[styles.tdInner, select === `${n}${j + 1}` && styles.tdInnerSelected].join(" ")}
