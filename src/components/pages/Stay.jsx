@@ -126,7 +126,7 @@ export default function Stay() {
             <tr className={styles.tr}>
               <th className={styles.thn}>#</th>
               {
-                Array(17).fill(0).map((_, i) => (
+                Array(18).fill(0).map((_, i) => (
                   <th key={i} className={styles.thInner}>{i + 1}</th>
                 ))
               }
@@ -138,7 +138,7 @@ export default function Stay() {
                   <tr key={i} className={styles.tr}>
                     <td className={styles.tdn}>{n}</td>
                     {
-                      Array(17).fill(0).map((_, j) => {
+                      Array(18).fill(0).map((_, j) => {
                         let seat = null;
                         for(const e of seatData) {
                           if (e.seat[n] && e.seat[n].includes(j + 1)) {
