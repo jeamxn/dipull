@@ -16,6 +16,10 @@ import { isAdminAtom, isLoadingAtom, myInfoAtom } from "@/utils/states";
 
 const menu = [
   {
+    name: "정보",
+    body: Meal
+  },
+  {
     name: "세탁",
     body: Wash
   },
@@ -26,10 +30,6 @@ const menu = [
   {
     name: "외출",
     body: Outing
-  },
-  {
-    name: "급식",
-    body: Meal
   }
 ];
 

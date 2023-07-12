@@ -3,6 +3,18 @@
 	font-size: 20px;
 	font-weight: 600;
 	padding: 0 0 10px 0;
+
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 8px;
+}
+.titleSelect{
+	background-color: rgba(0, 0, 0, 0);
+	border: none;
+	outline: none;
+	font-size: 16px;
 }
 .dateTitle{
 	width: 100%;
@@ -104,4 +116,47 @@
 	color: rgba(var(--color-8), .5);
 	text-decoration: underline;
 	text-align: center;
+}
+.table{
+	width: 100%;
+	border-collapse: collapse;
+}
+.tableDiv{
+	width: 100%;
+	border-collapse: collapse;
+	background-color: rgba(var(--color-white), 1);
+	border: 1px solid rgba(var(--color-primary), .1);
+	border-radius: 5px;
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+.table > thead > tr > th{
+	padding: 10px 0;
+	border-bottom: 1px solid rgba(var(--color-primary), .1);
+	text-align: center;
+	font-size: 14px;
+	font-weight: 600;
+	color: rgba(var(--color-8), 7);
+}
+
+.table > tbody > tr > td{
+	padding: 10px 0;
+	border-top: 1px solid rgba(var(--color-primary), .1);
+	text-align: center;
+	font-size: 14px;
+	font-weight: 400;
+	color: rgba(var(--color-8), .5);
+}
+.time{
+	border-right: 1px solid rgba(var(--color-primary), .1);
+}
+.sub{
+	font-size: 15px;
+	font-weight: 500;
+}
+.tea{
+	margin-top: 3px;
+	font-size: 12px;
+	font-weight: 300;
+	opacity: .5;
 }
