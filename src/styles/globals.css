@@ -79,4 +79,10 @@ input, textarea, button, select {
     --color-primary: 230, 230, 230;
     --color-white: 30, 30, 30;
   }
+  @media (prefers-dark-interface) {
+    --color-0: 0, 0, 0;
+    --color-8: 195, 135, 255;
+    --color-primary: 230, 230, 230;
+    --color-white: 30, 30, 30;
+  }
 }

@@ -5,6 +5,11 @@ import { useRecoilState } from "recoil";
 import styles from "&/pages/Stay.module.css";
 import { isAdminAtom, isLoadingAtom, myInfoAtom, userInfoAtom } from "@/utils/states";
 
+const sortArrayAlphabetically = (arr) => {
+  return arr.sort((a, b) => {
+    return a.localeCompare(b, "ko", { sensitivity: "base" });
+  });
+};
 
 export default function Stay() {
   const [loading, setLoading] = useRecoilState(isLoadingAtom);
@@ -327,13 +332,13 @@ export default function Stay() {
                                 <td className={styles.tdClass}>{i + 1}-{j + 1}</td>
                                 <td className={styles.tdNum}>{many}</td>
                                 <td className={styles.tdType}>남</td>
-                                <td className={styles.tdPerson}>{studentList[i + 1][j + 1].male.join(" ")}</td>
+                                <td className={styles.tdPerson}>{sortArrayAlphabetically(studentList[i + 1][j + 1].male).join(" ")}</td>
                               </tr>
                               <tr key={i * 10 + j * 2} className={styles.trBoxN}>
                                 <td className={styles.tdClass}></td>
                                 <td className={styles.tdNum}></td>
                                 <td className={styles.tdType}>여</td>
-                                <td className={styles.tdPerson}>{studentList[i + 1][j + 1].female.join(" ")}</td>
+                                <td className={styles.tdPerson}>{sortArrayAlphabetically(studentList[i + 1][j + 1].female).join(" ")}</td>
                               </tr>
                             </>
                           );
