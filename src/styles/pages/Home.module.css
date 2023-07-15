@@ -8,11 +8,11 @@
 .homeType{
 	position: sticky;
 	top: 0px;
-	background: rgba(var(--color-0),.4);
+	/* background: rgba(var(--color-0),.4); */
 	backdrop-filter: blur(10px);
 	padding: 0 20px;
 	gap: 15px;
-	border: 1px solid rgba(var(--color-8),.1);
+	border: 1px solid rgba(var(--color-primary),.1);
 	border-left: 0;
 	border-right: 0;
 	width: 100%;

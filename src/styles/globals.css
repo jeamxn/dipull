@@ -70,17 +70,13 @@ input, textarea, button, select {
 
 :root{
   --color-0: 253, 249, 255;
-  --color-1: 248, 236, 255;
-  --color-2: 242, 217, 255;
-  --color-3: 235, 200, 254;
-  --color-4: 230, 187, 255;
-  --color-5: 224, 170, 254;
-  --color-6: 198, 125, 255;
-  --color-7: 157, 78, 221;
   --color-8: 90, 25, 155;
-  --color-9: 60, 10, 109;
-  --color-10: 36, 0, 70;
   --color-primary: 17, 0, 44;
   --color-white: 255, 255, 255;
+  @media (prefers-color-scheme: dark) { 
+    --color-0: 0, 0, 0;
+    --color-8: 195, 135, 255;
+    --color-primary: 230, 230, 230;
+    --color-white: 60, 60, 60;
+  }
 }
-
