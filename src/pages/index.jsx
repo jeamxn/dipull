@@ -6,6 +6,7 @@ import styles from "%/Home.module.css";
 import DefaultHead from "@/components/DefaultHead";
 import Header from "@/components/Header";
 import Loading from "@/components/Loading";
+import Hosil from "@/components/pages/Hosil";
 import Meal from "@/components/pages/Meal";
 import Outing from "@/components/pages/Outing";
 import Stay from "@/components/pages/Stay";
@@ -43,6 +44,24 @@ export default function Home() {
   useEffect(() => {
     loginCheck(setMyInfo, setIsAdmin, router);
   }, []);
+
+  useEffect(() => {
+    console.log(myInfo);
+    const grade = Math.floor(myInfo.number / 1000);
+    if(
+      (
+        grade !== 2 || 
+        myInfo.gender !== "male"
+      )
+      &&
+      myInfo.name !== "허양회"
+    ) return;
+    if(menu[menu.length - 1].name === "호실") return;
+    menu.push({
+      name: "호실",
+      body: Hosil
+    });
+  }, [myInfo]);
 
   useEffect(() => {
     console.log(`isAdmin: ${isAdmin}`);
