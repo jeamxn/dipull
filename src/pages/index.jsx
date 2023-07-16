@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
@@ -40,28 +41,38 @@ export default function Home() {
   const [isAdmin, setIsAdmin] = useRecoilState(isAdminAtom);
   const [selected, setSelected] = useState(menu[0]);
   const [loading, setLoading] = useRecoilState(isLoadingAtom);
+  const [states, setStates] = useState({});
+
+  const getStates = async () => {
+    setLoading(true);
+    const { data } = await axios.get("/api/states");
+    setStates(data);
+    setLoading(false);
+  };
 
   useEffect(() => {
     loginCheck(setMyInfo, setIsAdmin, router);
+    getStates();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(myInfo);
-  //   const grade = Math.floor(myInfo.number / 1000);
-  //   if(
-  //     (
-  //       grade !== 2 || 
-  //       myInfo.gender !== "male"
-  //     )
-  //     &&
-  //     myInfo.name !== "허양회"
-  //   ) return;
-  //   if(menu[menu.length - 1].name === "호실") return;
-  //   menu.push({
-  //     name: "호실",
-  //     body: Hosil
-  //   });
-  // }, [myInfo]);
+  useEffect(() => {
+    // console.log(myInfo);
+    if(!states.isHosil) return;
+    const grade = Math.floor(myInfo.number / 1000);
+    if(
+      (
+        grade !== 2 || 
+        myInfo.gender !== "male"
+      )
+      &&
+      myInfo.name !== "허양회"
+    ) return;
+    if(menu[menu.length - 1].name === "호실") return;
+    menu.push({
+      name: "호실",
+      body: Hosil
+    });
+  }, [myInfo, states?.isHosil]);
 
   useEffect(() => {
     console.log(`isAdmin: ${isAdmin}`);
