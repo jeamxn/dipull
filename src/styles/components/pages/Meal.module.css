@@ -58,7 +58,7 @@
 .meals{
 	gap: 10px;
 	width: 100%;
-	overflow: scroll;
+	overflow: auto;
 	border-radius: 5px;
 	padding: 0 0 10px 0;
 }
