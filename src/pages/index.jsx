@@ -45,23 +45,23 @@ export default function Home() {
     loginCheck(setMyInfo, setIsAdmin, router);
   }, []);
 
-  useEffect(() => {
-    console.log(myInfo);
-    const grade = Math.floor(myInfo.number / 1000);
-    if(
-      (
-        grade !== 2 || 
-        myInfo.gender !== "male"
-      )
-      &&
-      myInfo.name !== "허양회"
-    ) return;
-    if(menu[menu.length - 1].name === "호실") return;
-    menu.push({
-      name: "호실",
-      body: Hosil
-    });
-  }, [myInfo]);
+  // useEffect(() => {
+  //   console.log(myInfo);
+  //   const grade = Math.floor(myInfo.number / 1000);
+  //   if(
+  //     (
+  //       grade !== 2 || 
+  //       myInfo.gender !== "male"
+  //     )
+  //     &&
+  //     myInfo.name !== "허양회"
+  //   ) return;
+  //   if(menu[menu.length - 1].name === "호실") return;
+  //   menu.push({
+  //     name: "호실",
+  //     body: Hosil
+  //   });
+  // }, [myInfo]);
 
   useEffect(() => {
     console.log(`isAdmin: ${isAdmin}`);

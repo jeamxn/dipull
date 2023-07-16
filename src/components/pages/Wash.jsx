@@ -210,7 +210,7 @@ const Wash = () => {
                   {
                     washerTime.start[0] ? 
                       `${String(washerTime.start[0]).padStart(2, "0")}시 ${String(washerTime.start[1]).padStart(2, "0")}분부터 ${String(washerTime.end[0]).padStart(2, "0")}시 ${String(washerTime.end[1]).padStart(2, "0")}분까지 신청 가능합니다.`
-                      : "아직 세탁기 예약 시간이 아닙니다."
+                      : "세탁 예약을 할 수 없어요."
                   }
                 </div>
               </div>
