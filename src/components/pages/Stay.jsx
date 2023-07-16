@@ -22,7 +22,6 @@ export default function Stay() {
   const [studentList, setStudentList] = useState({});
   const [isOpened, setIsOpened] = useState(false);
   const [checker, setChecker] = useRecoilState(userInfoAtom);
-
   const [isAdmin, setIsAdmin] = useRecoilState(isAdminAtom);
   const [adminNumber, setAdminNumber] = useState("");
   const [adminName, setAdminName] = useState("");
