@@ -1,3 +1,6 @@
+import moment from "moment";
+import "moment-timezone";
+
 import { connectToDatabase } from "@/utils/db";
 
 const fixedData = {
@@ -23,9 +26,12 @@ const stayStates = async () => {
   const endHour = washerTime.end[0];
   const endMinute = washerTime.end[1];
 
-  const today = new Date();
-  const hour = today.getHours();
-  const minute = today.getMinutes();
+  const today = moment();
+  const [hour, minute] = moment.tz(today, "Asia/Seoul").format("HH:mm").split(":");
+
+  // const today = new Date();
+  // const hour = today.getHours();
+  // const minute = today.getMinutes();
 
   const isWasherAvailable = 
     (hour > startHour || (hour === startHour && minute >= startMinute)) 
