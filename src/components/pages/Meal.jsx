@@ -1,4 +1,6 @@
 import axios from "axios";
+import moment from "moment";
+import "moment-timezone";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
@@ -8,7 +10,7 @@ import MealTime from "@/components/MealTime";
 import { isLoadingAtom, myInfoAtom } from "@/utils/states";
 
 const dateToString = (date) => {
-  return date.getFullYear() + "-" + (String(date.getMonth() + 1).padStart(2, "0")) + "-" + String(date.getDate()).padStart(2, "0");
+  return date.format("YYYY") + "-" + date.format("MM") + "-" + date.format("DD");
 };
 
 const dayDate = ["일", "월", "화", "수", "목", "금", "토"];
@@ -17,7 +19,7 @@ const Meal = () => {
   const [userInfo, setUserInfo] = useRecoilState(myInfoAtom);
   const [classInfo, setClassInfo] = useState([Math.floor(userInfo.number / 1000), Math.floor(userInfo.number / 100 % 10)]);
   const [loading, setLoading] = useRecoilState(isLoadingAtom);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(moment().tz("Asia/Seoul"));
   const [mealData, setMealData] = useState({
     breakfast: null,
     lunch: null,
@@ -128,7 +130,7 @@ const Meal = () => {
         </div>
 
         <div className={styles.title}>급식</div>
-        <div className={styles.dateTitle}>{date.getFullYear()}년 {date.getMonth() + 1}월 {date.getDate()}일 {dayDate[date.getDay()]}요일</div>
+        <div className={styles.dateTitle}>{date.format("YYYY")}년 {date.format("MM")}월 {date.format("DD")}일 {dayDate[date.isoWeekday() % 7]}요일</div>
         <div className={styles.meals}>
           <div className={styles.mealsInner}>
             <MealTime when="아침" data={mealData.breakfast} />
@@ -140,7 +142,7 @@ const Meal = () => {
           <div
             className={styles.btn}
             onClick={() => {
-              setDate(new Date(date.getTime() - 86400000));
+              setDate(moment(date).subtract(1, "days"));
             }}
           >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -150,7 +152,7 @@ const Meal = () => {
           <div 
             className={[styles.btn, styles.today].join(" ")}
             onClick={() => {
-              setDate(new Date());
+              setDate(moment().tz("Asia/Seoul"));
             }}
           >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -160,7 +162,7 @@ const Meal = () => {
           <div
             className={styles.btn}
             onClick={() => {
-              setDate(new Date(date.getTime() + 86400000));
+              setDate(moment(date).add(1, "days"));
             }}
           >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">

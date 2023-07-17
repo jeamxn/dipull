@@ -1,3 +1,6 @@
+import moment from "moment";
+import "moment-timezone";
+
 import { connectToDatabase } from "@/utils/db";
 import getTokenInfo from "@/utils/getTokenInfo";
 
@@ -13,10 +16,10 @@ const handler = async (req, res) => {
 };
 
 const get = async (req, res, id) => {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
+  const date = moment().tz("Asia/Seoul");
+  const year = date.format("YYYY");
+  const month = date.format("MM");
+  const day = date.format("DD");
 
   const client = await connectToDatabase();
   const usersCollection = client.db().collection("users");

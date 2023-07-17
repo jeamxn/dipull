@@ -7,10 +7,11 @@ const fixedData = {
 };
 
 const isWeekend = () => {
-  const today = new Date();
-  const day = today.getDay(); // 일(0) ~ 토(6)까지의 값을 반환
+  const today = moment().tz("Asia/Seoul");
 
-  return day === 0 || day === 6;
+  const day = today.isoWeekday(); // 월(1) ~ 일(7)까지의 값을 반환
+
+  return day === 7 || day === 6;
 };
 
 const stayStates = async () => {
@@ -28,10 +29,6 @@ const stayStates = async () => {
 
   const today = moment();
   const [hour, minute] = moment.tz(today, "Asia/Seoul").format("HH:mm").split(":");
-
-  // const today = new Date();
-  // const hour = today.getHours();
-  // const minute = today.getMinutes();
 
   const isWasherAvailable = 
     (hour > startHour || (hour === startHour && minute >= startMinute)) 

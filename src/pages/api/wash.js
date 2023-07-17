@@ -1,3 +1,6 @@
+import moment from "moment";
+import "moment-timezone";
+
 import { connectToDatabase } from "@/utils/db";
 import getTokenInfo from "@/utils/getTokenInfo";
 import stayStates from "@/utils/stayStates";
@@ -222,10 +225,10 @@ const get = async (req, res, id) => {
   const client = await connectToDatabase();
   const washCollection = client.db().collection("wash");
 
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
+  const date = moment().tz("Asia/Seoul");
+  const year = date.format("YYYY");
+  const month = date.format("MM");
+  const day = date.format("DD");
 
   const data = await washCollection.find({
     date: `${year}-${month}-${day}`
@@ -270,10 +273,10 @@ const post = async (req, res, id) => {
     return;
   }
 
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
+  const date = moment().tz("Asia/Seoul");
+  const year = date.format("YYYY");
+  const month = date.format("MM");
+  const day = date.format("DD");
 
   if(!washer || !time) {
     res.status(200).json({
@@ -359,10 +362,10 @@ const post = async (req, res, id) => {
 
 const del = async (req, res, id) => {
   try{
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
+    const date = moment().tz("Asia/Seoul");
+    const year = date.format("YYYY");
+    const month = date.format("MM");
+    const day = date.format("DD");
 
     const client = await connectToDatabase();
     const washCollection = client.db().collection("wash");
