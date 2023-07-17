@@ -1,6 +1,6 @@
+import stayStates from "@/pages/api/utils/stayStates";
 import { connectToDatabase } from "@/utils/db";
 import getTokenInfo from "@/utils/getTokenInfo";
-import stayStates from "@/utils/stayStates";
 
 const commonWasherData = {
   "W1N": {

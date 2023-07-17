@@ -1,8 +1,8 @@
+import stayStates from "@/pages/api/utils/stayStates";
 import { connectToDatabase } from "@/utils/db";
 import getTokenInfo from "@/utils/getTokenInfo";
 import classStay from "@/utils/seatData/classStay";
 import readingRoomStay from "@/utils/seatData/readingRoomStay";
-import stayStates from "@/utils/stayStates";
 
 
 const handler = async (req, res) => {
