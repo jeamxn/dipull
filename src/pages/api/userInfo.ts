@@ -1,10 +1,14 @@
 import moment from "moment";
 import "moment-timezone";
+import { NextApiRequest, NextApiResponse } from "next";
 
 import { connectToDatabase } from "@/utils/db";
 import getTokenInfo from "@/utils/getTokenInfo";
 
-const handler = async (req, res) => {
+const handler = async (
+  req: NextApiRequest, 
+  res: NextApiResponse
+) => {
   const id = (await getTokenInfo(req, res)).id;
   if(!id) {
     res.status(200).json("");
@@ -15,7 +19,11 @@ const handler = async (req, res) => {
   else if(req.method === "DELETE") del(req, res, id);
 };
 
-const get = async (req, res, id) => {
+const get = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {
   const date = moment().tz("Asia/Seoul");
   const year = date.format("YYYY");
   const month = date.format("MM");
@@ -53,7 +61,11 @@ const get = async (req, res, id) => {
   });
 };
 
-const post = async (req, res, id) => {
+const post = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {
   const {number, name, gender} = req.body;
 
   if(
@@ -112,7 +124,11 @@ const post = async (req, res, id) => {
   });
 };
 
-const del = async (req, res, id) => {};
+const del = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {};
 
 
 export default handler;

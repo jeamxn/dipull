@@ -1,10 +1,14 @@
 import axios from "axios";
 import { serialize } from "cookie";
+import { NextApiRequest, NextApiResponse } from "next";
 
 import { connectToDatabase } from "@/utils/db";
 import * as env from "@/utils/env";
 
-const auth = async (req, res) => {
+const auth = async (
+  req: NextApiRequest, 
+  res: NextApiResponse
+) => {
   const {code} = req.query;
 
   const {data: kakaoTokens} = await axios({

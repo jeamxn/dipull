@@ -1,6 +1,11 @@
+import { NextApiRequest, NextApiResponse } from "next";
+
 import { connectToDatabase } from "@/utils/db";
 
-const handler = async (req, res) => {
+const handler = async (
+  req: NextApiRequest, 
+  res: NextApiResponse
+) => {
   const client = await connectToDatabase();
   const stayCollection = await client.db().collection("stay");
   const rowData = await stayCollection.find({}).sort({name: 1}).toArray();

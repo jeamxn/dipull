@@ -1,3 +1,5 @@
+import { NextApiRequest, NextApiResponse } from "next";
+
 import { connectToDatabase } from "@/utils/db";
 import getTokenInfo from "@/utils/getTokenInfo";
 import classStay from "@/utils/seatData/classStay";
@@ -5,7 +7,7 @@ import readingRoomStay from "@/utils/seatData/readingRoomStay";
 import stayStates from "@/utils/stayStates";
 
 
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const tokenInfo = await getTokenInfo(req, res);
   const { id } = tokenInfo;
   if(!id) {
@@ -30,9 +32,17 @@ const handler = async (req, res) => {
   else if(req.method === "DELETE") del(req, res, id);
 };
 
-const get = async (req, res, id) => {};
+const get = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {};
 
-const post = async (req, res, id) => {
+const post = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {
   const { number, name, oldSelect, newSelect } = req.body;
   console.log(req.body);
 
@@ -105,6 +115,10 @@ const post = async (req, res, id) => {
   });
 };
 
-const del = async (req, res, id) => {};
+const del = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {};
 
 export default handler;

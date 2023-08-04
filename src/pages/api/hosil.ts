@@ -1,3 +1,5 @@
+import { NextApiRequest, NextApiResponse } from "next";
+
 import { connectToDatabase } from "@/utils/db";
 import getTokenInfo from "@/utils/getTokenInfo";
 import classStay from "@/utils/seatData/classStay";
@@ -5,7 +7,10 @@ import readingRoomStay from "@/utils/seatData/readingRoomStay";
 import stayStates from "@/utils/stayStates";
 
 
-const handler = async (req, res) => {
+const handler = async (
+  req: NextApiRequest, 
+  res: NextApiResponse
+) => {
   const id = (await getTokenInfo(req, res)).id;
   if(!id) {
     res.status(200).json("");
@@ -16,7 +21,11 @@ const handler = async (req, res) => {
   else if(req.method === "DELETE") del(req, res, id);
 };
 
-const get = async (req, res, id) => {
+const get = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {
   const client = await connectToDatabase();
   const hosilCollection = await client.db().collection("hosil");
   const usersCollection = await client.db().collection("users");
@@ -42,7 +51,11 @@ const get = async (req, res, id) => {
   });
 };
 
-const post = async (req, res, id) => {
+const post = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {
   const stayStatesRow = await stayStates();
   if(!stayStatesRow.isHosil) {
     res.status(200).json({
@@ -103,7 +116,11 @@ const post = async (req, res, id) => {
   });
 };
 
-const del = async (req, res, id) => {
+const del = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {
   const stayStatesRow = await stayStates();
   if(!stayStatesRow.isHosil) {
     res.status(200).json({

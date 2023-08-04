@@ -1,5 +1,6 @@
 import moment from "moment";
 import "moment-timezone";
+import { NextApiRequest, NextApiResponse } from "next";
 
 import { connectToDatabase } from "@/utils/db";
 import getTokenInfo from "@/utils/getTokenInfo";
@@ -208,7 +209,10 @@ const stayWasherData = {
   }
 };
 
-const handler = async (req, res) => {
+const handler = async (
+  req: NextApiRequest, 
+  res: NextApiResponse
+) => {
   const id = (await getTokenInfo(req, res)).id;
   if(!id) {
     res.status(200).json("");
@@ -219,7 +223,11 @@ const handler = async (req, res) => {
   else if(req.method === "DELETE") del(req, res, id);
 };
 
-const get = async (req, res, id) => {
+const get = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {
   const stayStatesRow = await stayStates();
   const washerData = stayStatesRow.isStay ? stayWasherData : commonWasherData;
   const client = await connectToDatabase();
@@ -260,7 +268,11 @@ const get = async (req, res, id) => {
   });
 };
 
-const post = async (req, res, id) => {
+const post = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {
   const stayStatesRow = await stayStates();
   const washerData = stayStatesRow.isStay ? stayWasherData : commonWasherData;
   const { washer, time } = req.body;
@@ -360,7 +372,11 @@ const post = async (req, res, id) => {
   });
 };
 
-const del = async (req, res, id) => {
+const del = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {
   try{
     const date = moment().tz("Asia/Seoul");
     const year = date.format("YYYY");

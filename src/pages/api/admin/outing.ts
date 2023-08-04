@@ -1,8 +1,10 @@
+import { NextApiRequest, NextApiResponse } from "next";
+
 import { connectToDatabase } from "@/utils/db";
 import getTokenInfo from "@/utils/getTokenInfo";
 import stayStates from "@/utils/stayStates";
 
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const tokenInfo = await getTokenInfo(req, res);
   const { id } = tokenInfo;
   if(!id) {
@@ -27,9 +29,17 @@ const handler = async (req, res) => {
   else if(req.method === "DELETE") del(req, res, id);
 };
 
-const get = async (req, res, id) => {};
+const get = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {};
 
-const post = async (req, res, id) => {
+const post = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {
   const { type, reason, meal, number, name } = req.body;
 
   if(!type || !reason || !meal) {
@@ -81,6 +91,10 @@ const post = async (req, res, id) => {
   });
 };
 
-const del = async (req, res, id) => {};
+const del = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {};
 
 export default handler;

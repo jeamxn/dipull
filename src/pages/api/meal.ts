@@ -1,9 +1,13 @@
 import axios from "axios";
+import { NextApiRequest, NextApiResponse } from "next";
 
 import getTokenInfo from "@/utils/getTokenInfo";
 
 
-const handler = async (req, res) => {
+const handler = async (
+  req: NextApiRequest, 
+  res: NextApiResponse
+) => {
   const id = (await getTokenInfo(req, res)).id;
   if(!id) {
     res.status(200).json("");
@@ -14,7 +18,11 @@ const handler = async (req, res) => {
   else if(req.method === "DELETE") del(req, res, id);
 };
 
-const get = async (req, res, id) => {
+const get = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {
   const {date} = req.query;
   if(!date) {
     res.status(400).json({message: "date is required"});
@@ -34,10 +42,18 @@ const get = async (req, res, id) => {
   }
 };
 
-const post = async (req, res, id) => {
+const post = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {
 };
 
-const del = async (req, res, id) => {
+const del = async (
+  req: NextApiRequest, 
+  res: NextApiResponse, 
+  id: Number
+) => {
 };
 
 export default handler;
