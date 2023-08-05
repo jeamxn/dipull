@@ -2,7 +2,12 @@ import React from "react";
 
 import styles from "&/MealTime.module.css";
 
-const MealTime = ({when, data}) => {
+type Props = {
+  when: string;
+  data: string;
+}
+
+const MealTime = ({when, data}: Props) => {
   return (
     <div className={styles.mealInfo}>
       <div className={styles.mealInfoTitle}>{when}</div>

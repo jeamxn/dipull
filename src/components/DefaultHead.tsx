@@ -1,7 +1,11 @@
 import Head from "next/head";
 import React from "react";
 
-const DefaultHead = ({ children }) => {
+type Props = {
+  children?: React.ReactNode;
+}
+
+const DefaultHead = ({ children }: Props) => {
   return (
     <Head>
       <title>디미고인 풀 서비스 V2</title>
