@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { connectToDatabase } from "@/utils/db";
 import getTokenInfo from "@/utils/getTokenInfo";
-import stayStates from "@/utils/stayStates";
+import stayStates, { StayStates } from "@/utils/stayStates";
 
 const handler = async (
   req: NextApiRequest, 
@@ -25,7 +25,7 @@ const get = async (
   id: Number
 ) => {
   const stayStatesRow = await stayStates();
-  const { _id, ...rec } = stayStatesRow;
+  const { _id, ...rec }: StayStates = stayStatesRow;
   res.status(200).json(rec);
 };
 
