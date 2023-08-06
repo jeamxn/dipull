@@ -15,8 +15,13 @@ import Wash from "@/components/pages/Wash";
 import UserInfo from "@/components/UserInfo";
 import loginCheck from "@/utils/loginCheck";
 import { isAdminAtom, isLoadingAtom, myInfoAtom } from "@/utils/states";
+import { StayStates } from "@/utils/stayStates";
 
-const menu = [
+type Menu = {
+  name: string;
+  body: React.FC;
+}
+const menu: Menu[] = [
   {
     name: "정보",
     body: Meal
@@ -39,13 +44,13 @@ export default function Home() {
   const router = useRouter();
   const [myInfo, setMyInfo] = useRecoilState(myInfoAtom);
   const [isAdmin, setIsAdmin] = useRecoilState(isAdminAtom);
-  const [selected, setSelected] = useState(menu[0]);
+  const [selected, setSelected] = useState<Menu>(menu[0]);
   const [loading, setLoading] = useRecoilState(isLoadingAtom);
-  const [states, setStates] = useState({});
+  const [states, setStates] = useState<StayStates | null>(null);
 
   const getStates = async () => {
     setLoading(true);
-    const { data } = await axios.get("/api/states");
+    const { data }: { data: StayStates } = await axios.get("/api/states");
     setStates(data);
     setLoading(false);
   };
@@ -56,8 +61,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // console.log(myInfo);
-    if(!states.isHosil) return;
+    if(!myInfo || !states.isHosil) return;
     const grade = Math.floor(myInfo.number / 1000);
     if(
       (
