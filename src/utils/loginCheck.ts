@@ -1,6 +1,8 @@
 import axios from "axios";
 import { NextRouter } from "next/router";
 
+import { MyInfoAtom } from "./states";
+
 const loginCheck = async (
   setMyInfo: Function,
   setIsAdmin: Function,
@@ -11,7 +13,9 @@ const loginCheck = async (
     router.push("/login");
   };
   try{
-    const { data } = await axios.get("/api/userInfo");
+    const { data }: {
+      data: MyInfoAtom,
+    } = await axios.get("/api/userInfo");
     if(!data || !data.gender || !data.number || !data.name) {
       noPermission();
       return;

@@ -1,13 +1,15 @@
 import { atom } from "recoil";
 
+import { UserInfoReturn } from "@/pages/api/userInfo";
 
-export const myInfoAtom = atom({
+export type MyInfoAtom = false | UserInfoReturn;
+export const myInfoAtom = atom<MyInfoAtom>({
   key: "isLoginState",
   default: false,
 });
 
-export type IsLoading = boolean;
-export const isLoadingAtom = atom<IsLoading>({
+export type IsLoadingAtom = boolean;
+export const isLoadingAtom = atom<IsLoadingAtom>({
   key: "isLoadingState",
   default: false,
 });

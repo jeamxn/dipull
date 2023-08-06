@@ -14,6 +14,14 @@ const isWeekend = () => {
   return day === 7 || day === 6;
 };
 
+export type StayStates = {
+  _id: string;
+  isStay: boolean;
+  isWasherAvailable: boolean;
+  isOpened: boolean[];
+  isClassStay: boolean;
+  isHosil: boolean;
+}
 const stayStates = async () => {
   const client = await connectToDatabase();
   const stayCollection = await client.db().collection("states");
@@ -35,7 +43,7 @@ const stayStates = async () => {
     && (hour < endHour || (hour === endHour && minute <= endMinute));
 
   
-  const returndata = {
+  const returndata: StayStates = {
     isStay: isWeekend() || isStay,
     isWasherAvailable,
     ...searchStates,
