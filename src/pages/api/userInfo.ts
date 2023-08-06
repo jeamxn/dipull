@@ -19,6 +19,25 @@ const handler = async (
   else if(req.method === "DELETE") del(req, res, id);
 };
 
+export type UserInfo = {
+  _id: string;
+  id: number;
+  nickname: string;
+  profile_image: string;
+  thumbnail_image: string;
+  gender?: "male" | "female";
+  name?: string;
+  number?: number;
+  admin?: boolean;
+}
+export type UserInfoReturn = UserInfo & {
+  userInfo: {
+    stay: boolean;
+    outing: boolean;
+    wash: boolean;
+  }
+}
+
 const get = async (
   req: NextApiRequest, 
   res: NextApiResponse, 
@@ -31,7 +50,7 @@ const get = async (
 
   const client = await connectToDatabase();
   const usersCollection = client.db().collection("users");
-  const { _id, ...userInfo } = await usersCollection.findOne({ 
+  const { _id, ...userInfo }: UserInfo = await usersCollection.findOne({ 
     id: Number(id)
   });
   const name = `${userInfo.number} ${userInfo.name}`;
@@ -51,14 +70,16 @@ const get = async (
   });
   const isWash = searchMyWashData ? true : false;
 
-  res.status(200).json({
+  const rtn = {
     ...userInfo,
     userInfo: {
       stay: isStay,
       outing: isOuting,
       wash: isWash
     }
-  });
+  };
+
+  res.status(200).json(rtn);
 };
 
 const post = async (

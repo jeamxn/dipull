@@ -6,7 +6,15 @@ import { connectToDatabase } from "@/utils/db";
 import getTokenInfo from "@/utils/getTokenInfo";
 import stayStates from "@/utils/stayStates";
 
-const commonWasherData = {
+type WasherData = {
+  [key: string]: {
+    grade: number[];
+    time: {
+      [key: string]: string;
+    }
+  }
+}
+const commonWasherData: WasherData = {
   "W1N": {
     grade: [1],
     time: {
@@ -98,7 +106,7 @@ const commonWasherData = {
     }
   }
 };
-const stayWasherData = {
+const stayWasherData: WasherData = {
   "W1N": {
     grade: [1, 2, 3],
     time: {
@@ -223,13 +231,29 @@ const handler = async (
   else if(req.method === "DELETE") del(req, res, id);
 };
 
+type WashCollection = {
+  _id: string;
+  washer: string;
+  time: string;
+  date: string;
+  owner: string;
+}
+type WasherTime = {
+  [key: string]: number[]
+}
+export type WashReturn = {
+  washerData: WasherData;
+  myWasherData: WashCollection;
+  isWasherAvailable: boolean;
+  washerTime: WasherTime;
+}
 const get = async (
   req: NextApiRequest, 
   res: NextApiResponse, 
   id: Number
 ) => {
   const stayStatesRow = await stayStates();
-  const washerData = stayStatesRow.isStay ? stayWasherData : commonWasherData;
+  const washerData: WasherData = stayStatesRow.isStay ? stayWasherData : commonWasherData;
   const client = await connectToDatabase();
   const washCollection = client.db().collection("wash");
 
@@ -238,7 +262,8 @@ const get = async (
   const month = date.format("MM");
   const day = date.format("DD");
 
-  const data = await washCollection.find({
+
+  const data: WashCollection[] = await washCollection.find({
     date: `${year}-${month}-${day}`
   }).toArray();
 
@@ -251,14 +276,14 @@ const get = async (
 
   const usersCollection = await client.db().collection("users");
   const userInfo = await usersCollection.findOne({ id: Number(id) });
-  const mysub = await washCollection.findOne({ 
+  const mysub: WashCollection = await washCollection.findOne({ 
     owner: `${userInfo.number} ${userInfo.name}` ,
     date: `${year}-${month}-${day}`
   });
 
   const statesection = await client.db().collection("states");
   const statesectionRow = await statesection.findOne({ });
-  const {washerTime} = statesectionRow;
+  const { washerTime }: { washerTime: WasherTime; } = statesectionRow;
 
   res.status(200).json({
     washerData: copyWasherData,

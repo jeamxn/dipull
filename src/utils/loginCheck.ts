@@ -1,12 +1,21 @@
-const { default: axios } = require("axios");
+import axios from "axios";
+import { NextRouter } from "next/router";
 
-const loginCheck = async (setMyInfo, setIsAdmin, router) => {
+import { MyInfoAtom } from "./states";
+
+const loginCheck = async (
+  setMyInfo: Function,
+  setIsAdmin: Function,
+  router: NextRouter
+) => {
   const noPermission = () => {
     setMyInfo(false);
     router.push("/login");
   };
   try{
-    const { data } = await axios.get("/api/userInfo");
+    const { data }: {
+      data: MyInfoAtom,
+    } = await axios.get("/api/userInfo");
     if(!data || !data.gender || !data.number || !data.name) {
       noPermission();
       return;

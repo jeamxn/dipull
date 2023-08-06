@@ -18,6 +18,22 @@ const handler = async (
   else if(req.method === "DELETE") del(req, res, id);
 };
 
+
+export type OutingReturn = {
+  success: boolean;
+  message: string;
+  isOpened: boolean;
+  data?: {
+    "토요일": {
+      reason: string[];
+      meal: boolean[];
+    },
+    "일요일": {
+      reason: string[];
+      meal: boolean[];
+    }
+  }
+}
 const get = async (
   req: NextApiRequest, 
   res: NextApiResponse, 

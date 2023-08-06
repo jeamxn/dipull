@@ -136,7 +136,7 @@ export default function Stay() {
               }
             </tr>
             {
-              Array(14).fill(0).map((_, i) => {
+              myInfo && Array(14).fill(0).map((_, i) => {
                 const n = String.fromCharCode(i + 65);
                 return (
                   <tr key={i} className={styles.tr}>

@@ -1,4 +1,6 @@
-const required = (value) => {
+const required = (
+  value: string | undefined,
+) => {
   if(!value) throw new Error(`Missing required environment variable ${value}`);
   return value;
 };

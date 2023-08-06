@@ -1,15 +1,43 @@
 // import { Workbook } from "exceljs";
 import * as Excel from "exceljs";
-import {saveAs} from "file-saver";
+import { saveAs } from "file-saver";
 
-const table2xlsx = async (PrintData, filePath) => {
+export type PrintData = {
+  [key: string | number]: {
+    [key: string]: PrintDataArray[]
+  }
+}
+
+export type PrintDataArray = {
+  grade: number | string | number[];
+  class: number | string | number[];
+  count: number | string | number[];
+  number: number;
+  name: string;
+  gender: "남" | "여";
+  breakfast: "O" | "X";
+  lunch: "O" | "X";
+  dinner: "O" | "X";
+  outing: string;
+  etc: string;
+}
+
+const table2xlsx = async (
+  PrintData: PrintData,
+  filePath: string
+) => {
 
   const workbook = new Excel.Workbook();
 	
   Object.entries(PrintData).map((_, i1) => Object.keys(_[1]).map((showDate, i2) => {
     const worksheet = workbook.addWorksheet(`${_[0]}학년 ${showDate}`);
 
-    const columnsStyle = { 
+    const columnsStyle: {
+      alignment: {
+        horizontal: "center",
+        vertical: "middle",
+      }
+    } = { 
       //text center
       alignment: {
         horizontal: "center",
@@ -40,20 +68,28 @@ const table2xlsx = async (PrintData, filePath) => {
     ];
     const data = [
       ..._[1][showDate].map((_, i) => {
-        let { grade, class: _class, count, ...dt } = _;
-        if(grade[1]) dt.grade = `${grade[0]}학년`;
-        if(_class[1]) {
-          dt.class = `${_class[0]}반`;
-          dt.count = `${count[0]}명`;
-        }
+        const { grade, class: _class, count, ...dt } = _;
         return {
+          grade: _.grade ? `${_.grade}학년` : "",
+          class: _.class ? `${_.class}반` : "",
+          count: _.count ? `${_.count}명` : "",
           ...dt
         };
       })
     ];
     worksheet.addRows(data);
 
-    const cellBorder = {
+    type CellType = {
+      style: "thin",
+      color: {argb: "FFED7D32"},
+    }
+
+    const cellBorder: {
+      top: CellType,
+      left: CellType,
+      bottom: CellType,
+      right: CellType,
+    } = {
       top: {
         style: "thin",
         color: {argb: "FFED7D32"},
@@ -71,7 +107,11 @@ const table2xlsx = async (PrintData, filePath) => {
         color: {argb: "FFED7D32"},
       },
     };
-    const cellFill = {
+    const cellFill: {
+      type: "pattern",
+      pattern: "solid",
+      fgColor: { argb: "FFFFE6D8" },
+    } = {
       type: "pattern",
       pattern: "solid",
       fgColor: { argb: "FFFFE6D8" },
@@ -81,7 +121,10 @@ const table2xlsx = async (PrintData, filePath) => {
       name: "맑은 고딕", 
       size: 12,
     };
-    const cellAlignment = {
+    const cellAlignment: {
+      horizontal: "center",
+      vertical: "middle",
+    } = {
       horizontal: "center",
       vertical: "middle",
     };

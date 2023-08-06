@@ -1,8 +1,9 @@
 import axios from "axios";
+import { NextApiRequest, NextApiResponse } from "next";
 
 import verifiedToken from "./verifiedToken";
 
-const getTokenInfo = async (req, res) => {
+const getTokenInfo = async (req: NextApiRequest, res: NextApiResponse) => {
   const data = await verifiedToken(req, res);
   const { success, access_token } = data;
 

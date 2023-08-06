@@ -5,14 +5,14 @@ import { atom, useRecoilState } from "recoil";
 import styles from "%/Sheet.module.css";
 import DefaultHead from "@/components/DefaultHead";
 import Header from "@/components/Header";
-import table2xlsx from "@/utils/table2xlsx";
+import table2xlsx, { PrintData, PrintDataArray } from "@/utils/table2xlsx";
 
 const outingData = atom({
   key: "outingData",
   default: {},
 });
 
-const PrintData = {
+const printData: PrintData = {
   "1": {
     "토요일": [],
     "일요일": [],
@@ -29,7 +29,7 @@ const PrintData = {
 
 const SheetTable = ({showDate, showGrade}) => {
   const [outingList, setOutingList] = useRecoilState(outingData);
-  PrintData[showGrade][showDate] = [];
+  printData[showGrade][showDate] = [];
   let cnt = 0;
 
   return (
@@ -59,10 +59,10 @@ const SheetTable = ({showDate, showGrade}) => {
             return outingList[showGrade][showClass].data?.map((item, i2) => {
               const countClass = outingList[showGrade][showClass].count;
               cnt++;
-              const _data = {
-                grade: cnt === 1 ? [Math.floor(item.number / 1000), countGrade] : "",
-                class: i2 === 0 ? [Math.floor(item.number / 100) % 10, countClass] : "",
-                count: i2 === 0 ? [outingList[showGrade][showClass].count, countClass] : "",
+              const _data: PrintDataArray = {
+                grade: cnt === 1 ? countGrade && Math.floor(item.number / 1000) : "",
+                class: i2 === 0 ? countClass && Math.floor(item.number / 100) % 10 : "",
+                count: i2 === 0 ? countClass && outingList[showGrade][showClass].count : "",
                 number: item.number,
                 name: item.name,
                 gender: item.gender === "male" ? "남" : "여",
@@ -72,7 +72,7 @@ const SheetTable = ({showDate, showGrade}) => {
                 outing: item.outing[showDate].reason.join(" "),
                 etc: "",
               };
-              PrintData[showGrade][showDate].push(_data);
+              printData[showGrade][showDate].push(_data);
               return (
                 <tr key={i2}>
                   {cnt === 1 && <td rowSpan={countGrade}>{_data.grade[0]}</td>}
@@ -123,10 +123,10 @@ const Sheet = () => {
 
   useEffect(() => {
     if (grade == -1) return;
-    if (grade == 0) table2xlsx(PrintData, "전체 잔류자 외출 및 급식 취소 명단.xlsx");
+    if (grade == 0) table2xlsx(printData, "전체 잔류자 외출 및 급식 취소 명단.xlsx");
     else {
-      console.log(PrintData[grade]);
-      table2xlsx(Object.fromEntries([[grade, PrintData[grade]]]), `${grade}학년 잔류자 외출 및 급식 취소 명단.xlsx`);
+      console.log(printData[grade]);
+      table2xlsx(Object.fromEntries([[grade, printData[grade]]]), `${grade}학년 잔류자 외출 및 급식 취소 명단.xlsx`);
     }
     setGrade(-1);
   }, [grade]);
@@ -149,7 +149,7 @@ const Sheet = () => {
               </select>
             </div>
             {
-              Object.entries(PrintData).map((_, i1) => Object.keys(_[1]).map((showDate, i2) => (
+              Object.entries(printData).map((_, i1) => Object.keys(_[1]).map((showDate, i2) => (
                 <div className={styles.tableDiv} key={i2}>
                   <SheetTable
                     showDate={showDate}

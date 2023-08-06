@@ -14,9 +14,9 @@ const Edit = () => {
 
   const [loading, setLoading] = useRecoilState(isLoadingAtom);
 
-  const [myNumber, setMyNumber] = useState("");
-  const [myName, setMyName] = useState("");
-  const [myGender, setMyGender] = useState("male");
+  const [myNumber, setMyNumber] = useState<string | null>(null);
+  const [myName, setMyName] = useState<string | null>(null);
+  const [myGender, setMyGender] = useState<"male" | "female">("male");
 
   const update = async () => {
     if(!myNumber || !myName) return;
@@ -56,7 +56,7 @@ const Edit = () => {
               <div className={styles.rowInput}>
                 <input
                   type="number"
-                  value={myNumber.replace(/[^0-9]/g, "")}
+                  value={myNumber?.replace(/[^0-9]/g, "")}
                   onChange={(e) => {
                     if(e.target.value.length > 4) return;
                     if(!(0<= Number(e.target.value[0]) && Number(e.target.value[0]) <= 9) && e.target.value[0]) return;
@@ -68,7 +68,7 @@ const Edit = () => {
                 />
                 <input
                   type="text"
-                  value={myName.replaceAll(" ", "")}
+                  value={myName?.replaceAll(" ", "")}
                   onChange={(e) => setMyName(e.target.value)}
                   className={styles.input}
                   placeholder="이름"
@@ -77,7 +77,10 @@ const Edit = () => {
               <div className={styles.rowInput}>
                 <div className={styles.cont}>성별: </div>
                 {
-                  [["male", "남자"], ["female", "여자"]].map((e, i) => {
+                  [["male", "남자"], ["female", "여자"]].map((
+                    e: ["male", "남자"] | ["female", "여자"], 
+                    i
+                  ) => {
                     return (
                       <div
                         className={[styles.genderSelect, myGender === e[0] && styles.genderSelected].join(" ")}
