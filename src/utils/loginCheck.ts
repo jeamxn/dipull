@@ -1,6 +1,12 @@
+import { NextRouter } from "next/router";
+
 const { default: axios } = require("axios");
 
-const loginCheck = async (setMyInfo, setIsAdmin, router) => {
+const loginCheck = async (
+  setMyInfo: Function,
+  setIsAdmin: Function,
+  router: NextRouter
+) => {
   const noPermission = () => {
     setMyInfo(false);
     router.push("/login");

@@ -66,4 +66,6 @@ const readingRoomStay = [
   }
 ];
 
+export type ReadingRoomStay = typeof readingRoomStay;
+
 export default readingRoomStay;

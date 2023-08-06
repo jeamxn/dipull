@@ -1,9 +1,13 @@
 import axios from "axios";
 import { serialize } from "cookie";
+import { NextApiRequest, NextApiResponse } from "next";
 
 import * as env from "@/utils/env";
 
-const verifiedToken = async (req, res) => {
+const verifiedToken = async (
+  req: NextApiRequest, 
+  res: NextApiResponse
+) => {
   const { access_token, refresh_token } = req.cookies;
 
   if (!refresh_token) {

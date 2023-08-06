@@ -43,4 +43,6 @@ const classStay = [
   }
 ];
 
+export type ClassStay = typeof classStay;
+
 export default classStay;
