@@ -30,23 +30,30 @@ const Meal = () => {
 
   const LoadData = async () => {
     setLoading(true);
-    try{
-      const monday = date.clone().startOf("isoWeek");
-      const [{data}, {data: timetable}] = await Promise.all([
-        axios({
-          method: "GET",
-          url: "/api/meal",
-          params: {
-            date: dateToString(monday)
-          }
-        }),
-        axios({
-          method: "GET",
-          url: `/api/timetable/${classInfo[0]}/${classInfo[1]}`,
-        })
-      ]);
+    const LoadMealData = async () => {
+      const { data } = await axios({
+        method: "GET",
+        url: "/api/meal",
+        params: {
+          date: dateToString(date)
+        }
+      });
       setMealData(data.meal);
-      setTimetableData(timetable);
+      return;
+    };
+    const LoadTimetableData = async () => {
+      if(timetableData) return;
+      const { data } = await axios({
+        method: "GET",
+        url: `/api/timetable/${classInfo[0]}/${classInfo[1]}`,
+      });
+      setTimetableData(data);
+    };
+    try{
+      await Promise.all([
+        LoadMealData(),
+        LoadTimetableData()
+      ]);
     }
     catch {
       setMealData({
