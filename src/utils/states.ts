@@ -14,12 +14,14 @@ export const isLoadingAtom = atom<IsLoadingAtom>({
   default: false,
 });
 
-
-export const userInfoAtom = atom({  
+export const userInfoAtom = atom<UserInfoReturn["userInfo"]>({  
   key: "userInfoState",
-  default: {},
+  default: {
+    stay: false,
+    outing: false,
+    wash: false,
+  },
 });
-
 
 export const isAdminAtom = atom({
   key: "isAdminState",

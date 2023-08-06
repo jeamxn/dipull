@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
 import styles from "&/pages/Wash.module.css";
+import { WashReturn } from "@/pages/api/wash";
 import { isLoadingAtom, myInfoAtom, userInfoAtom } from "@/utils/states";
 
-const washerId2Name = (id) => {
+const washerId2Name = (
+  id: string
+) => {
   const where = id[0] == "W" ? "우정학사" : "학봉관";
   const floor = id[1];
 
@@ -19,7 +22,11 @@ const washerId2Name = (id) => {
   return `${where} ${floor}층 ${type[id[2]]}`;
 };
 
-const WashNowBox = ({data}) => {
+const WashNowBox = ({
+  data
+}: {
+  data: [string, WashReturn["washerData"][string]]
+}) => {
   const [show, setShow] = useState(false);
   return (
     <div className={styles.nowBox} onClick={() => setShow(!show)}>
@@ -48,14 +55,20 @@ const WashNowBox = ({data}) => {
   );
 };
 
-const WashApply = ({washdataState, LoadData}) => {
+const WashApply = ({
+  washdataState, 
+  LoadData
+}: {
+  washdataState: [WashReturn["washerData"], React.Dispatch<React.SetStateAction<WashReturn["washerData"]>>],
+  LoadData: () => void
+}) => {
   const [myInfo, setMyInfo] = useRecoilState(myInfoAtom);
   const [selected, setSelected] = useState({
     washer: "",
     time: ""
   });
   const [washdata, setWashdata] = washdataState;
-  const myGrade = Math.floor(myInfo.number / 1000);
+  const myGrade = Math.floor(myInfo && myInfo.number / 1000);
 
   const washerButton = async () => {
     if (!selected.time) return;
@@ -85,7 +98,7 @@ const WashApply = ({washdataState, LoadData}) => {
       >
         <option value="">세탁기를 선택해주세요</option>
         {
-          Object.entries(washdata).map((data, i) => (
+          myInfo && Object.entries(washdata).map((data, i) => (
             <option 
               value={data[0]} 
               key={i}
@@ -115,7 +128,7 @@ const WashApply = ({washdataState, LoadData}) => {
             <option 
               value={time[0]} 
               key={i} 
-              disabled={time[1]}
+              disabled={Boolean(time[1])}
             >
               {time[0]}
             </option>
@@ -163,19 +176,19 @@ const WashApplyed = ({myWasherDataState, LoadData}) => {
 
 const Wash = () => {
   const [myInfo, setMyInfo] = useRecoilState(myInfoAtom);
-  const [washdata, setWashdata] = useState({});
-  const [myWasherData, setMyWasherData] = useState(null);
+  const [washdata, setWashdata] = useState<WashReturn["washerData"]>({});
+  const [myWasherData, setMyWasherData] = useState<WashReturn["myWasherData"]>(null);
   const [loading, setLoading] = useRecoilState(isLoadingAtom);
   const [checker, setChecker] = useRecoilState(userInfoAtom);
-  const [washerAvailable, setWasherAvailable] = useState(false);
-  const [washerTime, setWasherTime] = useState({
-    start: [null, null],
-    end: [null, null]
+  const [washerAvailable, setWasherAvailable] = useState<WashReturn["isWasherAvailable"]>(false);
+  const [washerTime, setWasherTime] = useState<WashReturn["washerTime"]>({
+    start: [],
+    end: []
   });
 
   const LoadData = async () => {
     setLoading(true);
-    const { data } = await axios.get("/api/wash");
+    const { data }: { data: WashReturn } = await axios.get("/api/wash");
     setWashdata(data.washerData);
     setMyWasherData(data.myWasherData);
     setWasherAvailable(data.isWasherAvailable);
@@ -208,7 +221,7 @@ const Wash = () => {
                 <div className={styles.applyEndInfo}>세탁 예약 시간이 아니에요.</div>
                 <div className={styles.applyEndData}>
                   {
-                    washerTime.start[0] ? 
+                    washerTime.start[0] ?
                       `${String(washerTime.start[0]).padStart(2, "0")}시 ${String(washerTime.start[1]).padStart(2, "0")}분부터 ${String(washerTime.end[0]).padStart(2, "0")}시 ${String(washerTime.end[1]).padStart(2, "0")}분까지 신청 가능합니다.`
                       : "세탁 예약을 할 수 없어요."
                   }

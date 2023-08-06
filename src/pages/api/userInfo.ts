@@ -31,7 +31,7 @@ export type UserInfo = {
   admin?: boolean;
 }
 export type UserInfoReturn = UserInfo & {
-  uesrInfo: {
+  userInfo: {
     stay: boolean;
     outing: boolean;
     wash: boolean;

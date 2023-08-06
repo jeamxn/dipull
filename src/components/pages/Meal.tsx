@@ -1,7 +1,6 @@
 import axios from "axios";
 import moment from "moment";
 import "moment-timezone";
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
@@ -17,7 +16,7 @@ const dayDate = ["일", "월", "화", "수", "목", "금", "토"];
 
 const Meal = () => {
   const [userInfo, setUserInfo] = useRecoilState(myInfoAtom);
-  const [classInfo, setClassInfo] = useState([Math.floor(userInfo.number / 1000), Math.floor(userInfo.number / 100 % 10)]);
+  const [classInfo, setClassInfo] = useState(userInfo && [Math.floor(userInfo.number / 1000), Math.floor(userInfo.number / 100 % 10)]);
   const [loading, setLoading] = useRecoilState(isLoadingAtom);
   const [date, setDate] = useState(moment().tz("Asia/Seoul"));
   const [mealData, setMealData] = useState({
@@ -67,8 +66,8 @@ const Meal = () => {
           <select 
             className={styles.titleSelect} 
             onChange={(e) => {
-              const grade = Math.floor(e.target.value / 10);
-              const class_ = e.target.value % 10;
+              const grade = Math.floor(Number(e.target.value) / 10);
+              const class_ = Number(e.target.value) % 10;
               setClassInfo([grade, class_]);
             }}
           > 

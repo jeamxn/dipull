@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
 import styles from "&/pages/Outing.module.css";
+import { OutingReturn } from "@/pages/api/outing";
 import { isAdminAtom, isLoadingAtom, userInfoAtom } from "@/utils/states";
 
 const MealInfo = ({ when, info, meal }) => {
@@ -44,11 +45,11 @@ const Outing = () => {
   const [checker, setChecker] = useRecoilState(userInfoAtom);
   const [isOpened, setIsOpened] = useState(false);
 
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<OutingReturn["data"]>(null);
 
   const LoadData = async () => {
     setLoading(true);
-    const {data: axiosData} = await axios({
+    const {data: axiosData}: {data: OutingReturn} = await axios({
       method: "GET",
       url: "/api/outing",
     });

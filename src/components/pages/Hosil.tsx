@@ -43,7 +43,7 @@ export default function Hosil() {
   const [count, setCount] = useState(false);
 
   const [roomData, setRoomData] = useState({});
-  const [selected, setSelected] = useState(["", 0]);
+  const [selected, setSelected] = useState<[string, number]>(["", 0]);
 
   const getData = async () => {
     setLoading(true);
@@ -57,7 +57,7 @@ export default function Hosil() {
     getData();
   }, []);
 
-  return (
+  return myInfo ? (
     <div className={styles.hosil}>
       <div className={styles.box}>
         <div className={styles.title}>호실 선택</div>
@@ -163,5 +163,5 @@ export default function Hosil() {
         
       </div>
     </div>
-  );
+  ) : null;
 }
