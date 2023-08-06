@@ -54,6 +54,7 @@ const Meal = () => {
         LoadMealData(),
         LoadTimetableData()
       ]);
+      isInitLoad.current = true;
     }
     catch {
       setMealData({
@@ -63,7 +64,6 @@ const Meal = () => {
       });
     }
     setLoading(false);
-    isInitLoad.current = true;
   };
 
   useEffect(() => {

@@ -35,14 +35,18 @@ const stayStates = async () => {
   const endHour = washerTime.end[0];
   const endMinute = washerTime.end[1];
 
-  const today = moment();
-  const [hour, minute] = moment.tz(today, "Asia/Seoul").format("HH:mm").split(":");
+  const start = moment().tz("Asia/Seoul");
+  start.hour(startHour);
+  start.minute(startMinute);
+  const end = moment().tz("Asia/Seoul");
+  end.hour(endHour);
+  end.minute(endMinute);
 
-  const isWasherAvailable = 
-    (hour > startHour || (hour === startHour && minute >= startMinute)) 
-    && (hour < endHour || (hour === endHour && minute <= endMinute));
+  const today = moment().tz("Asia/Seoul");
 
-  
+  // today가 start와 end 사이인지 bool
+  const isWasherAvailable = today.isBetween(start, end);
+
   const returndata: StayStates = {
     isStay: isWeekend() || isStay,
     isWasherAvailable,
