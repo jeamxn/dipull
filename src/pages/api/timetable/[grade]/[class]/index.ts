@@ -15,8 +15,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 type D = {
-  teacher: String;
-  subject: String;
+  teacher: string;
+  subject: string;
 };
 type ComsiganData = {
   status: string,
