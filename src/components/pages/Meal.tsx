@@ -27,6 +27,7 @@ const Meal = () => {
     dinner: null
   });
   const [timetableData, setTimetableData] = useState<TimetableReturn[][]>(null);
+  const isInitLoad = React.useRef(false);
 
   const LoadMealData = async () => {
     const { data } = await axios({
@@ -62,6 +63,7 @@ const Meal = () => {
       });
     }
     setLoading(false);
+    isInitLoad.current = true;
   };
 
   useEffect(() => {
@@ -69,7 +71,7 @@ const Meal = () => {
   }, [date, classInfo]);
 
   useEffect(() => {
-    (async () => {
+    isInitLoad.current && (async () => {
       setLoading(true);
       await LoadTimetableData();
       setLoading(false);
