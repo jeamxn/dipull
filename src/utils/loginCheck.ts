@@ -1,6 +1,5 @@
+import axios from "axios";
 import { NextRouter } from "next/router";
-
-const { default: axios } = require("axios");
 
 const loginCheck = async (
   setMyInfo: Function,
