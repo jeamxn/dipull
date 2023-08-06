@@ -14,7 +14,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   else if(req.method === "DELETE") del(req, res, id);
 };
 
-type D = {
+export type TimetableReturn = {
   teacher: string;
   subject: string;
 };
@@ -22,7 +22,7 @@ type ComsiganData = {
   status: string,
   data: {
     [grade: string]: {
-      [class_: string]: D[][];
+      [class_: string]: TimetableReturn[][];
     }
   }
 };
@@ -36,9 +36,9 @@ const get = async (
 
   try{
     const {data} = await axios.get("https://api.2w.vc/comcigan/getTimetable/29175") as {data: ComsiganData};
-    const d: D[][] = data.data[grade][class_].map(v1 => {
-      const v1Map: D[] = v1.map(v2 => {
-        const v2Map: D = {
+    const d: TimetableReturn[][] = data.data[grade][class_].map(v1 => {
+      const v1Map: TimetableReturn[] = v1.map(v2 => {
+        const v2Map: TimetableReturn = {
           subject: v2.subject,
           teacher: v2.teacher,
         };
@@ -46,7 +46,7 @@ const get = async (
       });
       return v1Map;
     });
-    const dByTime: D[][] = [];
+    const dByTime: TimetableReturn[][] = [];
     for(let i = 0; i < 7; i++) {
       dByTime.push([]);
       for(let j = 0; j < 5; j++) {
