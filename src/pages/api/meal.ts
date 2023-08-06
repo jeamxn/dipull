@@ -18,6 +18,16 @@ const handler = async (
   else if(req.method === "DELETE") del(req, res, id);
 };
 
+export type MealReturn = {
+  status: string;
+  date: string;
+  meal: {
+    breakfast: string;
+    lunch: string;
+    dinner: string;
+  }
+};
+
 const get = async (
   req: NextApiRequest, 
   res: NextApiResponse, 
@@ -30,7 +40,7 @@ const get = async (
   }
 
   try{
-    const {data} = await axios({
+    const {data}: {data: MealReturn} = await axios({
       method: "GET",
       url: `https://디미고급식.com/api/${date}`,
     });

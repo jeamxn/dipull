@@ -6,6 +6,8 @@ import { useRecoilState } from "recoil";
 
 import styles from "&/pages/Meal.module.css";
 import MealTime from "@/components/MealTime";
+import { MealReturn } from "@/pages/api/meal";
+import { TimetableReturn } from "@/pages/api/timetable/[grade]/[class]";
 import { isLoadingAtom, myInfoAtom } from "@/utils/states";
 
 const dateToString = (date) => {
@@ -19,29 +21,31 @@ const Meal = () => {
   const [classInfo, setClassInfo] = useState(userInfo && [Math.floor(userInfo.number / 1000), Math.floor(userInfo.number / 100 % 10)]);
   const [loading, setLoading] = useRecoilState(isLoadingAtom);
   const [date, setDate] = useState(moment().tz("Asia/Seoul"));
-  const [mealData, setMealData] = useState({
+  const [mealData, setMealData] = useState<MealReturn["meal"]>({
     breakfast: null,
     lunch: null,
     dinner: null
   });
-  const [timetableData, setTimetableData] = useState(null);
+  const [timetableData, setTimetableData] = useState<TimetableReturn[][]>(null);
 
   const LoadData = async () => {
     setLoading(true);
     try{
-      const {data} = await axios({
-        method: "GET",
-        url: "/api/meal",
-        params: {
-          date: dateToString(date)
-        }
-      });
+      const monday = date.clone().startOf("isoWeek");
+      const [{data}, {data: timetable}] = await Promise.all([
+        axios({
+          method: "GET",
+          url: "/api/meal",
+          params: {
+            date: dateToString(monday)
+          }
+        }),
+        axios({
+          method: "GET",
+          url: `/api/timetable/${classInfo[0]}/${classInfo[1]}`,
+        })
+      ]);
       setMealData(data.meal);
-
-      const {data: timetable} = await axios({
-        method: "GET",
-        url: `/api/timetable/${classInfo[0]}/${classInfo[1]}`,
-      });
       setTimetableData(timetable);
     }
     catch {
@@ -70,6 +74,7 @@ const Meal = () => {
               const class_ = Number(e.target.value) % 10;
               setClassInfo([grade, class_]);
             }}
+            defaultValue={classInfo[0] * 10 + classInfo[1]}
           > 
             {
               Array(3).fill(0).map((_, i) => {
@@ -79,7 +84,7 @@ const Meal = () => {
                       Array(6).fill(0).map((_, j) => (
                         <option 
                           key={j}
-                          selected={classInfo[0] === i + 1 && classInfo[1] === j + 1}
+                          // selected={classInfo[0] === i + 1 && classInfo[1] === j + 1}
                           value={(i + 1) * 10 + j + 1}
                         >
                           {i + 1}학년 {j + 1}반
