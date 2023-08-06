@@ -28,27 +28,26 @@ const Meal = () => {
   });
   const [timetableData, setTimetableData] = useState<TimetableReturn[][]>(null);
 
+  const LoadMealData = async () => {
+    const { data } = await axios({
+      method: "GET",
+      url: "/api/meal",
+      params: {
+        date: dateToString(date)
+      }
+    });
+    setMealData(data.meal);
+    return;
+  };
+  const LoadTimetableData = async () => {
+    const { data } = await axios({
+      method: "GET",
+      url: `/api/timetable/${classInfo[0]}/${classInfo[1]}`,
+    });
+    setTimetableData(data);
+  };
   const LoadData = async () => {
     setLoading(true);
-    const LoadMealData = async () => {
-      const { data } = await axios({
-        method: "GET",
-        url: "/api/meal",
-        params: {
-          date: dateToString(date)
-        }
-      });
-      setMealData(data.meal);
-      return;
-    };
-    const LoadTimetableData = async () => {
-      if(timetableData) return;
-      const { data } = await axios({
-        method: "GET",
-        url: `/api/timetable/${classInfo[0]}/${classInfo[1]}`,
-      });
-      setTimetableData(data);
-    };
     try{
       await Promise.all([
         LoadMealData(),
@@ -68,6 +67,14 @@ const Meal = () => {
   useEffect(() => {
     LoadData();
   }, [date, classInfo]);
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      await LoadTimetableData();
+      setLoading(false);
+    })();
+  }, [classInfo]);
 
   return (
     <div className={styles.meal}>
