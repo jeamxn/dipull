@@ -56,7 +56,7 @@ const Edit = () => {
               <div className={styles.rowInput}>
                 <input
                   type="number"
-                  value={myNumber.replace(/[^0-9]/g, "")}
+                  value={myNumber?.replace(/[^0-9]/g, "")}
                   onChange={(e) => {
                     if(e.target.value.length > 4) return;
                     if(!(0<= Number(e.target.value[0]) && Number(e.target.value[0]) <= 9) && e.target.value[0]) return;
@@ -68,7 +68,7 @@ const Edit = () => {
                 />
                 <input
                   type="text"
-                  value={myName.replaceAll(" ", "")}
+                  value={myName?.replaceAll(" ", "")}
                   onChange={(e) => setMyName(e.target.value)}
                   className={styles.input}
                   placeholder="이름"
