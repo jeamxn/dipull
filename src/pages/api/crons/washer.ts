@@ -7,8 +7,6 @@ const handler = async (
   req: NextApiRequest, 
   res: NextApiResponse
 ) => {
-  // const date = moment()
-  // momnet time zone 
   const date = moment().tz("Asia/Seoul");
   if(date.hour() !== 0) return;
 
