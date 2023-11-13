@@ -1,6 +1,6 @@
 const readingRoomStay = [
   {
-    "grade": [1, 2],
+    "grade": [1],
     "gender": "male",
     "color": "#eb8334",
     "seat": {
@@ -13,7 +13,7 @@ const readingRoomStay = [
     }
   },
   {
-    "grade": [1, 2],
+    "grade": [1],
     "gender": "female",
     "color": "#c86dfc",
     "seat": {
@@ -23,7 +23,7 @@ const readingRoomStay = [
     }
   },
   {
-    "grade": [3],
+    "grade": [2],
     "gender": "male",
     "color": "#3B89FF",
     "seat": {
@@ -44,7 +44,7 @@ const readingRoomStay = [
     },
   },
   {
-    "grade": [3],
+    "grade": [2],
     "gender": "female",
     "color": "#D65562",
     "seat": {
