@@ -7,6 +7,7 @@ import styles from "%/Home.module.css";
 import DefaultHead from "@/components/DefaultHead";
 import Header from "@/components/Header";
 import Loading from "@/components/Loading";
+import Dry from "@/components/pages/Dry";
 import Hosil from "@/components/pages/Hosil";
 import Meal from "@/components/pages/Meal";
 import Outing from "@/components/pages/Outing";
@@ -29,6 +30,10 @@ const menu: Menu[] = [
   {
     name: "세탁",
     body: Wash
+  },
+  {
+    name: "건조",
+    body: Dry
   },
   {
     name: "잔류",

@@ -70,12 +70,20 @@ const get = async (
   });
   const isWash = searchMyWashData ? true : false;
 
+  const dryCollection = client.db().collection("dry");
+  const searchMyDryData = await dryCollection.findOne({ 
+    owner: name,
+    date: `${year}-${month}-${day}`
+  });
+  const isDry = searchMyDryData ? true : false;
+
   const rtn = {
     ...userInfo,
     userInfo: {
       stay: isStay,
       outing: isOuting,
-      wash: isWash
+      wash: isWash,
+      dry: isDry,
     }
   };
 

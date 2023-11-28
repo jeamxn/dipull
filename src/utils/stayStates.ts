@@ -18,6 +18,7 @@ export type StayStates = {
   _id: string;
   isStay: boolean;
   isWasherAvailable: boolean;
+  isDryerAvailable: boolean;
   isOpened: boolean[];
   isClassStay: boolean;
   isHosil: boolean;
@@ -46,10 +47,12 @@ const stayStates = async () => {
 
   // today가 start와 end 사이인지 bool
   const isWasherAvailable = today.isBetween(start, end);
+  const isDryerAvailable = today.isBetween(start, end);
 
   const returndata: StayStates = {
     isStay: isWeekend() || isStay,
     isWasherAvailable,
+    isDryerAvailable,
     ...searchStates,
     ...fixedData
   };
