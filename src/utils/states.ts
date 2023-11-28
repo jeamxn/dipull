@@ -20,6 +20,7 @@ export const userInfoAtom = atom<UserInfoReturn["userInfo"]>({
     stay: false,
     outing: false,
     wash: false,
+    dry: false,
   },
 });
 

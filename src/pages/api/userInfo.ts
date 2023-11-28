@@ -35,6 +35,7 @@ export type UserInfoReturn = UserInfo & {
     stay: boolean;
     outing: boolean;
     wash: boolean;
+    dry: boolean;
   }
 }
 
