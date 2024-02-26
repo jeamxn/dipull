@@ -7,8 +7,8 @@ import { verify } from "@/utils/jwt";
 
 export const middleware = async (request: NextRequest) => {
   const accessToken = ( cookies().get("accessToken")?.value || "" ) as string;
-  console.log(accessToken, verify(accessToken));
-  if(verify(accessToken).ok)
+  console.log(accessToken, await verify(accessToken));
+  if((await verify(accessToken)).ok)
     return NextResponse.next();
   else
     return NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_REDIRECT_URI!));

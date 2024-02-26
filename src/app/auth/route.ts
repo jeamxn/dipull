@@ -32,8 +32,8 @@ export const GET = async (req: NextApiRequest) => {
       exp: number;
     };
 
-  const refreshToken = refresh(data.data.openId);
-  const accessToken = sign(data.data.openId);
+  const refreshToken = await refresh(data.data.openId);
+  const accessToken = await sign(data.data.openId);
   console.log("1");
     
   const client = await connectToDatabase();

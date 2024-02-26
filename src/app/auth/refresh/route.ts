@@ -29,7 +29,7 @@ export const GET = async (req: NextApiRequest) => {
   const query = { refreshToken };
   const user = await userCollection.findOne(query);
   const userId = user?.id;
-  const newAccessToken = sign(userId);
+  const newAccessToken = await sign(userId);
   console.log("3");
 
   const accessTokenCookie = serialize("accessToken", newAccessToken, {
@@ -43,7 +43,7 @@ export const GET = async (req: NextApiRequest) => {
   if(!refreshVerify(refreshToken)) {
     console.log("5");
     
-    const newRefreshToken = refresh(userId);
+    const newRefreshToken = await refresh(userId);
     await userCollection.updateOne(query, {
       $set: {
         refreshToken: newRefreshToken,

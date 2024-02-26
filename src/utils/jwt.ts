@@ -1,22 +1,25 @@
-import jwt from "jsonwebtoken";
-const secret = process.env.JWT_SECRET!;
+import * as jose from "jose";
+
+const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
 
 // access Token 발급
-const sign = (userId: string) => {
-  return jwt.sign({ id: userId }, secret, {
-    algorithm: "HS256", // 암호화 알고리즘
-    expiresIn: "10m", // 유효기간
-  });
+const sign = async (userId: string) => {
+  return new jose.SignJWT({
+    id: userId,
+  })
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .sign(secret);
 };
 
 // access Token 검증
-const verify = (token: string) => {
-  let decoded: any = null;
+const verify = async (token: string) => {
   try {
-    decoded = jwt.verify(token, secret);
+    const result = await jose.jwtVerify(token, secret, {
+    });
     return {
       ok: true,
-      userId: decoded.id,
+      userId: result.payload.id,
     };
   } catch (error: any) {
     return {
@@ -27,16 +30,19 @@ const verify = (token: string) => {
 };
 
 // refresh Token 발급
-const refresh = (userId: string) => {
-  return jwt.sign({ id: userId }, secret, {
-    algorithm: "HS256",
-    expiresIn: "14d", // 유효기간
-  });
+const refresh = async (userId: string) => {
+  return new jose.SignJWT({
+    id: userId,
+  })
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("14d")
+    .sign(secret);
 };
 
-const refreshVerify = (token: string) => {
+const refreshVerify = async (token: string) => {
   try {
-    jwt.verify(token, secret);
+    await jose.jwtVerify(token, secret, {
+    });
     return true;
   } catch (error) {
     return false;
