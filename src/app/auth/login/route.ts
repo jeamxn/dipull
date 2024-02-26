@@ -8,6 +8,16 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import { refresh, sign } from "@/utils/jwt";
 
+export type UserData = {
+  id: string;
+  profile_image: string;
+  thumbnail_image: string;
+  gender: string;
+  name: string;
+  number: number;
+  refreshToken: string;
+}
+
 export const GET = async (req: NextApiRequest) => {
   // 디미고인에서 받은 토큰 가져오기
   const { searchParams } = new URL(req.url!);
@@ -39,15 +49,9 @@ export const GET = async (req: NextApiRequest) => {
 
   // refresh, access 토큰 발급
   const refreshToken = await refresh(data.data.openId);
-  const accessToken = await sign(data.data.openId);
-    
-  // DB 업데이트
-  const client = await connectToDatabase();
-  const userCollection = client.db().collection("users");
-  const query = { id: data.data.openId };
-  const update_data = {
+
+  const update_data: UserData = {
     id: data.data.openId,
-    nickname: data.data.name,
     profile_image: "http://k.kakaocdn.net/dn/1G9kp/btsAot8liOn/8CWudi3uy07rvFNUkk3ER0/img_640x640.jpg",
     thumbnail_image: "http://k.kakaocdn.net/dn/1G9kp/btsAot8liOn/8CWudi3uy07rvFNUkk3ER0/img_640x640.jpg",
     gender: data.data.gender,
@@ -55,6 +59,23 @@ export const GET = async (req: NextApiRequest) => {
     number: data.data.studentId.grade * 1000 + data.data.studentId.class * 100 + data.data.studentId.number,
     refreshToken,
   };
+
+  const accessToken = await sign({
+    id: update_data.id,
+    data: {
+      id: update_data.id,
+      profile_image: update_data.profile_image,
+      thumbnail_image: update_data.thumbnail_image,
+      gender: update_data.gender,
+      name: update_data.name,
+      number: update_data.number,
+    }
+  });
+    
+  // DB 업데이트
+  const client = await connectToDatabase();
+  const userCollection = client.db().collection("users");
+  const query = { id: data.data.openId };
   const update = {
     $set: update_data,
   };
@@ -62,11 +83,6 @@ export const GET = async (req: NextApiRequest) => {
   await userCollection.updateOne(query, update, options);
 
   // 쿠키 설정
-  const accessTokenCookie = serialize("accessToken", accessToken, {
-    path: "/",
-    expires: moment().add(10, "minute").toDate(),
-    httpOnly: true,
-  });
   const refreshTokenCookie = serialize("refreshToken", refreshToken, {
     path: "/",
     expires: moment().add(30, "days").toDate(),
@@ -76,12 +92,14 @@ export const GET = async (req: NextApiRequest) => {
   // 헤더 설정
   const headers = new Headers();
   headers.append("Content-Type", "application/json; charset=utf-8");
-  headers.append("Set-Cookie", accessTokenCookie);
   headers.append("Set-Cookie", refreshTokenCookie);
 
   // 응답
-  return NextResponse.redirect(new URL("/", process.env.NEXT_PUBLIC_REDIRECT_URI!), {
-    status: 302,
+  return new NextResponse(JSON.stringify({
+    message: "로그인 성공.",
+    accessToken: accessToken
+  }), {
+    status: 200,
     headers: headers
   });
 };

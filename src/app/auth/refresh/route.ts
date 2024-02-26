@@ -7,6 +7,8 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import { refresh, sign } from "@/utils/jwt";
 
+import { UserData } from "../login/route";
+
 export const GET = async (req: NextApiRequest) => {
   // 쿠키 확인
   const refreshToken = cookies().get("refreshToken")?.value || "";
@@ -31,11 +33,21 @@ export const GET = async (req: NextApiRequest) => {
 
   // 유저 확인
   const query = { refreshToken };
-  const user = await userCollection.findOne(query);
+  const user = (await userCollection.findOne(query) || {}) as UserData;
   const userId = user?.id;
 
   // 새 accessToken 발급
-  const newAccessToken = await sign(userId);
+  const newAccessToken = await sign({
+    id: user.id,
+    data: {
+      id: user.id,
+      profile_image: user.profile_image,
+      thumbnail_image: user.thumbnail_image,
+      gender: user.gender,
+      name: user.name,
+      number: user.number,
+    }
+  });
 
   // refreshToken 갱신
   const newRefreshToken = await refresh(userId);
@@ -46,13 +58,6 @@ export const GET = async (req: NextApiRequest) => {
   });
 
   // 쿠키 설정
-  const accessTokenCookie = serialize("accessToken", newAccessToken, {
-    path: "/",
-    expires: moment().add(10, "minute").toDate(),
-    httpOnly: true,
-  });
-  headers.append("Set-Cookie", accessTokenCookie);
-
   const refreshTokenCookie = serialize("refreshToken", newRefreshToken, {
     path: "/",
     expires: moment().add(30, "days").toDate(),

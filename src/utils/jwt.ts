@@ -3,10 +3,18 @@ import * as jose from "jose";
 const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
 
 // access Token 발급
-const sign = async (userId: string) => {
-  return new jose.SignJWT({
-    id: userId,
-  })
+const sign = async (data: {
+  id: string;
+  data: {
+    id: string;
+    profile_image: string;
+    thumbnail_image: string;
+    gender: string;
+    name: string;
+    number: number;
+  }
+}) => {
+  return new jose.SignJWT(data)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .sign(secret);
@@ -19,6 +27,7 @@ const verify = async (token: string) => {
     return {
       ok: true,
       userId: result.payload.id,
+      payload: result.payload,
     };
   } catch (error: any) {
     return {

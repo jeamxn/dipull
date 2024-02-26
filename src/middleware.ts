@@ -5,12 +5,11 @@ import { NextResponse } from "next/server";
 import { verify } from "@/utils/jwt";
 
 export const middleware = async (request: NextRequest) => {
-  // accessToken, refreshToken 가져오기
-  const accessToken = cookies().get("accessToken")?.value || "";
+  // refreshToken 가져오기
   const refreshToken = cookies().get("refreshToken")?.value || "";
 
   // 토큰 검증
-  if((await verify(accessToken)).ok || (await verify(refreshToken)).ok)
+  if((await verify(refreshToken)).ok)
     return NextResponse.next();
   else
     return NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_REDIRECT_URI!));
