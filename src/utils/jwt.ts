@@ -15,8 +15,7 @@ const sign = async (userId: string) => {
 // access Token 검증
 const verify = async (token: string) => {
   try {
-    const result = await jose.jwtVerify(token, secret, {
-    });
+    const result = await jose.jwtVerify(token, secret);
     return {
       ok: true,
       userId: result.payload.id,
@@ -39,14 +38,4 @@ const refresh = async (userId: string) => {
     .sign(secret);
 };
 
-const refreshVerify = async (token: string) => {
-  try {
-    await jose.jwtVerify(token, secret, {
-    });
-    return true;
-  } catch (error) {
-    return false;
-  }
-};
-
-export { sign, verify, refresh, refreshVerify };
+export { sign, verify, refresh };

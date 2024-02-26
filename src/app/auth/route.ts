@@ -1,6 +1,6 @@
 import axios from "axios";
 import { serialize } from "cookie";
-import jwt from "jsonwebtoken";
+import * as jose from "jose";
 import moment from "moment";
 import type { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
@@ -9,33 +9,39 @@ import { connectToDatabase } from "@/utils/db";
 import { refresh, sign } from "@/utils/jwt";
 
 export const GET = async (req: NextApiRequest) => {
+  // 디미고인에서 받은 토큰 가져오기
   const { searchParams } = new URL(req.url!);
   const token = searchParams.get("token") || "";
+
+  // 디미고인 퍼블릭 키 가져오기
   const public_key = await axios.get(`${process.env.NEXT_PUBLIC_DIMIGOIN_URI}/auth/public`);
+  const public_key_encodes = await jose.importSPKI(public_key.data, "RS256");
 
-  const decodedToken = jwt.verify(token, public_key.data);
-  const data = decodedToken as {
-      data: {
-        type: string;
-        openId: string;
-        name: string;
-        gender: string;
-        studentId: {
-          grade: number;
-          class: number;
-          number: number;
-        }
-      },
-      iss: string;
-      aud: string;
-      iat: number;
-      exp: number;
-    };
+  // 디미고인 토큰 디코딩
+  const decodedToken = await jose.jwtVerify(token, public_key_encodes);
+  const data = decodedToken.payload as {
+    data: {
+      type: string;
+      openId: string;
+      name: string;
+      gender: string;
+      studentId: {
+        grade: number;
+        class: number;
+        number: number;
+      }
+    },
+    iss: string;
+    aud: string;
+    iat: number;
+    exp: number;
+  };
 
+  // refresh, access 토큰 발급
   const refreshToken = await refresh(data.data.openId);
   const accessToken = await sign(data.data.openId);
-  console.log("1");
     
+  // DB 업데이트
   const client = await connectToDatabase();
   const userCollection = client.db().collection("users");
   const query = { id: data.data.openId };
@@ -53,11 +59,9 @@ export const GET = async (req: NextApiRequest) => {
     $set: update_data,
   };
   const options = { upsert: true };
-  const result = await userCollection.updateOne(query, update, options);
-  console.log(result);
-  const user = await userCollection.findOne(query);
-  console.log("2");
+  await userCollection.updateOne(query, update, options);
 
+  // 쿠키 설정
   const accessTokenCookie = serialize("accessToken", accessToken, {
     path: "/",
     expires: moment().add(10, "minute").toDate(),
@@ -69,11 +73,13 @@ export const GET = async (req: NextApiRequest) => {
     httpOnly: true,
   });
 
+  // 헤더 설정
   const headers = new Headers();
   headers.append("Content-Type", "application/json; charset=utf-8");
   headers.append("Set-Cookie", accessTokenCookie);
   headers.append("Set-Cookie", refreshTokenCookie);
 
+  // 응답
   return NextResponse.redirect(new URL("/", process.env.NEXT_PUBLIC_REDIRECT_URI!), {
     status: 302,
     headers: headers

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { cookies } from "next/headers";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
@@ -6,13 +5,15 @@ import { NextResponse } from "next/server";
 import { verify } from "@/utils/jwt";
 
 export const middleware = async (request: NextRequest) => {
-  const accessToken = ( cookies().get("accessToken")?.value || "" ) as string;
-  console.log(accessToken, await verify(accessToken));
-  if((await verify(accessToken)).ok)
+  // accessToken, refreshToken 가져오기
+  const accessToken = cookies().get("accessToken")?.value || "";
+  const refreshToken = cookies().get("refreshToken")?.value || "";
+
+  // 토큰 검증
+  if((await verify(accessToken)).ok || (await verify(refreshToken)).ok)
     return NextResponse.next();
   else
     return NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_REDIRECT_URI!));
-
 };
 
 export const config = {
