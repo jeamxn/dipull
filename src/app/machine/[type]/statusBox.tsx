@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Machine } from "@/app/api/machine/[type]/route";
+import { Machine } from "@/app/api/machine/[type]/utils";
 
-import { machineToKorean } from "./page";
+import { machineToKorean } from "./utils";
 
 const StatusBox = ({
   name,
