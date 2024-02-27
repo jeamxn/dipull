@@ -73,21 +73,17 @@ input, textarea, button, select {
 }
 
 .loading_background {
-  animation-duration: 5s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: infinite;
-  animation-name: placeHolderShimmer;
-  animation-timing-function: linear;
+  animation: placeHolderShimmer .75s ease-in-out infinite alternate;
   background-color: rgb(var(--color-white) / 1);
-  background: linear-gradient(-45deg, rgb(var(--color-white) / 1) 8%, rgb(var(--color-text) / 0.1) 18%, rgb(var(--color-white) / 1) 33%);
-  background-size: 800px 104px;
+  background: linear-gradient(to left, rgb(var(--color-white) / 1) 0%, rgb(var(--color-text) / 0.1) 50%, rgb(var(--color-white) / 1) 100%);
+  background-size: 200% 100%;
 }
 
 @keyframes placeHolderShimmer {
   0% {
-    background-position: -800px 0
+    background-position: 0 0
   }
   100% {
-    background-position: 800px 0
+    background-position: -100% 0
   }
 }
