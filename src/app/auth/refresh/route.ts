@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import { refresh, sign, verify } from "@/utils/jwt";
 
-import { UserData } from "../login/route";
+import type { DB_userData, TokenInfo } from "../type";
 
 export const GET = async (req: NextApiRequest) => {
   // 쿠키 확인
@@ -33,11 +33,11 @@ export const GET = async (req: NextApiRequest) => {
 
   // 유저 확인
   const query = { refreshToken };
-  const user = (await userCollection.findOne(query) || {}) as UserData;
+  const user = (await userCollection.findOne(query) || {}) as DB_userData;
   const userId = user?.id;
 
   // 새 accessToken 발급
-  const newAccessToken = await sign({
+  const accessTokenValue: TokenInfo = {
     id: user.id,
     data: {
       id: user.id,
@@ -47,7 +47,8 @@ export const GET = async (req: NextApiRequest) => {
       name: user.name,
       number: user.number,
     }
-  });
+  };
+  const newAccessToken = await sign(accessTokenValue);
 
   // refreshToken 갱신
   const newRefreshToken = await refresh(userId);

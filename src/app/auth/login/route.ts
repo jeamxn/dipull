@@ -8,15 +8,7 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import { refresh, sign } from "@/utils/jwt";
 
-export type UserData = {
-  id: string;
-  profile_image: string;
-  thumbnail_image: string;
-  gender: string;
-  name: string;
-  number: number;
-  refreshToken: string;
-}
+import type { DB_userData, TokenInfo } from "../type";
 
 export const GET = async (req: NextApiRequest) => {
   // 디미고인에서 받은 토큰 가져오기
@@ -50,7 +42,7 @@ export const GET = async (req: NextApiRequest) => {
   // refresh, access 토큰 발급
   const refreshToken = await refresh(data.data.openId);
 
-  const update_data: UserData = {
+  const update_data: DB_userData = {
     id: data.data.openId,
     profile_image: "http://k.kakaocdn.net/dn/1G9kp/btsAot8liOn/8CWudi3uy07rvFNUkk3ER0/img_640x640.jpg",
     thumbnail_image: "http://k.kakaocdn.net/dn/1G9kp/btsAot8liOn/8CWudi3uy07rvFNUkk3ER0/img_640x640.jpg",
@@ -60,7 +52,7 @@ export const GET = async (req: NextApiRequest) => {
     refreshToken,
   };
 
-  const accessToken = await sign({
+  const accessTokenValue: TokenInfo = {
     id: update_data.id,
     data: {
       id: update_data.id,
@@ -70,7 +62,9 @@ export const GET = async (req: NextApiRequest) => {
       name: update_data.name,
       number: update_data.number,
     }
-  });
+  };
+
+  const accessToken = await sign(accessTokenValue);
     
   // DB 업데이트
   const client = await connectToDatabase();
