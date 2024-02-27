@@ -61,7 +61,7 @@ const Insider = ({
         </article>
         <article className="w-full p-5 border-b border-text/10 flex flex-row items-center gap-4">
           <img src={userInfo.profile_image} alt={userInfo.name} width={60} height={60} className="rounded-full" />
-          <figure className="flex flex-col gap-1 justify-center items-start">
+          <figure className="flex flex-col justify-center items-start">
             <p className="font-semibold text-lg">{userInfo.number} {userInfo.name}</p>
             <button onClick={logout} className="text-sm text-text/40 hover:text-primary transition-colors">로그아웃</button>
           </figure>
