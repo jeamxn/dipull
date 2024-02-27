@@ -26,4 +26,12 @@ const Login = () => {
   );
 };
 
-export default Login;
+const ExportLogin = () => {
+  return (
+    <React.Suspense>
+      <Login />
+    </React.Suspense>
+  );
+};
+
+export default ExportLogin;
