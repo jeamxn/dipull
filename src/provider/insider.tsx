@@ -75,8 +75,8 @@ const Insider = ({
                   key={index} 
                   href={item.url}
                   className={[
-                    "w-full text-center py-3 text-sm font-semibold text-text/40",
-                    isCurrentPage ? "border-b-2 border-primary text-text/100" : ""
+                    "w-full text-center py-3 text-sm font-semibold",
+                    isCurrentPage ? "border-b-2 border-primary text-text/100" : "text-text/40"
                   ].join(" ")}
                 >
                   {item.name}
