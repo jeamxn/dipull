@@ -1,8 +1,28 @@
+import * as jose from "jose";
 import React from "react";
 
+import { TokenInfo } from "@/app/auth/type";
+import instance from "@/utils/instance";
+
 const Timetable = () => {
-  const [gradeClass, setGradeClass] = React.useState(11);
-  
+  const [gradeClass, setGradeClass] = React.useState(0);
+
+  React.useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken")!;
+    const decrypt = jose.decodeJwt(accessToken) as TokenInfo;
+    setGradeClass(Math.floor(decrypt.data.number / 100));
+  }, []);
+
+  const getTimetable = async () => {
+    const res = await instance.get(`/api/timetable/${Math.floor(gradeClass / 10)}/${gradeClass % 10}`);
+    console.log(res.data);
+  };
+
+  React.useEffect(() => {
+    if(gradeClass === 0) return;
+    getTimetable();
+  }, [gradeClass]);
+
   return (
     <article>
       <h1 className="text-xl font-semibold flex flex-row gap-2 items-center">
@@ -25,6 +45,9 @@ const Timetable = () => {
           }
         </select>
       </h1>
+      <table>
+        
+      </table>
     </article>
   );
 };
