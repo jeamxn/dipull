@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { connectToDatabase } from "@/utils/db";
-import { refresh, sign } from "@/utils/jwt";
+import { refresh, sign, verify } from "@/utils/jwt";
 
 import { UserData } from "../login/route";
 
@@ -18,7 +18,7 @@ export const GET = async (req: NextApiRequest) => {
   headers.append("Content-Type", "application/json; charset=utf-8");
   
   // 로그인 확인
-  if(!refreshToken) {
+  if(!refreshToken || !(await verify(refreshToken)).ok) {
     return new Response(JSON.stringify({
       message: "로그인이 필요합니다.",
     }), {

@@ -1,11 +1,13 @@
 "use client";
 
+import * as jose from "jose";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 import instance from "@/utils/instance";
 
 export default function Home() {
+  const decrypt = jose.decodeJwt(localStorage.getItem("accessToken")!);
   const router = useRouter();
 
   const fetch = async () => {
@@ -19,7 +21,7 @@ export default function Home() {
   };
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      asdf
+      {JSON.stringify(decrypt)}
       <button onClick={fetch}>fetch</button>
       <button onClick={logout}>logout</button>
     </main>
