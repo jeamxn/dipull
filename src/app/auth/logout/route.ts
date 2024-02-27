@@ -1,6 +1,5 @@
 import { serialize } from "cookie";
 import moment from "moment";
-import type { NextApiRequest } from "next";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import "moment-timezone";
@@ -8,7 +7,7 @@ import "moment-timezone";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-export const GET = async (req: NextApiRequest) => {
+export const GET = async (req: Request) => {
   // 헤더 설정
   const new_headers = new Headers();
   new_headers.append("Content-Type", "application/json; charset=utf-8");

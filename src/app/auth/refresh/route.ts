@@ -1,6 +1,5 @@
 import { serialize } from "cookie";
 import moment from "moment";
-import type { NextApiRequest } from "next";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import "moment-timezone";
@@ -10,7 +9,7 @@ import { refresh, sign, verify } from "@/utils/jwt";
 
 import type { DB_userData, TokenInfo } from "../type";
 
-export const GET = async (req: NextApiRequest) => {
+export const GET = async (req: Request) => {
   // 쿠키 확인
   const refreshToken = cookies().get("refreshToken")?.value || "";
 

@@ -2,7 +2,6 @@ import axios from "axios";
 import { serialize } from "cookie";
 import * as jose from "jose";
 import moment from "moment";
-import type { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 import "moment-timezone";
 
@@ -11,7 +10,7 @@ import { refresh, sign } from "@/utils/jwt";
 
 import type { DB_userData, TokenInfo } from "../type";
 
-export const GET = async (req: NextApiRequest) => {
+export const GET = async (req: Request) => {
   // 디미고인에서 받은 토큰 가져오기
   const { searchParams } = new URL(req.url!);
   const token = searchParams.get("token") || "";
