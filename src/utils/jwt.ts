@@ -10,7 +10,6 @@ const sign = async (data: {
   data: {
     id: string;
     profile_image: string;
-    thumbnail_image: string;
     gender: string;
     name: string;
     number: number;

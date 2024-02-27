@@ -45,8 +45,7 @@ export const GET = async (req: NextApiRequest) => {
 
   const update_data: DB_userData = {
     id: data.data.openId,
-    profile_image: "http://k.kakaocdn.net/dn/1G9kp/btsAot8liOn/8CWudi3uy07rvFNUkk3ER0/img_640x640.jpg",
-    thumbnail_image: "http://k.kakaocdn.net/dn/1G9kp/btsAot8liOn/8CWudi3uy07rvFNUkk3ER0/img_640x640.jpg",
+    profile_image: `${process.env.NEXT_PUBLIC_REDIRECT_URI}/profile.jpg`,
     gender: data.data.gender,
     name: data.data.name,
     number: data.data.studentId.grade * 1000 + data.data.studentId.class * 100 + data.data.studentId.number,
@@ -58,7 +57,6 @@ export const GET = async (req: NextApiRequest) => {
     data: {
       id: update_data.id,
       profile_image: update_data.profile_image,
-      thumbnail_image: update_data.thumbnail_image,
       gender: update_data.gender,
       name: update_data.name,
       number: update_data.number,

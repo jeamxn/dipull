@@ -43,7 +43,6 @@ export const GET = async (req: NextApiRequest) => {
     data: {
       id: user.id,
       profile_image: user.profile_image,
-      thumbnail_image: user.thumbnail_image,
       gender: user.gender,
       name: user.name,
       number: user.number,

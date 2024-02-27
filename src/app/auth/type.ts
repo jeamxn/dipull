@@ -1,7 +1,6 @@
 export type UserData = {
   id: string;
   profile_image: string;
-  thumbnail_image: string;
   gender: string;
   name: string;
   number: number;
@@ -10,7 +9,6 @@ export type UserData = {
 export const defaultUserData: UserData = {
   id: "",
   profile_image: "",
-  thumbnail_image: "",
   gender: "",
   name: "",
   number: 0,
