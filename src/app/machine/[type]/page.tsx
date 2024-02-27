@@ -70,7 +70,6 @@ const Machine = (
       const res = await instance.get(`/api/machine/${params.type}`);
       setData(res.data.data);
       setMyBooking(res.data.myBooking);
-      console.log(res.data);
     }
     catch(e){
       console.error(e);
@@ -85,9 +84,7 @@ const Machine = (
         machine: selectedMachine,
         time: selectedTime,
       });
-      console.log(res.data);
       await getWasherData();
-      alert(res.data.message);
     }
     catch(e: any){
       alert(e.response.data.message);
@@ -98,10 +95,10 @@ const Machine = (
   const remove = async () => {
     setLoading(true);
     try{
-      const res = await instance.delete(`/api/machine/${params.type}`);
-      console.log(res.data);
+      await instance.delete(`/api/machine/${params.type}`);
+      setSelectedMachine("");
+      setSelectedTime("");
       await getWasherData();
-      alert(res.data.message);
     }
     catch(e: any){
       alert(e.response.data.message);

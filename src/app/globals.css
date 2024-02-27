@@ -42,10 +42,15 @@ body {
   height: 100%;
   overflow-x: hidden;
   background: rgb(var(--color-background) / 0.7);
-  /* display: flex;
-  flex-direction: row;
+}
+html {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: center; */
+}
+body{
+  max-width: 700px;
 }
 
 a {

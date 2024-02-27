@@ -1,5 +1,4 @@
 import axios from "axios";
-import type { NextApiRequest } from "next";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -26,7 +25,7 @@ export type Meal = {
 };
 
 export const GET = async (
-  req: NextApiRequest,
+  req: Request,
   { params }: { params: Params }
 ) => {
   // 헤더 설정

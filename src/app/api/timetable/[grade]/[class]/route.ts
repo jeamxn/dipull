@@ -1,6 +1,5 @@
 import axios from "axios";
 import moment from "moment";
-import type { NextApiRequest } from "next";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -20,7 +19,7 @@ export type TimetableResponse = {
 };
 
 export const GET = async (
-  req: NextApiRequest,
+  req: Request,
   { params }: { params: Params }
 ) => {
   // 헤더 설정
