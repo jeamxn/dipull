@@ -4,6 +4,7 @@ import * as jose from "jose";
 import moment from "moment";
 import type { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
+import "moment-timezone";
 
 import { connectToDatabase } from "@/utils/db";
 import { refresh, sign } from "@/utils/jwt";
@@ -79,7 +80,7 @@ export const GET = async (req: NextApiRequest) => {
   // 쿠키 설정
   const refreshTokenCookie = serialize("refreshToken", refreshToken, {
     path: "/",
-    expires: moment().add(30, "days").toDate(),
+    expires: moment().tz("Asia/Seoul").add(30, "days").toDate(),
     httpOnly: true,
   });
 

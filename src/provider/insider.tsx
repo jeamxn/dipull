@@ -13,11 +13,11 @@ const menu = [
     name: "정보",
   },
   {
-    url: "/washer",
+    url: "/machine/washer",
     name: "세탁",
   },
   {
-    url: "/dryer",
+    url: "/machine/dryer",
     name: "건조",
   },
   {

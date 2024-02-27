@@ -1,5 +1,7 @@
 import * as jose from "jose";
 
+import { UserData } from "@/app/auth/type";
+
 const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
 
 // access Token 발급
@@ -26,8 +28,8 @@ const verify = async (token: string) => {
     const result = await jose.jwtVerify(token, secret);
     return {
       ok: true,
-      userId: result.payload.id,
-      payload: result.payload,
+      userId: result.payload.id as UserData["id"],
+      payload: result.payload as UserData,
     };
   } catch (error: any) {
     return {
