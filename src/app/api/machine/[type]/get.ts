@@ -7,7 +7,7 @@ import { UserData } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { MachineDB, Params, getDefaultValue } from "./route";
+import { MachineDB, Params, getDefaultValue } from "./utils";
 
 const GET = async (
   req: Request,

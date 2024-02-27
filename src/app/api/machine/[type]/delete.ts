@@ -8,7 +8,7 @@ import { TokenInfo, UserData } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { Params } from "./route";
+import { Params } from "./utils";
 
 const DELETE = async (
   req: Request,
