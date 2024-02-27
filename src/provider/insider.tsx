@@ -51,6 +51,11 @@ const Insider = ({
     router.push("/login");
     console.log(res.data);
   };
+  const fetch = async () => {
+    const res = await instance.get("/api");
+    console.log(res.data);
+    alert(res.data.message);
+  };
 
   const pathname = usePathname();
   return (
@@ -59,11 +64,14 @@ const Insider = ({
         <article className="w-full flex justify-center items-center border-b border-text/10 px-5 py-3">
           <p className="text-primary text-lg font-semibold">디미고인 풀 서비스 V3</p>
         </article>
-        <article className="w-full p-5 border-b border-text/10 flex flex-row items-center gap-4">
+        <article className="w-full py-5 px-8 border-b border-text/10 flex flex-row items-center gap-4">
           <img src={userInfo.profile_image} alt={userInfo.name} width={60} height={60} className="rounded-full" />
           <figure className="flex flex-col justify-center items-start">
             <p className="font-semibold text-lg">{userInfo.number} {userInfo.name}</p>
-            <button onClick={logout} className="text-sm text-text/40 hover:text-primary transition-colors">로그아웃</button>
+            <div className="flex flex-row gap-1">
+              <button onClick={logout} className="text-sm text-text/40 hover:text-primary transition-colors">로그아웃</button>
+              <button onClick={fetch} className="text-sm text-text/40 hover:text-primary transition-colors">fetch</button>
+            </div>
           </figure>
         </article>
         <nav className="px-5 w-full border-b border-text/10 flex flex-row justify-around gap-4">
@@ -86,7 +94,7 @@ const Insider = ({
           }
         </nav>
       </header>
-      <main className={["p-5", className].join(" ")}>
+      <main className={["py-5 px-8", className].join(" ")}>
         {children}
       </main>
       <footer className="w-full">

@@ -66,3 +66,23 @@ input, textarea, button, select {
   outline: none;
   border: none;
 }
+
+.loading_background {
+  animation-duration: 5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background-color: rgb(var(--color-white) / 1);
+  background: linear-gradient(-45deg, rgb(var(--color-white) / 1) 8%, rgb(var(--color-text) / 0.1) 18%, rgb(var(--color-white) / 1) 33%);
+  background-size: 800px 104px;
+}
+
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -800px 0
+  }
+  100% {
+    background-position: 800px 0
+  }
+}
