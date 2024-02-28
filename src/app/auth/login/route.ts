@@ -8,7 +8,7 @@ import "moment-timezone";
 import { connectToDatabase } from "@/utils/db";
 import { refresh, sign } from "@/utils/jwt";
 
-import type { DB_userData, TokenInfo } from "../type";
+import type { DB_userData, TokenInfo, UserData } from "../type";
 
 export const GET = async (req: Request) => {
   // 디미고인에서 받은 토큰 가져오기
@@ -40,14 +40,19 @@ export const GET = async (req: Request) => {
   };
 
   // refresh, access 토큰 발급
-  const refreshToken = await refresh(data.data.openId);
-
-  const update_data: DB_userData = {
+  const refreshData: UserData = {
     id: data.data.openId,
+    type: data.data.type,
     profile_image: `${process.env.NEXT_PUBLIC_REDIRECT_URI}/profile.jpg`,
     gender: data.data.gender,
     name: data.data.name,
     number: data.data.studentId.grade * 1000 + data.data.studentId.class * 100 + data.data.studentId.number,
+  };
+
+  const refreshToken = await refresh(refreshData);
+
+  const update_data: DB_userData = {
+    ...refreshData,
     refreshToken,
   };
 
@@ -55,6 +60,7 @@ export const GET = async (req: Request) => {
     id: update_data.id,
     data: {
       id: update_data.id,
+      type: data.data.type,
       profile_image: update_data.profile_image,
       gender: update_data.gender,
       name: update_data.name,

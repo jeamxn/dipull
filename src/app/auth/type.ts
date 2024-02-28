@@ -4,6 +4,7 @@ export type UserData = {
   gender: string;
   name: string;
   number: number;
+  type: string;
 }
 
 export type UserDB = UserData & {
@@ -16,6 +17,7 @@ export const defaultUserData: UserData = {
   profile_image: "",
   gender: "",
   name: "",
+  type: "student",
   number: 0,
 };
 

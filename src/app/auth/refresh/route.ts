@@ -7,7 +7,7 @@ import "moment-timezone";
 import { connectToDatabase } from "@/utils/db";
 import { refresh, sign, verify } from "@/utils/jwt";
 
-import type { DB_userData, TokenInfo } from "../type";
+import type { DB_userData, TokenInfo, UserData } from "../type";
 
 export const GET = async (req: Request) => {
   // 쿠키 확인
@@ -36,21 +36,24 @@ export const GET = async (req: Request) => {
   const user = (await userCollection.findOne(query) || {}) as DB_userData;
   const userId = user?.id;
 
+  const userData: UserData = {
+    id: user.id,
+    type: user.type,
+    profile_image: user.profile_image,
+    gender: user.gender,
+    name: user.name,
+    number: user.number,
+  };
+
   // 새 accessToken 발급
   const accessTokenValue: TokenInfo = {
     id: user.id,
-    data: {
-      id: user.id,
-      profile_image: user.profile_image,
-      gender: user.gender,
-      name: user.name,
-      number: user.number,
-    }
+    data: userData
   };
   const newAccessToken = await sign(accessTokenValue);
 
   // refreshToken 갱신
-  const newRefreshToken = await refresh(userId);
+  const newRefreshToken = await refresh(userData);
   await userCollection.updateOne(query, {
     $set: {
       refreshToken: newRefreshToken,

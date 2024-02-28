@@ -45,13 +45,37 @@ const verify = async (token: string) => {
 };
 
 // refresh Token 발급
-const refresh = async (userId: string) => {
+const refresh = async (userdata: UserData) => {
   return new jose.SignJWT({
-    id: userId,
+    ...userdata,
   })
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime("14d")
     .sign(secret);
+};
+export const refreshVerify = async (token: string) => {
+  try {
+    const result = await jose.jwtVerify(token, secret) as unknown as {
+      payload: UserData;
+    };
+    const rt: {
+      ok: true;
+      payload: UserData;
+    } = {
+      ok: true,
+      payload: result.payload,
+    };
+    return rt;
+  } catch (error: any) {
+    const rt: {
+      ok: false;
+      message: string;
+    } = {
+      ok: false,
+      message: error.message,
+    };
+    return rt;
+  }
 };
 
 export { sign, verify, refresh };
