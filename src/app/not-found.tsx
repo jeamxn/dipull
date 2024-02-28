@@ -15,7 +15,7 @@ function Error({
 
   return (
     <main className="flex flex-col justify-center items-center h-full w-full">
-      <p>이 페이지는 존재하지 않아요 :(</p>
+      <p className="p-4 text-center text-primary text-xl font-medium">안 돼. 안 만들어 줘. 페이지 만들 생각 없어. 빨리 돌아가.</p>
     </main>
   );
 }

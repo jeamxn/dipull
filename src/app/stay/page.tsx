@@ -138,20 +138,19 @@ const Stay = () => {
           </tbody>
         </table>
         <div className="p-1" />
-        {
-          mySelect ? (
-            <section className="flex flex-col items-center justify-center gap-1">
+        <section className="flex flex-col items-center justify-center gap-1">
+          {
+            mySelect ? (
               <p className="text-center text-sm text-text/50 font-medium">
                 {
                   mySelect === "교실" ? "교실 잔류 신청되었습니다." : `열람실 좌석 ${mySelect}에 잔류 신청되었습니다.`
                 }
               </p>
-              <p className="text-center text-sm text-text/50 font-medium">잔류 취소 시, 외출 신청 내역이 함께 삭제됩니다.</p>
-            </section>
-          ) : (
-            <p className="text-center text-sm text-text/50 font-medium">좌석을 선택하지 않으면 교실로 선택됩니다!</p>
-          )
-        }
+            ) : (
+              <p className="text-center text-sm text-text/50 font-medium">좌석을 선택하지 않으면 교실로 선택됩니다!</p>
+            )
+          }
+        </section>
         <button 
           className="bg-primary text-white w-full text-base font-semibold rounded h-10"
           onClick={ mySelect ? deleteStayData : putStayData }

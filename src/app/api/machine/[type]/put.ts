@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { MachineDB, Params, getDefaultValue } from "./utils";
+import { MachineDB, Params, getApplyEndTime, getApplyStartTime, getDefaultValue } from "./utils";
 
 const PUT = async (
   req: Request,
@@ -26,6 +26,19 @@ const PUT = async (
     status: 401,
     headers: new_headers
   });
+
+  const currentTime = moment().tz("Asia/Seoul");
+  const applyStartDate = moment(getApplyStartTime(), "HH:mm");
+  const applyEndDate = moment(getApplyEndTime(), "HH:mm");
+  if(currentTime.isBefore(applyStartDate) || currentTime.isAfter(applyEndDate)) {
+    return new NextResponse(JSON.stringify({
+      success: false,
+      message: `${applyStartDate.format("HH시 mm분")}부터 ${applyEndDate.format("HH시 mm분")} 사이에 신청 가능합니다.`,
+    }), {
+      status: 400,
+      headers: new_headers
+    });
+  }
 
   const { machine, time } = await req.json();
 

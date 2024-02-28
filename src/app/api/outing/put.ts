@@ -45,6 +45,20 @@ const PUT = async (
     });
   }
 
+  const client = await connectToDatabase();
+  const stayCollection = client.db().collection("stay");
+  const query2 = { owner: verified.payload.data.id, week: getApplyStartDate() };
+  const stayData = await stayCollection.findOne(query2);
+  if(!stayData) {
+    return new NextResponse(JSON.stringify({
+      success: false,
+      message: "잔류 신청을 먼저 해주세요.",
+    }), {
+      status: 400,
+      headers: new_headers
+    });
+  }
+
   // type check
   const satData: OutingAndMealData = {
     meal: {
@@ -56,7 +70,17 @@ const PUT = async (
       start: moment(outing.start, "HH:mm").format("HH:mm"),
       end: moment(outing.end, "HH:mm").format("HH:mm"),
       description: outing.description,
-    })),
+    })).sort((a, b) => {
+      const startA = moment(a.start, "HH:mm");
+      const startB = moment(b.start, "HH:mm");
+      if(startA.isBefore(startB)) return -1;
+      if(startA.isAfter(startB)) return 1;
+      const endA = moment(a.end, "HH:mm");
+      const endB = moment(b.end, "HH:mm");
+      if(endA.isBefore(endB)) return -1;
+      if(endA.isAfter(endB)) return 1;
+      return a.description.localeCompare(b.description);
+    }),
   };
   const sunData: OutingAndMealData = {
     meal: {
@@ -68,7 +92,17 @@ const PUT = async (
       start: moment(outing.start, "HH:mm").format("HH:mm"),
       end: moment(outing.end, "HH:mm").format("HH:mm"),
       description: outing.description,
-    })),
+    })).sort((a, b) => {
+      const startA = moment(a.start, "HH:mm");
+      const startB = moment(b.start, "HH:mm");
+      if(startA.isBefore(startB)) return -1;
+      if(startA.isAfter(startB)) return 1;
+      const endA = moment(a.end, "HH:mm");
+      const endB = moment(b.end, "HH:mm");
+      if(endA.isBefore(endB)) return -1;
+      if(endA.isAfter(endB)) return 1;
+      return a.description.localeCompare(b.description);
+    }),
   };
 
   // put data
@@ -80,7 +114,6 @@ const PUT = async (
   };
 
   // db connect
-  const client = await connectToDatabase();
   const outingCollection = client.db().collection("outing");
   const query = { owner: putData.owner, week: putData.week };
   const options = { upsert: true };

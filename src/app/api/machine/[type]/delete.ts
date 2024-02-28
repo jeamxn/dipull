@@ -8,7 +8,7 @@ import { TokenInfo, UserData } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { Params } from "./utils";
+import { Params, getApplyEndTime, getApplyStartTime } from "./utils";
 
 const DELETE = async (
   req: Request,
@@ -28,6 +28,19 @@ const DELETE = async (
     status: 401,
     headers: new_headers
   });
+
+  const currentTime = moment().tz("Asia/Seoul");
+  const applyStartDate = moment(getApplyStartTime(), "HH:mm");
+  const applyEndDate = moment(getApplyEndTime(), "HH:mm");
+  if(currentTime.isBefore(applyStartDate) || currentTime.isAfter(applyEndDate)) {
+    return new NextResponse(JSON.stringify({
+      success: false,
+      message: `${applyStartDate.format("HH시 mm분")}부터 ${applyEndDate.format("HH시 mm분")} 사이에 신청 가능합니다.`,
+    }), {
+      status: 400,
+      headers: new_headers
+    });
+  }
 
   const client = await connectToDatabase();
   const machineCollection = client.db().collection("machine");

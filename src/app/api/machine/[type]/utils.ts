@@ -1,3 +1,15 @@
+import "moment-timezone";
+import moment from "moment";
+
+export const getApplyStartTime = () => {
+  // return moment("08:00", "HH:mm").tz("Asia/Seoul").format("HH:mm");
+  return "00:00";
+};
+
+export const getApplyEndTime = () => {
+  return moment("23:59", "HH:mm").tz("Asia/Seoul").format("HH:mm");
+};
+
 export type Params = {
   type: "washer" | "dryer";
 };

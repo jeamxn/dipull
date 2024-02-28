@@ -64,5 +64,5 @@ export const getApplyStartDate = () => {
 
 export const getApplyEndDate = () => {
   // return moment(getApplyStartDate()).add(1, "day").format("YYYY-MM-DD");
-  return "2024-02-29";
+  return "2024-02-30";
 };

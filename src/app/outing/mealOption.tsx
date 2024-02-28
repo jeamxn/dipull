@@ -54,6 +54,11 @@ const MealOption = ({
               <button 
                 className="w-min text-base rounded h-10 bg-text/10 border border-text/10 px-4"
                 onClick={() => {
+                  if(data.outing.find(outing => 
+                    outing.description === "자기계발외출" &&
+                    outing.start === "10:20" &&
+                    outing.end === "14:00"
+                  )) return;
                   setData(p => {
                     const outing = [ ...p.outing ];
                     outing.push({
@@ -125,7 +130,17 @@ const MealOption = ({
               {/* <th className="text-center px-4">삭제</th> */}
             </tr>
             {
-              data.outing.length ? data.outing.map((outing, index) => {
+              data.outing.length ? data.outing.sort((a, b) => {
+                const startA = moment(a.start, "HH:mm");
+                const startB = moment(b.start, "HH:mm");
+                if(startA.isBefore(startB)) return -1;
+                if(startA.isAfter(startB)) return 1;
+                const endA = moment(a.end, "HH:mm");
+                const endB = moment(b.end, "HH:mm");
+                if(endA.isBefore(endB)) return -1;
+                if(endA.isAfter(endB)) return 1;
+                return a.description.localeCompare(b.description);
+              }).map((outing, index) => {
                 const remove = () => {
                   if (setData) {
                     setData(p => {
