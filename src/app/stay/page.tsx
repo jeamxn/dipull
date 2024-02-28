@@ -9,6 +9,7 @@ import { TokenInfo, defaultUserData } from "@/app/auth/type";
 import Insider from "@/provider/insider";
 import instance from "@/utils/instance";
 
+import Studyroom from "./studyroom";
 import TableInner from "./tableInner";
 
 const Stay = () => {
@@ -72,71 +73,15 @@ const Stay = () => {
     <Insider className="flex flex-col gap-5">
       <article className="flex flex-col gap-3">
         <h1 className="text-xl font-semibold">잔류 신청하기</h1>
-        <table className={[
-          "overflow-auto flex flex-col gap-1 py-1 rounded",
-          loading ? "loading_background border border-text/10" : "bg-transparent"
-        ].join(" ")}>
-          <tbody className="overflow-auto flex flex-col gap-1 items-start rounded">
-            {
-              new Array(15).fill(0).map((_, i) => i === 0 ? (
-                <tr key={i} className="flex flex-row gap-1">
-                  <td className="w-5 h-5 flex justify-center items-center">
-                    <p className="text-center text-sm font-normal">{String.fromCharCode(i + 64)}</p>
-                  </td>
-                  {
-                    new Array(18).fill(0).map((_, j) => (
-                      <td key={j} className="w-10 h-5 flex justify-center items-center">
-                        <p className="text-center text-sm font-normal">{j + 1}</p>
-                      </td>
-                    ))
-                  }
-                </tr>
-              ) : (
-                <tr key={i} className="flex flex-row gap-1">
-                  <td className="w-5 h-10 flex justify-center items-center">
-                    <p className="text-center text-sm font-normal">{String.fromCharCode(i + 64)}</p>
-                  </td>
-                  {
-                    new Array(18).fill(0).map((_, j) => {
-                      const key = `${String.fromCharCode(i + 64)}${j + 1}`;
-                      const owner = bySeatsObj[String.fromCharCode(i + 64)]?.[j + 1];
-                      const type = studyroom.find(e => 
-                        e.seat[String.fromCharCode(i + 64)]?.includes(j + 1)
-                      );
-                      const disabled = owner || mySelect || !type?.color || type.gender !== userInfo.gender || !type.grade.includes(Math.floor(userInfo.number / 1000));
-                      return (
-                        <td 
-                          key={j} 
-                          className={[
-                            "w-10 h-10 rounded-sm flex justify-center items-center select-none transition-colors",
-                            selectedSeat === key ? "bg-primary text-white" : 
-                              !type?.color ? "bg-text/10" : "",
-                            disabled ? "cursor-not-allowed" : "cursor-pointer"
-                          ].join(" ")}
-                          style={{
-                            backgroundColor: !(selectedSeat === key) && type?.color || ""
-                          }}
-                          onClick={() => {
-                            if(disabled) return;
-                            if(key === selectedSeat) setSelectedSeat("@0");
-                            else setSelectedSeat(key);
-                          }}
-                        >
-                          <p className={[
-                            "text-center text-xs transition-colors font-medium",
-                            selectedSeat === key ? "text-white" : ""
-                          ].join(" ")}>
-                            {owner || key}
-                          </p>
-                        </td>
-                      );
-                    })
-                  }
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
+        <Studyroom
+          loading={loading}
+          selectedSeat={selectedSeat}
+          setSelectedSeat={setSelectedSeat}
+          mySelect={mySelect}
+          bySeatsObj={bySeatsObj}
+          studyroom={studyroom}
+          userInfo={userInfo}
+        />
         <div className="p-1" />
         <section className="flex flex-col items-center justify-center gap-1">
           {

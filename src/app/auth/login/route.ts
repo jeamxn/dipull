@@ -46,7 +46,7 @@ export const GET = async (req: Request) => {
     profile_image: `${process.env.NEXT_PUBLIC_REDIRECT_URI}/profile.jpg`,
     gender: data.data.gender,
     name: data.data.name,
-    number: data.data.studentId.grade * 1000 + data.data.studentId.class * 100 + data.data.studentId.number,
+    number: data.data.studentId?.grade ? data.data.studentId.grade * 1000 + data.data.studentId.class * 100 + data.data.studentId.number : 9999,
   };
 
   const refreshToken = await refresh(refreshData);

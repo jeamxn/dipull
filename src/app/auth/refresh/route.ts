@@ -34,8 +34,6 @@ export const GET = async (req: Request) => {
   // 유저 확인
   const query = { refreshToken };
   const user = (await userCollection.findOne(query) || {}) as DB_userData;
-  const userId = user?.id;
-
   const userData: UserData = {
     id: user.id,
     type: user.type,

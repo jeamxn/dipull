@@ -38,7 +38,7 @@ const GET = async (
     const user = await userCollection.findOne({ id: e.owner }) as unknown as UserDB;
     if(!user?.id) continue;
     if(!bySeatsObj[e.seat[0]]) bySeatsObj[e.seat[0]] = {};
-    bySeatsObj[e.seat[0]][e.seat[1]] = `${user.number} ${user.name}`;
+    bySeatsObj[e.seat[0]][e.seat.slice(1, e.seat.length)] = `${user.number} ${user.name}`;
 
     const grade = Math.floor(user.number / 1000);
     const classNum = Math.floor(user.number / 100) % 10;

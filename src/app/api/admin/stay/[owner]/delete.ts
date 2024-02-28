@@ -1,15 +1,18 @@
-import "moment-timezone";
-import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { getApplyEndDate, getApplyStartDate } from "@/app/api/stay/utils";
+import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { getApplyEndDate, getApplyStartDate } from "./utils";
+type Params = {
+  owner: string;
+};
 
 const DELETE = async (
   req: Request,
+  { params }: { params: Params }
 ) => {
   // 헤더 설정
   const new_headers = new Headers();
@@ -24,25 +27,28 @@ const DELETE = async (
     status: 401,
     headers: new_headers
   });
+  const client = await connectToDatabase();
+  const userCollection = client.db().collection("users");
+  const selectMember = await userCollection.findOne({ id: verified.payload.data.id }) as unknown as UserDB;
+  if(selectMember.type !== "teacher") return new NextResponse(JSON.stringify({
+    message: "교사만 접근 가능합니다.",
+  }), {
+    status: 403,
+    headers: new_headers
+  });
 
-  const currentTime = moment().tz("Asia/Seoul");
-  const applyStartDate = moment(getApplyStartDate()).tz("Asia/Seoul");
-  const applyEndDate = moment(getApplyEndDate()).tz("Asia/Seoul");
-  if(currentTime.isBefore(applyStartDate) || currentTime.isAfter(applyEndDate)) {
-    return new NextResponse(JSON.stringify({
-      success: false,
-      message: "잔류 신청 기간이 아닙니다.",
-    }), {
-      status: 400,
-      headers: new_headers
-    });
-  }
+  if(!params.owner) return new NextResponse(JSON.stringify({
+    success: false,
+    message: "학생을 선택해주세요.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
 
   // DB 접속
-  const client = await connectToDatabase();
   const stayCollection = client.db().collection("stay");
 
-  const mySelectQuery = { week: getApplyStartDate(), owner: verified.payload.id };
+  const mySelectQuery = { week: getApplyStartDate(), owner: params.owner };
   const deleteMySelect = await stayCollection.deleteOne(mySelectQuery);
 
   if(deleteMySelect.deletedCount) {

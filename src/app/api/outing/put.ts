@@ -12,7 +12,7 @@ import { OutingData, OutingAndMealData } from "./utils";
 const PUT = async (
   req: Request,
 ) => {
-  let { sat, sun } = await req.json() as {
+  const { sat, sun } = await req.json() as {
     sat: OutingAndMealData;
     sun: OutingAndMealData;
   };
