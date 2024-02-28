@@ -9,10 +9,9 @@ import { TokenInfo, defaultUserData } from "@/app/auth/type";
 import Insider from "@/provider/insider";
 import instance from "@/utils/instance";
 
-
 import TableInner from "./tableInner";
 
-const Home = () => {
+const Stay = () => {
   const [loading, setLoading] = React.useState(false);
   const [selectedSeat, setSelectedSeat] = React.useState("@0");
   const [mySelect, setMySelect] = React.useState<StayGetResponse["data"]["mySelect"]>("");
@@ -169,7 +168,7 @@ const Home = () => {
         <h1 className="text-xl font-semibold">잔류 신청 현황</h1>
         <table className={[
           "w-full border-text/10",
-          loading ? "loading_background border rounded" : "bg-transparent border-y"
+          loading ? "loading_background rounded overflow-hidden border" : "bg-transparent border-y"
         ].join(" ")}>
           <tbody>
             {
@@ -276,4 +275,4 @@ const Home = () => {
 };
 
 
-export default Home;
+export default Stay;

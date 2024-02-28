@@ -1,11 +1,7 @@
 import moment from "moment";
 import React from "react";
 
-export type MealData = {
-  breakfast: boolean;
-  lunch: boolean;
-  dinner: boolean;
-}
+import { MealData, Outing, OutingAndMealData } from "@/app/api/outing/utils";
 
 const MealKorean = {
   breakfast: "조식",
@@ -13,18 +9,7 @@ const MealKorean = {
   dinner: "석식",
 };
 
-export type Outing = {
-  start: string;
-  end: string;
-  description: string;
-}
-
-export type OutingData = {
-  meal: MealData;
-  outing: Outing[];
-}
-
-export const defaultOutingData: OutingData = {
+export const defaultOutingData: OutingAndMealData = {
   meal: {
     breakfast: true,
     lunch: true,
@@ -37,10 +22,12 @@ const MealOption = ({
   data,
   setData,
   title,
+  loading,
 }: {
-  data: OutingData;
-  setData: React.Dispatch<React.SetStateAction<OutingData>>;
+  data: OutingAndMealData;
+  setData: React.Dispatch<React.SetStateAction<OutingAndMealData>>;
   title?: string;
+  loading: boolean;
 }) => {
   const [tmpOuting, setTmpOuting] = React.useState<Outing>({
     start: "10:20",
@@ -50,12 +37,15 @@ const MealOption = ({
   return (
     <section className="flex flex-col gap-2">
       <h1 className="text-xl font-semibold">{title}</h1>
-      <article className="flex flex-col gap-2 bg-white rounded border border-text/10 p-5">
+      <article className={[
+        "flex flex-col gap-2 bg-white rounded border border-text/10 p-5",
+        loading ? "loading_background" : "",
+      ].join(" ")}>
         <section className="flex flex-row justify-center items-center w-full gap-2">
           <input 
             type="text" 
             placeholder="외출 사유를 입력 해주세요."
-            className="bg-white rounded border border-text/10 px-4 py-2 text-base w-full"
+            className="bg-transparent rounded border border-text/10 px-4 py-2 text-base w-full"
             value={tmpOuting.description}
             onChange={e => setTmpOuting(p => ({ ...p, description: e.target.value }))}
           />
@@ -83,7 +73,7 @@ const MealOption = ({
         <section className="flex flex-row justify-center items-center w-full gap-2">
           <input 
             type="time"
-            className="bg-white rounded border border-text/10 px-4 py-2 text-base w-full text-center"
+            className="bg-transparent rounded border border-text/10 px-4 py-2 text-base w-full text-center"
             value={tmpOuting.start}
             onChange={e => setTmpOuting(p => ({ ...p, 
               start: moment(e.target.value, "HH:mm").format("HH:mm")
@@ -92,7 +82,7 @@ const MealOption = ({
           <p>~</p>
           <input 
             type="time" 
-            className="bg-white rounded border border-text/10 px-4 py-2 text-base w-full text-center"
+            className="bg-transparent rounded border border-text/10 px-4 py-2 text-base w-full text-center"
             value={tmpOuting.end}
             onChange={e => setTmpOuting(p => ({ ...p, 
               end: moment(e.target.value, "HH:mm").format("HH:mm")
@@ -123,7 +113,10 @@ const MealOption = ({
           </button>
         </section>
       </article>
-      <article className="flex flex-col gap-2 bg-white rounded border border-text/10 p-5">
+      <article className={[
+        "flex flex-col gap-2 bg-white rounded border border-text/10 p-5",
+        loading ? "loading_background" : "",
+      ].join(" ")}>
         <table className="w-full">
           <tbody className="w-full border-y border-text/10">
             <tr className="w-full">
@@ -164,14 +157,18 @@ const MealOption = ({
           </tbody>
         </table>
       </article>
-      <article className="flex flex-row gap-2 bg-white rounded border border-text/10 p-5">
+      <article className={[
+        "flex flex-row gap-2 bg-white rounded border border-text/10 p-5",
+        loading ? "loading_background" : "",
+      ].join(" ")}>
         {
           (Object.entries(data.meal) as [ keyof MealData, boolean ][]).map(([key, value]) => (
             <figure 
               key={key}
               className={[
                 "w-full rounded border border-text/10 p-4 flex flex-col justify-center items-center select-none transition-colors cursor-pointer",
-                value ? "bg-white" : "bg-text/5",
+                value ? "bg-transpart" : "bg-text/5",
+                // loading ? "loading_background" : "",
               ].join(" ")}
               onClick={() => setData && setData(p => {
                 const meal = { ...p.meal };

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 
-export default function Home() {
+function Login() {
   const router = useRouter();
   const login = async () => {
     const url = `${process.env.NEXT_PUBLIC_DIMIGOIN_URI}/auth?client=65d1ee362893e7ba99634e12&redirect=${process.env.NEXT_PUBLIC_REDIRECT_URI}/auth`;
@@ -15,3 +15,5 @@ export default function Home() {
     </main>
   );
 }
+
+export default Login;

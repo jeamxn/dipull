@@ -18,7 +18,7 @@ const StatusBox = ({
     <figure 
       onClick={() => setClicked(p => !p)}
       className={[
-        "w-full bg-white border border-text/10 px-4 py-2 rounded-md flex flex-col gap-1",
+        "w-full bg-white border border-text/10 px-4 py-2 rounded-md flex flex-col gap-1 select-none",
         loading ? "loading_background" : "",
       ].join(" ")}
     >

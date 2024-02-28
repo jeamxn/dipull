@@ -3,7 +3,8 @@
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
-const Login = () => {
+
+const Auth = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
@@ -26,12 +27,12 @@ const Login = () => {
   );
 };
 
-const ExportLogin = () => {
+const ExportAuth = () => {
   return (
     <React.Suspense>
-      <Login />
+      <Auth />
     </React.Suspense>
   );
 };
 
-export default ExportLogin;
+export default ExportAuth;

@@ -1,14 +1,50 @@
 "use client";
 
+import { AxiosResponse } from "axios";
 import React from "react";
 
+import { OutingAndMealData, OutingGetResponse } from "@/app/api/outing/utils";
 import Insider from "@/provider/insider";
+import instance from "@/utils/instance";
 
-import MealOption, { OutingData, defaultOutingData } from "./mealOption";
+import MealOption, { defaultOutingData } from "./mealOption";
 
-const Home = () => {
-  const [sat, setSat] = React.useState<OutingData>(defaultOutingData);
-  const [sun, setSun] = React.useState<OutingData>(defaultOutingData);
+const Outing = () => {
+  const [loading, setLoading] = React.useState(false);
+  const [sat, setSat] = React.useState<OutingAndMealData>(defaultOutingData);
+  const [sun, setSun] = React.useState<OutingAndMealData>(defaultOutingData);
+
+  React.useEffect(() => {
+    getOutingData();
+  }, []);
+
+  const getOutingData = async () => {
+    setLoading(true);
+    try{
+      const res: AxiosResponse<OutingGetResponse> = await instance.get("/api/outing");
+      setSat(res.data.data.sat);
+      setSun(res.data.data.sun);
+    }
+    catch(e: any){
+      alert(e.response.data.message);
+    }
+    setLoading(false);
+  };
+
+  const putOutingData = async () => {
+    setLoading(true);
+    try{
+      const res = await instance.put("/api/outing", {
+        sat, sun,
+      });
+      await getOutingData();
+      alert(res.data.message);
+    }
+    catch(e: any){
+      alert(e.response.data.message);
+    }
+    setLoading(false);
+  };
 
   return (
     <Insider className="flex flex-col gap-5">
@@ -18,16 +54,18 @@ const Home = () => {
           title="토요일"
           data={sat}
           setData={setSat}
+          loading={loading}
         />
         <MealOption 
           title="일요일"
           data={sun}
           setData={setSun}
+          loading={loading}
         />
       </section>
       <button 
         className="bg-primary text-white w-full text-base font-semibold rounded h-10"
-        onClick={ () => {} }
+        onClick={putOutingData}
       >
           신청하기
       </button>
@@ -36,4 +74,4 @@ const Home = () => {
 };
 
 
-export default Home;
+export default Outing;
