@@ -22,8 +22,7 @@ const DELETE = async (
   const authorization = headers().get("authorization");
   const accessToken = authorization?.split(" ")[1] || "";
   const verified = await verify(accessToken);
-  const decrypt = jose.decodeJwt(accessToken) as TokenInfo;
-  if(!verified.ok) return new NextResponse(JSON.stringify({
+  if(!verified.ok || !verified.payload?.id) return new NextResponse(JSON.stringify({
     message: "로그인이 필요합니다.",
   }), {
     status: 401,

@@ -38,7 +38,7 @@ const Meal = () => {
   }, [date]);
 
   return (
-    <article className="flex flex-col gap-2">
+    <article className="flex flex-col gap-3">
       <h1 className="text-xl font-semibold">급식</h1>
       <h1 className="text-xl font-semibold">{date.format("YYYY년 MM월 DD일 ")}{Day[date.day()]}요일</h1>
       <article className="overflow-auto">

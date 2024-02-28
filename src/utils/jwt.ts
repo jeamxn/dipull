@@ -24,11 +24,17 @@ const sign = async (data: {
 // access Token 검증
 const verify = async (token: string) => {
   try {
-    const result = await jose.jwtVerify(token, secret);
+    const result = await jose.jwtVerify(token, secret) as unknown as {
+      payload: {
+        id: string;
+        data: UserData;
+        iat: number;
+      };
+    };
     return {
-      ok: true,
-      userId: result.payload.id as UserData["id"],
-      payload: result.payload as UserData,
+      ok: Boolean(result.payload.id),
+      userId: result.payload.id,
+      payload: result.payload,
     };
   } catch (error: any) {
     return {

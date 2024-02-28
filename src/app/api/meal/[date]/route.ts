@@ -35,7 +35,7 @@ export const GET = async (
   // Authorization 헤더 확인
   const authorization = headers().get("authorization");
   const verified = await verify(authorization?.split(" ")[1] || "");
-  if(!verified.ok) return new NextResponse(JSON.stringify({
+  if(!verified.ok || !verified.payload?.id) return new NextResponse(JSON.stringify({
     message: "로그인이 필요합니다.",
   }), {
     status: 401,

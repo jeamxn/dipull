@@ -6,6 +6,11 @@ export type UserData = {
   number: number;
 }
 
+export type UserDB = UserData & {
+  _id: string;
+  refreshToken: string;
+}
+
 export const defaultUserData: UserData = {
   id: "",
   profile_image: "",

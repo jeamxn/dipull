@@ -57,7 +57,7 @@ const Machine = (
     setLoading(false);
   };
 
-  const apply = async () => {
+  const putWasherData = async () => {
     setLoading(true);
     try{
       const res = await instance.put(`/api/machine/${params.type}`, {
@@ -72,7 +72,7 @@ const Machine = (
     setLoading(false);
   };
 
-  const remove = async () => {
+  const deleteWasherData = async () => {
     setLoading(true);
     try{
       await instance.delete(`/api/machine/${params.type}`);
@@ -108,7 +108,7 @@ const Machine = (
                 className={[
                   "w-full bg-primary text-white font-semibold px-4 py-2 rounded-md text-base transition-opacity"
                 ].join(" ")}
-                onClick={remove}
+                onClick={deleteWasherData}
               >취소하기</button>
             </section>
           ) : (
@@ -169,7 +169,7 @@ const Machine = (
                   !selectedMachine || !selectedTime ? "opacity-50" : "opacity-100"
                 ].join(" ")}
                 disabled={!selectedMachine || !selectedTime}
-                onClick={apply}
+                onClick={putWasherData}
               >신청하기</button>
             </section>
           )

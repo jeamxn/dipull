@@ -1,10 +1,8 @@
 import "moment-timezone";
-import * as jose from "jose";
 import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { TokenInfo, UserData } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
@@ -22,8 +20,7 @@ const PUT = async (
   const authorization = headers().get("authorization");
   const accessToken = authorization?.split(" ")[1] || "";
   const verified = await verify(accessToken);
-  const decrypt = jose.decodeJwt(accessToken) as TokenInfo;
-  if(!verified.ok) return new NextResponse(JSON.stringify({
+  if(!verified.ok || !verified.payload?.id || !verified.payload?.data.id) return new NextResponse(JSON.stringify({
     message: "로그인이 필요합니다.",
   }), {
     status: 401,
@@ -35,20 +32,16 @@ const PUT = async (
   const isStay = moment().tz("Asia/Seoul").day() === 0 || moment().tz("Asia/Seoul").day() === 6;
   const defaultData = getDefaultValue(params.type, isStay);
 
-  if(decrypt.data.gender !== defaultData[machine].allow.gender)
+  if(verified.payload.data.gender !== defaultData[machine].allow.gender)
     return new NextResponse(JSON.stringify({
       success: false,
       message: "성별이 맞지 않습니다.",
-      info: {
-        your: decrypt.data.gender,
-        machine: defaultData[machine].allow.gender
-      }
     }), {
       status: 400,
       headers: new_headers
     });
 
-  if(!defaultData[machine].allow.grades.includes(Math.floor(decrypt.data.number / 1000)))
+  if(!defaultData[machine].allow.grades.includes(Math.floor(verified.payload.data.number / 1000)))
     return new NextResponse(JSON.stringify({
       success: false,
       message: "학년이 맞지 않습니다.",
@@ -60,7 +53,7 @@ const PUT = async (
   const client = await connectToDatabase();
   const machineCollection = client.db().collection("machine");
 
-  const isIBookedQuery = { type: params.type, date: moment().tz("Asia/Seoul").format("YYYY-MM-DD"), owner: decrypt.data.id };
+  const isIBookedQuery = { type: params.type, date: moment().tz("Asia/Seoul").format("YYYY-MM-DD"), owner: verified.payload.data.id };
   const isIBooked = await machineCollection.findOne(isIBookedQuery);
   if(isIBooked) return new NextResponse(JSON.stringify({
     success: false,
@@ -84,7 +77,7 @@ const PUT = async (
     machine,
     time,
     date: moment().tz("Asia/Seoul").format("YYYY-MM-DD"),
-    owner: decrypt.data.id,
+    owner: verified.payload.data.id,
     type: params.type,
   };
   const put = await machineCollection.insertOne(put_query);
