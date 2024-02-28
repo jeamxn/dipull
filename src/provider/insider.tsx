@@ -97,7 +97,7 @@ const Insider = ({
       <main className={["py-5 px-8", className].join(" ")}>
         {children}
       </main>
-      <footer className="w-full">
+      <footer className="w-full pb-5">
         <article className="w-full flex justify-center items-center">
           <p className="text-text/40 text-sm">오류 및 기타 문의 사항은 <a className="text-primary/40 underline" href="kakaoopen://join?l=%2Fme%2FJeamxn&r=EW" rel="noreffer">최재민</a>에게 연락바랍니다!</p>
         </article>
