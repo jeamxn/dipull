@@ -14,8 +14,7 @@ const Timetable = () => {
   }, []);
 
   const getTimetable = async () => {
-    const res = await instance.get(`/api/timetable/${Math.floor(gradeClass / 10)}/${gradeClass % 10}`);
-    console.log(res.data);
+    await instance.get(`/api/timetable/${Math.floor(gradeClass / 10)}/${gradeClass % 10}`);
   };
 
   React.useEffect(() => {

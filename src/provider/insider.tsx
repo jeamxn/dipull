@@ -48,7 +48,6 @@ const Insider = ({
 
   const [menuCopy, setMenuCopy] = React.useState(menu);
   React.useEffect(() => {
-    console.log(userInfo);
     if(userInfo.type !== "teacher") return;
     setMenuCopy([
       ...menuCopy, 
@@ -62,11 +61,9 @@ const Insider = ({
   const logout = async () => {
     const res = await instance.get("/auth/logout");
     router.push("/login");
-    console.log(res.data);
   };
   const fetch = async () => {
     const res = await instance.get("/api");
-    console.log(res.data);
     alert(res.data.message);
   };
 

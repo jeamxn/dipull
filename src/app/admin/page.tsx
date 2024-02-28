@@ -111,7 +111,10 @@ const Admin = () => {
         />
       </article>
       <article className="flex flex-col gap-3">
-        <article className="flex flex-col gap-4 bg-white rounded border border-text/10 p-5 ">
+        <article className={[
+          "flex flex-col gap-4 bg-white rounded border border-text/10 p-5",
+          loading ? "loading_background" : "",
+        ].join(" ")}>
           {
             selectedSeat === "@0" ? (
               <h1 className="text-xl font-semibold">선택된 좌석: 교실 잔류</h1>
@@ -120,7 +123,10 @@ const Admin = () => {
             )
           }
         </article>
-        <article className="flex flex-col gap-4 bg-white rounded border border-text/10 p-5 ">
+        <article className={[
+          "flex flex-col gap-4 bg-white rounded border border-text/10 p-5",
+          loading ? "loading_background" : "",
+        ].join(" ")}>
           <section className="flex flex-row justify-center items-center w-full gap-4">
             <h2 className="text-xl font-semibold whitespace-nowrap">학생 검색</h2>
             <input 
