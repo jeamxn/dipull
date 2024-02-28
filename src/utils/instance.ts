@@ -1,7 +1,5 @@
 import axios from "axios";
 
-import { verify } from "./jwt";
-
 // axios 인스턴스를 생성
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_REDIRECT_URI,
@@ -11,31 +9,30 @@ const instance = axios.create({
 });
 
 // axios 요청 인터셉터
-instance.interceptors.request.use(async (config) => {
-  try{
-    // 로컬 스토리지에 저장된 accessToken 가져오기
-    let accessToken = localStorage.getItem("accessToken") || "";
+instance.interceptors.request.use(
+  async (config) => {
+    const accessToken = localStorage.getItem("accessToken");
+    if(accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
+    return config;
+  }, 
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
-    // accessToken 유효성 검사
-    if(!(await verify(accessToken)).ok) {
-      // 만료된 accessToken이면 refresh 요청
+instance.interceptors.response.use(
+  (response) => response, 
+  async (error) => {
+    if(error.response.status === 401) {
       const refresh = await axios.get(`${process.env.NEXT_PUBLIC_REDIRECT_URI}/auth/refresh`);
-      accessToken = refresh.data.accessToken;
+      const accessToken = refresh.data.accessToken;
       localStorage.setItem("accessToken", accessToken);
+      error.config.headers.Authorization = `Bearer ${accessToken}`;
+      const originalResponse = await axios.request(error.config);
+      return originalResponse.data.data;
     }
-    
-    // 헤더에 accessToken 추가
-    config.headers.Authorization = `Bearer ${accessToken}`;
-
-    return config;
+    return Promise.reject(error);
   }
-  catch(e){
-    // 에러 발생 시 로그인 페이지로 이동
-    window.location.href = "/login";
-    return config;
-  }
-}, (error) => {
-  return Promise.reject(error);
-});
+);
 
 export default instance;
