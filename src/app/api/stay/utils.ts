@@ -38,11 +38,25 @@ export type StayGetResponse = {
       bySeatsObj: BySeatsObj;
       byGradeClassObj: ByGradeClassObj;
       mySelect: string;
+      studyroom: StudyroomData[];
   };
   query: {
       week: string;
   };
 };
+
+export type StudyroomData = {
+  color: string;
+  grade: number[];
+  gender: string;
+  seat: {
+    [key: string]: number[];
+  }
+}
+
+export type StudyroomDB = StudyroomData & {
+  _id: string;
+}
 
 export const getApplyStartDate = () => {
   return moment().tz("Asia/Seoul").startOf("week").add(1, "day").format("YYYY-MM-DD");

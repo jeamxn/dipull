@@ -1,11 +1,14 @@
 "use client";
 
 import { AxiosResponse } from "axios";
+import * as jose from "jose";
 import React from "react";
 
 import { ByGradeClassObj, BySeatsObj, StayGetResponse } from "@/app/api/stay/utils";
+import { TokenInfo, defaultUserData } from "@/app/auth/type";
 import Insider from "@/provider/insider";
 import instance from "@/utils/instance";
+
 
 import TableInner from "./tableInner";
 
@@ -15,6 +18,8 @@ const Home = () => {
   const [mySelect, setMySelect] = React.useState<StayGetResponse["data"]["mySelect"]>("");
   const [bySeatsObj, setBySeatsObj] = React.useState<BySeatsObj>({});
   const [byGradeClassObj, setByGradeClassObj] = React.useState<ByGradeClassObj>({});
+  const [studyroom, setStudyroom] = React.useState<StayGetResponse["data"]["studyroom"]>([]);
+  const [userInfo, setUserInfo] = React.useState(defaultUserData);
 
   const getStayData = async () => {
     setLoading(true);
@@ -23,6 +28,7 @@ const Home = () => {
       setBySeatsObj(res.data.data.bySeatsObj);
       setByGradeClassObj(res.data.data.byGradeClassObj);
       setMySelect(res.data.data.mySelect);
+      setStudyroom(res.data.data.studyroom);
     }
     catch(e: any){
       alert(e.response.data.message);
@@ -57,6 +63,9 @@ const Home = () => {
   };
 
   React.useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken")!;
+    const decrypt = jose.decodeJwt(accessToken) as TokenInfo;
+    setUserInfo(decrypt.data);
     getStayData();
   }, []);
 
@@ -92,16 +101,24 @@ const Home = () => {
                     new Array(18).fill(0).map((_, j) => {
                       const key = `${String.fromCharCode(i + 64)}${j + 1}`;
                       const owner = bySeatsObj[String.fromCharCode(i + 64)]?.[j + 1];
+                      const type = studyroom.find(e => 
+                        e.seat[String.fromCharCode(i + 64)]?.includes(j + 1)
+                      );
+                      const disabled = owner || mySelect || !type?.color || type.gender !== userInfo.gender || !type.grade.includes(Math.floor(userInfo.number / 1000));
                       return (
                         <td 
                           key={j} 
                           className={[
-                            "w-10 h-10 rounded-sm flex justify-center items-center cursor-pointer select-none transition-colors",
-                            selectedSeat === key ? "bg-primary text-white" : "bg-text/10",
-                            owner ? "cursor-not-allowed" : ""
+                            "w-10 h-10 rounded-sm flex justify-center items-center select-none transition-colors",
+                            selectedSeat === key ? "bg-primary text-white" : 
+                              !type?.color ? "bg-text/10" : "",
+                            disabled ? "cursor-not-allowed" : "cursor-pointer"
                           ].join(" ")}
+                          style={{
+                            backgroundColor: !(selectedSeat === key) && type?.color || ""
+                          }}
                           onClick={() => {
-                            if(owner || mySelect) return;
+                            if(disabled) return;
                             if(key === selectedSeat) setSelectedSeat("@0");
                             else setSelectedSeat(key);
                           }}
@@ -125,7 +142,11 @@ const Home = () => {
         {
           mySelect ? (
             <section className="flex flex-col items-center justify-center gap-1">
-              <p className="text-center text-sm text-text/50 font-medium">좌석 {mySelect}에 잔류 신청이 완료되었습니다!</p>
+              <p className="text-center text-sm text-text/50 font-medium">
+                {
+                  mySelect === "교실" ? "교실 잔류 신청되었습니다." : `열람실 좌석 ${mySelect}에 잔류 신청되었습니다.`
+                }
+              </p>
               <p className="text-center text-sm text-text/50 font-medium">잔류 취소 시, 외출 신청 내역이 함께 삭제됩니다.</p>
             </section>
           ) : (

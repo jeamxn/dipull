@@ -5,7 +5,7 @@ import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { ByGradeClassObj, BySeatsObj, StayGetResponse, StayDB, getApplyStartDate } from "./utils";
+import { ByGradeClassObj, BySeatsObj, StayGetResponse, StayDB, getApplyStartDate, StudyroomDB, StudyroomData } from "./utils";
 
 const GET = async (
   req: Request,
@@ -28,6 +28,7 @@ const GET = async (
   const client = await connectToDatabase();
   const stayCollection = client.db().collection("stay");
   const userCollection = client.db().collection("users");
+  const studyroomCollection = client.db().collection("studyroom");
   const query = { week: getApplyStartDate() };
   const result = await stayCollection.find(query).toArray() as unknown as StayDB[];
 
@@ -58,19 +59,24 @@ const GET = async (
   const mySelect = await stayCollection.findOne(mySelectQuery) as unknown as StayDB;
   const { seat } = mySelect || { seat: "" };
 
+  
+  const getAllOfStudyroom = await studyroomCollection.find({}).toArray() as unknown as StudyroomDB[];
+  const studyroomData: StudyroomData[] = getAllOfStudyroom.map(({_id, ...e}) => e);
+
   const stayResponse: StayGetResponse = {
     message: "성공적으로 데이터를 가져왔습니다.",
     data: { 
       bySeatsObj, 
       byGradeClassObj,
       mySelect: seat,
+      studyroom: studyroomData
     },
     query
   };
 
   return new NextResponse(JSON.stringify(stayResponse), {
     status: 200,
-    headers: new_headers
+    headers: new_headers,
   });
 };
 

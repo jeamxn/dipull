@@ -6,12 +6,14 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { StayData, getApplyEndDate, getApplyStartDate } from "./utils";
+import { StayData, StudyroomDB, StudyroomData, getApplyEndDate, getApplyStartDate } from "./utils";
 
 const PUT = async (
   req: Request,
 ) => {
-  const { seat } = await req.json();
+  let { seat } = await req.json();
+
+  if(seat === "@0") seat = "교실";
 
   // 헤더 설정
   const new_headers = new Headers();
@@ -51,6 +53,31 @@ const PUT = async (
   // DB 접속
   const client = await connectToDatabase();
   const stayCollection = client.db().collection("stay");
+
+  const studyroomCollection = client.db().collection("studyroom");
+  const getAllOfStudyroom = await studyroomCollection.find({}).toArray() as unknown as StudyroomDB[];
+  const studyroomData: StudyroomData[] = getAllOfStudyroom.map(({_id, ...e}) => e);
+  const type = studyroomData.find(
+    e => e.seat[seat[0]]?.includes(parseInt(seat.slice(1, seat.length)))
+  );
+  if(
+    seat !== "교실"
+    &&
+    (
+      !type?.color 
+        || type.gender !== verified.payload.data.gender 
+        || !type.grade.includes(Math.floor(verified.payload.data.number / 1000))
+    )
+  ) {
+    return new NextResponse(JSON.stringify({
+      success: false,
+      message: "허용된 열람실 좌석이 아닙니다.",
+    }), {
+      status: 400,
+      headers: new_headers
+    });
+  }
+
 
   const mySelectQuery = { week: getApplyStartDate(), owner: verified.payload.id };
   const mySelect = await stayCollection.findOne(mySelectQuery);
