@@ -46,6 +46,19 @@ const Insider = ({
     setUserInfo(decrypt.data);
   }, []);
 
+  const [menuCopy, setMenuCopy] = React.useState(menu);
+  React.useEffect(() => {
+    console.log(userInfo);
+    if(userInfo.type !== "teacher") return;
+    setMenuCopy([
+      ...menuCopy, 
+      {
+        url: "/admin",
+        name: "관리",
+      }
+    ]);
+  }, [userInfo]);
+
   const logout = async () => {
     const res = await instance.get("/auth/logout");
     router.push("/login");
@@ -76,7 +89,7 @@ const Insider = ({
         </article>
         <nav className="px-5 w-full border-b border-text/10 flex flex-row justify-around gap-4">
           {
-            menu.map((item, index) => {
+            menuCopy.map((item, index) => {
               const isCurrentPage = pathname === item.url;
               return (
                 <Link 
