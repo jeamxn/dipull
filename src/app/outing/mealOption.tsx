@@ -60,13 +60,15 @@ const MealOption = ({
                     outing.end === "14:00"
                   )) return;
                   setData(p => {
+                    const meal = { ...p.meal };
+                    meal.lunch = false;
                     const outing = [ ...p.outing ];
                     outing.push({
                       start: "10:20",
                       end: "14:00",
                       description: "자기계발외출"
                     });
-                    return { ...p, outing };
+                    return { meal, outing };
                   });
                 }}
               >
