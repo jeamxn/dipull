@@ -45,7 +45,7 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
       { header: "비고", key: "etc", width: 10, style: columnsStyle },
     ];
 
-    const worksheetData = Object.entries(data[grade]).map(([class_, classData], i) => classData.map((v, j) => ({
+    const worksheetData = Object.entries(data[grade] || {}).map(([class_, classData], i) => classData.map((v, j) => ({
       grade: i === 0 ? `${grade}학년` : "",
       class: j === 0 ? `${class_}반` : "",
       count: j === 0 ? `${classData.length}명` : "",
@@ -63,12 +63,12 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
     worksheet.addRows(worksheetDataFlat);
     worksheet.addRow({grade: `총원 ( ${worksheetDataFlat.length}명 )`});
 
-    worksheet.mergeCells(`A3:A${worksheetDataFlat.length + 2}`);
+    worksheetData.length && worksheet.mergeCells(`A3:A${worksheetDataFlat.length + 2}`);
     worksheet.mergeCells(`A${worksheetDataFlat.length + 3}:C${worksheetDataFlat.length + 3}`);
     worksheet.mergeCells(`D${worksheetDataFlat.length + 3}:K${worksheetDataFlat.length + 3}`);
 
     let nowCell = 3;
-    Object.entries(data[grade]).forEach((v) => {
+    Object.entries(data[grade] || {}).forEach((v) => {
       worksheet.mergeCells(`B${nowCell}:B${nowCell + v[1].length - 1}`);
       worksheet.mergeCells(`C${nowCell}:C${nowCell + v[1].length - 1}`);
       nowCell += v[1].length;
