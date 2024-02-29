@@ -99,15 +99,13 @@ const Stay = ({
         loading ? "loading_background" : "",
       ].join(" ")}>
         <figure className="flex flex-col gap-2">
-          <p>
-            {
-              selectedSeat === "@0" ? (
-                <h1 className="text-xl font-semibold">선택된 좌석: 교실 잔류</h1>
-              ) : (
-                <h1 className="text-xl font-semibold">선택된 좌석: {selectedSeat} ({type?.grade.join(", ")}학년 / {type?.gender === "male" ? "남학생": type?.gender === "female" ? "여학생" : "선택 불가"})</h1>
-              )
-            }
-          </p>
+          {
+            selectedSeat === "@0" ? (
+              <h1 className="text-xl font-semibold">선택된 좌석: 교실 잔류</h1>
+            ) : (
+              <h1 className="text-xl font-semibold">선택된 좌석: {selectedSeat} ({type?.grade.join(", ")}학년 / {type?.gender === "male" ? "남학생": type?.gender === "female" ? "여학생" : "선택 불가"})</h1>
+            )
+          }
           <p>
             선택된 학생: [{selectedUser.gender === "male" ? "남학생" : "여학생"}] {selectedUser?.number} {selectedUser?.name}
           </p>
