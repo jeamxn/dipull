@@ -29,7 +29,7 @@ const Timetable = ({
       setTimetable(res.data.data);
     }
     catch(e: any){
-      alert(e.response.data.message);
+      console.error(e.response.data.message);
     }
     setLoading(false);
   };
