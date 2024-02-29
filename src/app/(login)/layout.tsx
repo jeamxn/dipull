@@ -14,7 +14,7 @@ const LoginedLayout = async ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const cookie = headers().get("cookie")?.split(";").map((c: string) => {
+  const cookie = headers().get("cookie")?.split("; ").map((c: string) => {
     const [key, value] = c.split("=");
     return {
       key: key,
