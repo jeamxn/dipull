@@ -15,7 +15,15 @@ export type TimetableResponse = {
   success: boolean;
   message: string;
   checksum: string;
-  data: {};
+  data: {
+    [key: number]: {
+      "월": string;
+      "화": string;
+      "수": string;
+      "목": string;
+      "금": string;
+    }
+  };
 };
 
 export const GET = async (
@@ -81,7 +89,7 @@ export const GET = async (
       return onePeriod;
     };
   
-    const periods: any = {};
+    const periods: TimetableResponse["data"] = {};
     for(let i = 1; i <= 7; i++) {
       periods[i] = getPeriodSubject(i);
     }

@@ -1,11 +1,20 @@
+import { AxiosResponse } from "axios";
 import * as jose from "jose";
 import React from "react";
 
+import { TimetableResponse } from "@/app/api/timetable/[grade]/[class]/route";
 import { TokenInfo } from "@/app/auth/type";
 import instance from "@/utils/instance";
 
-const Timetable = () => {
+const Timetable = ({
+  loading,
+  setLoading,
+}: {
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [gradeClass, setGradeClass] = React.useState(0);
+  const [timetable, setTimetable] = React.useState<TimetableResponse["data"]>({});
 
   React.useEffect(() => {
     const accessToken = localStorage.getItem("accessToken")!;
@@ -14,16 +23,24 @@ const Timetable = () => {
   }, []);
 
   const getTimetable = async () => {
-    await instance.get(`/api/timetable/${Math.floor(gradeClass / 10)}/${gradeClass % 10}`);
+    setLoading(true);
+    try{
+      const res: AxiosResponse<TimetableResponse> = await instance.get(`/api/timetable/${Math.floor(gradeClass / 10)}/${gradeClass % 10}`);
+      setTimetable(res.data.data);
+    }
+    catch(e: any){
+      alert(e.response.data.message);
+    }
+    setLoading(false);
   };
-
+  
   React.useEffect(() => {
     if(gradeClass === 0) return;
     getTimetable();
   }, [gradeClass]);
 
   return (
-    <article>
+    <article className="flex flex-col gap-3">
       <h1 className="text-xl font-semibold flex flex-row gap-2 items-center">
           시간표
         <select 
@@ -44,9 +61,44 @@ const Timetable = () => {
           }
         </select>
       </h1>
-      <table>
-        
-      </table>
+      <section className={[
+        "w-full rounded border border-text/10 overflow-hidden bg-white",
+        loading ? "loading_background" : "",
+      ].join(" ")}>
+        <table className="w-full table-fixed">
+          <tbody className="w-full">
+            <tr>
+              <th className="w-14 px-4 py-2 text-primary text-sm font-semibold border-r border-text/10">시간</th>
+              <th className="px-2 py-2 text-primary text-sm font-semibold">월</th>
+              <th className="px-2 py-2 text-primary text-sm font-semibold">화</th>
+              <th className="px-2 py-2 text-primary text-sm font-semibold">수</th>
+              <th className="px-2 py-2 text-primary text-sm font-semibold">목</th>
+              <th className="px-2 py-2 text-primary text-sm font-semibold">금</th>
+            </tr>
+            {
+              Object.keys(timetable).length ? Object.keys(timetable).map((period, index) => (
+                <tr 
+                  key={index}
+                  className={
+                    Number(period) % 2 === 1 ? "bg-text/[.035]" : ""
+                  }
+                >
+                  <td className="px-4 py-3 text-text/60 text-sm font-normal border-r border-text/10 text-center">{period}</td>
+                  {
+                    ["월", "화", "수", "목", "금"].map((day, i) => (
+                      <td key={index} className="px-2 py-3 text-text/60 text-sm font-normal text-center">{timetable[Number(period)][day as "월" | "화" | "수" | "목" | "금"]}</td>
+                    ))
+                  }
+                </tr>
+              )) : (
+                <tr>
+                  <td colSpan={6} className="px-4 py-3 text-text/60 text-sm font-normal text-center border-t border-text/10">시간표가 없습니다.</td>
+                </tr>
+              )
+            }
+          </tbody>
+        </table>
+      </section>
     </article>
   );
 };
