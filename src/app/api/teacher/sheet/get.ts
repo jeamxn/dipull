@@ -1,12 +1,12 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { OutingDB, defaultOutingData } from "@/app/api/outing/utils";
+import { ByGradeClassObj, StayDB, getApplyStartDate } from "@/app/api/stay/utils";
 import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { OutingDB, defaultOutingData } from "../../outing/utils";
-import { ByGradeClassObj, StayDB, getApplyStartDate } from "../../stay/utils";
 
 import { SheetByGradeClassObj, SheetGradeClassInner, SheetResponse } from "./utils";
 

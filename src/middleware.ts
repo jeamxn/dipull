@@ -4,9 +4,6 @@ import { NextResponse } from "next/server";
 
 import { refreshVerify, verify } from "@/utils/jwt";
 
-import { UserDB } from "./app/auth/type";
-import { connectToDatabase } from "./utils/db";
-
 export const middleware = async (request: NextRequest) => {
   // refreshToken 가져오기
   const refreshToken = cookies().get("refreshToken")?.value || "";
