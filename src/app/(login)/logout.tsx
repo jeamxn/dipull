@@ -9,7 +9,7 @@ const Logout = () => {
   const router = useRouter();
   
   const logout = async () => {
-    const res = await instance.get("/auth/logout");
+    await instance.get("/auth/logout");
     router.push("/login");
   };
   const fetch = async () => {

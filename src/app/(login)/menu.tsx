@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-import { TokenInfo, defaultUserData } from "./auth/type";
+import { TokenInfo, defaultUserData } from "@/app/auth/type";
 
 const menu = [
   {

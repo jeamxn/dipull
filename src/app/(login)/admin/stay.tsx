@@ -2,10 +2,10 @@ import { AxiosResponse } from "axios";
 import * as jose from "jose";
 import React from "react";
 
+import Studyroom from "@/app/(login)/stay/studyroom";
 import { UserInfo } from "@/app/api/admin/userinfo/utils";
 import { ByGradeClassObj, BySeatsObj, StayGetResponse } from "@/app/api/stay/utils";
 import { TokenInfo, defaultUserData } from "@/app/auth/type";
-import Studyroom from "@/app/stay/studyroom";
 import instance from "@/utils/instance";
 
 

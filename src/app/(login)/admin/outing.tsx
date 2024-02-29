@@ -1,9 +1,9 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
+import OutingOption from "@/app/(login)/outing/outingOption";
 import { UserInfo } from "@/app/api/admin/userinfo/utils";
 import { OutingAndMealData, OutingGetResponse, defaultOutingData } from "@/app/api/outing/utils";
-import OutingOption from "@/app/outing/outingOption";
 import instance from "@/utils/instance";
 
 const Outing = ({
