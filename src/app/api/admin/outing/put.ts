@@ -3,12 +3,11 @@ import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { OutingData, OutingAndMealData } from "@/app/api/outing/utils";
 import { getApplyEndDate, getApplyStartDate } from "@/app/api/stay/utils";
 import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
-
-import { OutingData, OutingAndMealData } from "./utils";
 
 const PUT = async (
   req: Request,

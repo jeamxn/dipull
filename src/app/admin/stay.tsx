@@ -47,7 +47,7 @@ const Stay = ({
     const decrypt = jose.decodeJwt(accessToken) as TokenInfo;
     setUserInfo(decrypt.data);
     getStayData();
-  }, []);
+  }, [selectedUser]);
 
   const stayPut = async (owner: string, seat: string) => {
     setLoading(true);
@@ -78,6 +78,9 @@ const Stay = ({
     e.seat[selectedSeat[0]]?.includes(Number(selectedSeat.slice(1, selectedSeat.length)))
   );
 
+  const myApply = byGradeClassObj[Math.floor(selectedUser.number / 1000)]?.[Math.floor(selectedUser.number / 100) % 10].find(e => e.id === selectedUser.id);
+  const isApplyed = myApply?.id;
+  
   return (
     <article className="flex flex-col gap-3">
       <h1 className="text-xl font-semibold">잔류 수정하기</h1>
@@ -101,27 +104,39 @@ const Stay = ({
               selectedSeat === "@0" ? (
                 <h1 className="text-xl font-semibold">선택된 좌석: 교실 잔류</h1>
               ) : (
-                <h1 className="text-xl font-semibold">선택된 좌석: {selectedSeat} / {type?.grade.join(", ")}학년 / {type?.gender === "male" ? "남학생": type?.gender === "female" ? "여학생" : "선택 불가"}</h1>
+                <h1 className="text-xl font-semibold">선택된 좌석: {selectedSeat} ({type?.grade.join(", ")}학년 / {type?.gender === "male" ? "남학생": type?.gender === "female" ? "여학생" : "선택 불가"})</h1>
               )
             }
           </p>
           <p>
             선택된 학생: [{selectedUser.gender === "male" ? "남학생" : "여학생"}] {selectedUser?.number} {selectedUser?.name}
           </p>
+          {
+            isApplyed ? (
+              <p>
+                신청된 좌석: {myApply?.seat}
+              </p>
+            ) : null
+          }
         </figure>
         <section className="w-full flex flex-row gap-2">
-          <button 
-            className="w-full py-2 rounded font-semibold text-[#EF4444] border border-[#EF4444]"
-            onClick={() => stayDelete(selectedUser?.id!)}
-          >
-            잔류 취소
-          </button>
-          <button 
-            className="w-full py-2 text-white bg-primary rounded font-semibold"
-            onClick={() => stayPut(selectedUser?.id!, selectedSeat)}
-          >
-            선택 좌석에 잔류 신청
-          </button>
+          {
+            isApplyed ? (
+              <button 
+                className="w-full py-2 rounded font-semibold text-[#EF4444] border border-[#EF4444]"
+                onClick={() => stayDelete(selectedUser?.id!)}
+              >
+                잔류 신청 취소
+              </button>
+            ) : (
+              <button 
+                className="w-full py-2 text-white bg-primary rounded font-semibold"
+                onClick={() => stayPut(selectedUser?.id!, selectedSeat)}
+              >
+                선택 좌석에 잔류 신청
+              </button>
+            )
+          }
         </section>
       </article>
     </article>

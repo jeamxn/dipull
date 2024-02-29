@@ -22,7 +22,7 @@ const Outing = ({
 
   React.useEffect(() => {
     getOutingData();
-  }, []);
+  }, [selectedUser]);
 
   const getOutingData = async () => {
     setLoading(true);

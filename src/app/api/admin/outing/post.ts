@@ -1,11 +1,10 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { OutingDB, OutingGetResponse, defaultOutingData } from "@/app/api/outing/utils";
 import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
-
-import { OutingDB, OutingGetResponse, defaultOutingData } from "./utils";
 
 const POST = async (
   req: Request,

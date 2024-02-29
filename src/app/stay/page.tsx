@@ -96,14 +96,23 @@ const Stay = () => {
             )
           }
         </section>
-        <button 
-          className="bg-primary text-white w-full text-base font-semibold rounded h-10"
-          onClick={ mySelect ? deleteStayData : putStayData }
-        >
-          {
-            mySelect ? "잔류 신청 취소하기" : "잔류 신청하기"
-          }
-        </button>
+        {
+          mySelect ? (
+            <button 
+              className="w-full py-2 rounded font-semibold text-[#EF4444] border border-[#EF4444]"
+              onClick={deleteStayData}
+            >
+              잔류 신청 취소하기
+            </button>
+          ) : (
+            <button 
+              className="bg-primary text-white w-full text-base font-semibold rounded h-10"
+              onClick={putStayData}
+            >
+              잔류 신청하기
+            </button>
+          )
+        }
       </article>
 
       <div className="w-full border-b border-text/10" />
