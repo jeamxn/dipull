@@ -68,7 +68,7 @@ const Timetable = ({
         <table className="w-full table-fixed">
           <tbody className="w-full">
             <tr>
-              <th className="w-14 px-4 py-2 text-primary text-sm font-semibold border-r border-text/10">시간</th>
+              <th className="w-8 py-2 text-primary text-sm font-semibold border-r border-text/10">-</th>
               <th className="px-2 py-2 text-primary text-sm font-semibold">월</th>
               <th className="px-2 py-2 text-primary text-sm font-semibold">화</th>
               <th className="px-2 py-2 text-primary text-sm font-semibold">수</th>
@@ -79,14 +79,16 @@ const Timetable = ({
               Object.keys(timetable).length ? Object.keys(timetable).map((period, index) => (
                 <tr 
                   key={index}
-                  className={
-                    Number(period) % 2 === 1 ? "bg-text/[.035]" : ""
-                  }
+                  className={[
+                    Number(period) % 2 === 1 ? "bg-text/[.035]" : "",
+                  ].join(" ")}
                 >
-                  <td className="px-4 py-3 text-text/60 text-sm font-normal border-r border-text/10 text-center">{period}</td>
+                  <td className="py-3 text-text/60 text-sm font-normal border-r border-text/10 text-center">{period}</td>
                   {
                     ["월", "화", "수", "목", "금"].map((day, i) => (
-                      <td key={i} className="px-2 py-3 text-text/60 text-sm font-normal text-center">{timetable[Number(period)][day as "월" | "화" | "수" | "목" | "금"]}</td>
+                      <td key={i} className="px-1 py-3 whitespace-pre-line">
+                        <p className="text-text/60 text-sm font-normal text-center whitespace-break-spaces break-all">{timetable[Number(period)][day as "월" | "화" | "수" | "목" | "금"]}</p>
+                      </td>
                     ))
                   }
                 </tr>

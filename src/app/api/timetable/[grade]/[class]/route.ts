@@ -1,3 +1,4 @@
+import "moment-timezone";
 import axios from "axios";
 import moment from "moment";
 import { headers } from "next/headers";
@@ -24,6 +25,67 @@ export type TimetableResponse = {
       "금": string;
     }
   };
+};
+
+const dimi_subject: {
+  [key: string]: string;
+} = {
+  "IoT 서비스 모형 기획": "사물",
+  "IoT 응용소프트웨어 기획": "사물",
+  "컴퓨터 그래픽": "컴그",
+  "진로활동": "진로",
+  "상업 경제": "상경",
+  "통합사회": "사회",
+  "한국사": "국사",
+  "통합과학": "과학",
+  "자율활동": "HR",
+  "동아리활동": "CA",
+  "컴퓨터 시스템 일반": "컴일",
+  "프로그래밍": "플밍",
+  "수학Ⅰ": "수Ⅰ",
+  "수학Ⅱ": "수Ⅱ",
+  "회계 원리": "회계",
+  "영어Ⅰ": "영Ⅰ",
+  "마케팅과 광고": "마광",
+  "문학과 매체": "문학",
+  "운동과 건강": "운동",
+  "성공적인 직업생활": "성직",
+  "공업수학의 기초": "공수",
+  "화면 구현": "화구",
+  "UI 디자인": "UI",
+  "정보 통신": "정통",
+  "시스템 보안 운영": "정보",
+  "네트워크 보안 운영": "정보",
+  "중국어Ⅰ": "중Ⅰ",
+  "화학Ⅰ": "화Ⅰ",
+  "물리Ⅰ": "물Ⅰ",
+  "확률과 통계": "확통",
+  "데이터베이스 구현": "DB",
+  "수출마케팅": "수출",
+  "데이터베이스 요구사항 분석": "요분",
+  "비즈니스 영어": "비영",
+  "고전 읽기": "고전",
+  "문화 콘텐츠 산업 일반": "문콘",
+  "수입마케팅": "수입",
+  "전표관리": "전표",
+  "빅데이터 수집": "빅수",
+  "분석용 데이터 탐색": "데탐",
+  "자금관리": "자금",
+  "프로그램 기획": "프기",
+  "프로그래밍 언어 활용": "프활",
+  "공업수학": "공수",
+  "공업 일반": "공일",
+  "인공지능과 미래사회": "인미",
+  "네트워크 프로그래밍 구현": "네프",
+  "네트워크 프로토콜 분석": "네프",
+  "인터넷  설비 설계": "인설",
+  "네트워크유지보수": "네유",
+  "정보보호 계획 수립": "정보",
+  "미적분": "미적",
+  "제작준비": "제준",
+  "광고 전략 수립": "광콘",
+  "그래픽 제작": "컴그",
+  "음악콘텐츠제작기획": "음콘",
 };
 
 export const GET = async (
@@ -71,8 +133,8 @@ export const GET = async (
         // TI_FROM_YMD: "20220314",
         // TI_TO_YMD: "20220314",
         // 이번주 월요일부터 금요일까지
-        TI_FROM_YMD: moment("20231220").startOf("isoWeek").format("YYYYMMDD"),
-        TI_TO_YMD: moment("20231220").endOf("isoWeek").format("YYYYMMDD"),
+        TI_FROM_YMD: moment().tz("Asia/Seoul").startOf("isoWeek").format("YYYYMMDD"),
+        TI_TO_YMD: moment().tz("Asia/Seoul").endOf("isoWeek").format("YYYYMMDD"),
       }
     });
     const row = data.hisTimetable[1].row;
@@ -84,7 +146,7 @@ export const GET = async (
         ITRT_CNTNT: v.ITRT_CNTNT.replaceAll("* ", ""),
       }));
       for(const day of list) {
-        onePeriod[Day[day.DAY]] = day.ITRT_CNTNT;
+        onePeriod[Day[day.DAY]] = dimi_subject[day.ITRT_CNTNT] || day.ITRT_CNTNT;
       }
       return onePeriod;
     };

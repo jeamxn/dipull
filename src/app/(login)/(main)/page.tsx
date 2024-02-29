@@ -11,11 +11,11 @@ const Home = () => {
   const [loading, setLoading] = React.useState(false);
   return (
     <Insider>
-      <Timetable
+      <Meal 
         loading={loading}
         setLoading={setLoading}
       />
-      <Meal 
+      <Timetable
         loading={loading}
         setLoading={setLoading}
       />
