@@ -64,7 +64,7 @@ export type StudyroomDB = StudyroomData & {
 export const getApplyStartDate = async () => {
   const states = await getStates("stay");
   if(states?.start) {
-    return moment(states.start).tz("Asia/Seoul").format("YYYY-MM-DD");
+    return moment(states.start).format("YYYY-MM-DD");
   }
   return moment().tz("Asia/Seoul").startOf("week").add(1, "day").format("YYYY-MM-DD");
 };

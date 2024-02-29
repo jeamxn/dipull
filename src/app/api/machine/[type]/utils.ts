@@ -6,17 +6,17 @@ import { getStates } from "@/utils/getStates";
 export const getApplyStartTime = async () => {
   const states = await getStates("machine");
   if(states?.start) {
-    return moment(states.start, "HH:mm").tz("Asia/Seoul").format("HH:mm");
+    return moment(states.start, "HH:mm").format("HH:mm");
   }
-  return moment("08:00", "HH:mm").tz("Asia/Seoul").format("HH:mm");
+  return moment("08:00", "HH:mm").format("HH:mm");
 };
 
 export const getApplyEndTime = async () => {
   const states = await getStates("machine");
   if(states?.end) {
-    return moment(states.end, "HH:mm").tz("Asia/Seoul").format("HH:mm");
+    return moment(states.end, "HH:mm").format("HH:mm");
   }
-  return moment("22:30", "HH:mm").tz("Asia/Seoul").format("HH:mm");
+  return moment("22:30", "HH:mm").format("HH:mm");
 };
 
 export type Params = {
