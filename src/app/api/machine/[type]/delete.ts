@@ -36,11 +36,6 @@ const DELETE = async (
     return new NextResponse(JSON.stringify({
       success: false,
       message: `${applyStartDate.format("HH시 mm분")}부터 ${applyEndDate.format("HH시 mm분")} 사이에 신청 가능합니다.`,
-      ret: {
-        start: applyStartDate.format("HH:mm"),
-        end: applyEndDate.format("HH:mm"),
-        currentTime: currentTime.format("HH:mm")
-      }
     }), {
       status: 400,
       headers: new_headers
