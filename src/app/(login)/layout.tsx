@@ -33,7 +33,7 @@ const LoginedLayout = async ({
             <article className="w-full flex justify-center items-center border-b border-text/10 px-5 py-3">
               <p className="text-primary text-lg font-semibold">디미고인 풀 서비스 V3</p>
             </article>
-            <article className="w-full py-5 px-8 border-b border-text/10 flex flex-row items-center gap-4">
+            <article className="w-full py-5 px-4 border-b border-text/10 flex flex-row items-center gap-4">
               <img src={veryfied.payload.profile_image} alt={veryfied.payload.name} width={60} height={60} className="rounded-full" />
               <figure className="flex flex-col justify-center items-start">
                 <p className="font-semibold text-lg">{veryfied.payload.number} {veryfied.payload.name}</p>

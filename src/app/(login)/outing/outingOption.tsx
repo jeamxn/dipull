@@ -35,7 +35,7 @@ const OutingOption = ({
         <section className="flex flex-row justify-center items-center w-full gap-2">
           <input 
             type="text" 
-            placeholder="외출 사유를 입력 해주세요."
+            placeholder="외출 사유를 입력해주세요."
             className="bg-transparent rounded border border-text/10 px-4 py-2 text-base w-full"
             value={tmpOuting.description}
             onChange={e => setTmpOuting(p => ({ ...p, description: e.target.value }))}
@@ -112,7 +112,7 @@ const OutingOption = ({
         </section>
       </article>
       <article className={[
-        "flex flex-col gap-2 bg-white rounded border border-text/10 p-5",
+        "flex flex-col gap-2 bg-white rounded border border-text/10 p-5 overflow-auto",
         loading ? "loading_background" : "",
       ].join(" ")}>
         <table className="w-full">
@@ -185,7 +185,7 @@ const OutingOption = ({
               })}
             >
               <h3 className="text-base font-semibold">{MealKorean[key]}</h3>
-              <p className="text-base font-light">{ value ? "취소 안함" : "취소함" }</p>
+              <p className="text-base font-light whitespace-nowrap text-center">{ value ? "취소 안함" : "취소함" }</p>
             </figure>
           ))
         }
