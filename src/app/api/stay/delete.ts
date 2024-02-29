@@ -26,8 +26,8 @@ const DELETE = async (
   });
 
   const currentTime = moment().tz("Asia/Seoul");
-  const applyStartDate = moment(getApplyStartDate()).tz("Asia/Seoul");
-  const applyEndDate = moment(getApplyEndDate()).tz("Asia/Seoul");
+  const applyStartDate = moment(await getApplyStartDate()).tz("Asia/Seoul");
+  const applyEndDate = moment(await getApplyEndDate()).tz("Asia/Seoul");
   if(currentTime.isBefore(applyStartDate) || currentTime.isAfter(applyEndDate)) {
     return new NextResponse(JSON.stringify({
       success: false,
@@ -42,7 +42,7 @@ const DELETE = async (
   const client = await connectToDatabase();
   const stayCollection = client.db().collection("stay");
 
-  const mySelectQuery = { week: getApplyStartDate(), owner: verified.payload.id };
+  const mySelectQuery = { week: await getApplyStartDate(), owner: verified.payload.id };
   const deleteMySelect = await stayCollection.deleteOne(mySelectQuery);
 
   if(deleteMySelect.deletedCount) {

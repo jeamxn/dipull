@@ -48,7 +48,7 @@ const DELETE = async (
   // DB 접속
   const stayCollection = client.db().collection("stay");
 
-  const mySelectQuery = { week: getApplyStartDate(), owner: params.owner };
+  const mySelectQuery = { week: await getApplyStartDate(), owner: params.owner };
   const deleteMySelect = await stayCollection.deleteOne(mySelectQuery);
 
   if(deleteMySelect.deletedCount) {

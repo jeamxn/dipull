@@ -39,7 +39,7 @@ const GET = async (
 
   const stayCollection = client.db().collection("stay");
   const outingCollection = client.db().collection("outing");
-  const query = { week: getApplyStartDate() };
+  const query = { week: await getApplyStartDate() };
   const result = await stayCollection.find(query).toArray() as unknown as StayDB[];
   const byGradeClassObj: SheetByGradeClassObj = {};
   for(const e of result) {

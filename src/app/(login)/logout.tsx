@@ -12,14 +12,10 @@ const Logout = () => {
     await instance.get("/auth/logout");
     router.push("/login");
   };
-  const fetch = async () => {
-    const res = await instance.get("/api");
-    alert(res.data.message);
-  };
+
   return (
     <div className="flex flex-row gap-1">
       <button onClick={logout} className="text-sm text-text/40 hover:text-primary transition-colors">로그아웃</button>
-      <button onClick={fetch} className="text-sm text-text/40 hover:text-primary transition-colors">fetch</button>
     </div>
   );
 };

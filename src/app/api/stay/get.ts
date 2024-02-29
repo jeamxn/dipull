@@ -29,7 +29,7 @@ const GET = async (
   const stayCollection = client.db().collection("stay");
   const userCollection = client.db().collection("users");
   const studyroomCollection = client.db().collection("studyroom");
-  const query = { week: getApplyStartDate() };
+  const query = { week: await getApplyStartDate() };
   const result = await stayCollection.find(query).toArray() as unknown as StayDB[];
 
   const bySeatsObj: BySeatsObj = {};
@@ -55,7 +55,7 @@ const GET = async (
     byGradeClassObj[grade][classNum].push(pushData);
   }
 
-  const mySelectQuery = { week: getApplyStartDate(), owner: verified.payload.id };
+  const mySelectQuery = { week: await getApplyStartDate(), owner: verified.payload.id };
   const mySelect = await stayCollection.findOne(mySelectQuery) as unknown as StayDB;
   const { seat } = mySelect || { seat: "" };
 

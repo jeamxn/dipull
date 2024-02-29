@@ -30,8 +30,8 @@ const DELETE = async (
   });
 
   const currentTime = moment().tz("Asia/Seoul");
-  const applyStartDate = moment(getApplyStartTime(), "HH:mm");
-  const applyEndDate = moment(getApplyEndTime(), "HH:mm");
+  const applyStartDate = moment(await getApplyStartTime(), "HH:mm");
+  const applyEndDate = moment(await getApplyEndTime(), "HH:mm");
   if(currentTime.isBefore(applyStartDate) || currentTime.isAfter(applyEndDate)) {
     return new NextResponse(JSON.stringify({
       success: false,

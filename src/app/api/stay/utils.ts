@@ -2,6 +2,7 @@ import "moment-timezone";
 import moment from "moment";
 
 import { UserDB } from "@/app/auth/type";
+import { getStates } from "@/utils/getStates";
 
 export type StayData = {
   week: string;
@@ -60,11 +61,18 @@ export type StudyroomDB = StudyroomData & {
   _id: string;
 }
 
-export const getApplyStartDate = () => {
+export const getApplyStartDate = async () => {
+  const states = await getStates("stay");
+  if(states?.start) {
+    return moment(states.start).tz("Asia/Seoul").format("YYYY-MM-DD");
+  }
   return moment().tz("Asia/Seoul").startOf("week").add(1, "day").format("YYYY-MM-DD");
 };
 
-export const getApplyEndDate = () => {
-  // return moment(getApplyStartDate()).add(1, "day").format("YYYY-MM-DD");
-  return "2024-02-30";
+export const getApplyEndDate = async () => {
+  const states = await getStates("stay");
+  if(states?.end) {
+    return moment(states.end).tz("Asia/Seoul").add(1, "day").format("YYYY-MM-DD");
+  }
+  return moment(await getApplyStartDate()).add(2, "day").format("YYYY-MM-DD");
 };

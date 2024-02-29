@@ -55,7 +55,7 @@ const PUT = async (
   // DB 접속
   const stayCollection = client.db().collection("stay");
 
-  const mySelectQuery = { week: getApplyStartDate(), owner: owner };
+  const mySelectQuery = { week: await getApplyStartDate(), owner: owner };
   const mySelect = await stayCollection.findOne(mySelectQuery);
   if(mySelect) {
     return new NextResponse(JSON.stringify({
@@ -67,7 +67,7 @@ const PUT = async (
     });
   }
 
-  const seetSelectQuery = { week: getApplyStartDate(), seat: seat };
+  const seetSelectQuery = { week: await getApplyStartDate(), seat: seat };
   const seatSelect = await stayCollection.findOne(seetSelectQuery);
   if(seatSelect) {
     return new NextResponse(JSON.stringify({
@@ -80,7 +80,7 @@ const PUT = async (
   }
 
   const put_data: StayData = {
-    week: getApplyStartDate(),
+    week: await getApplyStartDate(),
     seat: seat,
     owner: owner,
   };

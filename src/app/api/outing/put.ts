@@ -33,8 +33,8 @@ const PUT = async (
 
   // Date Check
   const currentTime = moment().tz("Asia/Seoul");
-  const applyStartDate = moment(getApplyStartDate()).tz("Asia/Seoul");
-  const applyEndDate = moment(getApplyEndDate()).tz("Asia/Seoul");
+  const applyStartDate = moment(await getApplyStartDate()).tz("Asia/Seoul");
+  const applyEndDate = moment(await getApplyEndDate()).tz("Asia/Seoul");
   if(currentTime.isBefore(applyStartDate) || currentTime.isAfter(applyEndDate)) {
     return new NextResponse(JSON.stringify({
       success: false,
@@ -47,7 +47,7 @@ const PUT = async (
 
   const client = await connectToDatabase();
   const stayCollection = client.db().collection("stay");
-  const query2 = { owner: verified.payload.data.id, week: getApplyStartDate() };
+  const query2 = { owner: verified.payload.data.id, week: await getApplyStartDate() };
   const stayData = await stayCollection.findOne(query2);
   if(!stayData) {
     return new NextResponse(JSON.stringify({
@@ -108,7 +108,7 @@ const PUT = async (
   // put data
   const putData: OutingData = {
     owner: verified.payload.data.id,
-    week: getApplyStartDate(),
+    week: await getApplyStartDate(),
     sat: satData,
     sun: sunData,
   };

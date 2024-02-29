@@ -38,8 +38,8 @@ const PUT = async (
   });
 
   const currentTime = moment().tz("Asia/Seoul");
-  const applyStartDate = moment(getApplyStartDate()).tz("Asia/Seoul");
-  const applyEndDate = moment(getApplyEndDate()).tz("Asia/Seoul");
+  const applyStartDate = moment(await getApplyStartDate()).tz("Asia/Seoul");
+  const applyEndDate = moment(await getApplyEndDate()).tz("Asia/Seoul");
   if(currentTime.isBefore(applyStartDate) || currentTime.isAfter(applyEndDate)) {
     return new NextResponse(JSON.stringify({
       success: false,
@@ -79,7 +79,7 @@ const PUT = async (
   }
 
 
-  const mySelectQuery = { week: getApplyStartDate(), owner: verified.payload.id };
+  const mySelectQuery = { week: await getApplyStartDate(), owner: verified.payload.id };
   const mySelect = await stayCollection.findOne(mySelectQuery);
   if(mySelect) {
     return new NextResponse(JSON.stringify({
@@ -91,7 +91,7 @@ const PUT = async (
     });
   }
 
-  const seetSelectQuery = { week: getApplyStartDate(), seat: seat };
+  const seetSelectQuery = { week: await getApplyStartDate(), seat: seat };
   const seatSelect = await stayCollection.findOne(seetSelectQuery);
   if(seatSelect) {
     return new NextResponse(JSON.stringify({
@@ -104,7 +104,7 @@ const PUT = async (
   }
 
   const put_data: StayData = {
-    week: getApplyStartDate(),
+    week: await getApplyStartDate(),
     seat: seat,
     owner: verified.payload.id
   };
