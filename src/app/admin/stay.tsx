@@ -92,7 +92,8 @@ const Stay = ({
         bySeatsObj={bySeatsObj}
         studyroom={studyroom}
         userInfo={userInfo}
-        allowSelect
+        allowSelect={!isApplyed}
+        disabled={!!isApplyed}
       />
       <article className={[
         "flex flex-col gap-4 bg-white rounded border border-text/10 p-5",
@@ -100,22 +101,18 @@ const Stay = ({
       ].join(" ")}>
         <figure className="flex flex-col gap-2">
           {
-            selectedSeat === "@0" ? (
-              <h1 className="text-xl font-semibold">선택된 좌석: 교실 잔류</h1>
-            ) : (
-              <h1 className="text-xl font-semibold">선택된 좌석: {selectedSeat} ({type?.grade.join(", ")}학년 / {type?.gender === "male" ? "남학생": type?.gender === "female" ? "여학생" : "선택 불가"})</h1>
-            )
+            isApplyed ? (
+              <h1 className="text-xl font-semibold">잔류 신청된 좌석: {myApply?.seat}</h1>
+            ) :
+              selectedSeat === "@0" ? (
+                <h1 className="text-xl font-semibold">선택된 좌석: 교실 잔류</h1>
+              ) : (
+                <h1 className="text-xl font-semibold">선택된 좌석: {selectedSeat} ({type?.grade.join(", ")}학년 / {type?.gender === "male" ? "남학생": type?.gender === "female" ? "여학생" : "선택 불가"})</h1>
+              )
           }
           <p>
             선택된 학생: [{selectedUser.gender === "male" ? "남학생" : "여학생"}] {selectedUser?.number} {selectedUser?.name}
           </p>
-          {
-            isApplyed ? (
-              <p>
-                신청된 좌석: {myApply?.seat}
-              </p>
-            ) : null
-          }
         </figure>
         <section className="w-full flex flex-row gap-2">
           {

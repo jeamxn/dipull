@@ -7,6 +7,7 @@ import Insider from "@/provider/insider";
 
 import Outing from "./outing";
 import Search from "./search";
+import Sheet from "./sheet";
 import Stay from "./stay";
 
 const Admin = () => {
@@ -16,6 +17,10 @@ const Admin = () => {
 
   return (
     <Insider>
+      <Sheet 
+        loading={loading}
+        setLoading={setLoading}
+      />
       <Search 
         loading={loading}
         setLoading={setLoading}
