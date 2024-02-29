@@ -72,7 +72,7 @@ export const getApplyStartDate = async () => {
 export const getApplyEndDate = async () => {
   const states = await getStates("stay");
   if(states?.end) {
-    return moment(states.end).tz("Asia/Seoul").add(1, "day").format("YYYY-MM-DD");
+    return moment(states.end).add(1, "day").format("YYYY-MM-DD");
   }
   return moment(await getApplyStartDate()).add(2, "day").format("YYYY-MM-DD");
 };

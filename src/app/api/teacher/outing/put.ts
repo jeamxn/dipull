@@ -51,8 +51,8 @@ const PUT = async (
 
   // Date Check
   const currentTime = moment().tz("Asia/Seoul");
-  const applyStartDate = moment(await getApplyStartDate()).tz("Asia/Seoul");
-  const applyEndDate = moment(await getApplyEndDate()).tz("Asia/Seoul");
+  const applyStartDate = moment(await getApplyStartDate());
+  const applyEndDate = moment(await getApplyEndDate());
   if(currentTime.isBefore(applyStartDate) || currentTime.isAfter(applyEndDate)) {
     return new NextResponse(JSON.stringify({
       success: false,
