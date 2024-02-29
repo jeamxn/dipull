@@ -64,7 +64,7 @@ const PUT = async (
   }
 
   const stayCollection = client.db().collection("stay");
-  const query2 = { owner: verified.payload.data.id, week: await getApplyStartDate() };
+  const query2 = { owner: owner, week: await getApplyStartDate() };
   const stayData = await stayCollection.findOne(query2);
   if(!stayData) {
     return new NextResponse(JSON.stringify({
@@ -124,7 +124,7 @@ const PUT = async (
 
   // put data
   const putData: OutingData = {
-    owner: verified.payload.data.id,
+    owner: owner,
     week: await getApplyStartDate(),
     sat: satData,
     sun: sunData,
