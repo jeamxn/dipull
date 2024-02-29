@@ -15,7 +15,7 @@ const Admin = () => {
   const [selectedUser, setSelectedUser] = React.useState<UserInfo>(defaultUserData);
 
   return (
-    <Insider className="flex flex-col gap-5">
+    <Insider>
       <Search 
         loading={loading}
         setLoading={setLoading}

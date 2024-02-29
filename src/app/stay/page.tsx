@@ -70,7 +70,7 @@ const Stay = () => {
   }, []);
 
   return (
-    <Insider className="flex flex-col gap-5">
+    <Insider>
       <article className="flex flex-col gap-3">
         <h1 className="text-xl font-semibold">잔류 신청하기</h1>
         <Studyroom

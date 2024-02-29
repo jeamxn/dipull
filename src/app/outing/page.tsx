@@ -47,7 +47,7 @@ const Outing = () => {
   };
 
   return (
-    <Insider className="flex flex-col gap-5">
+    <Insider>
       <section className="flex flex-col gap-3">
         <h1 className="text-xl font-semibold">외출 및 급식 변경 신청하기</h1>
         <OutingOption 

@@ -12,6 +12,9 @@ export const middleware = async (request: NextRequest) => {
   const refreshToken = cookies().get("refreshToken")?.value || "";
   const verified = await refreshVerify(refreshToken);
 
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-url", request.url);
+
   try{
     if(!verified.ok) {
       return NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_REDIRECT_URI!));
@@ -24,7 +27,12 @@ export const middleware = async (request: NextRequest) => {
     return NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_REDIRECT_URI!));
   }
 
-  return NextResponse.next();
+  return NextResponse.next({
+    request: {
+      ...request,
+      headers: requestHeaders,
+    },
+  });
 };
 
 export const config = {

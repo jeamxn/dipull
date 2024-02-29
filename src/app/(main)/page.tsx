@@ -9,7 +9,7 @@ import Timetable from "./timetable";
 
 const Home = () => {
   return (
-    <Insider className="flex flex-col gap-5">
+    <Insider>
       {/* <Timetable /> */}
       <Meal />
     </Insider>

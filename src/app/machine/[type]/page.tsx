@@ -94,7 +94,7 @@ const Machine = (
   }, []);
 
   return (
-    <Insider className="flex flex-col gap-5">
+    <Insider>
       <section className="flex flex-col gap-3">
         <h1 className="text-xl font-semibold">{machineKorean[params.type]} 신청하기</h1>
         {
