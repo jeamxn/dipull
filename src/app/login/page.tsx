@@ -13,9 +13,19 @@ function Login() {
     router.push(url);
   };
   return (
-    <Insider className="w-full h-full justify-center items-center">
+    <Insider 
+      className="w-full h-full justify-center items-center"
+    >
+      <Image 
+        src="/public/background.jpg"
+        alt="background"
+        layout="fill"
+        objectFit="cover"
+        objectPosition="bottom"
+        className="blur-[16px] opacity-25"
+      />
       <button 
-        className="bg-primary px-8 py-8 rounded-md transition-opacity flex flex-col gap-6 justify-between items-center w-full max-w-[30rem]"
+        className="z-50 bg-primary px-8 py-8 rounded-md transition-opacity flex flex-col gap-6 justify-between items-center w-full max-w-[30rem]"
         onClick={login}
       >
         <section className="flex flex-row w-full justify-start items-start">
@@ -33,16 +43,16 @@ function Login() {
             </defs>
           </svg>
         </section>
-        <section className="flex flex-col gap-2 justify-center items-end w-full">
-          <section className="flex flex-row gap-2 justify-start items-center">
+        <article className="flex flex-col gap-2 justify-center items-end w-full">
+          <figure className="flex flex-row gap-2 justify-start items-center">
           
             <p className="text-white whitespace-nowrap text-base">디미고인 풀 서비스 V3</p>
-          </section>
-          <section className="flex flex-row gap-0 justify-start items-center">
+          </figure>
+          <figure className="flex flex-row gap-0 justify-start items-center">
             <p className="text-xl text-white font-bold text-left whitespace-nowrap">디미고인 계정</p>
             <p className="text-xl text-white font-normal text-left whitespace-nowrap">으로 로그인하기</p>
-          </section>
-        </section>
+          </figure>
+        </article>
       </button>     
     </Insider>
   );
