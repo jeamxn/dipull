@@ -5,12 +5,10 @@ type Props = {
   params: { 
     type: "washer" | "dryer";
   }
-  searchParams: { [key: string]: string | string[] | undefined }
 }
 
 export async function generateMetadata(
-  { params, searchParams }: Props,
-  parent: ResolvingMetadata
+  { params }: Props,
 ): Promise<Metadata> {
   
   return {
