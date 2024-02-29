@@ -3,14 +3,16 @@ import React from "react";
 const Insider = ({
   children,
   className,
-  style,
+  ref,
+  ...props
 }: Readonly<{
   children?: React.ReactNode;
   className?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>["className"];
-  style?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>["style"];
+  ref?: React.RefObject<HTMLDivElement>;
+  props?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
 }>) => {
   return (
-    <main className={["py-5 px-8 flex flex-col gap-5", className].join(" ")} style={style}>
+    <main className={["py-5 px-8 flex flex-col gap-5", className].join(" ")} {...props}>
       {children}
     </main>
   );

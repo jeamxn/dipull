@@ -6,12 +6,14 @@ import React from "react";
 
 import Insider from "@/provider/insider";
 
-function Login() {
+const Login = () => {
+  const ref = React.useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const login = async () => {
     const url = `${process.env.NEXT_PUBLIC_DIMIGOIN_URI}/auth?client=65d1ee362893e7ba99634e12&redirect=${process.env.NEXT_PUBLIC_REDIRECT_URI}/auth`;
     router.push(url);
   };
+
   return (
     <Insider 
       className="w-full h-full justify-center items-center"
@@ -27,6 +29,7 @@ function Login() {
       <button 
         className="overflow-hidden z-50 bg-primary px-8 py-8 rounded-md transition-opacity flex flex-col gap-6 justify-between items-center w-full max-w-[30rem]"
         onClick={login}
+        ref={ref}
       >
         <section className="flex flex-row w-full justify-start items-start">
           <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 20 21" fill="none">
@@ -56,6 +59,6 @@ function Login() {
       </button>     
     </Insider>
   );
-}
+};
 
 export default Login;
