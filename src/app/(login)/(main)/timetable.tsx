@@ -86,7 +86,7 @@ const Timetable = ({
                   <td className="px-4 py-3 text-text/60 text-sm font-normal border-r border-text/10 text-center">{period}</td>
                   {
                     ["월", "화", "수", "목", "금"].map((day, i) => (
-                      <td key={index} className="px-2 py-3 text-text/60 text-sm font-normal text-center">{timetable[Number(period)][day as "월" | "화" | "수" | "목" | "금"]}</td>
+                      <td key={i} className="px-2 py-3 text-text/60 text-sm font-normal text-center">{timetable[Number(period)][day as "월" | "화" | "수" | "목" | "금"]}</td>
                     ))
                   }
                 </tr>
