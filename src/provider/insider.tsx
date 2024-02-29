@@ -12,7 +12,7 @@ const Insider = ({
   props?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
 }>) => {
   return (
-    <main className={["py-5 px-4 flex flex-col gap-5", className].join(" ")} {...props}>
+    <main className={["py-4 px-4 flex flex-col gap-8", className].join(" ")} {...props}>
       {children}
     </main>
   );

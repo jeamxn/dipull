@@ -52,7 +52,7 @@ const Meal = ({
             (Object.entries(meal) as [MealKey, string][]).map(([key, value]) => (
               <figure 
                 className={[
-                  "p-5 bg-white rounded-md border border-text/10 min-w-[206.5px]",
+                  "p-5 bg-white rounded-md border border-text/10 min-w-[217px]",
                   loading ? "loading_background" : "",
                 ].join(" ")}
                 key={key}

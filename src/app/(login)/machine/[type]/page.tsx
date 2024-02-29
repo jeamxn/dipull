@@ -175,7 +175,7 @@ const Machine = (
           )
         }
       </section>
-      <div className="w-full border-b border-text/10" />
+      {/* <div className="w-full border-b border-text/10" /> */}
       <section className="flex flex-col gap-3">
         <h1 className="text-xl font-semibold">{machineKorean[params.type]}기 신청 현황</h1>
         <article className="flex flex-col gap-1">

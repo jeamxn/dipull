@@ -115,7 +115,7 @@ const Stay = () => {
         }
       </article>
 
-      <div className="w-full border-b border-text/10" />
+      {/* <div className="w-full border-b border-text/10" /> */}
 
       <article className="flex flex-col gap-3">
         <h1 className="text-xl font-semibold">잔류 신청 현황</h1>
