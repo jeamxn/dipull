@@ -64,8 +64,7 @@ const Studyroom = ({
                       key={j} 
                       className={[
                         "w-10 h-10 rounded-sm flex justify-center items-center select-none transition-colors",
-                        selectedSeat === key ? "bg-primary text-white" : 
-                          !type?.color ? "bg-text/10" : "",
+                        selectedSeat === key ? "bg-primary text-white" : "",
                         disabled_in ? "" : "cursor-pointer"
                       ].join(" ")}
                       style={{
@@ -81,7 +80,7 @@ const Studyroom = ({
                         "text-center text-xs transition-colors font-medium",
                         selectedSeat === key ? "text-white" : ""
                       ].join(" ")}>
-                        {owner || key}
+                        {!noColor ? (owner || key) : ""}
                       </p>
                     </td>
                   );

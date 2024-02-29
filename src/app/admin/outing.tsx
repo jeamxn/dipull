@@ -1,16 +1,22 @@
-"use client";
-
 import { AxiosResponse } from "axios";
 import React from "react";
 
+import { UserInfo } from "@/app/api/admin/userinfo/utils";
 import { OutingAndMealData, OutingGetResponse, defaultOutingData } from "@/app/api/outing/utils";
-import Insider from "@/provider/insider";
+import OutingOption from "@/app/outing/outingOption";
 import instance from "@/utils/instance";
 
-import OutingOption from "./outingOption";
-
-const Outing = () => {
-  const [loading, setLoading] = React.useState(false);
+const Outing = ({
+  loading,
+  setLoading,
+  selectedUser,
+  setSelectedUser,
+}: {
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedUser: UserInfo;
+  setSelectedUser: React.Dispatch<React.SetStateAction<UserInfo>>;
+}) => {
   const [sat, setSat] = React.useState<OutingAndMealData>(defaultOutingData);
   const [sun, setSun] = React.useState<OutingAndMealData>(defaultOutingData);
 
@@ -21,7 +27,10 @@ const Outing = () => {
   const getOutingData = async () => {
     setLoading(true);
     try{
-      const res: AxiosResponse<OutingGetResponse> = await instance.get("/api/outing");
+      const res: AxiosResponse<OutingGetResponse> = await instance.post(
+        "/api/admin/outing",
+        { owner: selectedUser.id }
+      );
       setSat(res.data.data.sat);
       setSun(res.data.data.sun);
     }
@@ -34,7 +43,8 @@ const Outing = () => {
   const putOutingData = async () => {
     setLoading(true);
     try{
-      const res = await instance.put("/api/outing", {
+      const res = await instance.put("/api/admin/outing", {
+        owner: selectedUser.id,
         sat, sun,
       });
       await getOutingData();
@@ -47,10 +57,11 @@ const Outing = () => {
   };
 
   return (
-    <Insider className="flex flex-col gap-5">
+    <article className="flex flex-col gap-3">
+      <h1 className="text-xl font-semibold">외출 수정하기</h1>
       <section className="flex flex-col gap-3">
-        <h1 className="text-xl font-semibold">외출 및 급식 변경 신청하기</h1>
-        <OutingOption 
+        {/* <h1 className="text-xl font-semibold">외출 및 급식 변경 신청하기</h1> */}
+        <OutingOption
           title="토요일"
           data={sat}
           setData={setSat}
@@ -67,11 +78,10 @@ const Outing = () => {
         className="bg-primary text-white w-full text-base font-semibold rounded h-10"
         onClick={putOutingData}
       >
-        신청하기
+        수정하기
       </button>
-    </Insider>
+    </article>
   );
 };
-
 
 export default Outing;

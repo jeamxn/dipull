@@ -9,16 +9,7 @@ const MealKorean = {
   dinner: "석식",
 };
 
-export const defaultOutingData: OutingAndMealData = {
-  meal: {
-    breakfast: true,
-    lunch: true,
-    dinner: true,
-  },
-  outing: []
-};
-
-const MealOption = ({
+const OutingOption = ({
   data,
   setData,
   title,
@@ -203,4 +194,4 @@ const MealOption = ({
   );
 };
 
-export default MealOption;
+export default OutingOption;
