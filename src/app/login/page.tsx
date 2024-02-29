@@ -22,7 +22,7 @@ function Login() {
         layout="fill"
         objectFit="cover"
         objectPosition="bottom"
-        className="blur-[16px] opacity-25"
+        className="blur-[16px] opacity-25 select-none"
       />
       <button 
         className="overflow-hidden z-50 bg-primary px-8 py-8 rounded-md transition-opacity flex flex-col gap-6 justify-between items-center w-full max-w-[30rem]"

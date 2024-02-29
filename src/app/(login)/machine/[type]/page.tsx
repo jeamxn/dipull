@@ -96,7 +96,7 @@ const Machine = (
   return (
     <Insider>
       <section className="flex flex-col gap-3">
-        <h1 className="text-xl font-semibold">{machineKorean[params.type]} 신청하기</h1>
+        <h1 className="text-xl font-semibold">{machineKorean[params.type]}기 신청하기</h1>
         {
           myBooking.booked ? (
             <section className="flex flex-col gap-1">
@@ -177,7 +177,7 @@ const Machine = (
       </section>
       <div className="w-full border-b border-text/10" />
       <section className="flex flex-col gap-3">
-        <h1 className="text-xl font-semibold">{machineKorean[params.type]} 신청 현황</h1>
+        <h1 className="text-xl font-semibold">{machineKorean[params.type]}기 신청 현황</h1>
         <article className="flex flex-col gap-1">
           {
             Object.entries(data).map(([name, machine], i) => (
