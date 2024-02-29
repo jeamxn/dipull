@@ -27,7 +27,7 @@ const PUT = async (
     headers: new_headers
   });
 
-  const currentTime = moment().tz("Asia/Seoul");
+  const currentTime = moment(moment().tz("Asia/Seoul").format("HH:mm"), "HH:mm");
   const applyStartDate = moment(await getApplyStartTime(), "HH:mm");
   const applyEndDate = moment(await getApplyEndTime(), "HH:mm");
   if(currentTime.isBefore(applyStartDate) || currentTime.isAfter(applyEndDate)) {

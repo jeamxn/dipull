@@ -25,7 +25,7 @@ const DELETE = async (
     headers: new_headers
   });
 
-  const currentTime = moment().tz("Asia/Seoul");
+  const currentTime = moment(moment().tz("Asia/Seoul").format("YYYY-MM-DD"), "YYYY-MM-DD");
   const applyStartDate = moment(await getApplyStartDate());
   const applyEndDate = moment(await getApplyEndDate());
   if(currentTime.isBefore(applyStartDate) || currentTime.isAfter(applyEndDate)) {
