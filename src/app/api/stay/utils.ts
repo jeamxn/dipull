@@ -19,16 +19,18 @@ export type BySeatsObj = {
   };
 }
 
+export type GradeClassInner = {
+  id: UserDB["id"],
+  name: UserDB["name"],
+  number: UserDB["number"],
+  gender: UserDB["gender"],
+  seat: StayDB["seat"],
+  week: StayDB["week"],
+}
+
 export type ByGradeClassObj = {
   [key: string]: {
-    [key: string]: {
-      id: UserDB["id"],
-      name: UserDB["name"],
-      number: UserDB["number"],
-      gender: UserDB["gender"],
-      seat: StayDB["seat"],
-      week: StayDB["week"],
-    }[];
+    [key: string]: GradeClassInner[];
   }
 }
 
