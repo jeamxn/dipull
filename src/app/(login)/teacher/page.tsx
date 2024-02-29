@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { UserInfo, defaultUserData } from "@/app/api/admin/userinfo/utils";
+import { UserInfo, defaultUserData } from "@/app/api/teacher/userinfo/utils";
 import Insider from "@/provider/insider";
 
 import Outing from "./outing";

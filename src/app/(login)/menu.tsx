@@ -46,7 +46,7 @@ const Menu = () => {
     setMenuCopy([
       ...menuCopy, 
       {
-        url: "/admin",
+        url: "/teacher",
         name: "관리",
       }
     ]);

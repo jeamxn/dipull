@@ -2,9 +2,10 @@ import { AxiosResponse } from "axios";
 import React from "react";
 
 import OutingOption from "@/app/(login)/outing/outingOption";
-import { UserInfo } from "@/app/api/admin/userinfo/utils";
 import { OutingAndMealData, OutingGetResponse, defaultOutingData } from "@/app/api/outing/utils";
+import { UserInfo } from "@/app/api/teacher/userinfo/utils";
 import instance from "@/utils/instance";
+
 
 const Outing = ({
   loading,
@@ -28,7 +29,7 @@ const Outing = ({
     setLoading(true);
     try{
       const res: AxiosResponse<OutingGetResponse> = await instance.post(
-        "/api/admin/outing",
+        "/api/teacher/outing",
         { owner: selectedUser.id }
       );
       setSat(res.data.data.sat);
@@ -43,7 +44,7 @@ const Outing = ({
   const putOutingData = async () => {
     setLoading(true);
     try{
-      const res = await instance.put("/api/admin/outing", {
+      const res = await instance.put("/api/teacher/outing", {
         owner: selectedUser.id,
         sat, sun,
       });

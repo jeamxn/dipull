@@ -3,7 +3,7 @@ import * as Excel from "exceljs";
 import { saveAs } from "file-saver";
 import React from "react";
 
-import { SheetResponse } from "@/app/api/admin/sheet/utils";
+import { SheetResponse } from "@/app/api/teacher/sheet/utils";
 import instance from "@/utils/instance";
 
 const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
@@ -161,7 +161,7 @@ const Sheet = ({
   const download = async (grade: number) => {
     setLoading(true);
     try{
-      const res: AxiosResponse<SheetResponse> = await instance.get("/api/admin/sheet");
+      const res: AxiosResponse<SheetResponse> = await instance.get("/api/teacher/sheet");
       await downloadSheet(res.data.data, grade);
     }
     catch(e: any){

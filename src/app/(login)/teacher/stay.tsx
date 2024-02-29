@@ -3,7 +3,7 @@ import * as jose from "jose";
 import React from "react";
 
 import Studyroom from "@/app/(login)/stay/studyroom";
-import { UserInfo } from "@/app/api/admin/userinfo/utils";
+import { UserInfo } from "@/app/api/teacher/userinfo/utils";
 import { ByGradeClassObj, BySeatsObj, StayGetResponse } from "@/app/api/stay/utils";
 import { TokenInfo, defaultUserData } from "@/app/auth/type";
 import instance from "@/utils/instance";
@@ -52,7 +52,7 @@ const Stay = ({
   const stayPut = async (owner: string, seat: string) => {
     setLoading(true);
     try {
-      const res: AxiosResponse = await instance.put("/api/admin/stay", { seat, owner });
+      const res: AxiosResponse = await instance.put("/api/teacher/stay", { seat, owner });
       alert(res.data.message);
       await getStayData();
     }
@@ -64,7 +64,7 @@ const Stay = ({
   const stayDelete = async (owner: string) => {
     setLoading(true);
     try {
-      const res: AxiosResponse = await instance.delete(`/api/admin/stay/${owner}`);
+      const res: AxiosResponse = await instance.delete(`/api/teacher/stay/${owner}`);
       alert(res.data.message);
       await getStayData();
     }

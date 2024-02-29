@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import { UserInfo, UserInfoResponse, defaultUserData } from "@/app/api/admin/userinfo/utils";
+import { UserInfo, UserInfoResponse, defaultUserData } from "@/app/api/teacher/userinfo/utils";
 import instance from "@/utils/instance";
 
 const Search = ({
@@ -26,7 +26,7 @@ const Search = ({
     setLoading(true);
     try{
       const res: AxiosResponse<UserInfoResponse> = await instance.post(
-        "/api/admin/userinfo", {
+        "/api/teacher/userinfo", {
           name: search
         }
       );

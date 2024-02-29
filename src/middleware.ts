@@ -19,7 +19,7 @@ export const middleware = async (request: NextRequest) => {
     if(!verified.ok) {
       return NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_REDIRECT_URI!));
     }
-    else if(request.nextUrl.pathname.startsWith("/admin") && verified.payload.type !== "admin") {
+    else if(request.nextUrl.pathname.startsWith("/teacher") && verified.payload.type !== "admin") {
       // return NextResponse.redirect(new URL("/", process.env.NEXT_PUBLIC_REDIRECT_URI!));
     }
   }
