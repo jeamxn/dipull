@@ -109,7 +109,9 @@ const PUT = async (
     ret: {
       start: applyStartDate.format("HH:mm"),
       end: applyEndDate.format("HH:mm"),
-      currentTime: currentTime.format("HH:mm")
+      currentTime: currentTime.format("HH:mm"),
+      ifBefore: currentTime.isBefore(applyStartDate),
+      ifAfter: currentTime.isAfter(applyEndDate),
     }
   }), {
     status: 200,
