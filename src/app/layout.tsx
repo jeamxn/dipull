@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     locale: "ko_KR",
     images: [
       {
-        url: "https://dimigo.net/public/og_image.png",
+        url: "https://dimigo.net/public/og-image.png",
         width: 4800,
         height: 2520,
       }
