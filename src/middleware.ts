@@ -13,10 +13,15 @@ export const middleware = async (request: NextRequest) => {
   requestHeaders.set("x-url", request.url);
 
   try{
-    if(!verified.ok) {
-      return NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_REDIRECT_URI!));
+    if(!request.nextUrl.pathname.startsWith("/login")){
+      if(!verified.ok) {
+        return NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_REDIRECT_URI!));
+      }
+      else if(request.nextUrl.pathname.startsWith("/teacher") && verified.payload.type !== "teacher") {
+        return NextResponse.redirect(new URL("/", process.env.NEXT_PUBLIC_REDIRECT_URI!));
+      }
     }
-    else if(request.nextUrl.pathname.startsWith("/teacher") && verified.payload.type !== "teacher") {
+    else if(verified.ok) {
       return NextResponse.redirect(new URL("/", process.env.NEXT_PUBLIC_REDIRECT_URI!));
     }
   }
@@ -33,5 +38,5 @@ export const middleware = async (request: NextRequest) => {
 };
 
 export const config = {
-  matcher: "/((?!auth|_next/static|_next/image|favicon.ico|login|public).*)",
+  matcher: "/((?!auth|_next/static|_next/image|favicon.ico|public).*)",
 };
