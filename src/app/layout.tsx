@@ -17,8 +17,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "https://dimigo.net/public/og_image.png",
-        width: 1200,
-        height: 630,
+        width: 4800,
+        height: 2520,
       }
     ],
   }
