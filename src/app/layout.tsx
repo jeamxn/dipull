@@ -7,6 +7,21 @@ import React from "react";
 export const metadata: Metadata = {
   title: "디미고인 풀 서비스 V3",
   description: "그래그래 드디어 왔다 디미고인 풀 서비스 V3",
+  openGraph:{
+    title: "디미고인 풀 서비스 V3",
+    siteName: "디미고인 풀 서비스 V3",
+    description: "그래그래 드디어 왔다 디미고인 풀 서비스 V3",
+    type: "website",
+    url: "https://dimigo.net",
+    locale: "ko_KR",
+    images: [
+      {
+        url: "https://dimigo.net/public/og_image.png",
+        width: 1200,
+        height: 630,
+      }
+    ],
+  }
 };
 
 const RootLayout = async ({
