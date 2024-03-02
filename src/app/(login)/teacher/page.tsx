@@ -9,6 +9,7 @@ import Outing from "./outing";
 import Search from "./search";
 import Sheet from "./sheet";
 import Stay from "./stay";
+import Wakeup from "./wakeup";
 
 const Admin = () => {
   const [loading, setLoading] = React.useState(false);
@@ -18,6 +19,10 @@ const Admin = () => {
   return (
     <Insider>
       <Sheet 
+        loading={loading}
+        setLoading={setLoading}
+      />
+      <Wakeup
         loading={loading}
         setLoading={setLoading}
       />

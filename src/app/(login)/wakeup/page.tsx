@@ -185,7 +185,7 @@ const Admin = () => {
         </section>
       </article>
       <article className="flex flex-col gap-3">
-        <h1 className="text-xl font-semibold">기상송 순위</h1>
+        <h1 className="text-xl font-semibold">기상송 신청 순위</h1>
         <section className={[
           "flex flex-col gap-4 bg-white rounded border border-text/10 p-5",
           loading ? "loading_background" : "",
@@ -194,7 +194,7 @@ const Admin = () => {
           <table className="w-full">
             <tbody className="w-full border-y border-text/10">
               <tr className="w-full">
-                <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full" colSpan={2}>기상송 신청 목록</th>
+                <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full" colSpan={2}>기상송 신청 순위</th>
                 <td className="text-center px-4">신청</td>
               </tr>
               {
@@ -235,7 +235,7 @@ const Admin = () => {
                     </tr>
                   )) : (
                   <tr className="w-full border-y border-text/10">
-                    <td className="text-center px-4 whitespace-nowrap py-2 text-text/50" colSpan={3}>검색 결과가 없습니다.</td>
+                    <td className="text-center px-4 whitespace-nowrap py-2 text-text/50" colSpan={3}>신청된 기상송이 없습니다.</td>
                   </tr>
                 )
               }
