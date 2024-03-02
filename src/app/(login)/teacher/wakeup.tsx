@@ -67,7 +67,7 @@ const Wakeup = ({
                           alt={v.title}
                           className="max-w-[160px] object-cover rounded aspect-video cursor-pointer"
                         />
-                        <p className="text-left cursor-pointer">[{v.count}명] {v.title}</p>
+                        <p className="text-left cursor-pointer">[{v.count}표] {v.title}</p>
                       </div>
                     </td>
                   </tr>
