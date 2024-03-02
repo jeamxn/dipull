@@ -7,7 +7,7 @@ import { YouTubeSearchResults } from "youtube-search";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { WakeupData } from "./utils";
+import { WakeupData, getToday } from "./utils";
 
 const PUT = async (
   req: Request,
@@ -36,7 +36,7 @@ const PUT = async (
     headers: new_headers
   });
 
-  const today = moment(moment().tz("Asia/Seoul").format("YYYY-MM-DD"), "YYYY-MM-DD");
+  const today = getToday();
   const client = await connectToDatabase();
   const wakeupCollection = client.db().collection("wakeup");
 

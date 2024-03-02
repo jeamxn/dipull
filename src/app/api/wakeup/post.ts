@@ -1,12 +1,13 @@
+import { ObjectId } from "mongodb";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { WakeupDB, WakeupData, WakeupGET, getToday } from "./utils";
+import { getToday } from "./utils";
 
-const GET = async (
+const POST = async (
   req: Request,
 ) => {
   // 헤더 설정
@@ -22,50 +23,40 @@ const GET = async (
     status: 401,
     headers: new_headers
   });
+
+  const { _id } = await req.json();
+  if(!_id) return new NextResponse(JSON.stringify({
+    message: "잘못된 요청입니다.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
   
   const today = getToday();
   const client = await connectToDatabase();
   const wakeupCollection = client.db().collection("wakeup");
+  const objcet_id = ObjectId.createFromHexString(_id);
   const query = {
     date: today.format("YYYY-MM-DD"),
+    owner: verified.payload.id,
+    _id: objcet_id,
   };
-  const data = await wakeupCollection.find(query).toArray() as unknown as WakeupDB[];
+  const data = await wakeupCollection.deleteOne(query);
 
-  const allObj: WakeupGET = {};
-  const myObj: WakeupDB[] = [];
-  
-  for(const v of data){
-    if(!allObj[v.id]){
-      allObj[v.id] = {
-        title: v.title,
-        thumbnails: v.thumbnails,
-        date: v.date,
-        count: 0,
-      };
-    }
-    allObj[v.id].count++;
-    if(v.owner === verified.payload.id){
-      myObj.push({
-        title: v.title,
-        id: v.id,
-        thumbnails: v.thumbnails,
-        date: v.date,
-        owner: v.owner,
-        _id: v._id,
-      });
-    }
-  }
+  if(data.deletedCount === 0) return new NextResponse(JSON.stringify({
+    message: "삭제에 실패했습니다.",
+  }), {
+    status: 500,
+    headers: new_headers
+  });
 
   return new NextResponse(JSON.stringify({
-    data: {
-      all: allObj,
-      my: myObj,
-      today: today.format("YYYY-MM-DD"),
-    },
+    message: "삭제되었습니다.",
   }), {
     status: 200,
     headers: new_headers
   });
+  
 };
 
-export default GET;
+export default POST;

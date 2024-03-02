@@ -1,3 +1,5 @@
+import "moment-timezone";
+import moment from "moment";
 import { YouTubeSearchResults } from "youtube-search";
 
 export type WakeupData = {
@@ -19,4 +21,13 @@ export type WakeupGET = {
     date: WakeupDB["date"];
     count: number;
   };
+};
+
+export const getToday = () => {
+  const seoul = moment.tz("Asia/Seoul");
+  if(seoul.hour() < 8){
+    seoul.subtract(1, "day");
+  }
+  const today = moment(seoul.format("YYYY-MM-DD"), "YYYY-MM-DD");
+  return today;
 };
