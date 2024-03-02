@@ -66,7 +66,12 @@ export const getApplyStartDate = async () => {
   if(states?.start) {
     return moment(states.start).format("YYYY-MM-DD");
   }
-  return moment().tz("Asia/Seoul").startOf("week").add(1, "day").format("YYYY-MM-DD");
+  const seoul = moment().tz("Asia/Seoul").startOf("week").add(1, "day");
+  const today = moment().tz("Asia/Seoul");
+  if(today.day() === 0 && today.hour() < 18) {
+    return seoul.subtract(7, "day").format("YYYY-MM-DD");
+  }
+  return seoul.format("YYYY-MM-DD");
 };
 
 export const getApplyEndDate = async () => {
