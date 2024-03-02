@@ -13,12 +13,16 @@ const menu = [
     name: "정보",
   },
   {
+    url: "/wakeup",
+    name: "기상송",
+  },
+  {
     url: "/machine/washer",
-    name: "세탁",
+    name: "세탁기",
   },
   {
     url: "/machine/dryer",
-    name: "건조",
+    name: "건조기",
   },
   {
     url: "/stay",
