@@ -53,7 +53,7 @@ const Menu = () => {
   }, [userInfo]);
 
   return (
-    <nav className="px-4 w-full border-b border-text/10 flex flex-row justify-around gap-4">
+    <nav className="px-4 w-full border-b border-text/10 flex flex-row justify-around">
       {
         menuCopy.map((item, index) => {
           const isCurrentPage = pathname === item.url;
