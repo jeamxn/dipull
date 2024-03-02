@@ -4,6 +4,8 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
+import { getApplyStartDate } from "../stay/utils";
+
 import { OutingDB, OutingGetResponse, defaultOutingData } from "./utils";
 
 const GET = async (
@@ -26,7 +28,7 @@ const GET = async (
   // db connect
   const client = await connectToDatabase();
   const outingCollection = client.db().collection("outing");
-  const query = { owner: verified.payload.data.id };
+  const query = { owner: verified.payload.data.id, week: await getApplyStartDate() };
   const result = await outingCollection.findOne(query) as unknown as OutingDB | null;
 
   const resData: OutingGetResponse = {
