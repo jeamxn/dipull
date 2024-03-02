@@ -6,6 +6,8 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
+import { getApplyStartDate } from "../stay/utils";
+
 import { IwannagohomeDB } from "./utils";
 
 const GET = async (
@@ -25,13 +27,12 @@ const GET = async (
     headers: new_headers
   });
 
-  const currentTime = moment(moment().tz("Asia/Seoul").format("HH:mm"), "HH:mm");
-
   const client = await connectToDatabase();
   const iwannagohomeCollection = client.db().collection("iwannagohome");
-  const myData = await iwannagohomeCollection.findOne({ id: verified.payload.id, date: currentTime.format("YYYY-MM-DD") }) as unknown as IwannagohomeDB;
+  const date = await getApplyStartDate();
+  const myData = await iwannagohomeCollection.findOne({ id: verified.payload.id, date: date }) as unknown as IwannagohomeDB;
   const count = [0, 0];
-  const all = await iwannagohomeCollection.find({ date: currentTime.format("YYYY-MM-DD") }).toArray();
+  const all = await iwannagohomeCollection.find({ date: date }).toArray();
   all.length && all.forEach((v) => {
     count[v.pick]++;
   });

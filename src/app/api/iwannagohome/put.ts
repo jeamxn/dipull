@@ -6,6 +6,8 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
+import { getApplyStartDate } from "../stay/utils";
+
 const PUT = async (
   req: Request,
 ) => {
@@ -32,14 +34,14 @@ const PUT = async (
     headers: new_headers
   });
 
-  const currentTime = moment(moment().tz("Asia/Seoul").format("HH:mm"), "HH:mm");
+  const date = await getApplyStartDate();
 
   const client = await connectToDatabase();
   const iwannagohomeCollection = client.db().collection("iwannagohome");
 
   const getMyQuery = {
     id: verified.payload.data.id,
-    date: currentTime.format("YYYY-MM-DD"),
+    date: date,
   };
   const myData = await iwannagohomeCollection.findOne(getMyQuery);
   const update = await iwannagohomeCollection.updateOne(getMyQuery, {
