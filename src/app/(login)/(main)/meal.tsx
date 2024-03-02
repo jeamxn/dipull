@@ -13,13 +13,8 @@ const korean_meal = {
   "dinner": "저녁",
 };
 
-const Meal = ({
-  loading,
-  setLoading,
-}: {
-  loading: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const Meal = () => {
+  const [loading, setLoading] = React.useState(false);
   const [date, setDate] = React.useState(moment());
   const [meal, setMeal] = React.useState<MealType["meal"]>({
     breakfast: "",

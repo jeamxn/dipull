@@ -6,13 +6,8 @@ import { TimetableResponse } from "@/app/api/timetable/[grade]/[class]/route";
 import { TokenInfo } from "@/app/auth/type";
 import instance from "@/utils/instance";
 
-const Timetable = ({
-  loading,
-  setLoading,
-}: {
-  loading: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const Timetable = () => {
+  const [loading, setLoading] = React.useState(false);
   const [gradeClass, setGradeClass] = React.useState(0);
   const [timetable, setTimetable] = React.useState<TimetableResponse["data"]>({});
 
