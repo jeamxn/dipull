@@ -49,20 +49,6 @@ const PUT = async (
     headers: new_headers
   });
 
-  // Date Check
-  const currentTime = moment(moment().tz("Asia/Seoul").format("YYYY-MM-DD"), "YYYY-MM-DD");
-  const applyStartDate = moment(await getApplyStartDate());
-  const applyEndDate = moment(await getApplyEndDate());
-  if(currentTime.isBefore(applyStartDate) || currentTime.isAfter(applyEndDate)) {
-    return new NextResponse(JSON.stringify({
-      success: false,
-      message: "잔류 신청 기간이 아닙니다.",
-    }), {
-      status: 400,
-      headers: new_headers
-    });
-  }
-
   const stayCollection = client.db().collection("stay");
   const query2 = { owner: owner, week: await getApplyStartDate() };
   const stayData = await stayCollection.findOne(query2);
