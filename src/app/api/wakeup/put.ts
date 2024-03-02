@@ -48,7 +48,7 @@ const PUT = async (
     message: "하루에 3곡까지만 추가할 수 있습니다.",
     ok: false,
   }), {
-    status: 200,
+    status: 400,
     headers: new_headers
   });
 
@@ -76,7 +76,7 @@ const PUT = async (
     message: "오류가 발생했습니다.",
     ok: false,
   }), {
-    status: 200,
+    status: 500,
     headers: new_headers
   });
 };
