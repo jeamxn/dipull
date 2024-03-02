@@ -127,6 +127,7 @@ const Admin = () => {
               placeholder="제목 검색"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              onKeyUp={(e) => e.key === "Enter" && getSearch()}
             />
             <button 
               className="w-min text-base rounded h-10 bg-text/10 border border-text/10 px-4"

@@ -1,14 +1,11 @@
-import "moment-timezone";
-import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import youtubeSearch from "youtube-search";
 
-import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
 const opts: youtubeSearch.YouTubeSearchOptions = {
-  maxResults: 10,
+  maxResults: 5,
   key: process.env.YOUTUBE_API_KEY || "",
 };
 
