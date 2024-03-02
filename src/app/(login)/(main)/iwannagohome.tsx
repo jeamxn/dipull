@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { DetailedHTMLProps, HTMLAttributes } from "react";
 
 import instance from "@/utils/instance";
@@ -5,12 +6,14 @@ import instance from "@/utils/instance";
 const Iwannagohome = () => {
   const [count, setCount] = React.useState([0, 0]);
   const [my, setMy] = React.useState(-1);
+  const [date, setDate] = React.useState<moment.Moment>(moment());
 
   const getMeal = async () => {
     try{
       const { data } = await instance.get("/api/iwannagohome");
       setCount(data.data.count);
       setMy(data.data.my);
+      setDate(moment(data.data.date, "YYYY-MM-DD"));
     }
     catch(e){
       console.error(e);
@@ -21,13 +24,19 @@ const Iwannagohome = () => {
     getMeal();
   }, []);
 
+  const sunday = date.clone().day(0);
+  const saturday = date.clone().day(6).add(1, "day");
+
   const sum = count[0] + count[1];
   const start = (count[0] * 100 / sum) || 0;
   const end = (count[1] * 100 / sum) || 0;
 
   return (
     <article className="flex flex-col gap-3">
-      <h1 className="text-xl font-semibold">집가고싶어요</h1>
+      <section className="flex flex-col gap-1">
+        <h1 className="text-xl font-semibold">집가고싶어요</h1>
+        <h1 className="text-base">{sunday.format("MM월 DD일")} 18시 00분 ~ {saturday.format("MM월 DD일")} 17시 59분</h1>
+      </section>
       <section 
         className={[
           "rounded overflow-hidden flex flex-row",

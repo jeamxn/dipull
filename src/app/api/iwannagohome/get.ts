@@ -42,6 +42,7 @@ const GET = async (
     data: {
       my: myData?.pick,
       count,
+      date,
     },
   }), {
     status: 200,
