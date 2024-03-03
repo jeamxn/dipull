@@ -43,6 +43,7 @@ const PUT = async (
   const mySelect = await wakeupCollection.find({
     owner: verified.payload.data.id,
     date: today.format("YYYY-MM-DD"),
+    gender: verified.payload.data.gender,
   }).toArray();
   if(mySelect.length >= 3) return new NextResponse(JSON.stringify({
     message: "하루에 3곡까지만 추가할 수 있습니다.",
