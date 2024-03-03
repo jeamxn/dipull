@@ -40,6 +40,7 @@ const POST = async (
     date: today.format("YYYY-MM-DD"),
     owner: verified.payload.id,
     _id: objcet_id,
+    gender: verified.payload.data.gender,
   };
   const data = await wakeupCollection.deleteOne(query);
 

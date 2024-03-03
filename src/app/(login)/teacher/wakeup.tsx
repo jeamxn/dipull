@@ -15,6 +15,7 @@ const Wakeup = ({
 })  => {
   const [wakeup, setWakeup] = React.useState<WakeupGET>({});
   const [today, setToday] = React.useState<moment.Moment>(moment());
+  const [gender, setGender] = React.useState<"male" | "femal">("male");
 
   const getWakeup = async () => {
     setLoading(true);
@@ -22,6 +23,7 @@ const Wakeup = ({
       const res = await instance.get("/api/wakeup");
       setWakeup(res.data.data.all);
       setToday(moment(res.data.data.today, "YYYY-MM-DD"));
+      setGender(res.data.data.gender);
     }
     catch(e: any){
       alert(e.response.data.message);
@@ -37,7 +39,7 @@ const Wakeup = ({
     <article className="flex flex-col gap-3">
       <section className="flex flex-col gap-1">
         <h1 className="text-xl font-semibold">기상송 신청 순위</h1>
-        <h1 className="text-base">{today.format("MM월 DD일")} 08시 00분 ~ {today.add(1, "day").format("MM월 DD일")} 07시 59분</h1>
+        <h1 className="text-base">{today.format("MM월 DD일")} 08시 00분 ~ {today.clone().add(1, "day").format("MM월 DD일")} 07시 59분</h1>
       </section>
       <section className={[
         "flex flex-col gap-4 bg-white rounded border border-text/10 p-5",
@@ -47,7 +49,7 @@ const Wakeup = ({
         <table className="w-full">
           <tbody className="w-full border-y border-text/10">
             <tr className="w-full">
-              <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full" colSpan={2}>기상송 신청 순위</th>
+              <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full" colSpan={2}>{gender === "male" ? "남" : "여"}학생 기상송 신청 순위</th>
             </tr>
             {
               Object.keys(wakeup).length ? Object.entries(wakeup)

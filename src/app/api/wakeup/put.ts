@@ -58,6 +58,7 @@ const PUT = async (
     thumbnails: select.thumbnails,
     owner: verified.payload.data.id,
     date: today.format("YYYY-MM-DD"),
+    gender: verified.payload.data.gender,
   };
   const add = await wakeupCollection.insertOne(putData);
 

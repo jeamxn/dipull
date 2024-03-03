@@ -8,6 +8,7 @@ export type WakeupData = {
   thumbnails: YouTubeSearchResults["thumbnails"];
   date: string;
   owner: string;
+  gender: string;
 }
 
 export type WakeupDB = WakeupData & {

@@ -28,6 +28,7 @@ const GET = async (
   const wakeupCollection = client.db().collection("wakeup");
   const query = {
     date: today.format("YYYY-MM-DD"),
+    gender: verified.payload.data.gender,
   };
   const data = await wakeupCollection.find(query).toArray() as unknown as WakeupDB[];
 
@@ -52,6 +53,7 @@ const GET = async (
         date: v.date,
         owner: v.owner,
         _id: v._id,
+        gender: v.gender,
       });
     }
   }
@@ -61,6 +63,7 @@ const GET = async (
       all: allObj,
       my: myObj,
       today: today.format("YYYY-MM-DD"),
+      gender: verified.payload.data.gender,
     },
   }), {
     status: 200,
