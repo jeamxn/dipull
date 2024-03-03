@@ -66,7 +66,7 @@ export const getApplyStartDate = async () => {
   if(states?.start) {
     return moment(states.start).format("YYYY-MM-DD");
   }
-  const seoul = moment().tz("Asia/Seoul").startOf("week").add(1, "day");
+  const seoul = moment().tz("Asia/Seoul").startOf("week");
   const today = moment().tz("Asia/Seoul");
   if(today.day() === 0 && today.hour() < 18) {
     return seoul.subtract(7, "day").format("YYYY-MM-DD");
@@ -79,5 +79,5 @@ export const getApplyEndDate = async () => {
   if(states?.end) {
     return moment(states.end).format("YYYY-MM-DD");
   }
-  return moment(await getApplyStartDate()).add(1, "day").format("YYYY-MM-DD");
+  return moment(await getApplyStartDate()).add(2, "day").format("YYYY-MM-DD");
 };
