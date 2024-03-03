@@ -4,7 +4,7 @@ import React, { DetailedHTMLProps, HTMLAttributes } from "react";
 import instance from "@/utils/instance";
 
 const Iwannagohome = () => {
-  const [count, setCount] = React.useState([0, 0]);
+  const [count, setCount] = React.useState([-1, -1]);
   const [my, setMy] = React.useState(-1);
   const [date, setDate] = React.useState<moment.Moment>(moment());
 
@@ -78,7 +78,7 @@ const Iwannagohome = () => {
                   <p className="text-2xl font-semibold whitespace-nowrap text-[#fff]">{Math.floor(percent)}</p>
                   <p className="text-sm -translate-y-1 whitespace-nowrap text-[#fff]">%</p>
                 </figure>
-                <p className="text-sm whitespace-nowrap text-[#fff]">{v}표</p>
+                <p className="text-sm whitespace-nowrap text-[#fff]">{v === -1 ? "Loading" : v}표</p>
               </article>
             );
           })

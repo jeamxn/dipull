@@ -102,7 +102,7 @@ const Machine = (
             <section className="flex flex-col gap-1">
               <figure className="flex flex-col gap-1 justify-center items-center my-5">
                 <h1 className="text-xl font-semibold">오늘 예약한 {machineKorean[params.type]}기가 있어요.</h1>
-                <p>{machineName(myBooking.info.machine)} {myBooking.info.time}</p>
+                <p>{machineName(myBooking.info.machine)} {myBooking.info.time.replace("* ", "")}</p>
               </figure>
               <button 
                 className={[
