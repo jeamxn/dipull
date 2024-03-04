@@ -32,6 +32,6 @@
     }
   ],
   "start_url": "/login",
-  "display": "standalone",
+  "display": "fullscreen",
   "orientation": "portrait-primary"
 }
