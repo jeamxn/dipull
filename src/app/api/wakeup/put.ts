@@ -2,10 +2,10 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { YouTubeSearchResults } from "youtube-search";
 
+import { getApplyStartDate } from "@/app/api/stay/utils";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { getApplyStartDate } from "../stay/utils";
 
 import { WakeupData, getToday } from "./utils";
 

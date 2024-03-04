@@ -2,13 +2,12 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { getApplyStartDate } from "@/app/api/stay/utils";
+import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
 
-import { WakeupDB, WakeupGET, getToday } from "./utils";
-
-const GET = async (
+const POST = async (
   req: Request,
 ) => {
   // 헤더 설정
@@ -24,56 +23,48 @@ const GET = async (
     status: 401,
     headers: new_headers
   });
-  
-  const today = getToday();
+
+  // DB 접속
   const client = await connectToDatabase();
+  const userCollection = client.db().collection("users");
+  const selectMember = await userCollection.findOne({ id: verified.payload.data.id }) as unknown as UserDB;
+  if(selectMember.type !== "teacher") return new NextResponse(JSON.stringify({
+    message: "교사만 접근 가능합니다.",
+  }), {
+    status: 403,
+    headers: new_headers
+  });
+
+  const { id } = await req.json();
+  if(!id) return new NextResponse(JSON.stringify({
+    message: "잘못된 요청입니다.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+  
   const wakeupCollection = client.db().collection("wakeup");
   const query = {
     week: await getApplyStartDate(),
     gender: verified.payload.data.gender,
+    id: id,
   };
-  const data = await wakeupCollection.find(query).toArray() as unknown as WakeupDB[];
+  const data = await wakeupCollection.deleteMany(query);
 
-  const allObj: WakeupGET = {};
-  const myObj: WakeupDB[] = [];
-  
-  for(const v of data){
-    if(!allObj[v.id]){
-      allObj[v.id] = {
-        title: v.title,
-        thumbnails: v.thumbnails,
-        date: v.date,
-        count: 0,
-        week: v.week,
-      };
-    }
-    allObj[v.id].count++;
-    if(v.owner === verified.payload.id && v.date === today.format("YYYY-MM-DD")){
-      myObj.push({
-        title: v.title,
-        id: v.id,
-        thumbnails: v.thumbnails,
-        date: v.date,
-        owner: v.owner,
-        _id: v._id,
-        gender: v.gender,
-        week: v.week,
-      });
-    }
-  }
+  if(data.deletedCount === 0) return new NextResponse(JSON.stringify({
+    message: "삭제에 실패했습니다.",
+  }), {
+    status: 500,
+    headers: new_headers
+  });
 
   return new NextResponse(JSON.stringify({
-    data: {
-      all: allObj,
-      my: myObj,
-      today: today.format("YYYY-MM-DD"),
-      gender: verified.payload.data.gender,
-      week: await getApplyStartDate(),
-    },
+    message: "삭제되었습니다.",
   }), {
     status: 200,
     headers: new_headers
   });
+  
 };
 
-export default GET;
+export default POST;
