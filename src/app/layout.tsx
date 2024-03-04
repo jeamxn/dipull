@@ -55,6 +55,7 @@ const RootLayout = async ({
       <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafaff"/>
       <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#000000"/>
+      <link rel="apple-touch-icon" href="/public/icons/apple-touch-icon.png" />
       <body>
         {children}
       </body>
