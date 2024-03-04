@@ -50,6 +50,11 @@ const RootLayout = async ({
 }>) => {
   return (
     <html lang="kr">
+      <meta name="viewport" content="initial-scale=1, viewport-fit=cover, width=device-width"/>
+      <meta name="apple-mobile-web-app-capable" content="yes"/>
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+      <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafaff"/>
+      <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#000000"/>
       <body>
         {children}
       </body>
