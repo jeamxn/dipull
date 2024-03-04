@@ -33,7 +33,5 @@
   ],
   "start_url": "/",
   "display": "fullscreen",
-  "orientation": "portrait-primary",
-  "theme_color": "#4054d6",
-  "background_color": "#fafaff"
+  "orientation": "portrait-primary"
 }
