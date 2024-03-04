@@ -31,7 +31,7 @@
       "purpose": "maskable"
     }
   ],
-  "start_url": "/",
+  "start_url": "/login",
   "display": "fullscreen",
   "orientation": "portrait-primary"
 }
