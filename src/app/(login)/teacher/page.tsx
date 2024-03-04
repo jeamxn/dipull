@@ -22,10 +22,6 @@ const Admin = () => {
         loading={loading}
         setLoading={setLoading}
       />
-      <Wakeup
-        loading={loading}
-        setLoading={setLoading}
-      />
       <Search 
         loading={loading}
         setLoading={setLoading}
@@ -52,6 +48,10 @@ const Admin = () => {
             />
           ) : null : null
       }
+      <Wakeup
+        loading={loading}
+        setLoading={setLoading}
+      />
     </Insider>
   );
 };

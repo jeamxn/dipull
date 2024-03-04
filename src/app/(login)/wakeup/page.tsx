@@ -149,7 +149,10 @@ const Admin = () => {
         </section>
       </article>
       <article className="flex flex-col gap-3">
-        <h1 className="text-xl font-semibold">기상송 신청하기</h1>
+        <section className="flex flex-col gap-1">
+          <h1 className="text-xl font-semibold">기상송 신청하기</h1>
+          <h1 className="text-base text-[#e11d48]">문제가 될 수 있는 가사를 포함한 노래, 개인의 취향이 갈리는 노래 등은 선생님의 검토 후 삭제될 수 있습니다.</h1>
+        </section>
         <section className={[
           "flex flex-col gap-4 bg-white rounded border border-text/10 p-5 overflow-auto",
           loading ? "loading_background" : "",
