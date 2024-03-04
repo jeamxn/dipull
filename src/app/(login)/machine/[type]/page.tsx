@@ -8,6 +8,8 @@ import { TokenInfo, defaultUserData } from "@/app/auth/type";
 import Insider from "@/provider/insider";
 import instance from "@/utils/instance";
 
+import Menu from "../menu";
+
 import StatusBox from "./statusBox";
 import { machineName, machineToKorean } from "./utils";
 
@@ -95,6 +97,7 @@ const Machine = (
 
   return (
     <Insider>
+      <Menu type={params.type} loading={loading} />
       <section className="flex flex-col gap-3">
         <h1 className="text-xl font-semibold">{machineKorean[params.type]}기 신청하기</h1>
         {

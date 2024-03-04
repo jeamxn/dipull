@@ -9,6 +9,8 @@ import { TokenInfo, defaultUserData } from "@/app/auth/type";
 import Insider from "@/provider/insider";
 import instance from "@/utils/instance";
 
+import Menu from "../menu";
+
 import Studyroom from "./studyroom";
 import TableInner from "./tableInner";
 
@@ -71,6 +73,7 @@ const Stay = () => {
 
   return (
     <Insider>
+      <Menu type="apply" loading={loading} />
       <article className="flex flex-col gap-3">
         <h1 className="text-xl font-semibold">잔류 신청하기</h1>
         <Studyroom

@@ -7,6 +7,8 @@ import { OutingAndMealData, OutingGetResponse, defaultOutingData } from "@/app/a
 import Insider from "@/provider/insider";
 import instance from "@/utils/instance";
 
+import Menu from "../menu";
+
 import OutingOption from "./outingOption";
 
 const Outing = () => {
@@ -48,6 +50,7 @@ const Outing = () => {
 
   return (
     <Insider>
+      <Menu type="outing" loading={loading} />
       <section className="flex flex-col gap-3">
         <h1 className="text-xl font-semibold">외출 및 급식 변경 신청하기</h1>
         <OutingOption 

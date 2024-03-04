@@ -18,19 +18,15 @@ const menu = [
   },
   {
     url: "/machine/washer",
-    name: "세탁기",
+    name: "세탁",
   },
   {
-    url: "/machine/dryer",
-    name: "건조기",
-  },
-  {
-    url: "/stay",
+    url: "/stay/apply",
     name: "잔류",
   },
   {
-    url: "/outing",
-    name: "외출",
+    url: "/homecoming",
+    name: "금귀",
   }
 ];
 
@@ -60,7 +56,7 @@ const Menu = () => {
     <nav className="px-4 w-full border-b border-text/10 flex flex-row justify-around">
       {
         menuCopy.map((item, index) => {
-          const isCurrentPage = pathname === item.url;
+          const isCurrentPage = pathname.split("/")[1] === item.url.split("/")[1];
           return (
             <Link
               key={index} 

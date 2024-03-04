@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import OutingOption from "@/app/(login)/outing/outingOption";
+import OutingOption from "@/app/(login)/stay/outing/outingOption";
 import { OutingAndMealData, OutingGetResponse, defaultOutingData } from "@/app/api/outing/utils";
 import { UserInfo } from "@/app/api/teacher/userinfo/utils";
 import instance from "@/utils/instance";
