@@ -29,18 +29,18 @@ export const metadata: Metadata = {
       "sizes": "16x16 32x32"
     },
     { 
-      "url": "public/icons/icon-192.png", 
+      "url": "/public/icons/icon-192.png", 
       "type": "image/png", 
       "sizes": "192x192"
     },
     { 
-      "url": "public/icons/icon-512.png", 
+      "url": "/public/icons/icon-512.png", 
       "type": "image/png", 
       "sizes": "512x512"
     },
       
   ],
-  manifest: "/public/manifest.json",
+  manifest: "/manifest.json",
 };
 
 const RootLayout = async ({
