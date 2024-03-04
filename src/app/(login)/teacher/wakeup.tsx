@@ -70,6 +70,7 @@ const Wakeup = ({
           <tbody className="w-full border-y border-text/10">
             <tr className="w-full">
               <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full" colSpan={2}>{gender === "male" ? "남" : "여"}학생 기상송 신청 순위</th>
+              <td className="text-center px-4">삭제</td>
             </tr>
             {
               Object.keys(wakeup).length ? Object.entries(wakeup)
