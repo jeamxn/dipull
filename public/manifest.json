@@ -32,6 +32,6 @@
     }
   ],
   "start_url": "/login",
-  "display": "minimal-ui",
+  "display": "standalone",
   "orientation": "portrait-primary"
 }
