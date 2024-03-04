@@ -15,7 +15,7 @@ const Admin = () => {
   const [list, setList] = React.useState<YouTubeSearchResults[]>([]);
   const [wakeup, setWakeup] = React.useState<WakeupGET>({});
   const [my, setMy] = React.useState<WakeupDB[]>([]);
-  const [today, setToday] = React.useState<moment.Moment>(moment());
+  const [week, setWeek] = React.useState<moment.Moment>(moment());
   const [gender, setGender] = React.useState<"male" | "femal">("male");
 
   React.useEffect(() => {
@@ -61,7 +61,7 @@ const Admin = () => {
       const res = await instance.get("/api/wakeup");
       setWakeup(res.data.data.all);
       setMy(res.data.data.my);
-      setToday(moment(res.data.data.today, "YYYY-MM-DD"));
+      setWeek(moment(res.data.data.week, "YYYY-MM-DD"));
       setGender(res.data.data.gender);
     }
     catch(e: any){
@@ -90,10 +90,13 @@ const Admin = () => {
     getWakeup();
   }, []);
 
+  const sunday = week.clone().day(0);
+  const saturday = week.clone().day(6).add(1, "day");
+
   return (
     <Insider>
       <article className="flex flex-col gap-3">
-        <h1 className="text-xl font-semibold">내 신청 목록</h1>
+        <h1 className="text-xl font-semibold">나의 오늘 신청 목록</h1>
         <section className={[
           "flex flex-col gap-4 bg-white rounded border border-text/10 p-5",
           loading ? "loading_background" : "",
@@ -101,7 +104,7 @@ const Admin = () => {
           <table className="w-full">
             <tbody className="w-full border-y border-text/10">
               <tr className="w-full">
-                <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full" colSpan={2}>내 신청 목록</th>
+                <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full" colSpan={2}>나의 오늘 신청 목록</th>
                 <td className="text-center px-4">삭제</td>
               </tr>
               {
@@ -219,7 +222,7 @@ const Admin = () => {
       <article className="flex flex-col gap-3">
         <section className="flex flex-col gap-1">
           <h1 className="text-xl font-semibold">기상송 신청 순위</h1>
-          <h1 className="text-base">{today.format("MM월 DD일")} 08시 00분 ~ {today.clone().add(1, "day").format("MM월 DD일")} 07시 59분</h1>
+          <h1 className="text-base">{sunday.format("MM월 DD일")} 18시 00분 ~ {saturday.format("MM월 DD일")} 17시 59분</h1>
         </section>
         <section className={[
           "flex flex-col gap-4 bg-white rounded border border-text/10 p-5",

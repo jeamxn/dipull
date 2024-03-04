@@ -1,11 +1,11 @@
-import "moment-timezone";
-import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { YouTubeSearchResults } from "youtube-search";
 
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
+
+import { getApplyStartDate } from "../stay/utils";
 
 import { WakeupData, getToday } from "./utils";
 
@@ -60,6 +60,7 @@ const PUT = async (
     owner: verified.payload.data.id,
     date: today.format("YYYY-MM-DD"),
     gender: verified.payload.data.gender,
+    week: await getApplyStartDate(),
   };
   const add = await wakeupCollection.insertOne(putData);
 

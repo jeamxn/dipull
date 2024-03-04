@@ -4,7 +4,9 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { WakeupDB, WakeupData, WakeupGET, getToday } from "./utils";
+import { getApplyStartDate } from "../stay/utils";
+
+import { WakeupDB, WakeupGET, getToday } from "./utils";
 
 const GET = async (
   req: Request,
@@ -27,7 +29,7 @@ const GET = async (
   const client = await connectToDatabase();
   const wakeupCollection = client.db().collection("wakeup");
   const query = {
-    date: today.format("YYYY-MM-DD"),
+    week: await getApplyStartDate(),
     gender: verified.payload.data.gender,
   };
   const data = await wakeupCollection.find(query).toArray() as unknown as WakeupDB[];
@@ -42,6 +44,7 @@ const GET = async (
         thumbnails: v.thumbnails,
         date: v.date,
         count: 0,
+        week: v.week,
       };
     }
     allObj[v.id].count++;
@@ -54,6 +57,7 @@ const GET = async (
         owner: v.owner,
         _id: v._id,
         gender: v.gender,
+        week: v.week,
       });
     }
   }
@@ -64,6 +68,7 @@ const GET = async (
       my: myObj,
       today: today.format("YYYY-MM-DD"),
       gender: verified.payload.data.gender,
+      week: await getApplyStartDate(),
     },
   }), {
     status: 200,

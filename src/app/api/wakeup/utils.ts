@@ -9,6 +9,7 @@ export type WakeupData = {
   date: string;
   owner: string;
   gender: string;
+  week: string;
 }
 
 export type WakeupDB = WakeupData & {
@@ -21,6 +22,7 @@ export type WakeupGET = {
     thumbnails: WakeupDB["thumbnails"];
     date: WakeupDB["date"];
     count: number;
+    week: WakeupDB["week"];
   };
 };
 
