@@ -125,7 +125,7 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
       });
     });
     worksheet.getRow(1).height = 30;
-    worksheet.getRow(1).getCell(1).value = `${grade}학년 ${day === "sat" ? "토" : "일"}요일 잔류자 외출 및 급식 취소 명단`;
+    worksheet.getRow(1).getCell(1).value = `${grade}학년 ${day === "sat" ? "토" : "일"}요일 잔류자 현황`;
     Array(11).fill(0).map((_, i) => {
       worksheet.getRow(1).getCell(i + 1).fill = cellData.fill;
       worksheet.getRow(1).getCell(i + 1).font = {
@@ -148,7 +148,7 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
   const fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
   const blob = new Blob([buffer], {type: fileType});
-  saveAs(blob, `${grade}학년 잔류자 외출 및 급식 취소 명단.xlsx`);
+  saveAs(blob, `${grade}학년 잔류자 현황.xlsx`);
 };
 
 const Sheet = ({
@@ -171,7 +171,7 @@ const Sheet = ({
   };
   return (
     <article className="flex flex-col gap-3">
-      <h1 className="text-xl font-semibold">잔류자 외출 및 급식 취소 명단 다운로드</h1>
+      <h1 className="text-xl font-semibold">잔류자 현황 다운로드</h1>
       <article className={[
         "flex flex-row gap-2 bg-white rounded border border-text/10 p-5",
         loading ? "loading_background" : "",
