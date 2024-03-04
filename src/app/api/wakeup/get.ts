@@ -48,7 +48,7 @@ const GET = async (
       };
     }
     allObj[v.id].count++;
-    if(v.owner === verified.payload.id){
+    if(v.owner === verified.payload.id && v.date === today.format("YYYY-MM-DD")){
       myObj.push({
         title: v.title,
         id: v.id,
