@@ -9,7 +9,6 @@ import Meal from "./meal";
 import Timetable from "./timetable";
 
 const Home = () => {
-  const [loading, setLoading] = React.useState(false);
   return (
     <Insider>
       <Iwannagohome />
@@ -18,6 +17,5 @@ const Home = () => {
     </Insider>
   );
 };
-
 
 export default Home;

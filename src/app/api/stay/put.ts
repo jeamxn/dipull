@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { connectToDatabase } from "@/utils/db";
+import { getStates } from "@/utils/getStates";
 import { verify } from "@/utils/jwt";
 
 import { StayData, StudyroomDB, StudyroomData, getApplyEndDate, getApplyStartDate } from "./utils";
@@ -51,6 +52,14 @@ const PUT = async (
     });
   }
 
+  if(seat === "교실" && !(await getStates("class_stay"))) return new NextResponse(JSON.stringify({
+    success: false,
+    message: "이번 주는 교실 잔류가 아닙니다. 열람실 좌석을 선택해주세요.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+
   // DB 접속
   const client = await connectToDatabase();
   const stayCollection = client.db().collection("stay");
@@ -94,7 +103,7 @@ const PUT = async (
 
   const seetSelectQuery = { week: await getApplyStartDate(), seat: seat };
   const seatSelect = await stayCollection.findOne(seetSelectQuery);
-  if(seatSelect) {
+  if(seatSelect && seat !== "교실") {
     return new NextResponse(JSON.stringify({
       success: false,
       message: "이미 신청된 자리입니다.",
