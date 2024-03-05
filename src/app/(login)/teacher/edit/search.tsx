@@ -47,7 +47,7 @@ const Search = ({
     <article className="flex flex-col gap-3">
       <h1 className="text-xl font-semibold">학생 검색</h1>
       <article className={[
-        "flex flex-col gap-4 bg-white rounded border border-text/10 p-5",
+        "flex flex-col gap-4 bg-white rounded border border-text/10 p-5 overflow-auto",
         loading ? "loading_background" : "",
       ].join(" ")}>
         <section className="flex flex-row justify-center items-center w-full gap-4">
@@ -60,8 +60,8 @@ const Search = ({
             onChange={e => setSearch(e.target.value)}
           />
         </section>
-        <table className="w-full">
-          <tbody className="w-full border-y border-text/10">
+        <table className="w-full overflow-auto">
+          <tbody className="w-full border-y border-text/10 overflow-auto">
             <tr className="w-full">
               <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full" colSpan={2}>검색 결과</th>
               <td className="text-center px-4">잔류</td>

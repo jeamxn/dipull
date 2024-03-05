@@ -62,12 +62,12 @@ const Wakeup = ({
         <h1 className="text-base">{sunday.format("MM월 DD일")} 18시 00분 ~ {saturday.format("MM월 DD일")} 17시 59분</h1>
       </section>
       <section className={[
-        "flex flex-col gap-4 bg-white rounded border border-text/10 p-5",
+        "flex flex-col gap-4 bg-white rounded border border-text/10 p-5 overflow-auto",
         loading ? "loading_background" : "",
       ].join(" ")}>
           
-        <table className="w-full">
-          <tbody className="w-full border-y border-text/10">
+        <table className="w-full overflow-auto">
+          <tbody className="w-full border-y border-text/10 overflow-auto">
             <tr className="w-full">
               <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full" colSpan={2}>{gender === "male" ? "남" : "여"}학생 기상송 신청 순위</th>
               <td className="text-center px-4">삭제</td>
