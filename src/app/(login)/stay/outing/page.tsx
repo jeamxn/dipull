@@ -49,30 +49,32 @@ const Outing = () => {
   };
 
   return (
-    <Insider>
-      <Menu type="outing" loading={loading} />
-      <section className="flex flex-col gap-3">
-        <h1 className="text-xl font-semibold">외출 및 급식 변경 신청하기</h1>
-        <OutingOption 
-          title="토요일"
-          data={sat}
-          setData={setSat}
-          loading={loading}
-        />
-        <OutingOption 
-          title="일요일"
-          data={sun}
-          setData={setSun}
-          loading={loading}
-        />
-      </section>
-      <button 
-        className="bg-primary text-white w-full text-base font-semibold rounded h-10"
-        onClick={putOutingData}
-      >
+    <>
+      <Menu />
+      <Insider>
+        <section className="flex flex-col gap-3">
+          <h1 className="text-xl font-semibold">외출 및 급식 변경 신청하기</h1>
+          <OutingOption 
+            title="토요일"
+            data={sat}
+            setData={setSat}
+            loading={loading}
+          />
+          <OutingOption 
+            title="일요일"
+            data={sun}
+            setData={setSun}
+            loading={loading}
+          />
+        </section>
+        <button 
+          className="bg-primary text-white w-full text-base font-semibold rounded h-10"
+          onClick={putOutingData}
+        >
         신청하기
-      </button>
-    </Insider>
+        </button>
+      </Insider>
+    </>
   );
 };
 

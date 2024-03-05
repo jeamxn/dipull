@@ -3,7 +3,7 @@ import * as Excel from "exceljs";
 import { saveAs } from "file-saver";
 import React from "react";
 
-import { SheetResponse } from "@/app/api/teacher/sheet/utils";
+import { SheetResponse } from "@/app/api/teacher/sheet/stay/utils";
 import instance from "@/utils/instance";
 
 const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
@@ -151,7 +151,7 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
   saveAs(blob, `${grade}학년 잔류자 현황.xlsx`);
 };
 
-const Sheet = ({
+const StaySheet = ({
   loading,
   setLoading,
 }: {
@@ -161,7 +161,7 @@ const Sheet = ({
   const download = async (grade: number) => {
     setLoading(true);
     try{
-      const res: AxiosResponse<SheetResponse> = await instance.get("/api/teacher/sheet");
+      const res: AxiosResponse<SheetResponse> = await instance.get("/api/teacher/sheet/stay");
       await downloadSheet(res.data.data, grade);
     }
     catch(e: any){
@@ -192,4 +192,4 @@ const Sheet = ({
   );
 };
 
-export default Sheet;
+export default StaySheet;

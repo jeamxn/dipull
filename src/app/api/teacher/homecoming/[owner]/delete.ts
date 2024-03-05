@@ -1,15 +1,18 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { OutingDB, OutingGetResponse, defaultOutingData } from "@/app/api/outing/utils";
+import { getApplyStartDate } from "@/app/api/stay/utils";
 import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { getApplyStartDate } from "../../stay/utils";
+type Params = {
+  owner: string;
+};
 
-const POST = async (
+const DELETE = async (
   req: Request,
+  { params }: { params: Params }
 ) => {
   // 헤더 설정
   const new_headers = new Headers();
@@ -24,7 +27,6 @@ const POST = async (
     status: 401,
     headers: new_headers
   });
-
   const client = await connectToDatabase();
   const userCollection = client.db().collection("users");
   const selectMember = await userCollection.findOne({ id: verified.payload.data.id }) as unknown as UserDB;
@@ -35,35 +37,33 @@ const POST = async (
     headers: new_headers
   });
 
-  const { owner } = await req.json();
-
-  if(!owner) return new NextResponse(JSON.stringify({
+  if(!params.owner) return new NextResponse(JSON.stringify({
+    success: false,
     message: "학생을 선택해주세요.",
   }), {
     status: 400,
     headers: new_headers
   });
-  
-  // db connect
-  const outingCollection = client.db().collection("outing");
-  const query = { owner: owner, week: await getApplyStartDate() };
-  const result = await outingCollection.findOne(query) as unknown as OutingDB | null;
 
-  const resData: OutingGetResponse = {
+  const homecomingCollection = client.db().collection("homecoming");
+  const my = { id: params.owner, week: await getApplyStartDate() };
+  const delete_ = await homecomingCollection.deleteOne(my);
+
+  if(delete_.deletedCount === 0) return new NextResponse(JSON.stringify({
+    success: false,
+    message: "금요귀가 신청이 존재하지 않습니다.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+
+  return new NextResponse(JSON.stringify({
     success: true,
-    data: result ? {
-      sat: result.sat,
-      sun: result.sun,
-    } : {
-      sat: defaultOutingData,
-      sun: defaultOutingData,
-    }
-  };
-
-  return new NextResponse(JSON.stringify(resData), {
+    message: "금요귀가 신청이 취소되었습니다.",
+  }), {
     status: 200,
     headers: new_headers
   });
 };
 
-export default POST;
+export default DELETE;

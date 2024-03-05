@@ -6,12 +6,16 @@ import React from "react";
 
 const menu = [
   {
-    url: "/machine/washer",
-    name: "세탁기",
+    url: "/wakeup/list",
+    name: "신청순위",
   },
   {
-    url: "/machine/dryer",
-    name: "건조기",
+    url: "/wakeup/search",
+    name: "검색하기",
+  },
+  {
+    url: "/wakeup/my",
+    name: "내 신청",
   },
 ];
 

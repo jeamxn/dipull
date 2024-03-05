@@ -6,13 +6,17 @@ import React from "react";
 
 const menu = [
   {
-    url: "/machine/washer",
-    name: "세탁기",
+    url: "/teacher/edit",
+    name: "학생수정",
   },
   {
-    url: "/machine/dryer",
-    name: "건조기",
+    url: "/teacher/download",
+    name: "다운로드",
   },
+  {
+    url: "/teacher/wakeup",
+    name: "기상송",
+  }
 ];
 
 const Menu = () => {

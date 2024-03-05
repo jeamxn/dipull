@@ -62,7 +62,7 @@ const Outing = ({
       <section className="flex flex-col gap-2 pb-2">
         <h1 className="text-xl font-semibold">외출 및 급식 변경 수정하기</h1>
         <p className="text-base">
-        선택된 학생: [{selectedUser.gender === "male" ? "남학생" : "여학생"}] {selectedUser?.number} {selectedUser?.name}
+          선택된 학생: [{selectedUser.gender === "male" ? "남학생" : "여학생"}] {selectedUser?.number} {selectedUser?.name}
         </p>
       </section>
       <section className="flex flex-col gap-3">

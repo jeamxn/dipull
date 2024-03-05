@@ -13,8 +13,8 @@ const menu = [
     name: "정보",
   },
   {
-    url: "/wakeup",
-    name: "기상송",
+    url: "/wakeup/list",
+    name: "기상",
   },
   {
     url: "/machine/washer",
@@ -23,10 +23,6 @@ const menu = [
   {
     url: "/stay/apply",
     name: "잔류",
-  },
-  {
-    url: "/homecoming",
-    name: "금귀",
   }
 ];
 
@@ -46,7 +42,7 @@ const Menu = () => {
     setMenuCopy([
       ...menuCopy, 
       {
-        url: "/teacher",
+        url: "/teacher/edit",
         name: "관리",
       }
     ]);
@@ -63,7 +59,8 @@ const Menu = () => {
               href={item.url}
               className={[
                 "w-full text-center py-3 text-sm font-semibold hover:text-text/100 transition-colors",
-                isCurrentPage ? "border-b-2 border-primary text-text/100" : "text-text/40"
+                isCurrentPage && pathname.split("/").length === 2 ? "border-b-2 border-primary" : "",
+                isCurrentPage ? "text-text/100" : "text-text/40",
               ].join(" ")}
               prefetch={true}
             >

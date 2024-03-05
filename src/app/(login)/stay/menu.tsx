@@ -1,42 +1,49 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
-const Menu = ({
-  type,
-  loading,
-}: {
-  type: "apply" | "outing";
-  loading: boolean;
-}) => {
+const menu = [
+  {
+    url: "/stay/apply",
+    name: "잔류",
+  },
+  {
+    url: "/stay/outing",
+    name: "외출",
+  },
+  {
+    url: "/stay/homecoming",
+    name: "금귀",
+  }
+];
+
+const Menu = () => {
+  const pathname = usePathname();
+
   return (
-    <section className="flex flex-col gap-3">
-      <h1 className="text-xl font-semibold">유형 선택</h1>
-      <section className={[
-        "border border-text/10 bg-white p-5 rounded flex flex-row gap-3",
-        loading ? "loading_background" : "",
-      ].join(" ")}>
-        <Link 
-          className={[
-            "text-base py-3 rounded w-full transition-colors text-center flex flex-row justify-center items-center",
-            type === "apply" ? "bg-primary text-white" : "bg-white text-text/100 border border-text/10 hover:bg-text/10"
-          ].join(" ")}
-          href="/stay/apply"
-          prefetch={true}
-        >잔류 신청</Link>
-        <Link 
-          className={[
-            "text-base py-3 rounded w-full transition-colors text-center flex flex-row justify-center items-center",
-            type === "outing" ? "bg-primary text-white" : "bg-white text-text/100 border border-text/10 hover:bg-text/10"
-          ].join(" ")}
-          href="/stay/outing"
-          prefetch={true}
-        >외출 신청</Link>
-      </section>
-    </section>
+    <nav className="px-4 w-full border-b border-text/10 flex flex-row justify-around">
+      {
+        menu.map((item, index) => {
+          const isCurrentPage = pathname.split("/")[2] === item.url.split("/")[2];
+          return (
+            <Link
+              key={index} 
+              href={item.url}
+              className={[
+                "w-full text-center py-3 text-sm font-semibold hover:text-text/100 transition-colors",
+                isCurrentPage ? "border-b-2 border-primary text-text/100" : "text-text/40"
+              ].join(" ")}
+              prefetch={true}
+            >
+              {item.name}
+            </Link>
+          );
+        })
+      }
+    </nav>
   );
 };
-
 
 export default Menu;
