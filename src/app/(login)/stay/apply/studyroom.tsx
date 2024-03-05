@@ -92,7 +92,10 @@ const Studyroom = ({
           }
         </tbody>
       </table>
-      <article className="w-full border border-text/10 rounded bg-text/10 p-5 flex flex-row justify-around gap-4 flex-wrap">
+      <article className={[
+        "w-full border border-text/10 rounded bg-white p-5 flex flex-row justify-around gap-4 flex-wrap",
+        loading ? "loading_background" : "",
+      ].join(" ")}>
         {
           studyroom.map((e, i) => e.color !== "rgb(var(--color-text) / .1)" ? (
             <figure key={i} className="flex flex-row gap-2 items-center">

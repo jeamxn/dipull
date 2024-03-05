@@ -28,9 +28,6 @@ export type WakeupGET = {
 
 export const getToday = () => {
   const seoul = moment.tz("Asia/Seoul");
-  if(seoul.hour() < 8){
-    seoul.subtract(1, "day");
-  }
   const today = moment(seoul.format("YYYY-MM-DD"), "YYYY-MM-DD");
   return today;
 };

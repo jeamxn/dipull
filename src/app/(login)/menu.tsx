@@ -13,24 +13,16 @@ const menu = [
     name: "정보",
   },
   {
-    url: "/wakeup",
-    name: "기상송",
+    url: "/wakeup/list",
+    name: "기상",
   },
   {
     url: "/machine/washer",
-    name: "세탁기",
+    name: "세탁",
   },
   {
-    url: "/machine/dryer",
-    name: "건조기",
-  },
-  {
-    url: "/stay",
+    url: "/stay/apply",
     name: "잔류",
-  },
-  {
-    url: "/outing",
-    name: "외출",
   }
 ];
 
@@ -50,7 +42,7 @@ const Menu = () => {
     setMenuCopy([
       ...menuCopy, 
       {
-        url: "/teacher",
+        url: "/teacher/edit",
         name: "관리",
       }
     ]);
@@ -60,14 +52,15 @@ const Menu = () => {
     <nav className="px-4 w-full border-b border-text/10 flex flex-row justify-around">
       {
         menuCopy.map((item, index) => {
-          const isCurrentPage = pathname === item.url;
+          const isCurrentPage = pathname.split("/")[1] === item.url.split("/")[1];
           return (
             <Link
               key={index} 
               href={item.url}
               className={[
                 "w-full text-center py-3 text-sm font-semibold hover:text-text/100 transition-colors",
-                isCurrentPage ? "border-b-2 border-primary text-text/100" : "text-text/40"
+                isCurrentPage && pathname.split("/").length === 2 ? "border-b-2 border-primary" : "",
+                isCurrentPage ? "text-text/100" : "text-text/40",
               ].join(" ")}
               prefetch={true}
             >
