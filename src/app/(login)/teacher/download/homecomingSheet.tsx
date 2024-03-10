@@ -41,16 +41,20 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
     { header: "비고", key: "etc", width: 10, style: columnsStyle },
   ];
 
-  const worksheetData = Object.entries(data[grade] || {}).map(([class_, classData], i) => classData.map((v, j) => ({
-    grade: i === 0 ? `${grade}학년` : "",
-    class: j === 0 ? `${class_}반` : "",
-    count: j === 0 ? `${classData.length}명` : "",
-    number: v.number,
-    name: v.name,
-    gender: v.gender === "male" ? "남" : "여",
-    reason: v.reason,
-    etc: ""
-  })));
+  const worksheetData = Object.entries(data[grade] || {})
+    .sort((a, b) => parseInt(a[0]) - parseInt(b[0]))
+    .map(([class_, classData], i) => classData
+      .sort((a, b) => a.number - b.number)
+      .map((v, j) => ({
+        grade: i === 0 ? `${grade}학년` : "",
+        class: j === 0 ? `${class_}반` : "",
+        count: j === 0 ? `${classData.length}명` : "",
+        number: v.number,
+        name: v.name,
+        gender: v.gender === "male" ? "남" : "여",
+        reason: v.reason,
+        etc: ""
+      })));
   const worksheetDataFlat = worksheetData.flat();
 
   worksheet.addRows(worksheetDataFlat);
