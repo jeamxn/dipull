@@ -36,7 +36,7 @@ const POST = async (
     const this_ = moment(my?.last_search || 0, "x");
     const now = moment().tz("Asia/Seoul");
     if(now.diff(this_, "seconds") < 15) return new NextResponse(JSON.stringify({
-      message: `검색은 15초에 한 번만 가능합니다. (${10 - now.diff(this_, "seconds")}초 남음)`,
+      message: `검색은 15초에 한 번만 가능합니다. (${15 - now.diff(this_, "seconds")}초 남음)`,
     }), {
       status: 429,
       headers: new_headers
