@@ -2,6 +2,7 @@
 
 import moment from "moment";
 import React from "react";
+import { toast } from "react-toastify";
 
 import { WakeupDB, WakeupGET } from "@/app/api/wakeup/utils";
 import instance from "@/utils/instance";
@@ -26,7 +27,7 @@ const Wakeup = ({
       setGender(res.data.data.gender);
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };
@@ -42,7 +43,7 @@ const Wakeup = ({
       await getWakeup();
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };

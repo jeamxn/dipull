@@ -1,7 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
+import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import React from "react";
+import { ToastContainer } from "react-toastify";
+
+import ToastProvider from "@/provider/ToastProvider";
 
 export const metadata: Metadata = {
   title: "디미고인 풀 서비스 V3",
@@ -57,7 +61,9 @@ const RootLayout = async ({
       <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#000000"/>
       <link rel="apple-touch-icon" href="/public/icons/apple-touch-icon.png" />
       <body>
-        {children}
+        <ToastProvider>
+          {children}
+        </ToastProvider>
       </body>
     </html>
   );

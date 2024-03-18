@@ -19,11 +19,11 @@
 @layer base {
   :root{
     --font-wanted-sans: "Wanted Sans", sans-serif;
-
     --color-background: 250 250 255;
     --color-primary: 64 84 214;
     --color-text: 11 17 54;
     --color-white: 255 255 255;
+
     @media (prefers-color-scheme: dark) { 
       --color-background: 0 0 0;
       --color-primary: 64 84 214;

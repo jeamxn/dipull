@@ -1,6 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import type { Metadata } from "next";
-// import "./globals.css";
 import { headers } from "next/headers";
 import React from "react";
 

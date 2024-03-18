@@ -3,9 +3,9 @@
 
 import moment from "moment";
 import React from "react";
-import { YouTubeSearchResults } from "youtube-search";
+import { toast } from "react-toastify";
 
-import { WakeupDB, WakeupGET } from "@/app/api/wakeup/utils";
+import { WakeupGET } from "@/app/api/wakeup/utils";
 import Insider from "@/provider/insider";
 import instance from "@/utils/instance";
 
@@ -13,7 +13,6 @@ import Menu from "../menu";
 
 const Admin = () => {
   const [loading, setLoading] = React.useState(false);
-  const [search, setSearch] = React.useState("");
   const [wakeup, setWakeup] = React.useState<WakeupGET>({});
   const [week, setWeek] = React.useState<moment.Moment>(moment());
   const [gender, setGender] = React.useState<"male" | "femal">("male");
@@ -27,7 +26,7 @@ const Admin = () => {
       setGender(res.data.data.gender);
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };
@@ -41,10 +40,10 @@ const Admin = () => {
         }
       );
       await getWakeup();
-      alert(res.data.message);
+      toast.success(res.data.message);
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };

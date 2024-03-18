@@ -2,6 +2,7 @@
 
 import { AxiosResponse } from "axios";
 import React from "react";
+import { toast } from "react-toastify";
 
 import Insider from "@/provider/insider";
 import instance from "@/utils/instance";
@@ -21,7 +22,7 @@ const Homecoming = () => {
       setInput(res.data.data.reason);
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };
@@ -30,10 +31,10 @@ const Homecoming = () => {
     try{
       await instance.put("/api/homecoming", { reason: input });
       await getHomecomingData();
-      alert("금요귀가 신청이 완료되었습니다.");
+      toast.success("금요귀가 신청이 완료되었습니다.");
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };
@@ -42,10 +43,10 @@ const Homecoming = () => {
     try{
       await instance.delete("/api/homecoming");
       await getHomecomingData();
-      alert("금요귀가 신청이 취소되었습니다.");
+      toast.success("금요귀가 신청이 취소되었습니다.");
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };

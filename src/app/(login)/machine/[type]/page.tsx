@@ -2,6 +2,7 @@
 
 import * as jose from "jose";
 import React from "react";
+import { toast } from "react-toastify";
 
 import { MachineDB, Machine as MachineType } from "@/app/api/machine/[type]/utils";
 import { TokenInfo, defaultUserData } from "@/app/auth/type";
@@ -67,9 +68,10 @@ const Machine = (
         time: selectedTime,
       });
       await getWasherData();
+      toast.success(res.data.message);
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };
@@ -77,13 +79,14 @@ const Machine = (
   const deleteWasherData = async () => {
     setLoading(true);
     try{
-      await instance.delete(`/api/machine/${params.type}`);
+      const deletemsg = await instance.delete(`/api/machine/${params.type}`);
       setSelectedMachine("");
       setSelectedTime("");
       await getWasherData();
+      toast.success(deletemsg.data.message);
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };
@@ -179,12 +182,15 @@ const Machine = (
             )
           }
         </section>
-        {/* <div className="w-full border-b border-text/10" /> */}
         <section className="flex flex-col gap-3">
           <h1 className="text-xl font-semibold">{machineKorean[params.type]}기 신청 현황</h1>
           <article className="flex flex-col gap-1">
             {
-              Object.entries(data).map(([name, machine], i) => (
+              Object.entries(data).sort(
+                ([,], [, machine1]) => 
+                  machine1.allow.grades.includes(Math.floor(userInfo.number / 1000)) 
+                  && machine1.allow.gender === userInfo.gender ? 1 : -1
+              ).map(([name, machine], i) => (
                 <StatusBox 
                   key={i} 
                   name={name} 

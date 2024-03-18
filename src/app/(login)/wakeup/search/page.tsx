@@ -3,6 +3,7 @@
 
 import moment from "moment";
 import React from "react";
+import { toast } from "react-toastify";
 import { YouTubeSearchResults } from "youtube-search";
 
 import { WakeupDB, WakeupGET } from "@/app/api/wakeup/utils";
@@ -32,7 +33,7 @@ const Admin = () => {
       setList(res.data.search);
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };
@@ -45,10 +46,10 @@ const Admin = () => {
           data: select
         }
       );
-      alert(res.data.message);
+      toast.success(res.data.message);
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };

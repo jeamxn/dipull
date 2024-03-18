@@ -59,7 +59,7 @@ const POST = async (
   });
 
   return new NextResponse(JSON.stringify({
-    message: "삭제되었습니다.",
+    message: "성공적으로 삭제되었습니다.",
   }), {
     status: 200,
     headers: new_headers
