@@ -23,6 +23,7 @@ const ToastProvider = ({
         pauseOnHover
         bodyClassName="bg-white"
         toastClassName="bg-white"
+        className="bg-transparent"
       />
     </>
   );
