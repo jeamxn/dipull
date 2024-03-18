@@ -1,10 +1,12 @@
+import "moment-timezone";
+import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { getApplyStartDate, isStayApplyNotPeriod } from "../stay/utils";
+import { getApplyEndDate, getApplyStartDate, isStayApplyNotPeriod } from "../stay/utils";
 
 const DELETE = async (
   req: Request,
@@ -24,12 +26,13 @@ const DELETE = async (
   });
 
   
-  // 잔류 신청 기간 확인
-  const applymsg = await isStayApplyNotPeriod(verified.payload.data.number);
-  if(applymsg) {
+  const currentTime = moment(moment().tz("Asia/Seoul").format("YYYY-MM-DD"), "YYYY-MM-DD");
+  const applyStartDate = moment(await getApplyStartDate());
+  const applyEndDate = moment(await getApplyEndDate());
+  if(currentTime.isBefore(applyStartDate) || currentTime.isAfter(applyEndDate)) {
     return new NextResponse(JSON.stringify({
       success: false,
-      message: applymsg,
+      message: "금요귀가 신청 기간이 아닙니다.",
     }), {
       status: 400,
       headers: new_headers
