@@ -185,7 +185,13 @@ const Machine = (
           <article className="flex flex-col gap-1">
             {
               Object.entries(data).map(([name, machine], i) => (
-                <StatusBox key={i} name={name} machine={machine} loading={loading} />
+                <StatusBox 
+                  key={i} 
+                  name={name} 
+                  machine={machine} 
+                  loading={loading} 
+                  userInfo={userInfo}
+                />
               ))
             }
           </article>

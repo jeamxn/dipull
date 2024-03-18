@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Machine } from "@/app/api/machine/[type]/utils";
+import { UserData } from "@/app/auth/type";
 
 import { machineToKorean } from "./utils";
 
@@ -8,12 +9,15 @@ const StatusBox = ({
   name,
   machine,
   loading,
+  userInfo,
 }: {
   name: string;
   machine: Machine;
   loading: boolean;
+  userInfo: UserData;
 }) => {
-  const [clicked, setClicked] = React.useState(false);
+  const isOurGrade = machine.allow.grades.includes(Math.floor(userInfo.number / 1000)) && machine.allow.gender === userInfo.gender;
+  const [clicked, setClicked] = React.useState(isOurGrade);
   return (
     <figure 
       onClick={() => setClicked(p => !p)}
