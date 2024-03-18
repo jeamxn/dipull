@@ -81,3 +81,28 @@ export const getApplyEndDate = async () => {
   }
   return moment(await getApplyStartDate()).add(2, "day").format("YYYY-MM-DD");
 };
+
+const koreanDay = ["일", "월", "화", "수", "목", "금", "토"];
+const msgMaker = (msg: string, start: moment.Moment, end: moment.Moment) => `${msg}\n이번 주는 ${koreanDay[start.day()]}요일부터 ${koreanDay[end.day()]}요일까지 신청 가능합니다.`;
+export const isStayApplyNotPeriod = async (number: number) => {
+  const states = await getStates("stay");
+  console.log(states);
+  const grade = Math.floor(number / 1000);
+  const currentTime = moment(moment().tz("Asia/Seoul").format("YYYY-MM-DD"), "YYYY-MM-DD");
+  const applyStartDate = moment(await getApplyStartDate());
+  const applyEndDate = moment(await getApplyEndDate());
+  if(currentTime.isBefore(applyStartDate) || currentTime.isAfter(applyEndDate)) {
+    return msgMaker("잔류 신청 기간이 아닙니다.", applyStartDate, applyEndDate);
+  }
+  const addDate = states?.grade3Add === undefined ? 1 : states.grade3Add;
+  const subtractDate = states?.grade12Subtract === undefined ? 1 : states.grade12Subtract;
+  const addOneFromStartDate = applyStartDate.add(addDate, "day");
+  const subtractOneFromEndDate = applyEndDate.subtract(subtractDate, "day");
+  if(grade === 3 && currentTime.isAfter(addOneFromStartDate)) {
+    return msgMaker("3학년 신청 기간이 아닙니다.", applyStartDate, addOneFromStartDate);
+  }
+  else if((grade === 2 || grade === 1) && currentTime.isBefore(subtractOneFromEndDate)) {
+    return msgMaker("1, 2학년 신청 기간이 아닙니다.", subtractOneFromEndDate, applyEndDate);
+  }
+  return false;
+};

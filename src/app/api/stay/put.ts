@@ -1,5 +1,3 @@
-import "moment-timezone";
-import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -7,7 +5,7 @@ import { connectToDatabase } from "@/utils/db";
 import { getStates } from "@/utils/getStates";
 import { verify } from "@/utils/jwt";
 
-import { StayData, StudyroomDB, StudyroomData, getApplyEndDate, getApplyStartDate } from "./utils";
+import { StayData, StudyroomDB, StudyroomData, getApplyStartDate, isStayApplyNotPeriod } from "./utils";
 
 const PUT = async (
   req: Request,
@@ -38,14 +36,12 @@ const PUT = async (
     headers: new_headers
   });
 
-  
-  const currentTime = moment(moment().tz("Asia/Seoul").format("YYYY-MM-DD"), "YYYY-MM-DD");
-  const applyStartDate = moment(await getApplyStartDate());
-  const applyEndDate = moment(await getApplyEndDate());
-  if(currentTime.isBefore(applyStartDate) || currentTime.isAfter(applyEndDate)) {
+  // 잔류 신청 기간 확인
+  const applymsg = await isStayApplyNotPeriod(verified.payload.data.number);
+  if(applymsg) {
     return new NextResponse(JSON.stringify({
       success: false,
-      message: "잔류 신청 기간이 아닙니다.",
+      message: applymsg,
     }), {
       status: 400,
       headers: new_headers
