@@ -97,6 +97,19 @@ const PUT = async (
     });
   }
 
+  const homecomingCollection = client.db().collection("homecoming");
+  const myHomecomingSelectQuery = { week: await getApplyStartDate(), id: verified.payload.id };
+  const myHomecomingSelect = await homecomingCollection.findOne(myHomecomingSelectQuery);
+  if(myHomecomingSelect) {
+    return new NextResponse(JSON.stringify({
+      success: false,
+      message: "잔류 신청을 하려면 금요귀가 신청을 취소해주세요.",
+    }), {
+      status: 400,
+      headers: new_headers
+    });
+  }
+
   const seetSelectQuery = { week: await getApplyStartDate(), seat: seat };
   const seatSelect = await stayCollection.findOne(seetSelectQuery);
   if(seatSelect && seat !== "교실") {
