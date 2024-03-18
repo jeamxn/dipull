@@ -86,6 +86,9 @@ const dimi_subject: {
   "광고 전략 수립": "광콘",
   "그래픽 제작": "컴그",
   "음악콘텐츠제작기획": "음콘",
+  "파이썬프로그래밍": "Py",
+  "인공지능 기초": "인기",
+  "자료 구조": "자료",
 };
 
 export const GET = async (
@@ -137,6 +140,7 @@ export const GET = async (
         TI_TO_YMD: moment().tz("Asia/Seoul").endOf("isoWeek").format("YYYYMMDD"),
       }
     });
+    console.log(data, moment().tz("Asia/Seoul").startOf("isoWeek").format("YYYYMMDD"));
     const row = data.hisTimetable[1].row;
   
     const getPeriodSubject = (period: number) => {

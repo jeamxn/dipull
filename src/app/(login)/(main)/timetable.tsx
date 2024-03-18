@@ -25,6 +25,7 @@ const Timetable = () => {
     }
     catch(e: any){
       console.error(e.response.data.message);
+      setTimetable({});
     }
     setLoading(false);
   };
