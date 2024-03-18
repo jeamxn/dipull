@@ -2,6 +2,7 @@ import { AxiosResponse } from "axios";
 import * as Excel from "exceljs";
 import { saveAs } from "file-saver";
 import React from "react";
+import { toast } from "react-toastify";
 
 import { SheetResponse } from "@/app/api/teacher/sheet/stay/utils";
 import instance from "@/utils/instance";
@@ -169,7 +170,7 @@ const StaySheet = ({
       await downloadSheet(res.data.data, grade);
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };

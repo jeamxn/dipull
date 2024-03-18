@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import React from "react";
+import { toast } from "react-toastify";
 
 import OutingOption from "@/app/(login)/stay/outing/outingOption";
 import { OutingAndMealData, OutingGetResponse, defaultOutingData } from "@/app/api/outing/utils";
@@ -29,7 +30,7 @@ const Homecoming = ({
       setInput(res.data.data.reason);
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };
@@ -40,10 +41,10 @@ const Homecoming = ({
         reason: input,
       });
       await getHomecomingData();
-      alert("금요귀가 신청이 완료되었습니다.");
+      toast.success("금요귀가 신청이 완료되었습니다.");
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };
@@ -52,10 +53,10 @@ const Homecoming = ({
     try{
       await instance.delete(`/api/teacher/homecoming/${selectedUser.id}`);
       await getHomecomingData();
-      alert("금요귀가 신청이 취소되었습니다.");
+      toast.success("금요귀가 신청이 취소되었습니다.");
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };

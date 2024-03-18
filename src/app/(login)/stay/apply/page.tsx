@@ -3,6 +3,7 @@
 import { AxiosResponse } from "axios";
 import * as jose from "jose";
 import React from "react";
+import { toast } from "react-toastify";
 
 import { ByGradeClassObj, BySeatsObj, StayGetResponse } from "@/app/api/stay/utils";
 import { TokenInfo, defaultUserData } from "@/app/auth/type";
@@ -33,7 +34,7 @@ const Stay = () => {
       setStudyroom(res.data.data.studyroom);
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setSelectedSeat("@0");
     setLoading(false);
@@ -45,10 +46,10 @@ const Stay = () => {
         seat: selectedSeat
       });
       await getStayData();
-      alert(res.data.message);
+      toast.success(res.data.message);
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };
@@ -59,7 +60,7 @@ const Stay = () => {
       await getStayData();
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };

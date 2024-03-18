@@ -2,6 +2,7 @@
 
 import { AxiosResponse } from "axios";
 import React from "react";
+import { toast } from "react-toastify";
 
 import { OutingAndMealData, OutingGetResponse, defaultOutingData } from "@/app/api/outing/utils";
 import Insider from "@/provider/insider";
@@ -28,7 +29,7 @@ const Outing = () => {
       setSun(res.data.data.sun);
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };
@@ -40,10 +41,10 @@ const Outing = () => {
         sat, sun,
       });
       await getOutingData();
-      alert(res.data.message);
+      toast.success(res.data.message);
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };

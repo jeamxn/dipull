@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import React from "react";
+import { toast } from "react-toastify";
 
 import { UserInfo, UserInfoResponse, defaultUserData } from "@/app/api/teacher/userinfo/utils";
 import instance from "@/utils/instance";
@@ -33,7 +34,7 @@ const Search = ({
       setUserList(res.data.data);
     }
     catch(e: any){
-      alert(e.response.data.message);
+      toast.error(e.response.data.message);
     }
     setLoading(false);
   };
