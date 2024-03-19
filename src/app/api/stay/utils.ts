@@ -89,7 +89,6 @@ const msgMaker = (msg: string, start: moment.Moment, end: moment.Moment) => {
 };
 export const isStayApplyNotPeriod = async (number: number) => {
   const states = await getStates("stay");
-  console.log(states);
   const grade = Math.floor(number / 1000);
   const currentTime = moment(moment().tz("Asia/Seoul").format("YYYY-MM-DD"), "YYYY-MM-DD");
   const applyStartDate = moment(await getApplyStartDate());

@@ -27,7 +27,6 @@ const Admin = () => {
           query: search
         }
       );
-      console.log(res.data.search);
       setList(res.data.search);
     }
     catch(e: any){

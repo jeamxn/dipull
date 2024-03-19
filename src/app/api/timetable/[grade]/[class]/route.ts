@@ -140,7 +140,6 @@ export const GET = async (
         TI_TO_YMD: moment().tz("Asia/Seoul").endOf("isoWeek").format("YYYYMMDD"),
       }
     });
-    console.log(data, moment().tz("Asia/Seoul").startOf("isoWeek").format("YYYYMMDD"));
     const row = data.hisTimetable[1].row;
   
     const getPeriodSubject = (period: number) => {

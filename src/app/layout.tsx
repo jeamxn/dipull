@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import React from "react";
-import { ToastContainer } from "react-toastify";
 
 import ToastProvider from "@/provider/ToastProvider";
 

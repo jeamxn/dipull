@@ -9,9 +9,6 @@ function Error({
   error: Error & { digest?: string }
   reset: () => void
 }) {
-  // React.useEffect(() => {
-  //   console.error(error);
-  // }, [error]);
 
   return (
     <main className="flex flex-col gap-2 justify-center items-center w-full px-4 py-10">
