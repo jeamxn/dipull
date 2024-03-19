@@ -34,6 +34,7 @@ const Wakeup = ({
 
   const deleteWakeup = async (id: WakeupDB["id"]) => {
     setLoading(true);
+    const loading = alert.loading("기상송 삭제 중 입니다.");
     try{
       const res = await instance.post(
         "/api/teacher/wakeup", {
@@ -41,10 +42,10 @@ const Wakeup = ({
         }
       );
       await getWakeup();
-      alert.success(res.data.message);
+      alert.update(loading, res.data.message, "success");
     }
     catch(e: any){
-      alert.error(e.response.data.message);
+      alert.update(loading, e.response.data.message, "error");
     }
     setLoading(false);
   };

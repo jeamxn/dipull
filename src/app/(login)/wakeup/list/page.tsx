@@ -33,6 +33,7 @@ const Admin = () => {
 
   const putWakeup = async (select: any) => {
     setLoading(true);
+    const loading = alert.loading("기상송 신청 중 입니다.");
     try{
       const res = await instance.put(
         "/api/wakeup", {
@@ -40,10 +41,10 @@ const Admin = () => {
         }
       );
       await getWakeup();
-      alert.success(res.data.message);
+      alert.update(loading, res.data.message, "success");
     }
     catch(e: any){
-      alert.error(e.response.data.message);
+      alert.update(loading, e.response.data.message, "error");
     }
     setLoading(false);
   };

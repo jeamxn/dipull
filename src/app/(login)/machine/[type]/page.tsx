@@ -62,31 +62,33 @@ const Machine = (
 
   const putWasherData = async () => {
     setLoading(true);
+    const loading = alert.loading("신청 중 입니다.");
     try{
       const res = await instance.put(`/api/machine/${params.type}`, {
         machine: selectedMachine,
         time: selectedTime,
       });
       await getWasherData();
-      alert.success(res.data.message);
+      alert.update(loading, res.data.message, "success");
     }
     catch(e: any){
-      alert.error(e.response.data.message);
+      alert.update(loading, e.response.data.message, "error");
     }
     setLoading(false);
   };
 
   const deleteWasherData = async () => {
     setLoading(true);
+    const loading = alert.loading("신청 취소 중 입니다.");
     try{
       const deletemsg = await instance.delete(`/api/machine/${params.type}`);
       setSelectedMachine("");
       setSelectedTime("");
       await getWasherData();
-      alert.success(deletemsg.data.message);
+      alert.update(loading, deletemsg.data.message, "success");
     }
     catch(e: any){
-      alert.error(e.response.data.message);
+      alert.update(loading, e.response.data.message, "error");
     }
     setLoading(false);
   };

@@ -1,6 +1,7 @@
 import moment from "moment";
 import React, { DetailedHTMLProps, HTMLAttributes } from "react";
 
+import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
 const Iwannagohome = () => {
@@ -60,14 +61,16 @@ const Iwannagohome = () => {
                 style={{
                 }}
                 onClick={async () => {
+                  const loading = alert.loading("투표 중입니다.");
                   try{
                     await instance.put("/api/iwannagohome", {
                       pick: i,
                     });
                     getMeal();
+                    alert.update(loading, "투표가 완료되었습니다.", "success");
                   }
                   catch(e){
-                    console.error(e);
+                    alert.update(loading, String(e), "error");
                   }
                 }}
               >

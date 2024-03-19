@@ -41,26 +41,29 @@ const Stay = () => {
   };
   const putStayData = async () => {
     setLoading(true);
+    const loading = alert.loading("신청 중 입니다.");
     try{
       const res = await instance.put("/api/stay", {
         seat: selectedSeat
       });
       await getStayData();
-      alert.success(res.data.message);
+      alert.update(loading, res.data.message, "success");
     }
     catch(e: any){
-      alert.error(e.response.data.message);
+      alert.update(loading, e.response.data.message, "error");
     }
     setLoading(false);
   };
   const deleteStayData = async () => {
     setLoading(true);
+    const loading = alert.loading("신청 취소 중 입니다.");
     try{
       const res = await instance.delete("/api/stay");
       await getStayData();
+      alert.update(loading, res.data.message, "success");
     }
     catch(e: any){
-      alert.error(e.response.data.message);
+      alert.update(loading, e.response.data.message, "error");
     }
     setLoading(false);
   };

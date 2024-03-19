@@ -36,15 +36,16 @@ const Outing = () => {
 
   const putOutingData = async () => {
     setLoading(true);
+    const loading = alert.loading("외출 및 급식 변경 신청 중 입니다.");
     try{
       const res = await instance.put("/api/outing", {
         sat, sun,
       });
       await getOutingData();
-      alert.success(res.data.message);
+      alert.update(loading, res.data.message, "success");
     }
     catch(e: any){
-      alert.error(e.response.data.message);
+      alert.update(loading, e.response.data.message, "error");
     }
     setLoading(false);
   };

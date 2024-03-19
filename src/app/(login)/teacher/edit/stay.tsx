@@ -52,25 +52,27 @@ const Stay = ({
 
   const stayPut = async (owner: string, seat: string) => {
     setLoading(true);
+    const loading = alert.loading("잔류 신청 중 입니다.");
     try {
       const res: AxiosResponse = await instance.put("/api/teacher/stay", { seat, owner });
-      alert.success(res.data.message);
       await getStayData();
+      alert.update(loading, res.data.message, "success");
     }
     catch(e: any){
-      alert.error(e.response.data.message);
+      alert.update(loading, e.response.data.message, "error");
     }
     setLoading(false);
   };
   const stayDelete = async (owner: string) => {
     setLoading(true);
+    const loading = alert.loading("잔류 신청 취소 중 입니다.");
     try {
       const res: AxiosResponse = await instance.delete(`/api/teacher/stay/${owner}`);
-      alert.success(res.data.message);
       await getStayData();
+      alert.update(loading, res.data.message, "success");
     }
     catch(e: any){
-      alert.error(e.response.data.message);
+      alert.update(loading, e.response.data.message, "error");
     }
     setLoading(false);
   };

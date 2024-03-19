@@ -34,27 +34,29 @@ const Homecoming = ({
   };
   const putHomecomingData = async () => {
     setLoading(true);
+    const loading = alert.loading("금요귀가 신청 중 입니다.");
     try{
       await instance.put(`/api/teacher/homecoming/${selectedUser.id}`, { 
         reason: input,
       });
       await getHomecomingData();
-      alert.success("금요귀가 신청이 완료되었습니다.");
+      alert.update(loading, "금요귀가 신청이 완료되었습니다.", "success");
     }
     catch(e: any){
-      alert.error(e.response.data.message);
+      alert.update(loading, e.response.data.message, "error");
     }
     setLoading(false);
   };
   const deleteHomecomingData = async () => {
     setLoading(true);
+    const loading = alert.loading("금요귀가 신청 취소 중 입니다.");
     try{
       await instance.delete(`/api/teacher/homecoming/${selectedUser.id}`);
       await getHomecomingData();
-      alert.success("금요귀가 신청이 취소되었습니다.");
+      alert.update(loading, "금요귀가 신청이 취소되었습니다.", "success");
     }
     catch(e: any){
-      alert.error(e.response.data.message);
+      alert.update(loading, e.response.data.message, "error");
     }
     setLoading(false);
   };
