@@ -1,13 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import moment from "moment";
 import React from "react";
-import { toast } from "react-toastify";
-import { YouTubeSearchResults } from "youtube-search";
 
-import { WakeupDB, WakeupGET } from "@/app/api/wakeup/utils";
+import { WakeupDB } from "@/app/api/wakeup/utils";
 import Insider from "@/provider/insider";
+import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
 import Menu from "../menu";
@@ -25,10 +23,10 @@ const Admin = () => {
         }
       );
       await getWakeup();
-      toast.success(res.data.message);
+      alert.success(res.data.message);
     }
     catch(e: any){
-      toast.error(e.response.data.message);
+      alert.error(e.response.data.message);
     }
     setLoading(false);
   };
@@ -40,7 +38,7 @@ const Admin = () => {
       setMy(res.data.data.my);
     }
     catch(e: any){
-      toast.error(e.response.data.message);
+      alert.error(e.response.data.message);
     }
     setLoading(false);
   };

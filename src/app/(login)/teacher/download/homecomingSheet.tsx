@@ -2,9 +2,9 @@ import { AxiosResponse } from "axios";
 import * as Excel from "exceljs";
 import { saveAs } from "file-saver";
 import React from "react";
-import { toast } from "react-toastify";
 
 import { SheetResponse } from "@/app/api/teacher/sheet/homecoming/utils";
+import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
 const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
@@ -162,7 +162,7 @@ const HomecomingSheet = ({
       await downloadSheet(res.data.data, grade);
     }
     catch(e: any){
-      toast.error(e.response.data.message);
+      alert.error(e.response.data.message);
     }
     setLoading(false);
   };

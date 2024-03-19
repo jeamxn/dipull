@@ -1,12 +1,12 @@
 import { AxiosResponse } from "axios";
 import * as jose from "jose";
 import React from "react";
-import { toast } from "react-toastify";
 
 import Studyroom from "@/app/(login)/stay/apply/studyroom";
 import { ByGradeClassObj, BySeatsObj, StayGetResponse } from "@/app/api/stay/utils";
 import { UserInfo } from "@/app/api/teacher/userinfo/utils";
 import { TokenInfo, defaultUserData } from "@/app/auth/type";
+import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
 
@@ -38,7 +38,7 @@ const Stay = ({
       setStudyroom(res.data.data.studyroom);
     }
     catch(e: any){
-      toast.error(e.response.data.message);
+      alert.error(e.response.data.message);
     }
     setSelectedSeat("@0");
     setLoading(false);
@@ -54,11 +54,11 @@ const Stay = ({
     setLoading(true);
     try {
       const res: AxiosResponse = await instance.put("/api/teacher/stay", { seat, owner });
-      toast.success(res.data.message);
+      alert.success(res.data.message);
       await getStayData();
     }
     catch(e: any){
-      toast.error(e.response.data.message);
+      alert.error(e.response.data.message);
     }
     setLoading(false);
   };
@@ -66,11 +66,11 @@ const Stay = ({
     setLoading(true);
     try {
       const res: AxiosResponse = await instance.delete(`/api/teacher/stay/${owner}`);
-      toast.success(res.data.message);
+      alert.success(res.data.message);
       await getStayData();
     }
     catch(e: any){
-      toast.error(e.response.data.message);
+      alert.error(e.response.data.message);
     }
     setLoading(false);
   };

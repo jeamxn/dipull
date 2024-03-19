@@ -2,11 +2,11 @@
 
 import * as jose from "jose";
 import React from "react";
-import { toast } from "react-toastify";
 
 import { MachineDB, Machine as MachineType } from "@/app/api/machine/[type]/utils";
 import { TokenInfo, defaultUserData } from "@/app/auth/type";
 import Insider from "@/provider/insider";
+import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
 import Menu from "../menu";
@@ -68,10 +68,10 @@ const Machine = (
         time: selectedTime,
       });
       await getWasherData();
-      toast.success(res.data.message);
+      alert.success(res.data.message);
     }
     catch(e: any){
-      toast.error(e.response.data.message);
+      alert.error(e.response.data.message);
     }
     setLoading(false);
   };
@@ -83,10 +83,10 @@ const Machine = (
       setSelectedMachine("");
       setSelectedTime("");
       await getWasherData();
-      toast.success(deletemsg.data.message);
+      alert.success(deletemsg.data.message);
     }
     catch(e: any){
-      toast.error(e.response.data.message);
+      alert.error(e.response.data.message);
     }
     setLoading(false);
   };
