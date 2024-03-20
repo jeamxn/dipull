@@ -17,3 +17,17 @@ export const connectToDatabase = async () => {
   cachedClient = client;
   return client;
 };
+
+export const escapeHTML = (str: string) => str.replace(/[&<>'"]/g, (tag: string): string => {
+  let escaper: { [key: string]: string } = {"&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", "\"": "&quot;"};
+  if (Object.prototype.hasOwnProperty.call(escaper, tag))
+    return escaper[tag];
+  else return tag;
+});
+
+export const decodeHTML = (str: string) => str.replace(/[&<>'"]/g, (tag: string): string => {
+  let escaper: { [key: string]: string } = {"&amp;": "&", "&lt;": "<", "&gt;": ">","&#39;": "'","&quot;": "\""};
+  if (Object.prototype.hasOwnProperty.call(escaper, tag))
+    return escaper[tag];
+  else return tag;
+});

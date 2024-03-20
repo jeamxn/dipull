@@ -5,6 +5,7 @@ import React from "react";
 
 import { SheetResponse } from "@/app/api/teacher/sheet/stay/utils";
 import { alert } from "@/utils/alert";
+import { decodeHTML } from "@/utils/db";
 import instance from "@/utils/instance";
 
 const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
@@ -60,7 +61,7 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
           breakfast: v[day as "sat" | "sun"].meal.breakfast ? "O" : "X",
           lunch: v[day as "sat" | "sun"].meal.lunch ? "O" : "X",
           dinner: v[day as "sat" | "sun"].meal.dinner ? "O" : "X",
-          outing: v[day as "sat" | "sun"].outing.map((d) => `${d.description}(${d.start}~${d.end})`).join(", "),
+          outing: v[day as "sat" | "sun"].outing.map((d) => `${decodeHTML(d.description)}(${d.start}~${d.end})`).join(", "),
           etc: ""
         })));
     const worksheetDataFlat = worksheetData.flat();

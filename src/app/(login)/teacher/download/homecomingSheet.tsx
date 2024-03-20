@@ -5,6 +5,7 @@ import React from "react";
 
 import { SheetResponse } from "@/app/api/teacher/sheet/homecoming/utils";
 import { alert } from "@/utils/alert";
+import { decodeHTML } from "@/utils/db";
 import instance from "@/utils/instance";
 
 const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
@@ -53,7 +54,7 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
         number: v.number,
         name: v.name,
         gender: v.gender === "male" ? "남" : "여",
-        reason: v.reason,
+        reason: decodeHTML(v.reason),
         etc: ""
       })));
   const worksheetDataFlat = worksheetData.flat();

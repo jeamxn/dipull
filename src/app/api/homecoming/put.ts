@@ -3,7 +3,7 @@ import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { connectToDatabase } from "@/utils/db";
+import { connectToDatabase, escapeHTML } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
 import { getApplyEndDate, getApplyStartDate, isStayApplyNotPeriod } from "../stay/utils";
@@ -74,7 +74,7 @@ const PUT = async (
 
   const my: HomecomingData = { 
     id: verified.payload.id,
-    reason,
+    reason: escapeHTML(reason),
     week: await getApplyStartDate(),
   };
   const put = await homecomingCollection.updateOne({ id: verified.payload.id, week: await getApplyStartDate() }, { $set: my }, { upsert: true });

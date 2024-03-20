@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { getApplyStartDate, isStayApplyNotPeriod } from "@/app/api/stay/utils";
-import { connectToDatabase } from "@/utils/db";
+import { connectToDatabase, escapeHTML } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
 import { OutingData, OutingAndMealData } from "./utils";
@@ -67,7 +67,7 @@ const PUT = async (
     outing: sat.outing.map(outing => ({
       start: moment(outing.start, "HH:mm").format("HH:mm"),
       end: moment(outing.end, "HH:mm").format("HH:mm"),
-      description: outing.description,
+      description: escapeHTML(outing.description),
     })).sort((a, b) => {
       const startA = moment(a.start, "HH:mm");
       const startB = moment(b.start, "HH:mm");
@@ -89,7 +89,7 @@ const PUT = async (
     outing: sun.outing.map(outing => ({
       start: moment(outing.start, "HH:mm").format("HH:mm"),
       end: moment(outing.end, "HH:mm").format("HH:mm"),
-      description: outing.description,
+      description: escapeHTML(outing.description),
     })).sort((a, b) => {
       const startA = moment(a.start, "HH:mm");
       const startB = moment(b.start, "HH:mm");
