@@ -1,7 +1,7 @@
 import * as jose from "jose";
 
-import { connectToDatabase } from "@/utils/db";
 import { UserData } from "@/app/auth/type";
+import { connectToDatabase } from "@/utils/db";
 
 const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
 
@@ -63,12 +63,12 @@ export const refreshVerify = async (token: string) => {
     return {
       ok: false,
       payload: {
-        id: null,
-        profile_image: null,
-        gender: null,
-        name: null,
-        number: null,
-        type: null,
+        id: undefined,
+        profile_image: undefined,
+        gender: undefined,
+        name: undefined,
+        number: undefined,
+        type: undefined,
       }
     };
 
