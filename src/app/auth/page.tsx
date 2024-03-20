@@ -10,7 +10,7 @@ const Auth = () => {
   const token = searchParams.get("token");
 
   const login = async () => {
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_REDIRECT_URI}/auth/login?token=${token}`);
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_APP_URI}/auth/login?token=${token}`);
     localStorage.setItem("accessToken", res.data.accessToken);
     router.replace("/");
   };
