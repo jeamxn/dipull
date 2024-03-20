@@ -43,7 +43,7 @@ export const GET = async (req: Request) => {
   const refreshData: UserData = {
     id: data.data.openId,
     type: data.data.type,
-    profile_image: `${process.env.NEXT_PUBLIC_REDIRECT_URI}/profile.jpg`,
+    profile_image: `${process.env.NEXT_PUBLIC_APP_URI}/profile.jpg`,
     gender: data.data.gender,
     name: data.data.name,
     number: data.data.studentId?.grade ? data.data.studentId.grade * 1000 + data.data.studentId.class * 100 + data.data.studentId.number : 9999,

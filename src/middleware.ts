@@ -15,18 +15,18 @@ export const middleware = async (request: NextRequest) => {
   try{
     if(!request.nextUrl.pathname.startsWith("/login")){
       if(!verified.ok) {
-        return NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_REDIRECT_URI!));
+        return NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_APP_URI!));
       }
       else if(request.nextUrl.pathname.startsWith("/teacher") && verified.payload.type !== "teacher") {
-        return NextResponse.redirect(new URL("/", process.env.NEXT_PUBLIC_REDIRECT_URI!));
+        return NextResponse.redirect(new URL("/", process.env.NEXT_PUBLIC_APP_URI!));
       }
     }
     else if(verified.ok) {
-      return NextResponse.redirect(new URL("/", process.env.NEXT_PUBLIC_REDIRECT_URI!));
+      return NextResponse.redirect(new URL("/", process.env.NEXT_PUBLIC_APP_URI!));
     }
   }
   catch {
-    return NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_REDIRECT_URI!));
+    return NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_APP_URI!));
   }
 
   return NextResponse.next({
