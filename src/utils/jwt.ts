@@ -1,5 +1,6 @@
 import * as jose from "jose";
 
+import { connectToDatabase } from "@/utils/db";
 import { UserData } from "@/app/auth/type";
 
 const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
@@ -54,6 +55,15 @@ const refresh = async (userdata: UserData) => {
     .sign(secret);
 };
 export const refreshVerify = async (token: string) => {
+  const client = await connectToDatabase();
+  const userCollection = client.db().collection("users");
+  const cRefreshTokenQuery = { refreshToken: token }; // check refresh token query
+  const cRTResult = userCollection.find(cRefreshTokenQuery);
+  if ((await cRTResult.toArray()).length === 0)
+    return {
+      ok: false
+    };
+
   try {
     const result = await jose.jwtVerify(token, secret) as unknown as {
       payload: UserData;
