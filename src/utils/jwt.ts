@@ -61,7 +61,15 @@ export const refreshVerify = async (token: string) => {
   const cRTResult = userCollection.find(cRefreshTokenQuery);
   if ((await cRTResult.toArray()).length === 0)
     return {
-      ok: false
+      ok: false,
+      payload: {
+        id: null,
+        profile_image: null,
+        gender: null,
+        name: null,
+        number: null,
+        type: null,
+      }
     };
 
   try {
