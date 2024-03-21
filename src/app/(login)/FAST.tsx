@@ -12,7 +12,9 @@ const Fast = () => {
     const randomG = rand(0, 255);
     const randomB = rand(0, 255);
     const isDark = isDarkColor(randomR, randomG, randomB);
-    if(isDark) return getColor();
+    const isDarkMode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if(isDarkMode && isDark) return getColor();
+    else if(!isDarkMode && !isDark) return getColor();
     return `${randomR} ${randomG} ${randomB}`;
   };
   React.useEffect(() => {
