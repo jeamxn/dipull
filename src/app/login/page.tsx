@@ -25,7 +25,7 @@ const Login = () => {
         fill
       />
       <button 
-        className="overflow-hidden z-50 bg-primary px-8 py-8 rounded-md transition-opacity flex flex-col gap-6 justify-between items-center w-full max-w-[30rem]"
+        className="overflow-hidden z-50 bg-primary px-8 py-8 rounded-md flex flex-col gap-6 justify-between items-center w-full max-w-[30rem]"
         onClick={login}
         ref={ref}
       >
