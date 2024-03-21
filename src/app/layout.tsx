@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
@@ -63,6 +64,7 @@ const RootLayout = async ({
         <ToastProvider>
           {children}
         </ToastProvider>
+        <Analytics />
       </body>
     </html>
   );

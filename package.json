@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.2.2",
     "axios": "^1.6.7",
     "cookie": "^0.6.0",
     "exceljs": "^4.4.0",
