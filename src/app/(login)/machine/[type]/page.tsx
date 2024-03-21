@@ -115,7 +115,7 @@ const Machine = (
                 </figure>
                 <button 
                   className={[
-                    "w-full bg-primary text-white font-semibold px-4 py-2 rounded-md text-base transition-opacity"
+                    "w-full bg-primary text-white font-semibold px-4 py-2 rounded-md text-base "
                   ].join(" ")}
                   onClick={deleteWasherData}
                 >취소하기</button>
@@ -174,7 +174,7 @@ const Machine = (
                 </figure>
                 <button 
                   className={[
-                    "w-full bg-primary text-white font-semibold px-4 py-2 rounded-md text-base transition-opacity",
+                    "w-full bg-primary text-white font-semibold px-4 py-2 rounded-md text-base ",
                     !selectedMachine || !selectedTime ? "opacity-50" : "opacity-100"
                   ].join(" ")}
                   disabled={!selectedMachine || !selectedTime}
