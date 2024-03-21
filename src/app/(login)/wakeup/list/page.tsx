@@ -4,7 +4,7 @@
 import moment from "moment";
 import React from "react";
 
-import {WakeupDB, WakeupGET} from "@/app/api/wakeup/utils";
+import { WakeupDB, WakeupGET } from "@/app/api/wakeup/utils";
 import Insider from "@/provider/insider";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
