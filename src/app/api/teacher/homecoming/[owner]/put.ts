@@ -38,7 +38,7 @@ const PUT = async (
     headers: new_headers
   });
 
-  const { reason } = await req.json();
+  const { reason, time } = await req.json();
   if(!params.owner) return new NextResponse(JSON.stringify({
     success: false,
     message: "학생을 선택해주세요.",
@@ -53,12 +53,20 @@ const PUT = async (
     status: 400,
     headers: new_headers
   });
+  if(!time) return new NextResponse(JSON.stringify({
+    success: false,
+    message: "귀가 시간을 선택해주세요.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
 
   const homecomingCollection = client.db().collection("homecoming");
   const my: HomecomingData = { 
     id: params.owner,
     reason,
-    week: await getApplyStartDate()
+    time,
+    week: await getApplyStartDate(),
   };
   const put = await homecomingCollection.updateOne({ id: params.owner, week: await getApplyStartDate() }, { $set: my }, { upsert: true });
 

@@ -56,6 +56,7 @@ const GET = async (
       gender: user.gender,
       week: e.week,
       reason: e.reason,
+      time: e.time,
     };
     byGradeClassObj[grade][classNum].push(pushData);
   }
