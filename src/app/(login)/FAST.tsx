@@ -6,7 +6,6 @@ import { isDarkColor } from "@/utils/isDarkColor";
 import { rand } from "@/utils/random";
 
 const Fast = () => {
-  const [speed, setSpeed] = React.useState(1000);
   const getColor: () => string = () => {
     const randomR = rand(0, 255);
     const randomG = rand(0, 255);
@@ -17,19 +16,36 @@ const Fast = () => {
     else if(!isDarkMode && !isDark) return getColor();
     return `${randomR} ${randomG} ${randomB}`;
   };
+  const speedup = () => {
+    const colors = ["blue", "red"];
+    localStorage.setItem("fast", "true");
+    let type = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? 1 : 0;
+    const color = () => {
+      document.documentElement.style.setProperty("--transition-default", " ");
+      document.documentElement.style.setProperty("--color-background", `var(--color-background-${colors[type]})`);
+      document.documentElement.style.setProperty("--color-text", `var(--color-text-${colors[type]})`);
+      document.documentElement.style.setProperty("--color-white", `var(--color-white-${colors[type]})`);
+      type += 1;
+      if(type === colors.length) type = 0;
+    };
+    color();
+    setInterval(color, 50);
+  };
   React.useEffect(() => {
     const setColor = () => {
       document.documentElement.style.setProperty("--key-color", getColor());
     };
     setColor();
-    const interval = setInterval(setColor, speed);
+    const interval = setInterval(setColor, 1000);
+
+    if(localStorage.getItem("fast") === "true") {
+      speedup();
+    } 
+
     return () => clearInterval(interval);
-  }, [speed]);
-  const speedup = () => {
-    setSpeed(prv => prv - 100 || 1);
-  };
+  }, []);
   return (
-    <p className="text-text/40 text-sm">좀 재밌는 것을 느껴볼려면 <button className="text-primary/40 underline" onClick={speedup}>여기</button>를 누르세요!</p>
+    <p className="text-text/40 text-sm">[⚠️ 위험, 충격, 공포, 기괴 ⚠️] 절대 <button className="text-primary/40 underline" onClick={speedup}>여기</button>를 누르지 마세요!</p>
   );
 };
 

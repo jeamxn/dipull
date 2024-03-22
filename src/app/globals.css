@@ -14,7 +14,7 @@
   color: rgb(var(--color-text) / 1);
   -webkit-tap-highlight-color : transparent;
   word-break: keep-all;
-  transition: color var(--key-interval) ease-in-out, background-color var(--key-interval) ease-in-out;
+  transition: var(--transition-default);
 }
 
 @layer base {
@@ -23,23 +23,41 @@
     --key-color: 64 84 214;
     --color-green: 0 200 5;
 
+    --transition-default: color var(--key-interval) ease-in-out, background-color var(--key-interval) ease-in-out;
+
+    --color-background-light: 250 250 255;
+    --color-text-light: 11 17 54;
+    --color-white-light: 255 255 255;
+
+    --color-background-dark: 0 0 0;
+    --color-text-dark: 230 230 230;
+    --color-white-dark: 15 15 15;
+
+    --color-background-blue: 0 0 255;
+    --color-text-blue: 230 230 230;
+    --color-white-blue: 66 135 245;
+
+    --color-background-red: 255 0 0;
+    --color-text-red: 230 230 230;
+    --color-white-red: 245, 66, 66;
+
     --font-wanted-sans: "Wanted Sans", sans-serif;
-    --color-background: 250 250 255;
     --color-primary: var(--key-color);
-    --color-text: 11 17 54;
-    --color-white: 255 255 255;
+    --color-background: var(--color-background-light);
+    --color-text: var(--color-text-light);
+    --color-white: var(--color-white-light);
 
     @media (prefers-color-scheme: dark) { 
-      --color-background: 0 0 0;
       --color-primary: var(--key-color);
-      --color-text: 230 230 230;
-      --color-white: 15 15 15;
+      --color-background: var(--color-background-dark);
+      --color-text: var(--color-text-dark);
+      --color-white: var(--color-white-dark);
     }
     @media (prefers-dark-interface) {
-      --color-background: 0 0 0;
       --color-primary: var(--key-color);
-      --color-text: 230 230 230;
-      --color-white: 15 15 15;
+      --color-background: var(--color-background-dark);
+      --color-text: var(--color-text-dark);
+      --color-white: var(--color-white-dark);
     }
   }
 }
