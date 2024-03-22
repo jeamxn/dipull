@@ -49,7 +49,7 @@ const PUT = async (
     headers: new_headers
   });
 
-  const { reason } = await req.json();
+  const { reason, time } = await req.json();
   if(!reason) return new NextResponse(JSON.stringify({
     success: false,
     message: "사유를 입력해주세요.",
@@ -57,7 +57,13 @@ const PUT = async (
     status: 400,
     headers: new_headers
   });
-
+  if(!time) return new NextResponse(JSON.stringify({
+    success: false,
+    message: "귀가 시간을 선택해주세요.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
 
   const client = await connectToDatabase();
   const homecomingCollection = client.db().collection("homecoming");
@@ -75,9 +81,17 @@ const PUT = async (
   const my: HomecomingData = { 
     id: verified.payload.id,
     reason,
+    time,
     week: await getApplyStartDate(),
   };
-  const put = await homecomingCollection.updateOne({ id: verified.payload.id, week: await getApplyStartDate() }, { $set: my }, { upsert: true });
+  const put = await homecomingCollection.updateOne({ 
+    id: verified.payload.id, 
+    week: await getApplyStartDate(),
+  }, { 
+    $set: my 
+  }, { 
+    upsert: true 
+  });
 
   if(put.acknowledged) {
     return new NextResponse(JSON.stringify({
