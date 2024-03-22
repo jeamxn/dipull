@@ -15,6 +15,7 @@ const config: Config = {
       "primary": "rgb(var(--color-primary) / <alpha-value>)",
       "text": "rgb(var(--color-text) / <alpha-value>)",
       "white": "rgb(var(--color-white) / <alpha-value>)",
+      "green": "rgb(var(--color-green) / <alpha-value>)",
     },
     extend: {
       backgroundImage: {
