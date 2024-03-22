@@ -16,7 +16,7 @@ const Admin = () => {
   const [wakeup, setWakeup] = React.useState<WakeupGET>({});
   const [week, setWeek] = React.useState<moment.Moment>(moment());
   const [gender, setGender] = React.useState<"male" | "femal">("male");
-  const [my, setMy] = React.useState<Array<WakeupDB>>([]);
+  const [my, setMy] = React.useState<WakeupDB[]>([]);
 
   const getWakeup = async () => {
     setLoading(true);
