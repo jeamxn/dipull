@@ -16,7 +16,7 @@ const Login = () => {
 
   return (
     <Insider 
-      className="w-full h-full justify-center items-center"
+      className="w-full h-screen justify-center items-center"
     >
       <Image 
         src="/public/background.jpg"
