@@ -8,6 +8,7 @@ export type SheetGradeClassInner = {
   gender: UserDB["gender"],
   week: StayDB["week"],
   reason: string;
+  time: string;
 }
 
 export type SheetByGradeClassObj = {

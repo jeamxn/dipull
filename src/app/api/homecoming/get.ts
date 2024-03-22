@@ -38,6 +38,7 @@ const GET = async (
     data: {
       id: data?._id || verified.payload.id,
       reason: data?.reason || "",
+      time: data?.time || "",
     },
   }), {
     status: 200,

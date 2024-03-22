@@ -23,12 +23,12 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
       },
     };
 
-  worksheet.mergeCells("A1:H1");
+  worksheet.mergeCells("A1:I1");
 
   worksheet.getRow(1).getCell(1).value = `${grade}학년`;
 
   worksheet.getRow(2).values = [
-    "학년", "반", "인원", "학번", "이름", "성별", "사유", "비고"
+    "학년", "반", "인원", "학번", "이름", "성별", "사유", "귀가시간", "비고"
   ];
 
   worksheet.columns = [
@@ -39,6 +39,7 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
     { header: "이름", key: "name", width: 20, style: columnsStyle },
     { header: "성별", key: "gender", width: 10, style: columnsStyle },
     { header: "사유", key: "reason", width: 50, style: columnsStyle },
+    { header: "귀가시간", key: "time", width: 25, style: columnsStyle },
     { header: "비고", key: "etc", width: 10, style: columnsStyle },
   ];
 
@@ -54,6 +55,7 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
         name: v.name,
         gender: v.gender === "male" ? "남" : "여",
         reason: v.reason,
+        time: v.time,
         etc: ""
       })));
   const worksheetDataFlat = worksheetData.flat();
@@ -63,7 +65,7 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
 
   worksheetData.length && worksheet.mergeCells(`A3:A${worksheetDataFlat.length + 2}`);
   worksheet.mergeCells(`A${worksheetDataFlat.length + 3}:C${worksheetDataFlat.length + 3}`);
-  worksheet.mergeCells(`D${worksheetDataFlat.length + 3}:H${worksheetDataFlat.length + 3}`);
+  worksheet.mergeCells(`D${worksheetDataFlat.length + 3}:I${worksheetDataFlat.length + 3}`);
 
   let nowCell = 3;
   Object.entries(data[grade] || {}).forEach((v) => {

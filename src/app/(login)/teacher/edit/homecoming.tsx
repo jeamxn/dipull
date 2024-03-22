@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
+import { goTime } from "@/app/api/homecoming/utils";
 import { UserInfo } from "@/app/api/teacher/userinfo/utils";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
@@ -19,6 +20,7 @@ const Homecoming = ({
 }) => {
   const [myApply, setMyApply] = React.useState("");
   const [input, setInput] = React.useState("");
+  const [goTimeI, setGoTimeI] = React.useState(-1);
 
   const getHomecomingData = async () => {
     setLoading(true);
@@ -26,6 +28,7 @@ const Homecoming = ({
       const res: AxiosResponse = await instance.get(`/api/teacher/homecoming/${selectedUser.id}`);
       setMyApply(res.data.data.reason);
       setInput(res.data.data.reason);
+      setGoTimeI(goTime.indexOf(res.data.data.time));
     }
     catch(e: any){
       alert.error(e.response.data.message);
@@ -38,6 +41,7 @@ const Homecoming = ({
     try{
       await instance.put(`/api/teacher/homecoming/${selectedUser.id}`, { 
         reason: input,
+        time: goTime[goTimeI],
       });
       await getHomecomingData();
       alert.update(loading, "금요귀가 신청이 완료되었습니다.", "success");
@@ -74,18 +78,44 @@ const Homecoming = ({
         </p>
         <h1 className="text-base text-[#e11d48]">학년부 또는 생활관 사정에 따라 금요귀가 신청이 반려될 수 있습니다.</h1>
       </section>
-      <section className={[
-        "bg-white p-5 border border-text/10 rounded",
-        loading ? "loading_background" : "",
-      ].join(" ")}>
-        <input 
-          type="text" 
-          placeholder="금요귀가 사유를 입력해주세요." 
-          className="w-full h-10 border border-text/10 rounded px-3 bg-transparent"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          disabled={loading || !!myApply}
-        />
+      <section className="flex flex-col gap-1">
+        <h1 className="text-xl font-semibold w-max whitespace-nowrap">귀가 시간</h1>
+        <article className={[
+          "flex flex-wrap flex-row gap-2 bg-white rounded border border-text/10 p-5 justify-center items-center",
+          loading ? "loading_background" : "",
+        ].join(" ")}>
+          {
+            goTime.map((_, i) => (
+              <button 
+                key={i}
+                onClick={() => setGoTimeI(i)}
+                className={[
+                  "text-base rounded h-10 border border-text/10 px-4 w-full transition-colors",
+                  goTimeI === i ? "bg-text/10" : "",
+                ].join(" ")}
+                disabled={loading || !!myApply}
+              >
+                {_}
+              </button>
+            ))
+          }
+        </article>
+      </section>
+      <section className="flex flex-col gap-1">
+        <h1 className="text-xl font-semibold w-max whitespace-nowrap">사유 입력</h1>
+        <section className={[
+          "bg-white p-5 border border-text/10 rounded",
+          loading ? "loading_background" : "",
+        ].join(" ")}>
+          <input 
+            type="text" 
+            placeholder="금요귀가 사유를 입력해주세요." 
+            className="w-full h-10 border border-text/10 rounded px-3 bg-transparent"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            disabled={loading || !!myApply}
+          />
+        </section>
       </section>
       {
         myApply ? (

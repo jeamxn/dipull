@@ -55,6 +55,7 @@ const GET = async (
     data: {
       id: data?._id || params.owner,
       reason: data?.reason || "",
+      time: data?.time || "",
     },
   }), {
     status: 200,
