@@ -62,7 +62,9 @@ const RootLayout = async ({
       <link rel="apple-touch-icon" href="/public/icons/apple-touch-icon.png" />
       <body>
         <ToastProvider>
-          {children}
+          <main>
+            {children}
+          </main>
         </ToastProvider>
         <Analytics />
       </body>
