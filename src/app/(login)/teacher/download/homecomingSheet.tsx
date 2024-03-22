@@ -55,7 +55,7 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
         name: v.name,
         gender: v.gender === "male" ? "남" : "여",
         reason: v.reason,
-        time: v.time,
+        time: v.time || "",
         etc: ""
       })));
   const worksheetDataFlat = worksheetData.flat();
