@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import youtubeSearch from "youtube-search";
 import { YouTubeSearchResults } from "youtube-search";
 
 import { getApplyStartDate } from "@/app/api/stay/utils";
@@ -29,7 +30,16 @@ const PUT = async (
 
   const json = await req.json();
   const select: YouTubeSearchResults = json.data;
-  if(!select.id || !select.title) return new NextResponse(JSON.stringify({ 
+
+  // 페이로드에 동영상 제목, 썸네일과 동영상의 아이디가 같은지 확인
+  const opts: youtubeSearch.YouTubeSearchOptions = {
+    maxResults: 1,
+    key: process.env.YOUTUBE_API_KEY || "",
+  };
+  const searchResult = (await youtubeSearch(select.id, opts)).results[0];
+  console.log(searchResult);
+  console.log(select);
+  if(!select.id || !select.title || searchResult.title !== select.title || searchResult.thumbnails.default?.url !== select.thumbnails.default?.url) return new NextResponse(JSON.stringify({
     message: "페이로드 불일치.",
   }), {
     status: 400,
