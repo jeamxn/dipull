@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import React from "react";
 
+import RecoilProvider from "@/provider/RecoilProvider";
 import ToastProvider from "@/provider/ToastProvider";
 
 export const metadata: Metadata = {
@@ -61,11 +62,13 @@ const RootLayout = async ({
       <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#000000"/>
       <link rel="apple-touch-icon" href="/public/icons/apple-touch-icon.png" />
       <body>
-        <ToastProvider>
-          <main>
-            {children}
-          </main>
-        </ToastProvider>
+        <RecoilProvider>
+          <ToastProvider>
+            <main>
+              {children}
+            </main>
+          </ToastProvider>
+        </RecoilProvider>
         <Analytics />
       </body>
     </html>
