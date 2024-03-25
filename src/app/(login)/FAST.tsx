@@ -2,6 +2,7 @@
 
 import React from "react";
 
+import instance from "@/utils/instance";
 import { isDarkColor } from "@/utils/isDarkColor";
 import { rand } from "@/utils/random";
 
@@ -17,8 +18,8 @@ const Fast = () => {
     return `${randomR} ${randomG} ${randomB}`;
   };
   const speedup = () => {
-    const colors = ["blue", "red"];
-    localStorage.setItem("fast", "true");
+    const colors = ["blue", "black", "red", "white"];
+    put();
     let type = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? 1 : 0;
     const color = () => {
       document.documentElement.style.setProperty("--transition-default", " ");
@@ -37,13 +38,29 @@ const Fast = () => {
     };
     setColor();
     const interval = setInterval(setColor, 1000);
-
-    if(localStorage.getItem("fast") === "true") {
-      speedup();
-    } 
+    get();
 
     return () => clearInterval(interval);
   }, []);
+
+  const get = async () => {
+    try {
+      const res = await instance("/api/joke");
+      console.log(res.data.isJoking);
+      if(res.data.isJoking) speedup();
+    } catch(e) {
+      console.error(e);
+    }
+  };
+
+  const put = async () => {
+    try {
+      await instance.put("/api/joke");
+    } catch(e) {
+      console.error(e);
+    }
+  };
+
   return (
     <p className="text-text/40 text-sm">[⚠️ 위험, 충격, 공포, 기괴 ⚠️] 절대 <button className="text-primary/40 underline" onClick={speedup}>여기</button>를 누르지 마세요!</p>
   );
