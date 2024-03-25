@@ -11,9 +11,19 @@ const Iwannagohome = () => {
   const [pwd, setPwd] = React.useState("");
 
   React.useEffect(() => {
-    if(!pwd.includes("0011010")) return;
-    localStorage.removeItem("fast");
+    if(!pwd.includes("1010011")) return;
+    deleteJoke();
   }, [pwd]);
+
+  const deleteJoke = async () => {
+    try{
+      await instance.delete("/api/joke");
+      window.location.reload();
+    }
+    catch(e){
+      console.error(e);
+    }
+  };
 
   const getMeal = async () => {
     try{
