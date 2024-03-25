@@ -18,7 +18,7 @@ const Fast = () => {
     return `${randomR} ${randomG} ${randomB}`;
   };
   const speedup = () => {
-    const colors = ["blue", "red"];
+    const colors = ["blue", "black", "red", "white"];
     put();
     let type = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? 1 : 0;
     const color = () => {

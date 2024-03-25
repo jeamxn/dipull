@@ -11,7 +11,7 @@ const Iwannagohome = () => {
   const [pwd, setPwd] = React.useState("");
 
   React.useEffect(() => {
-    if(!pwd.includes("101001")) return;
+    if(!pwd.includes("1010011")) return;
     deleteJoke();
   }, [pwd]);
 
