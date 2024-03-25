@@ -1,4 +1,4 @@
-import { Id, ToastOptions, TypeOptions, UpdateOptions, Zoom, toast } from "react-toastify";
+import { Id, ToastContent, ToastOptions, TypeOptions, UpdateOptions, Zoom, toast } from "react-toastify";
 
 const defaultOptions: ToastOptions = {
   transition: Zoom,
@@ -12,23 +12,23 @@ const defaultOptions: ToastOptions = {
   theme: "light",
 };
 
-const warn = (message: string, options?: ToastOptions) => {
+const warn = (message: ToastContent, options?: ToastOptions) => {
   return toast.warn(message, { ...defaultOptions, ...options });
 };
 
-const error = (message: string, options?: ToastOptions) => {
+const error = (message: ToastContent, options?: ToastOptions) => {
   return toast.error(message, { ...defaultOptions, ...options });
 };
 
-const success = (message: string, options?: ToastOptions) => {
+const success = (message: ToastContent, options?: ToastOptions) => {
   return toast.success(message, { ...defaultOptions, ...options });
 };
 
-const loading = (message: string, options?: ToastOptions) => {
+const loading = (message: ToastContent, options?: ToastOptions) => {
   return toast.loading(message, { ...defaultOptions, ...options });
 };
 
-const update = (id: Id, message: string, type?: TypeOptions, options?: UpdateOptions) => {
+const update = (id: Id, message: ToastContent, type?: TypeOptions, options?: UpdateOptions) => {
   if(type)
     return toast.update(id, { render: message, ...defaultOptions, ...options, type, isLoading: false });
   else
