@@ -83,6 +83,7 @@ export const getApplyEndDate = async () => {
 };
 
 const koreanDay = ["일", "월", "화", "수", "목", "금", "토"];
+
 const msgMaker = (msg: string, start: moment.Moment, end: moment.Moment) => {
   if(start.isSame(end, "day")) return `${msg}\n이번 주는 ${koreanDay[start.day()]}요일에만 신청 가능합니다.`;
   return `${msg}\n이번 주는 ${koreanDay[start.day()]}요일부터 ${koreanDay[end.day()]}요일까지 신청 가능합니다.`;
