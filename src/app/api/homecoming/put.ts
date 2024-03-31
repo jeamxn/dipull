@@ -67,16 +67,6 @@ const PUT = async (
 
   const client = await connectToDatabase();
   const homecomingCollection = client.db().collection("homecoming");
-  const stayCollection = client.db().collection("stay");
-  const mySelectQuery = { week: await getApplyStartDate(), owner: verified.payload.id };
-  const mySelect = await stayCollection.findOne(mySelectQuery);
-  if(mySelect) return new NextResponse(JSON.stringify({
-    success: false,
-    message: "금요귀가 신청을 하려면 잔류 신청을 취소해주세요.",
-  }), {
-    status: 400,
-    headers: new_headers
-  });
 
   const my: HomecomingData = { 
     id: verified.payload.id,
