@@ -126,7 +126,7 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
   });
   worksheet.getRow(1).height = 30;
   worksheet.getRow(1).getCell(1).value = `${grade}학년 금요귀가 현황`;
-  Array(11).fill(0).map((_, i) => {
+  Array(9).fill(0).map((_, i) => {
     worksheet.getRow(1).getCell(i + 1).fill = cellData.fill;
     worksheet.getRow(1).getCell(i + 1).font = {
       bold: true,
