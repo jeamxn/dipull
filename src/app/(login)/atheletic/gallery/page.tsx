@@ -65,7 +65,7 @@ const Gallary = () => {
               >불러오기</button>
             </div>
           </div>
-          <section className="flex flex-wrap gap-6 flex-row items-center justify-center">
+          <section className="flex flex-wrap gap-4 flex-row items-center justify-center">
             {
               loading && gallery.length === 0 ? <p>로딩 중...</p> : gallery.map((v, i) => (
                 <a key={i} href={`https://www.instagram.com/p/${v.id}`} target="_blank" rel="noreferrer">
