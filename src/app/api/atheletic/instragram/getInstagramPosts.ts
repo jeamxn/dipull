@@ -20,17 +20,22 @@ export const getInstagramPosts = async () => {
   });
 
   const data = response.data.data.hashtag.edge_hashtag_to_media.edges.map((v: any) => {
-    const time = v.node.taken_at_timestamp;
-    const date = new Date(time * 1000);
-    return {
-      id: v.node.shortcode,
-      thumbnail: v.node.thumbnail_src,
-      time: date,
-      like: v.node.edge_liked_by.count,
-      comment: v.node.edge_media_to_comment.count,
-      text: v.node.edge_media_to_caption.edges[0]?.node.text || "",
-    };
-  });
+    try{
+      const time = v.node.taken_at_timestamp;
+      const date = new Date(time * 1000);
+      return {
+        id: v.node.shortcode,
+        thumbnail: v.node.thumbnail_src,
+        time: date,
+        like: v.node.edge_liked_by.count,
+        comment: v.node.edge_media_to_comment.count,
+        text: v.node.edge_media_to_caption.edges[0]?.node.text || "",
+      };
+    }
+    catch{
+      return null;
+    }
+  }).filter((v: any) => v !== null);
 
   return data;
 };
