@@ -6,6 +6,8 @@ import Insider from "@/provider/insider";
 
 import Menu from "../menu";
 
+import ScheduleBox from "./ScheduleBox";
+
 const schedule = [
   {
     "event" : "오리엔테이션",
@@ -18,7 +20,7 @@ const schedule = [
     },
     "etc": "모든 선수들(교체 선수까지) 출전 필요",
     "time": {
-      "start": "09:00",
+      "start": "08:00",
       "end": "10:00"
     }
   },{
@@ -35,60 +37,6 @@ const schedule = [
     }
   }
 ];
-
-const ScheduleBox = ({
-  event,
-  location,
-  grading,
-  participants,
-  etc,
-  time,
-}:{
-  event: string;
-  location: string;
-  grading: string;
-  participants: {
-
-  };
-  etc: string;
-  time: {
-    start: string;
-    end: string;
-  };
-
-}) => {
-  const [clicked, setClicked] = React.useState(false);
-  return (
-    <figure 
-      onClick={() => setClicked(p => !p)}
-      className={[
-        "w-full bg-white border border-text/10 px-4 py-2 rounded-md flex flex-col gap-1 select-none",
-        // loading ? "loading_background" : "",
-      ].join(" ")}
-    >
-      <div className="flex flex-row justify-between">
-        <p>{event}</p> 
-        <p>{time.start} ~ {time.end}</p>
-      </div>
-      {
-        clicked && <>
-          <p>• 위치 : {location}</p>
-          <p>• 배점 : {grading}</p>
-          {/* <p>{participants}</p> */}
-          <p>• 기타 : {etc}</p>
-        </>
-        // clicked && Object.entries(machine.time).map(([key, value], i) => (
-        //   <p key={i} className={[
-        //     "text-sm",
-        //     !value ? "opacity-30" : "opacity-100"
-        //   ].join(" ")}>
-        //     <b className="font-semibold">{key}</b> {value}
-        //   </p>
-        // ))
-      }
-    </figure>
-  );
-};
 
 const Gallary = () => {
   const [loading, setLoading] = React.useState(false);

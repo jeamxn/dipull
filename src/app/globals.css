@@ -23,7 +23,7 @@
     --key-color: 64 84 214;
     --color-green: 0 200 5;
 
-    --transition-default: color var(--key-interval) ease-in-out, background-color var(--key-interval) ease-in-out;
+    --transition-default: color var(--key-interval) ease-in-out, background-color var(--key-interval) ease-in-out, border var(--key-interval) ease-in-out;
 
     --color-background-light: 250 250 255;
     --color-text-light: 11 17 54;

@@ -103,7 +103,8 @@ const Homecoming = () => {
                 value={score === 0 ? "" : score}
                 onChange={(e) => {
                   if(e.target.value === "") return setScore(0);
-                  setScore(parseInt(e.target.value));
+                  const input = Number(e.target.value);
+                  setScore(input > 0 ? input : -input);
                 }}
               />
             </article>
