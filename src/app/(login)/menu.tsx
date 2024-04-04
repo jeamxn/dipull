@@ -23,6 +23,10 @@ const menu = [
   {
     url: "/stay/apply",
     name: "잔류",
+  },
+  {
+    url: "/atheletic/score",
+    name: "체대",
   }
 ];
 

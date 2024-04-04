@@ -23,6 +23,13 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      aspectRatio: {
+        "video": "16/9",
+        "square": "1/1",
+        "auto": "auto",
+        "reverse-video": "9/16",
+        "34": "3/4",
+      }
     },
   },
   plugins: [],

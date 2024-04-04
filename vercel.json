@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/atheletic/instragram",
+      "schedule": "*/10 * * * *"
+    }
+  ]
+}
