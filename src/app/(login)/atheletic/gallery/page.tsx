@@ -73,8 +73,8 @@ const Gallary = () => {
                     <Image
                       src={v.thumbnail}
                       alt="gallery"
-                      width={2048}
-                      height={2048}
+                      width={300}
+                      height={400}
                       className="w-full rounded-md object-cover aspect-34 border border-text/10"
                     />
                     <p className="font-normal truncate">{v.text}</p>
