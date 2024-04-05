@@ -77,10 +77,7 @@ const Gallary = () => {
                       height={2048}
                       className="w-full rounded-md object-cover aspect-34 border border-text/10"
                     />
-                    <div>
-                      <p className="font-normal whitespace-nowrap truncate">{v.text.split("\n")[0] || "ㅤ"}</p>
-                      <p className="font-normal whitespace-nowrap truncate">{v.text.split("\n")[1] || "ㅤ"}</p>
-                    </div>
+                    <p className="font-normal truncate">{v.text}</p>
                     <div className="flex flex-row justify-between gap-8">
                       <div className="flex flex-row gap-3 justify-center items-center">
                         <div className="flex flex-row gap-1 items-center justify-center">
