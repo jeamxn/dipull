@@ -56,7 +56,7 @@ const PUT = async (
   });
 
   const atheleticScoreCollection = client.db().collection("atheletic_score");
-  const put = await atheleticAdminCollection.insertOne({
+  const put = await atheleticScoreCollection.insertOne({
     team,
     score,
     description,
