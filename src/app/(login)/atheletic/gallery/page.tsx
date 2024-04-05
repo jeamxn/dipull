@@ -81,7 +81,7 @@ const Gallary = () => {
                       <p className="font-normal whitespace-nowrap truncate">{v.text.split("\n")[0] || "ㅤ"}</p>
                       <p className="font-normal whitespace-nowrap truncate">{v.text.split("\n")[1] || "ㅤ"}</p>
                     </div>
-                    <div className="flex flex-row justify-between">
+                    <div className="flex flex-row justify-between gap-8">
                       <div className="flex flex-row gap-3 justify-center items-center">
                         <div className="flex flex-row gap-1 items-center justify-center">
                           <svg width="21" height="19" viewBox="0 0 21 19" fill="none" xmlns="http://www.w3.org/2000/svg">
