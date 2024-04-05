@@ -69,7 +69,7 @@ const Gallary = () => {
             {
               loading && gallery.length === 0 ? <p>로딩 중...</p> : gallery.map((v, i) => (
                 <a key={i} href={`https://www.instagram.com/p/${v.id}`} target="_blank" rel="noreferrer">
-                  <section className="max-w-80 w-full flex flex-col pt-10 pb-8 pr-5 pl-5 gap-3 bg-white bg-opacity-90 border border-text/10">
+                  <section className="rounded-md max-w-80 w-full flex flex-col pt-10 pb-8 pr-5 pl-5 gap-3 bg-white bg-opacity-90 border border-text/10">
                     <Image
                       src={v.thumbnail}
                       alt="gallery"
