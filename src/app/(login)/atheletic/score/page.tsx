@@ -76,7 +76,7 @@ const Score = () => {
                       <p className="text-2xl font-semibold whitespace-nowrap text-[#fff]">{Math.floor(percent)}</p>
                       <p className="text-sm -translate-y-1 whitespace-nowrap text-[#fff]">%</p>
                     </figure>
-                    <p className="text-sm whitespace-nowrap text-[#fff]">{v === -1 ? "Loading" : v}점</p>
+                    <p className="text-sm whitespace-nowrap text-[#fff]">{v === -1 ? "Loading" : v.toLocaleString()}점</p>
                   </article>
                 );
               })
