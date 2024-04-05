@@ -1,12 +1,8 @@
-import "moment-timezone";
-import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
-
-import { getApplyEndDate, getApplyStartDate, isStayApplyNotPeriod } from "../../stay/utils";
 
 const PUT = async (
   req: Request,
@@ -25,6 +21,17 @@ const PUT = async (
     headers: new_headers
   });
 
+  const client = await connectToDatabase();
+  const atheleticAdminCollection = client.db().collection("atheletic_admin");
+  const allAdmin = (await atheleticAdminCollection.find({}).toArray()).map((admin: any) => admin.id);
+  if(!allAdmin.includes(verified.payload.id)) return new NextResponse(JSON.stringify({
+    message: "권한이 없습니다.",
+  }), {
+    status: 403,
+    headers: new_headers
+  });
+
+  
   const { team, score, description } = await req.json();
   if(!team) return new NextResponse(JSON.stringify({
     success: false,
@@ -48,9 +55,8 @@ const PUT = async (
     headers: new_headers
   });
 
-  const client = await connectToDatabase();
   const atheleticScoreCollection = client.db().collection("atheletic_score");
-  const put = await atheleticScoreCollection.insertOne({
+  const put = await atheleticAdminCollection.insertOne({
     team,
     score,
     description,
