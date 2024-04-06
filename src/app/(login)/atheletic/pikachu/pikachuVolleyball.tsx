@@ -5,7 +5,7 @@ const PikachuVolleyball = () => {
   return (
     <div
       className={[
-        "w-full p-0 overflow-hidden",
+        "w-full p-0",
         hovered ? "fixed z-10 top-0 left-0 bg-white h-full" : "relative aspect-pikachu-volleyball",
       // hovered ? " size" : "",
       ].join(" ")}
@@ -17,7 +17,7 @@ const PikachuVolleyball = () => {
         ].join(" ")}
         onClick={() => setHovered(hovered ? false : true)}
       >
-        <div className="bg-background/25 backdrop-blur p-2 rounded-md flex flex-row justify-center items-center">
+        <div className="bg-background/25 border border-text/10 backdrop-blur p-2 rounded-md flex flex-row justify-center items-center">
           {
             hovered ? 
               <svg width="40" height="40" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -32,7 +32,7 @@ const PikachuVolleyball = () => {
       </div>
       <div
         className={[
-          "h-full w-full flex flex-row justify-center items-center overflow-hidden",
+          "h-full w-full flex flex-row justify-center items-center",
           hovered ? "" : "border border-text/10 rounded-md",
         ].join(" ")}
       >
