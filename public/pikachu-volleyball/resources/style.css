@@ -1,10 +1,8 @@
 :root {
   /* Pikachu Volleyball's original width: 432px, original height: 304px */
-  --aspect-ratio: calc(432 / 304);
-  --inverse-aspect-ratio: calc(304 / 432);
-  --canvas-width: 100vmin;
-  --canvas-height: calc(100vmin * var(--inverse-aspect-ratio));
-  --font-size: 18px;
+  --canvas-width: 100vw;
+  --canvas-height: 100vh;
+  --font-size: 20px;
   --btn-width: min(
     calc(5 * var(--font-size)),
     calc((var(--canvas-width) - 30px) / 4)
@@ -81,18 +79,6 @@
     );
   }
 }
-@media only screen and (min-aspect-ratio: 432/304) {
-  :root {
-    --canvas-height: calc(96vh - var(--btn-height) - 10px);
-    --canvas-width: calc(var(--canvas-height) * var(--aspect-ratio));
-  }
-}
-@media only screen and (max-aspect-ratio: 432/304) {
-  :root {
-    --canvas-width: 96vw;
-    --canvas-height: calc(96vw * var(--inverse-aspect-ratio));
-  }
-}
 html {
   box-sizing: border-box;
 }
@@ -125,10 +111,10 @@ a:active {
 }
 #flex-container {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  /* align-items: center; */
   width: 100vw;
   height: 100vh;
   padding: 0;
@@ -144,6 +130,10 @@ a:active {
   width: var(--canvas-width);
   height: var(--btn-height);
   margin-bottom: 10px;
+  position: fixed;
+  top: 1vmin;
+  left: 1vmin;
+  z-index: 9999;
 }
 .btn-container {
   display: flex;
