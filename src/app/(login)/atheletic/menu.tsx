@@ -17,6 +17,10 @@ const menu = [
     url: "/atheletic/gallery",
     name: "갤러리",
   },
+  {
+    url: "/atheletic/pikachu",
+    name: "피캬츄",
+  },
 ];
 
 const Menu = () => {
