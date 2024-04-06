@@ -29,6 +29,7 @@ const config: Config = {
         "auto": "auto",
         "reverse-video": "9/16",
         "34": "3/4",
+        "pikachu-volleyball": "432 / 354",
       }
     },
   },
