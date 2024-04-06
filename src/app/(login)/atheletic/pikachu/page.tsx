@@ -1,12 +1,8 @@
 "use client";
-import moment from "moment";
-import Image from "next/image";
 import React from "react";
 
 import Comments from "@/components/comments";
 import Insider from "@/provider/insider";
-import { alert } from "@/utils/alert";
-import instance from "@/utils/instance";
 
 import Menu from "../menu";
 
