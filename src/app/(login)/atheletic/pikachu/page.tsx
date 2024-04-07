@@ -22,14 +22,7 @@ const Gallary = () => {
             <PikachuVolleyball />
           </section>
         </section>
-        <section className="flex flex-col gap-3">
-          <div className="flex flex-col gap-1">
-            <h1 className="text-xl font-semibold">방 개설 목록</h1>
-          </div>
-          <section className="flex flex-wrap gap-4 flex-row items-center justify-center">
-            <List />
-          </section>
-        </section>
+        <List />
       </Insider>
     </>
   );

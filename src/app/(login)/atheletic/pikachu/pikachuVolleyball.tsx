@@ -5,8 +5,8 @@ const PikachuVolleyball = () => {
   return (
     <div
       className={[
-        "w-full p-0",
-        hovered ? "fixed z-10 top-0 left-0 bg-background h-full" : "relative aspect-pikachu-volleyball",
+        "w-full p-0 bg-white",
+        hovered ? "fixed z-10 top-0 left-0 h-full" : "relative aspect-pikachu-volleyball",
       // hovered ? " size" : "",
       ].join(" ")}
     >
