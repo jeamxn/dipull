@@ -6,7 +6,7 @@ const PikachuVolleyball = () => {
     <div
       className={[
         "w-full p-0",
-        hovered ? "fixed z-10 top-0 left-0 bg-white h-full" : "relative aspect-pikachu-volleyball",
+        hovered ? "fixed z-10 top-0 left-0 bg-background h-full" : "relative aspect-pikachu-volleyball",
       // hovered ? " size" : "",
       ].join(" ")}
     >
@@ -36,14 +36,12 @@ const PikachuVolleyball = () => {
           hovered ? "" : "border border-text/10 rounded-md",
         ].join(" ")}
       >
-        <div className="max-h-full w-full aspect-pikachu-volleyball text-center">
-          <div className="w-full h-full flex flex-row justify-center items-center">
-            <iframe
-              src="/pikachu-volleyball/index.html"
-              className="max-w-full h-full aspect-pikachu-volleyball"
-            />
-          </div>
-        </div>
+        <iframe
+          src="https://pikachu.dimigo.net"
+          className={[
+            "w-full h-full aspect-pikachu-volleyball",
+          ].join(" ")}
+        />
       </div>
     </div>
   );

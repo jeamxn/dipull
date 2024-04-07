@@ -6,6 +6,7 @@ import Insider from "@/provider/insider";
 
 import Menu from "../menu";
 
+import List from "./list";
 import PikachuVolleyball from "./pikachuVolleyball";
 
 const Gallary = () => {
@@ -15,13 +16,20 @@ const Gallary = () => {
       <Insider>
         <section className="flex flex-col gap-3">
           <div className="flex flex-col gap-1">
-            <h1 className="text-xl font-semibold">피카츄 배구 (오프라인)</h1>
+            <h1 className="text-xl font-semibold">피카츄 배구</h1>
           </div>
           <section className="flex flex-wrap gap-4 flex-row items-center justify-center">
             <PikachuVolleyball />
           </section>
         </section>
-        <Comments />
+        <section className="flex flex-col gap-3">
+          <div className="flex flex-col gap-1">
+            <h1 className="text-xl font-semibold">방 개설 목록</h1>
+          </div>
+          <section className="flex flex-wrap gap-4 flex-row items-center justify-center">
+            <List />
+          </section>
+        </section>
       </Insider>
     </>
   );
