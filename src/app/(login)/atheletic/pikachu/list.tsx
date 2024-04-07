@@ -44,7 +44,7 @@ const List = () => {
                 <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full" colSpan={4}>개설 방 현황</th>
               </tr>
               {
-                data.length ? data.reverse().map((room, index) => {
+                data.length ? data.map((room, index) => {
                   const copyToClipboard = (text: string) => {
                     const textarea = document.createElement("textarea");
                     textarea.value = text;

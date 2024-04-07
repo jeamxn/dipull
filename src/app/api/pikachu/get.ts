@@ -48,7 +48,7 @@ const GET = async (
 
   return new NextResponse(JSON.stringify({
     ok: true,
-    data: roomsData,
+    data: roomsData.reverse(),
   }), {
     status: 200,
     headers: new_headers
