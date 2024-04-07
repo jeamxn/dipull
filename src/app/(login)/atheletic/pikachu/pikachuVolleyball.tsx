@@ -1,6 +1,10 @@
 import React from "react";
 
-const PikachuVolleyball = () => {
+const PikachuVolleyball = ({
+  multi,
+}: {
+  multi?: boolean;
+}) => {
   const [hovered, setHovered] = React.useState(false);
   return (
     <div
@@ -32,14 +36,14 @@ const PikachuVolleyball = () => {
       </div>
       <div
         className={[
-          "h-full w-full flex flex-row justify-center items-center",
+          "h-full w-full flex flex-row justify-center items-center overflow-hidden",
           hovered ? "" : "border border-text/10 rounded-md",
         ].join(" ")}
       >
         <iframe
-          src="https://pikachu.dimigo.net"
+          src={multi ? "https://pikachu.dimigo.net" : "/pikachu/index.html"}
           className={[
-            "w-full h-full aspect-pikachu-volleyball",
+            "w-full h-full aspect-pikachu-volleyball overflow-hidden",
           ].join(" ")}
         />
       </div>
