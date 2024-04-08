@@ -32,7 +32,7 @@ const ScheduleBox = ({
       onClick={() => setClicked(p => !p)}
       className={[
         "w-full px-4 py-2 rounded-md flex flex-col gap-1 select-none bg-white",
-        isCurrent ? "border-primary/50 border-2" : "border-text/10 border",
+        isCurrent ? "border-primary border-2" : "border-text/10 border",
         // loading ? "loading_background" : "",
       ].join(" ")}
     >
