@@ -25,6 +25,7 @@ const Score = () => {
     setLoading(true);
     try{
       const { data } = await instance.get("/api/atheletic/score");
+      setTime(moment());
       setScore(data.data.count);
       setScoreDescriptions(data.data.getDescriptions);
     }
