@@ -1,12 +1,9 @@
 "use client";
 
-import moment from "moment";
-import React, { DetailedHTMLProps, HTMLAttributes } from "react";
+import React from "react";
 
-import Insider from "@/provider/insider";
+import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
-
-import Menu from "../menu";
 
 const Score = () => {
   const [score, setScore] = React.useState({
@@ -25,9 +22,13 @@ const Score = () => {
   };
 
   React.useEffect(() => {
-    const interval = setInterval(() => {
+    document.documentElement.requestFullscreen();
+    alert.info("5초마다 자동 갱신됩니다.");
+    const intervalFunc = () => {
       getScore();
-    }, 5000);
+    };
+    intervalFunc();
+    const interval = setInterval(intervalFunc, 5000);
     return () => clearInterval(interval);
   }, []);
 

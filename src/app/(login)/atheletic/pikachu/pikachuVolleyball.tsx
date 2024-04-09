@@ -6,18 +6,24 @@ const PikachuVolleyball = ({
   multi?: boolean;
 }) => {
   const [hovered, setHovered] = React.useState(false);
+  React.useEffect(() => {
+    if(hovered) {
+      document.documentElement.requestFullscreen();
+    }
+    else {
+      document.exitFullscreen();
+    }
+  }, [hovered]);
   return (
     <div
       className={[
         "w-full p-0 bg-white",
         hovered ? "fixed z-10 top-0 left-0 h-full" : "relative aspect-pikachu-volleyball",
-      // hovered ? " size" : "",
       ].join(" ")}
     >
       <div 
         className={[
           "absolute z-10 top-0 right-0 cursor-pointer p-[1%]",
-          // hovered ? "p-10" : "p-5",
         ].join(" ")}
         onClick={() => setHovered(hovered ? false : true)}
       >
