@@ -178,3 +178,13 @@ input, textarea, button, select {
     transform: rotate(359deg);
   }
 }
+
+.texter-outline{
+  color: #fff;
+  text-shadow: 
+  -1px -1px 0 #0000ff,  
+  1px -1px 0 #0000ff,
+  -1px 1px 0 #0000ff,
+  1px 1px 0 #0000ff; /* 윤곽선 색상과 위치 */
+  letter-spacing: 0rem;
+}
