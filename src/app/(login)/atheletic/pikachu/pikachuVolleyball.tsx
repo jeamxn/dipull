@@ -1,5 +1,7 @@
 import React from "react";
 
+import { alert } from "@/utils/alert";
+
 const PikachuVolleyball = ({
   multi,
 }: {
@@ -7,11 +9,16 @@ const PikachuVolleyball = ({
 }) => {
   const [hovered, setHovered] = React.useState(false);
   React.useEffect(() => {
-    if(hovered) {
-      document.documentElement.requestFullscreen();
+    try{
+      if(hovered) {
+        document.documentElement.requestFullscreen();
+      }
+      else {
+        document.exitFullscreen();
+      }
     }
-    else {
-      document.exitFullscreen();
+    catch{
+      alert.error("이 브라우저는 전체화면을 지원하지 않습니다.");
     }
   }, [hovered]);
   return (
