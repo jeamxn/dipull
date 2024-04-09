@@ -1,12 +1,12 @@
-/* @import url(//fonts.2w.vc/wanted-sans/static/font.css); */
-@import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.2/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
+@import url(//fonts.2w.vc/wanted-sans/static/font.css);
+/* @import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.2/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css"); */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 * {
-  /* font-family: "Wanted Sans", sans-serif; */
-  font-family: "Wanted Sans Variable", "Wanted Sans", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  font-family: "Wanted Sans", sans-serif;
+  /* font-family: "Wanted Sans Variable", "Wanted Sans", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif; */
   letter-spacing: -.02rem;
   margin: 0;
   padding: 0;
@@ -23,7 +23,7 @@
     --key-color: 64 84 214;
     --color-green: 0 200 5;
 
-    --transition-default: color var(--key-interval) ease-in-out, background-color var(--key-interval) ease-in-out;
+    --transition-default: color var(--key-interval) ease-in-out, background-color var(--key-interval) ease-in-out, border var(--key-interval) ease-in-out;
 
     --color-background-light: 250 250 255;
     --color-text-light: 11 17 54;
@@ -164,4 +164,27 @@ input, textarea, button, select {
 @keyframes round {
   0% { transform: rotate(0deg) }
   100% { transform: rotate(360deg) }
+}
+
+.rotation {
+  animation: rotation 1s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.texter-outline{
+  color: #fff;
+  text-shadow: 
+  -1px -1px 0 #0000ff,  
+  1px -1px 0 #0000ff,
+  -1px 1px 0 #0000ff,
+  1px 1px 0 #0000ff; /* 윤곽선 색상과 위치 */
+  letter-spacing: 0rem;
 }
