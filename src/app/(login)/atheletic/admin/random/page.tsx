@@ -15,15 +15,17 @@ const team_korean_to_english: {
   "백팀": "white",
 };
 
+const defaultRandomUser = {
+  id: "",
+  number: 0,
+  name: "",
+  gender: "",
+  type: "",
+};
+
 const Homecoming = () => {
   const [loading, setLoading] = React.useState(false);
-  const [randomUser, setRandomUser] = React.useState({
-    id: "",
-    number: 0,
-    name: "",
-    gender: "",
-    type: "",
-  });
+  const [randomUser, setRandomUser] = React.useState({ ...defaultRandomUser });
   type randomUserType = typeof randomUser;
 
   const getRandomUser = async () => {
@@ -40,7 +42,7 @@ const Homecoming = () => {
   };
 
   React.useEffect(() => {
-    getRandomUser();
+    setRandomUser({ ...defaultRandomUser });
   }, []);
 
   return (
