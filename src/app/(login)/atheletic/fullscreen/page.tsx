@@ -22,7 +22,12 @@ const Score = () => {
   };
 
   React.useEffect(() => {
-    document.documentElement.requestFullscreen();
+    try{
+      document.documentElement.requestFullscreen();
+    }
+    catch{
+      alert.error("이 브라우저는 전체화면을 지원하지 않습니다.");
+    }
     alert.info("5초마다 자동 갱신됩니다.");
     const intervalFunc = () => {
       getScore();
