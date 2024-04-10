@@ -45,14 +45,14 @@ const Score = () => {
     <>
       <div className="fixed left-0 top-0 w-full h-full bg-background flex flex-row justify-center items-center">
         <div className="bg-[#0000ff] text-[#fff] w-full h-full flex flex-col items-center justify-center transition-none">
-          <p className="text-[3vw] text-inherit font-bold">청팀 전체</p>
-          <p className="text-[7vw] text-inherit font-bold">{score.blue.toLocaleString()}점</p>
-          <p className="text-[4vw] text-inherit font-bold">{Math.floor(blue_percent)}%</p>
+          <p className="text-[4vw] text-inherit font-bold">청팀 전체</p>
+          <p className="text-[8vw] text-inherit font-bold">{score.blue.toLocaleString()}점</p>
+          <p className="text-[5vw] text-inherit font-bold">{Math.floor(blue_percent)}%</p>
         </div>
         <div className="bg-[#fff] text-[#000] w-full h-full flex flex-col items-center justify-center transition-none">
-          <p className="text-[3vw] text-inherit font-bold">백팀 전체</p>
-          <p className="text-[7vw] text-inherit font-bold">{score.white.toLocaleString()}점</p>
-          <p className="text-[4vw] text-inherit font-bold">{Math.floor(white_percent)}%</p>
+          <p className="text-[4vw] text-inherit font-bold">백팀 전체</p>
+          <p className="text-[8vw] text-inherit font-bold">{score.white.toLocaleString()}점</p>
+          <p className="text-[5vw] text-inherit font-bold">{Math.floor(white_percent)}%</p>
         </div>
       </div>
     </>

@@ -7,14 +7,6 @@ import instance from "@/utils/instance";
 
 import Menu from "../menu";
 
-
-const team_korean_to_english: {
-  [key: string]: "blue" | "white";
-} = {
-  "청팀": "blue",
-  "백팀": "white",
-};
-
 const defaultRandomUser = {
   id: "",
   number: 0,

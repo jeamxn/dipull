@@ -245,18 +245,23 @@ const Homecoming = () => {
             <h1 className="text-xl font-semibold">점수 초기화</h1>
           </section>
           <section className="flex flex-row gap-1">
-            <button 
-              className="text-[#EF4444] border border-[#EF4444] w-full text-base font-semibold rounded h-10"
-              onClick={resetSetsScoreSwal}
-            >
-              세트 초기화
-            </button>
-            <button 
-              className="text-[#EF4444] border border-[#EF4444] w-full text-base font-semibold rounded h-10"
-              onClick={resetScoreSwal}
-            >
-              점수 초기화
-            </button>
+            <section className={[
+              "w-full bg-white p-5 border border-text/10 rounded flex flex-row items-center justify-center gap-2",
+              loading ? "loading_background" : "",
+            ].join(" ")}>
+              <button 
+                className="text-[#EF4444] border-[#EF4444] border w-full text-base font-semibold rounded h-10"
+                onClick={resetScoreSwal}
+              >
+                점수 초기화
+              </button>
+              <button 
+                className="bg-[#EF4444] text-white border-[#EF4444] border w-full text-base font-semibold rounded h-10"
+                onClick={resetSetsScoreSwal}
+              >
+                세트 초기화
+              </button>
+            </section>
           </section>
         </section>
       </Insider>
