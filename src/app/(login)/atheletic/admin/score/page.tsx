@@ -34,6 +34,10 @@ const Homecoming = () => {
     const loading_alert = alert.loading("점수 증감 중...");
     try{
       const res = await instance.put("/api/atheletic/score", data);
+      setDescription("");
+      setScore(0);
+      setIsPlus(true);
+      setTeam("blue");
       alert.update(loading_alert, res.data.message, "success");
     }
     catch(e: any){
