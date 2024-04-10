@@ -15,13 +15,31 @@ const Score = () => {
     white: 0,
     blue: 0,
   });
+  const [teams, setTeams] = React.useState<{
+    left: string;
+    right: string;
+  }>({
+    left: "",
+    right: "",
+  });
 
   const getScore = async () => {
     try{
       const { data } = await instance.get("/api/atheletic/set_score");
       await getCurrent();
+      await getTeams();
       setScore(data.data.score);
       setSetsScore(data.data.sets);
+    }
+    catch(e){
+      console.error(e);
+    }
+  };
+
+  const getTeams = async () => {
+    try{
+      const { data } = await instance.get("/api/atheletic/teams");
+      setTeams(data.data);
     }
     catch(e){
       console.error(e);
@@ -40,6 +58,7 @@ const Score = () => {
 
   React.useEffect(() => {
     getCurrent();
+    getTeams();
     try{
       document.documentElement.requestFullscreen();
     }
@@ -63,13 +82,13 @@ const Score = () => {
     <>
       <div className="fixed left-0 top-0 w-full h-full bg-background flex flex-row justify-center items-center">
         <div className="bg-[#0000ff] text-[#fff] w-full h-full flex flex-col items-center justify-center transition-none">
-          <p className="text-[3vw] text-inherit font-bold">청팀 {current}</p>
+          <p className="text-[3vw] text-inherit font-bold">{current} :: {teams.left}</p>
           <p className="text-[7vw] text-inherit font-bold">세트 {setsScore.blue.toLocaleString()}승</p>
           <p className="text-[7vw] text-inherit font-bold">{score.blue.toLocaleString()}점</p>
           <p className="text-[4vw] text-inherit font-bold">{Math.floor(blue_percent)}%</p>
         </div>
         <div className="bg-[#fff] text-[#000] w-full h-full flex flex-col items-center justify-center transition-none">
-          <p className="text-[3vw] text-inherit font-bold">백팀 {current}</p>
+          <p className="text-[3vw] text-inherit font-bold">{current} :: {teams.right}</p>
           <p className="text-[7vw] text-inherit font-bold">세트 {setsScore.white.toLocaleString()}승</p>
           <p className="text-[7vw] text-inherit font-bold">{score.white.toLocaleString()}점</p>
           <p className="text-[4vw] text-inherit font-bold">{Math.floor(white_percent)}%</p>
