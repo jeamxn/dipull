@@ -78,23 +78,23 @@ const Score = () => {
   const blue_percent = (eventScore.blue * 100 / sum) || 0;
   const white_percent = (eventScore.white * 100 / sum) || 0;
 
-  return (
-    <>
-      <div className="fixed left-0 top-0 w-full h-full bg-background flex flex-row justify-center items-center">
-        <div className="bg-[#0000ff] text-[#fff] w-full h-full flex flex-col items-center justify-center transition-none">
-          <p className="text-[3vw] text-inherit font-bold">{eventCurrent} :: {eventTeams.left}</p>
-          <p className="text-[7vw] text-inherit font-bold">세트 {eventSetsScore.blue.toLocaleString()}승</p>
-          <p className="text-[7vw] text-inherit font-bold">{eventScore.blue.toLocaleString()}점</p>
-          <p className="text-[4vw] text-inherit font-bold">{Math.floor(blue_percent)}%</p>
-        </div>
-        <div className="bg-[#fff] text-[#000] w-full h-full flex flex-col items-center justify-center transition-none">
-          <p className="text-[3vw] text-inherit font-bold">{eventCurrent} :: {eventTeams.right}</p>
-          <p className="text-[7vw] text-inherit font-bold">세트 {eventSetsScore.white.toLocaleString()}승</p>
-          <p className="text-[7vw] text-inherit font-bold">{eventScore.white.toLocaleString()}점</p>
-          <p className="text-[4vw] text-inherit font-bold">{Math.floor(white_percent)}%</p>
-        </div>
+  return eventCurrent.length ? (
+    <div className="fixed left-0 top-0 w-full h-full bg-background flex flex-row justify-center items-center">
+      <div className="bg-[#0000ff] text-[#fff] w-full h-full flex flex-col items-center justify-center transition-none">
+        <p className="text-[3vw] text-inherit font-bold">{eventCurrent} :: {eventTeams.left}</p>
+        <p className="text-[7vw] text-inherit font-bold">세트 {eventSetsScore.blue.toLocaleString()}승</p>
+        <p className="text-[7vw] text-inherit font-bold">{eventScore.blue.toLocaleString()}점</p>
+        <p className="text-[4vw] text-inherit font-bold">{Math.floor(blue_percent)}%</p>
       </div>
-    </>
+      <div className="bg-[#fff] text-[#000] w-full h-full flex flex-col items-center justify-center transition-none">
+        <p className="text-[3vw] text-inherit font-bold">{eventCurrent} :: {eventTeams.right}</p>
+        <p className="text-[7vw] text-inherit font-bold">세트 {eventSetsScore.white.toLocaleString()}승</p>
+        <p className="text-[7vw] text-inherit font-bold">{eventScore.white.toLocaleString()}점</p>
+        <p className="text-[4vw] text-inherit font-bold">{Math.floor(white_percent)}%</p>
+      </div>
+    </div>
+  ) : (
+    <div className="fixed bg-[#000] left-0 top-0 w-full h-full flex flex-row justify-center items-center" />
   );
 };
 
