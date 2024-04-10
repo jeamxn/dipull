@@ -34,6 +34,7 @@ const Homecoming = () => {
   const data = {
     team,
     score: isPlus ? score : -score,
+    type,
   };
 
   const putScoreDataSwal = async () => {

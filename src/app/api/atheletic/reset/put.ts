@@ -32,38 +32,35 @@ const PUT = async (
   });
 
   
-  const { current } = await req.json();
-  if(!current) return new NextResponse(JSON.stringify({
+  const { type } = await req.json();
+  if(!type || (type !== "score" && type !== "set")) return new NextResponse(JSON.stringify({
     success: false,
-    message: "경기 종목을 입력해주세요.",
+    message: "올바르지 않은 요청입니다.",
   }), {
     status: 400,
     headers: new_headers
   });
 
-  const statesCollection = client.db().collection("states");
-  const edit = await statesCollection.updateOne({ 
-    type: "atheletic_current_event" 
-  }, { $set: { data: current } }, { upsert: true });
-
-  if(edit.acknowledged){
-    return new NextResponse(JSON.stringify({
-      success: true,
-      message: "경기 종목이 설정되었습니다.",
-    }), {
-      status: 200,
-      headers: new_headers
-    });
-  }
+  const atheleticScoreCollection = client.db().collection("atheletic_set_score");
+  const deleting = await atheleticScoreCollection.deleteMany({ type });
+  if(deleting.acknowledged) return new NextResponse(JSON.stringify({
+    success: true,
+    message: "초기화 성공했습니다.",
+  }), {
+    status: 200,
+    headers: new_headers
+  });
   else {
     return new NextResponse(JSON.stringify({
       success: false,
-      message: "경기 종목 설정에 실패했습니다.",
+      message: "초기화에 실패했습니다.",
     }), {
       status: 500,
       headers: new_headers
     });
   }
+
+
 };
 
 export default PUT;

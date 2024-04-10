@@ -32,10 +32,10 @@ const PUT = async (
   });
 
   
-  const { current } = await req.json();
-  if(!current) return new NextResponse(JSON.stringify({
+  const { left, right } = await req.json();
+  if(!left || !right) return new NextResponse(JSON.stringify({
     success: false,
-    message: "경기 종목을 입력해주세요.",
+    message: "팀 이름을 입력해주세요.",
   }), {
     status: 400,
     headers: new_headers
@@ -43,13 +43,15 @@ const PUT = async (
 
   const statesCollection = client.db().collection("states");
   const edit = await statesCollection.updateOne({ 
-    type: "atheletic_current_event" 
-  }, { $set: { data: current } }, { upsert: true });
+    type: "atheletic_teams_name" 
+  }, { $set: { data: {
+    left, right
+  } } }, { upsert: true });
 
   if(edit.acknowledged){
     return new NextResponse(JSON.stringify({
       success: true,
-      message: "경기 종목이 설정되었습니다.",
+      message: "팀 이름이 설정되었습니다.",
     }), {
       status: 200,
       headers: new_headers
@@ -58,7 +60,7 @@ const PUT = async (
   else {
     return new NextResponse(JSON.stringify({
       success: false,
-      message: "경기 종목 설정에 실패했습니다.",
+      message: "팀 이름 설정에 실패했습니다.",
     }), {
       status: 500,
       headers: new_headers
