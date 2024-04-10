@@ -33,13 +33,6 @@ const PUT = async (
 
   
   const { current } = await req.json();
-  if(!current) return new NextResponse(JSON.stringify({
-    success: false,
-    message: "경기 종목을 입력해주세요.",
-  }), {
-    status: 400,
-    headers: new_headers
-  });
 
   const statesCollection = client.db().collection("states");
   const edit = await statesCollection.updateOne({ 
