@@ -51,7 +51,7 @@ const Score = () => {
         <article className="flex flex-col gap-3">
           <div className="flex flex-row items-center justify-between">
             <div className="flex flex-row items-center">
-              <h1 className="text-xl font-semibold">점수 현황</h1>
+              <h1 className="text-xl font-semibold">전체 점수 현황</h1>
               <div className={[
                 "hover:font-semibold cursor-pointer transition-all h-7 w-7 flex items-center justify-center",
                 loading ? "rotation" : "",

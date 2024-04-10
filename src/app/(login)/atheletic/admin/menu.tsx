@@ -7,7 +7,15 @@ import React from "react";
 const menu = [
   {
     url: "/atheletic/admin/score",
-    name: "점수",
+    name: "전체 점수",
+  },
+  {
+    url: "/atheletic/admin/set-score",
+    name: "경기 점수",
+  },
+  {
+    url: "/atheletic/admin/current",
+    name: "경기 설정",
   },
   {
     url: "/atheletic/admin/random",
