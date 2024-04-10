@@ -17,9 +17,16 @@ const team_korean_to_english: {
   "백팀": "white",
 };
 
+const type_korean_to_english: {
+  [key: string]: "score" | "set";
+} = {
+  "세트": "set",
+  "경기": "score",
+};
+
 const Homecoming = () => {
   const [loading, setLoading] = React.useState(false);
-  const [description, setDescription] = React.useState("");
+  const [type, setType] = React.useState<"score" | "set">("score");
   const [team, setTeam] = React.useState<"blue" | "white">("blue");
   const [isPlus, setIsPlus] = React.useState(true);
   const [score, setScore] = React.useState(0);
@@ -27,13 +34,12 @@ const Homecoming = () => {
   const data = {
     team,
     score: isPlus ? score : -score,
-    description,
   };
 
   const putScoreDataSwal = async () => {
     Swal.fire({
-      title: "전체 점수 수정",
-      text: "여기는 전체 점수를 수정하는 곳입니다. 주의하세요.",
+      title: "현재 경기 승점 변경",
+      text: "여기는 현재 경기의 승점을 수정하는 곳입니다. 주의하세요.",
       showCancelButton: true,
       confirmButtonText: "설정하기",
       confirmButtonColor: "#e11d48",
@@ -49,8 +55,7 @@ const Homecoming = () => {
     setLoading(true);
     const loading_alert = alert.loading("점수 증감 중...");
     try{
-      const res = await instance.put("/api/atheletic/score", data);
-      setDescription("");
+      const res = await instance.put("/api/atheletic/set_score", data);
       setScore(0);
       setIsPlus(true);
       setTeam("blue");
@@ -68,8 +73,8 @@ const Homecoming = () => {
       <Insider>
         <section className="flex flex-col gap-3">
           <section className="flex flex-col gap-1">
-            <h1 className="text-xl font-semibold">전체 점수 수정</h1>
-            <h1 className="text-base text-[#e11d48]">여기는 전체 점수를 수정하는 곳입니다. 주의하세요.</h1>
+            <h1 className="text-xl font-semibold">현재 경기 승점 변경</h1>
+            <h1 className="text-base text-[#e11d48]">여기는 현재 경기의 승점을 수정하는 곳입니다. 주의하세요.</h1>
           </section>
           <section className="flex flex-col gap-1">
             <h1 className="text-xl font-semibold w-max whitespace-nowrap">팀 선택</h1>
@@ -85,6 +90,28 @@ const Homecoming = () => {
                     className={[
                       "text-base rounded h-10 border border-text/10 px-4 w-full transition-colors",
                       team === team_korean_to_english[_] ? "bg-text/10" : "",
+                    ].join(" ")}
+                  >
+                    {_}
+                  </button>
+                ))
+              }
+            </article>
+          </section>
+          <section className="flex flex-col gap-1">
+            <h1 className="text-xl font-semibold w-max whitespace-nowrap">팀 선택</h1>
+            <article className={[
+              "flex flex-row gap-2 bg-white rounded border border-text/10 p-5 justify-center items-center",
+              loading ? "loading_background" : "",
+            ].join(" ")}>
+              {
+                ["세트", "경기"].map((_, i) => (
+                  <button 
+                    key={i}
+                    onClick={() => setType(type_korean_to_english[_])}
+                    className={[
+                      "text-base rounded h-10 border border-text/10 px-4 w-full transition-colors",
+                      type === type_korean_to_english[_] ? "bg-text/10" : "",
                     ].join(" ")}
                   >
                     {_}
@@ -128,21 +155,6 @@ const Homecoming = () => {
                 }}
               />
             </article>
-          </section>
-          <section className="flex flex-col gap-1">
-            <h1 className="text-xl font-semibold w-max whitespace-nowrap">사유 입력</h1>
-            <section className={[
-              "bg-white p-5 border border-text/10 rounded",
-              loading ? "loading_background" : "",
-            ].join(" ")}>
-              <input 
-                type="text" 
-                placeholder="점수 가감 사유를 입력해주세요." 
-                className="w-full h-10 border border-text/10 rounded px-3 bg-transparent"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </section>
           </section>
 
           <button 
