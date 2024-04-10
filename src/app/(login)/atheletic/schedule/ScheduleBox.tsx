@@ -29,12 +29,11 @@ const ScheduleBox = ({
       className={[
         "w-full px-4 py-2 rounded-md flex flex-col gap-1 select-none bg-white",
         isCurrent ? "border-primary border-2" : "border-text/10 border",
-        // loading ? "loading_background" : "",
       ].join(" ")}
     >
       <div className="flex flex-row justify-between font-semibold">
         <p>{event}</p> 
-        {/* <p>{time.start} ~ {time.end}</p> */}
+        <p>{time.start} ~ {time.end}</p>
       </div>
       {
         clicked && <>
