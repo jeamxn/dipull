@@ -7,6 +7,7 @@ const ScheduleBox = ({
   grading,
   participants,
   time,
+  currentTime,
 }:{
   event: string;
   location: string;
@@ -16,9 +17,9 @@ const ScheduleBox = ({
     start: string;
     end: string;
   };
-
+  currentTime: moment.Moment;
 }) => {
-  const isCurrent = moment().isBetween(moment(time.start, "HH:mm"), moment(time.end, "HH:mm"));
+  const isCurrent = currentTime.isBetween(moment(time.start, "HH:mm"), moment(time.end, "HH:mm"));
   const [clicked, setClicked] = React.useState(false);
   React.useEffect(() => {
     if(isCurrent) setClicked(true);

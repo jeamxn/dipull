@@ -1,5 +1,6 @@
 "use client";
 
+import moment from "moment";
 import React from "react";
 
 import Insider from "@/provider/insider";
@@ -132,6 +133,15 @@ const schedule = [
 ];
 
 const Schedule = () => {
+  const [currentTime, setCurrentTime] = React.useState(moment());
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(moment());
+    }, 10 * 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
       <Menu />
@@ -141,7 +151,7 @@ const Schedule = () => {
           <section className="flex flex-col gap-1">
             {
               schedule.map((element) => {
-                return <ScheduleBox key={element.event} {...element} />;
+                return <ScheduleBox key={element.event} currentTime={currentTime} {...element} />;
               })
             }
           </section>
