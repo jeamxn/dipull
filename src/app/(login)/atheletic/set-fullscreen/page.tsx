@@ -61,7 +61,7 @@ const Score = () => {
     getEventCurrent();
     getEventTeams();
     try{
-      // document.documentElement.requestFullscreen();
+      document.documentElement.requestFullscreen();
     }
     catch{
       alert.error("이 브라우저는 전체화면을 지원하지 않습니다.");
