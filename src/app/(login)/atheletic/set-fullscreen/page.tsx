@@ -1,11 +1,13 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React from "react";
 
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
 const Score = () => {
+  const router = useRouter();
   const [eventCurrent, setEventCurrent] = React.useState("");
   const [eventScore, setEventScore] = React.useState({
     white: 0,
@@ -72,7 +74,18 @@ const Score = () => {
     };
     intervalFunc();
     const interval = setInterval(intervalFunc, 3000);
-    return () => clearInterval(interval);
+
+    document.addEventListener("keydown", (e) => {
+      if(e.key === "Escape") {
+        document.exitFullscreen();
+        router.push("/atheletic/score");
+      }
+    });
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener("keydown", () => {});
+    };
   }, []);
 
   return eventCurrent.length ? (
