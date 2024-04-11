@@ -276,7 +276,7 @@ const Score = () => {
             ) : (
               <section className={[
                 "flex flex-col gap-4 bg-white rounded border border-text/10 p-5 overflow-auto justify-center items-center",
-                loading ? "loading_background" : "",
+                loading && !autoRefresh ? "loading_background" : "",
               ].join(" ")}>
                 <p className="text-center px-4 whitespace-nowrap text-text/50">진행 중인 경기가 없습니다.</p>
               </section>
@@ -289,7 +289,7 @@ const Score = () => {
           </section>
           <section className={[
             "flex flex-col gap-4 bg-white rounded border border-text/10 p-5 overflow-auto ",
-            loading ? "loading_background" : "",
+            loading && !autoRefresh ? "loading_background" : "",
           ].join(" ")}>
             <table className="w-full overflow-auto">
               <tbody className="w-full border-y border-text/10 overflow-auto">
