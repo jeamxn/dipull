@@ -11,6 +11,7 @@ const Select = ({
   tmpOuting, setTmpOuting,
   onButtonClick,
   title = "자습 위치 설정하기",
+  buttonText = "위치 설정하기",
 }: {
   loading: boolean;
   etc: JasupData["etc"];
@@ -21,6 +22,7 @@ const Select = ({
   setTmpOuting: React.Dispatch<React.SetStateAction<Outing>>;
   onButtonClick?: () => any;
   title?: string;
+  buttonText?: string;
 }) => {
   React.useEffect(() => {
     if(where === "outing")
@@ -180,7 +182,7 @@ const Select = ({
         onClick={onButtonClick}
         disabled={loading}
       >
-          위치 설정하기
+        {buttonText}
       </button>
     </>
   );

@@ -1,3 +1,4 @@
+import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -5,7 +6,7 @@ import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { JasupDB, JasupData, JasupDataWithUser, JasupWhere, getCurrentTime, getToday } from "../utils";
+import { JasupBookDB, JasupDB, JasupData, JasupDataWithUser, JasupWhere, getCurrentTime, getToday } from "../utils";
 
 const POST = async (
   req: Request,
@@ -24,7 +25,8 @@ const POST = async (
     headers: new_headers
   });
 
-  const today = getToday().format("YYYY-MM-DD");
+  const todayMoment = getToday();
+  const today = todayMoment.format("YYYY-MM-DD");
   const current = getCurrentTime();
 
   const client = await connectToDatabase();
@@ -101,19 +103,25 @@ const POST = async (
     number: gradeClassQuery,
     type: "student"
   }).toArray() as unknown as UserDB[];
+  const jasupBookCollection = client.db().collection("jasup_book");
   for(const e of users) {
+    const mys = await jasupBookCollection.find({
+      id: e.id,
+      days: { $elemMatch: { $eq: date ? moment(date, "YYYY-MM-DD").day() : todayMoment.day() } },
+      times: { $elemMatch: { $eq: time || current } },
+    }).toArray() as unknown as JasupBookDB[];
+    const my = mys.length ? mys.reverse().find((e) => e.dates.start <= (date || today) && e.dates.end >=  (date || today)) || {} as JasupBookDB : {} as JasupBookDB;
     none_id.push({
       id: e.id,
       name: e.name || "",
       number: e.number || 0,
       gender: e.gender,
-      type: "none",
-      etc: "",
+      type: my?.type || "none",
+      etc: my?.etc || "",
     });
   }
 
   for(const e of data) {
-    cnt[e.type]++;
     for(const u of none_id) {
       if(e.id === u.id) {
         u.type = e.type;
@@ -121,7 +129,10 @@ const POST = async (
       }
     }
   }
-  cnt["none"] += none_id.length - data.length;
+
+  for(const e of none_id) {
+    cnt[e.type] += 1;
+  }
 
   return new NextResponse(JSON.stringify({
     message: "성공적으로 데이터를 가져왔습니다.",

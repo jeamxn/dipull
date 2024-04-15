@@ -50,40 +50,39 @@ export const getCurrentTime = () => {
 };
 
 export type JasupTime = "morning" | "am1" | "am2" | "pm1" | "pm2" | "night1" | "night2";
-export type JasupKoreanTime = "아침" | "오전 1타임" | "오전 2타임" | "오후 1타임" | "오후 2타임" | "야간 1타임" | "야간 2타임";
-
+export type JasupKoreanTime = "아침" | "오전 1타임" | "오전 2타임" | "오후 1타임" | "오후 2타임(방과후)" | "야간 1타임" | "야간 2타임";
 
 export type JasupWhere = "none" | "classroom" | "studyroom" | "KTroom" | "etcroom" | "healthroom" | "dormitory" | "outing" | "home" | "afterschool";
 export type JasupKoreanWhere = "미입실" | "교실" | "열람실" | "KT실" | "기타 특별실" | "보건실" | "생활관" | "외출" | "귀가(결석)" | "방과후";
 
 export const JasupTimeArray: JasupTime[] = ["morning", "am1", "am2", "pm1", "pm2", "night1", "night2"];
 export const JasupWhereArray: JasupWhere[] = ["studyroom", "classroom", "KTroom", "etcroom", "healthroom", "dormitory", "outing", "afterschool", "home", "none"];
-export const JasupKoreanTimeArray: JasupKoreanTime[] = ["아침", "오전 1타임", "오전 2타임", "오후 1타임", "오후 2타임", "야간 1타임", "야간 2타임"];  
+export const JasupKoreanTimeArray: JasupKoreanTime[] = ["아침", "오전 1타임", "오전 2타임", "오후 1타임", "오후 2타임(방과후)", "야간 1타임", "야간 2타임"];  
 export const JasupKoreanWhereArray: JasupKoreanWhere[] = ["열람실", "교실", "KT실", "기타 특별실", "보건실", "생활관", "외출", "방과후", "귀가(결석)", "미입실"];
 
-export const englishTimeTypeToKorean = (type: JasupTime) => {
+export const englishTimeTypeToKorean: (type: JasupTime) => JasupKoreanTime = (type) => {
   switch(type) {
   case "morning": return "아침";
   case "am1": return "오전 1타임";
   case "am2": return "오전 2타임";
   case "pm1": return "오후 1타임";
-  case "pm2": return "오후 2타임";
+  case "pm2": return "오후 2타임(방과후)";
   case "night1": return "야간 1타임";
   case "night2": return "야간 2타임";
   }
 };
-export const koreanTimeTypeToEnglish = (type: JasupKoreanTime) => {
+export const koreanTimeTypeToEnglish: (type: JasupKoreanTime) => JasupTime = (type) => {
   switch(type) {
   case "아침": return "morning";
   case "오전 1타임": return "am1";
   case "오전 2타임": return "am2";
   case "오후 1타임": return "pm1";
-  case "오후 2타임": return "pm2";
+  case "오후 2타임(방과후)": return "pm2";
   case "야간 1타임": return "night1";
   case "야간 2타임": return "night2";
   }
 };
-export const englishWhereTypeToKorean = (type: JasupWhere) => {
+export const englishWhereTypeToKorean: (type: JasupWhere) => JasupKoreanWhere = (type) => {
   switch(type) {
   case "none": return "미입실";
   case "classroom": return "교실";
@@ -97,7 +96,7 @@ export const englishWhereTypeToKorean = (type: JasupWhere) => {
   case "home": return "귀가(결석)";
   }
 };
-export const koreanWhereTypeToEnglish = (type: JasupKoreanWhere) => {
+export const koreanWhereTypeToEnglish: (type: JasupKoreanWhere) => JasupWhere = (type) => {
   switch(type) {
   case "미입실": return "none";
   case "교실": return "classroom";
@@ -132,4 +131,23 @@ export type JasupDataWithUser = {
   gender: UserDB["gender"];
   type: JasupData["type"];
   etc: JasupData["etc"];
+};
+
+export type JasupBookPutData = {
+  type: JasupWhere;
+  etc: string;
+  days: number[];
+  times: JasupTime[];
+  dates: {
+    start: string;
+    end: string;
+  };
+};
+
+export type JasupBookData = JasupBookPutData & {
+  id: JasupData["id"];
+};
+
+export type JasupBookDB = JasupBookData & {
+  _id?: string;
 };
