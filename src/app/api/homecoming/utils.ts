@@ -6,7 +6,7 @@ export type HomecomingData = {
   id: UserDB["id"];
   reason: string;
   week: string;
-  time: ValueOf<typeof goTime>;
+  time: string;
 };
 
 export type HomecomingDB = HomecomingData & {
