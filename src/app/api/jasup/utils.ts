@@ -53,13 +53,13 @@ export type JasupTime = "morning" | "am1" | "am2" | "pm1" | "pm2" | "night1" | "
 export type JasupKoreanTime = "아침" | "오전 1타임" | "오전 2타임" | "오후 1타임" | "오후 2타임" | "야간 1타임" | "야간 2타임";
 
 
-export type JasupWhere = "none" | "classroom" | "studyroom" | "KTroom" | "etcroom" | "healthroom" | "dormitory" | "outing" | "home";
-export type JasupKoreanWhere = "미입실" | "교실" | "열람실" | "KT실" | "기타 특별실" | "보건실" | "생활관" | "외출" | "귀가(결석)";
+export type JasupWhere = "none" | "classroom" | "studyroom" | "KTroom" | "etcroom" | "healthroom" | "dormitory" | "outing" | "home" | "afterschool";
+export type JasupKoreanWhere = "미입실" | "교실" | "열람실" | "KT실" | "기타 특별실" | "보건실" | "생활관" | "외출" | "귀가(결석)" | "방과후";
 
 export const JasupTimeArray: JasupTime[] = ["morning", "am1", "am2", "pm1", "pm2", "night1", "night2"];
-export const JasupWhereArray: JasupWhere[] = ["none", "studyroom", "classroom", "KTroom", "etcroom", "healthroom", "dormitory", "outing", "home"];
+export const JasupWhereArray: JasupWhere[] = ["studyroom", "classroom", "KTroom", "etcroom", "healthroom", "dormitory", "outing", "afterschool", "home", "none"];
 export const JasupKoreanTimeArray: JasupKoreanTime[] = ["아침", "오전 1타임", "오전 2타임", "오후 1타임", "오후 2타임", "야간 1타임", "야간 2타임"];  
-export const JasupKoreanWhereArray: JasupKoreanWhere[] = ["미입실", "열람실", "교실", "KT실", "기타 특별실", "보건실", "생활관", "외출", "귀가(결석)"];
+export const JasupKoreanWhereArray: JasupKoreanWhere[] = ["열람실", "교실", "KT실", "기타 특별실", "보건실", "생활관", "외출", "방과후", "귀가(결석)", "미입실"];
 
 export const englishTimeTypeToKorean = (type: JasupTime) => {
   switch(type) {
@@ -93,6 +93,7 @@ export const englishWhereTypeToKorean = (type: JasupWhere) => {
   case "healthroom": return "보건실";
   case "dormitory": return "생활관";
   case "outing": return "외출";
+  case "afterschool": return "방과후";
   case "home": return "귀가(결석)";
   }
 };
@@ -106,6 +107,7 @@ export const koreanWhereTypeToEnglish = (type: JasupKoreanWhere) => {
   case "보건실": return "healthroom";
   case "생활관": return "dormitory";
   case "외출": return "outing";
+  case "방과후": return "afterschool";
   case "귀가(결석)": return "home";
   }
 };

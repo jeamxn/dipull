@@ -153,7 +153,28 @@ const Select = ({
           </section>
         ) : null
       }
-
+      {
+        where === "afterschool" ? (
+          <section className="flex flex-col gap-1">
+            <section className="flex flex-col gap-1">
+              <h1 className="text-xl font-semibold">방과후 설정하기</h1>
+            </section>
+            <article className={[
+              "flex flex-wrap flex-row gap-2 bg-white rounded border border-text/10 p-5 justify-center items-center",
+              loading ? "loading_background" : "",
+            ].join(" ")}>
+              <input 
+                type="text" 
+                placeholder="현재 방과후 과목명을 입력해주세요." 
+                className="w-full h-10 border border-text/10 rounded px-3 bg-transparent"
+                value={etc}
+                onChange={(e) => setEtc(e.target.value)}
+                disabled={loading}
+              />
+            </article>
+          </section>
+        ) : null
+      }
       <button 
         className="bg-primary text-white w-full text-base font-semibold rounded h-10"
         onClick={onButtonClick}

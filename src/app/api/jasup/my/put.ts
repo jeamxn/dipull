@@ -34,7 +34,7 @@ const PUT = async (
     status: 400,
     headers: new_headers
   });
-  if(!etc && (type === "etcroom" || type === "outing")) return new NextResponse(JSON.stringify({
+  if(!etc && (type === "etcroom" || type === "outing" || type === "afterschool")) return new NextResponse(JSON.stringify({
     message: "자세한 위치를 입력해주세요.",
   }), {
     status: 400,

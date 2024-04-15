@@ -93,6 +93,7 @@ const POST = async (
     dormitory: 0,
     outing: 0,
     home: 0,
+    afterschool: 0,
   };
 
   const none_id: JasupDataWithUser[] = [];

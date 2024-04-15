@@ -37,6 +37,7 @@ const Jasup = () => {
     dormitory: 0,
     outing: 0,
     home: 0,
+    afterschool: 0,
   });
   const [where, setWhere] = React.useState<JasupWhere>("none");
   const [etc, setEtc] = React.useState<JasupData["etc"]>("");
@@ -50,7 +51,8 @@ const Jasup = () => {
   const sum = Object.values(statistics).reduce((acc, cur) => acc + cur, 0);
 
   React.useEffect(() => {
-    getJasupData();
+    if(selected)
+      getJasupData();
   }, [selected?.id]);
 
   React.useEffect(() => {
@@ -206,13 +208,10 @@ const Jasup = () => {
             }
           </div>
           <article className={[
-            "flex flex-col gap-2 bg-white rounded border border-text/10 p-5",
+            "flex flex-col gap-2 bg-white rounded border border-text/10 p-5 overflow-auto",
             loading ? "loading_background" : "",
           ].join(" ")}>
-            <table className={[
-              "w-full border-text/10",
-              loading ? "loading_background rounded overflow-hidden border" : "bg-transparent border-y"
-            ].join(" ")}>
+            <table className="w-full border-text/10 bg-transparent border-y">
               <tbody>
                 <tr className="border-y border-text/10">
                   <td colSpan={6} className="p-2">
@@ -224,26 +223,26 @@ const Jasup = () => {
                 {
                   data.length ? data.map((e, i) => (
                     <tr className="border-y border-text/10" key={i}>
-                      <td className="w-20">
+                      <td className="p-2 w-16">
                         <p className="text-center text-base font-bold">{e.number}</p>
                       </td>
-                      <td className="w-20">
+                      <td className="p-2 w-24">
                         <p className="text-center text-base font-bold">{e.name}</p>
                       </td>
-                      <td className="w-20">
+                      <td className="p-2 w-10">
                         <p className="text-center text-base font-bold">{e.gender === "male" ? "남" : "여"}</p>
                       </td>
-                      <td className="p-2">
+                      <td className="p-2 min-w-20">
                         <p className="text-center">{englishWhereTypeToKorean(e.type)}</p>
                       </td>
-                      <td className="p-2">
+                      <td className="p-2 min-w-20">
                         <p className="text-center">{e.etc || "-"}</p>
                       </td>
                       {
                         isAdmin ? (
                           <td 
                             className={[
-                              "cursor-pointer",
+                              "cursor-pointer w-10",
                               selected === e ? "opacity-100" : "opacity-30",
                             ].join(" ")}
                             onClick={() => {
