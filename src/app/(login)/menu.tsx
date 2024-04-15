@@ -25,8 +25,8 @@ const menu = [
     name: "잔류",
   },
   {
-    url: "/atheletic/score",
-    name: "체대",
+    url: "/jasup/my",
+    name: "자습",
   }
 ];
 

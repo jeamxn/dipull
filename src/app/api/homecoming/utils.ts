@@ -1,5 +1,7 @@
+import { UserDB } from "@/app/auth/type";
+
 export type HomecomingData = {
-  id: string;
+  id: UserDB["id"];
   reason: string;
   week: string;
   time: string;

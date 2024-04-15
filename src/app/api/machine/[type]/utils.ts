@@ -1,6 +1,7 @@
 import "moment-timezone";
 import moment from "moment";
 
+import { UserDB } from "@/app/auth/type";
 import { getStates } from "@/utils/getStates";
 
 export const getApplyStartTime = async () => {
@@ -41,8 +42,8 @@ export type MachineDB = {
   machine: string;
   time: string;
   date: string;
-  owner: string;
-  type: string;
+  owner: UserDB["id"];
+  type: "washer" | "dryer";
 }
 
 export const getDefaultValue = (type: "washer" | "dryer", isStay: boolean) => {
