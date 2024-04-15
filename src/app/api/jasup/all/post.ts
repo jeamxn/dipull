@@ -36,14 +36,26 @@ const POST = async (
     time: JasupData["time"];
     gradeClass: JasupData["gradeClass"];
   } = await req.json();
-  const queryOfGradeClass = gradeClass || (!gradeClass && Math.floor(verified.payload.data.number / 100) === 99) ?
-    gradeClass === 99 || (!gradeClass && Math.floor(verified.payload.data.number / 100) === 99) ? {} :
+
+  const jasupAdminCollection = client.db().collection("jasup_admin");
+  const allAdmin = (await jasupAdminCollection.find({}).toArray()).map((admin: any) => admin.id);
+  const isAdmin = allAdmin.includes(verified.payload.id) || verified.payload.data.number === 9999;
+  const myGradeClass = Math.floor(verified.payload.data.number / 100);
+  if(!isAdmin && myGradeClass !== gradeClass && myGradeClass !== 99 && gradeClass) return new NextResponse(JSON.stringify({
+    message: "권한이 없습니다.",
+  }), {
+    status: 403,
+    headers: new_headers
+  });
+
+  const queryOfGradeClass = gradeClass || (!gradeClass && myGradeClass === 99) ?
+    gradeClass === 99 || (!gradeClass && myGradeClass === 99) ? {} :
       gradeClass === 10 ? { gradeClass: { $gte: 10, $lt: 20 } } :
         gradeClass === 20 ? { gradeClass: { $gte: 20, $lt: 30 } } :
           gradeClass === 30 ? { gradeClass: { $gte: 30, $lt: 40 } } :
-            { gradeClass } : { gradeClass: Math.floor(verified.payload.data.number / 100) };
-  const gradeClassQuery = gradeClass || (!gradeClass && Math.floor(verified.payload.data.number / 100) === 99) ? 
-    gradeClass === 99 || (!gradeClass && Math.floor(verified.payload.data.number / 100) === 99) ? {
+            { gradeClass } : { gradeClass: myGradeClass };
+  const gradeClassQuery = gradeClass || (!gradeClass && myGradeClass === 99) ? 
+    gradeClass === 99 || (!gradeClass && myGradeClass === 99) ? {
       $gte: 0,
       $lt: 10000,
     } : gradeClass === 10 ? {
@@ -109,10 +121,6 @@ const POST = async (
     }
   }
   cnt["none"] += none_id.length - data.length;
-
-  const jasupAdminCollection = client.db().collection("jasup_admin");
-  const allAdmin = (await jasupAdminCollection.find({}).toArray()).map((admin: any) => admin.id);
-  const isAdmin = allAdmin.includes(verified.payload.id);
 
   return new NextResponse(JSON.stringify({
     message: "성공적으로 데이터를 가져왔습니다.",

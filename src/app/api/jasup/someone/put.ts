@@ -52,7 +52,7 @@ const PUT = async (
   const client = await connectToDatabase();
   const jasupAdminCollection = client.db().collection("jasup_admin");
   const allAdmin = (await jasupAdminCollection.find({}).toArray()).map((admin: any) => admin.id);
-  if(!allAdmin.includes(verified.payload.id)) return new NextResponse(JSON.stringify({
+  if(!allAdmin.includes(verified.payload.id) && verified.payload.data.number !== 9999) return new NextResponse(JSON.stringify({
     message: "권한이 없습니다.",
   }), {
     status: 403,
