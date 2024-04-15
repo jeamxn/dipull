@@ -21,20 +21,19 @@ const Fast = () => {
     return `${randomR} ${randomG} ${randomB}`;
   };
   const speedup = () => {
-    alert.info("이제 삭제된 기능입니다 :)");
-    // const colors = ["blue", "black", "red", "white"];
-    // put();
-    // let type = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? 1 : 0;
-    // const color = () => {
-    //   document.documentElement.style.setProperty("--transition-default", " ");
-    //   document.documentElement.style.setProperty("--color-background", `var(--color-background-${colors[type]})`);
-    //   document.documentElement.style.setProperty("--color-text", `var(--color-text-${colors[type]})`);
-    //   document.documentElement.style.setProperty("--color-white", `var(--color-white-${colors[type]})`);
-    //   type += 1;
-    //   if(type === colors.length) type = 0;
-    // };
-    // color();
-    // setInterval(color, 50);
+    const colors = ["blue", "black", "red", "white"];
+    put();
+    let type = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? 1 : 0;
+    const color = () => {
+      document.documentElement.style.setProperty("--transition-default", " ");
+      document.documentElement.style.setProperty("--color-background", `var(--color-background-${colors[type]})`);
+      document.documentElement.style.setProperty("--color-text", `var(--color-text-${colors[type]})`);
+      document.documentElement.style.setProperty("--color-white", `var(--color-white-${colors[type]})`);
+      type += 1;
+      if(type === colors.length) type = 0;
+    };
+    color();
+    setInterval(color, 50);
   };
   React.useEffect(() => {
     const setColor = () => {
@@ -74,8 +73,8 @@ const Fast = () => {
 
   return (
     <>
-      <p className="text-text/40 text-sm font-bold">[ 주의 :: 이 사이트는 광과민성 발작을 유발할 수 있습니다 ]</p>
-      <p className="text-text/40 text-sm">[⚠️ 위험, 충격, 공포, 기괴 ⚠️] 절대 <button className="text-primary/40 underline" onClick={speedup}>여기</button>를 누르지 마세요!</p>
+      {/* <p className="text-text/40 text-sm font-bold">[ 주의 :: 이 사이트는 광과민성 발작을 유발할 수 있습니다 ]</p> */}
+      {/* <p className="text-text/40 text-sm">[⚠️ 위험, 충격, 공포, 기괴 ⚠️] 절대 <button className="text-primary/40 underline" onClick={speedup}>여기</button>를 누르지 마세요!</p> */}
       <p className="text-text/40 text-sm">축하해줄 일이 있나요? <button className="text-primary/40 underline" onClick={firework}>여기</button>를 누르세요!</p>
       <p></p>
       <p></p>
