@@ -5,30 +5,27 @@ import { NextResponse } from "next/server";
 import { refreshVerify, verify } from "@/utils/jwt";
 
 export const middleware = async (request: NextRequest) => {
-  // refreshToken 가져오기
+  const defaultUrl = process.env.NEXT_PUBLIC_APP_URI || "";
   const refreshToken = cookies().get("refreshToken")?.value || "";
   const verified = await refreshVerify(refreshToken);
-
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-url", request.url);
-
   try{
     if(!request.nextUrl.pathname.startsWith("/login")){
       if(!verified.ok) {
-        return NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_APP_URI!));
+        return NextResponse.redirect(new URL("/login", defaultUrl));
       }
       else if(request.nextUrl.pathname.startsWith("/teacher") && verified.payload.type !== "teacher") {
-        return NextResponse.redirect(new URL("/", process.env.NEXT_PUBLIC_APP_URI!));
+        return NextResponse.redirect(new URL("/", defaultUrl));
       }
     }
     else if(verified.ok) {
-      return NextResponse.redirect(new URL("/", process.env.NEXT_PUBLIC_APP_URI!));
+      return NextResponse.redirect(new URL("/", defaultUrl));
     }
   }
   catch {
-    return NextResponse.redirect(new URL("/login", process.env.NEXT_PUBLIC_APP_URI!));
+    return NextResponse.redirect(new URL("/login", defaultUrl));
   }
-
   return NextResponse.next({
     request: {
       ...request,
