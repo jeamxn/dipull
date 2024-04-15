@@ -23,6 +23,43 @@ const DELETE = async (
     headers: new_headers
   });
 
+  // 잔류 신청 기간 확인
+  const applymsg = await isStayApplyNotPeriod(verified.payload.data.number);
+  if(applymsg) {
+    return new NextResponse(JSON.stringify({
+      success: false,
+      message: applymsg,
+    }), {
+      status: 400,
+      headers: new_headers
+    });
+  }
+
+  // DB 접속
+  const client = await connectToDatabase();
+  const stayCollection = client.db().collection("stay");
+
+  const mySelectQuery = { week: await getApplyStartDate(), owner: verified.payload.id };
+  const deleteMySelect = await stayCollection.deleteOne(mySelectQuery);
+
+  if(deleteMySelect.deletedCount) {
+    return new NextResponse(JSON.stringify({
+      success: true,
+      message: "잔류 신청을 취소했습니다.",
+    }), {
+      status: 200,
+      headers: new_headers
+    });
+  }
+  else {
+    return new NextResponse(JSON.stringify({
+      success: false,
+      message: "신청한 잔류가 없습니다.",
+    }), {
+      status: 400,
+      headers: new_headers
+    });
+  }
 };
 
 export default DELETE;
