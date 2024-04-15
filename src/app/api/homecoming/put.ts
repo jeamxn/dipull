@@ -1,14 +1,16 @@
 import "moment-timezone";
 import moment from "moment";
+import { ValueOf } from "next/dist/shared/lib/constants";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
+import { JasupBookDB, JasupTime, JasupTimeArray } from "../jasup/utils";
 import { getApplyEndDate, getApplyStartDate, isStayApplyNotPeriod } from "../stay/utils";
 
-import { HomecomingData } from "./utils";
+import { HomecomingData, goTime } from "./utils";
 
 
 const PUT = async (
@@ -49,7 +51,10 @@ const PUT = async (
     headers: new_headers
   });
 
-  const { reason, time } = await req.json();
+  const { reason, time }: {
+    reason: string;
+    time: ValueOf<typeof goTime>;
+  } = await req.json();
   if(!reason) return new NextResponse(JSON.stringify({
     success: false,
     message: "사유를 입력해주세요.",
@@ -83,7 +88,33 @@ const PUT = async (
     upsert: true 
   });
 
-  if(put.acknowledged) {
+  const jasupBookCollection = client.db().collection<JasupBookDB>("jasup_book");
+
+  let timesJasup: JasupTime[] = [];
+  if(time === "종례 후") {
+    timesJasup = ["pm2", "night1", "night2"];
+  }
+  else if(time === "저녁시간") {
+    timesJasup = ["night1", "night2"];
+  }
+  else if(time === "야자1 이후") {
+    timesJasup = ["night2"];
+  }
+
+  const fri = moment(await getApplyStartDate()).day(5).format("YYYY-MM-DD");
+  const putJasup = await jasupBookCollection.insertOne({
+    id: verified.payload.id,
+    days: [5],
+    dates: {
+      start: fri,
+      end: fri,
+    },
+    times: timesJasup,
+    type: "home",
+    etc: "금요귀가",
+  });
+
+  if(put.acknowledged && putJasup.acknowledged) {
     return new NextResponse(JSON.stringify({
       success: true,
       message: "금요귀가 신청이 완료되었습니다.",

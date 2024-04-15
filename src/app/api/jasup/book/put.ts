@@ -23,9 +23,6 @@ const PUT = async (
     headers: new_headers
   });
 
-  const client = await connectToDatabase();
-  const jasupBookCollection = client.db().collection<JasupBookDB>("jasup_book");
-
   const { days, dates, times, type, etc }: JasupBookPutData = await req.json();
   if(!days || !days.length) return new NextResponse(JSON.stringify({
     message: "요일을 선택해주세요.",
@@ -57,6 +54,9 @@ const PUT = async (
     status: 400,
     headers: new_headers
   });
+
+  const client = await connectToDatabase();
+  const jasupBookCollection = client.db().collection<JasupBookDB>("jasup_book");
 
   const put = await jasupBookCollection.insertOne({
     id: verified.payload.id,
