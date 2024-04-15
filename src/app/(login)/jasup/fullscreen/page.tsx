@@ -57,16 +57,6 @@ const Jasup = () => {
     getJasupData();
   }, [selected?.id]);
 
-  React.useEffect(() => {
-    if(where === "outing")
-      setEtc(`${tmpOuting.description}(${tmpOuting.start}~${tmpOuting.end})`);
-  }, [tmpOuting.start, tmpOuting.end, tmpOuting.description]);
-
-  React.useEffect(() => {
-    if(where !== "etcroom" && where !== "outing" && etc !== "물/화장실" && etc !== "세탁") 
-      setEtc("");
-  }, [where]);
-
   const getJasupData = async () => {
     setLoading(true);
     try{

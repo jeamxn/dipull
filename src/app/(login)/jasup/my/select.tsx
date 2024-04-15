@@ -1,8 +1,10 @@
+import * as jose from "jose";
 import moment from "moment";
 import React from "react";
 
 import { JasupData, JasupKoreanWhereArray, JasupWhere, WeekDayTime, getCurrentTime, koreanWhereTypeToEnglish } from "@/app/api/jasup/utils";
 import { Outing } from "@/app/api/outing/utils";
+import { TokenInfo, defaultUserData } from "@/app/auth/type";
 
 const Select = ({
   loading,
@@ -24,14 +26,22 @@ const Select = ({
   title?: string;
   buttonText?: string;
 }) => {
+  const [userInfo, setUserInfo] = React.useState(defaultUserData);
+  React.useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken")!;
+    const decrypt = jose.decodeJwt(accessToken) as TokenInfo;
+    setUserInfo(decrypt.data);
+  }, []);
+
   React.useEffect(() => {
     if(where === "outing")
       setEtc(`${tmpOuting.description}(${tmpOuting.start}~${tmpOuting.end})`);
   }, [tmpOuting.start, tmpOuting.end, tmpOuting.description]);
 
   React.useEffect(() => {
-    if(where !== "etcroom" && where !== "outing" && etc !== "물/화장실" && etc !== "세탁") 
-      setEtc("");
+    if(where === "etcroom" || where === "outing" || where === "afterschool") return;
+    if(where === "studyroom" && (etc === "물/화장실" || etc === "세탁")) return;
+    setEtc("");
   }, [where]);
 
   return (
@@ -46,7 +56,7 @@ const Select = ({
         ].join(" ")}>
           <button 
             onClick={() => {
-              setWhere("studyroom");
+              setWhere(userInfo.number > 3000 ? "studyroom" : "classroom");
               setEtc("물/화장실");
             }}
             className={[
@@ -59,7 +69,7 @@ const Select = ({
           </button>
           <button 
             onClick={() => {
-              setWhere("studyroom");
+              setWhere(userInfo.number > 3000 ? "studyroom" : "classroom");
               setEtc("세탁");
             }}
             className={[
