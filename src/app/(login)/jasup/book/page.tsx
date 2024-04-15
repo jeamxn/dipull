@@ -175,7 +175,7 @@ const Jasup = () => {
             <h1 className="text-xl font-semibold">요일 선택</h1>
           </section>
           <article className={[
-            "flex flex-wrap flex-row gap-2 bg-white rounded border border-text/10 p-5 justify-center items-center",
+            "flex flex-row gap-2 bg-white rounded border border-text/10 p-5 justify-start items-start overflow-auto",
             loading ? "loading_background" : "",
           ].join(" ")}>
             {
@@ -189,7 +189,7 @@ const Jasup = () => {
                       setDays([...days, index].sort((a, b) => a - b));
                   }}
                   className={[
-                    "text-base rounded h-10 border border-text/10 w-full max-w-20 px-4 transition-colors",
+                    "text-base rounded h-10 border border-text/10 w-20 px-8 transition-colors",
                     days.includes(index) ? "bg-text/10" : "",
                   ].join(" ")}
                   disabled={loading}
@@ -209,7 +209,7 @@ const Jasup = () => {
             loading ? "loading_background" : "",
           ].join(" ")}>
             {
-              JasupKoreanTimeArray.map((time, index) => (
+              JasupKoreanTimeArray.map((time, index) => index === 0 ? null : (
                 <button 
                   key={index}
                   onClick={() => {
@@ -220,7 +220,7 @@ const Jasup = () => {
                       setTimes([...times, key].sort((a, b) => JasupTimeArray.indexOf(a) - JasupTimeArray.indexOf(b) ));
                   }}
                   className={[
-                    "text-base rounded h-10 border border-text/10 w-full max-w-44 px-4 transition-colors",
+                    "text-base rounded h-10 border border-text/10 w-full max-[620px]:max-w-[49%] max-[480px]:max-w-full max-w-[32%] px-4 transition-colors",
                     times.includes(koreanTimeTypeToEnglish(time)) ? "bg-text/10" : "",
                   ].join(" ")}
                   disabled={loading}

@@ -1,10 +1,12 @@
 import * as jose from "jose";
 import moment from "moment";
-import React from "react";
+import React, { AriaAttributes } from "react";
 
 import { JasupData, JasupKoreanWhereArray, JasupWhere, WeekDayTime, getCurrentTime, koreanWhereTypeToEnglish } from "@/app/api/jasup/utils";
 import { Outing } from "@/app/api/outing/utils";
 import { TokenInfo, defaultUserData } from "@/app/auth/type";
+
+const buttons = "text-base rounded h-10 border border-text/10 w-full max-w-36 max-[670px]:max-w-[32%] max-[480px]:max-w-[48%] max-[340px]:max-w-full px-8 transition-colors";
 
 const Select = ({
   loading,
@@ -60,7 +62,7 @@ const Select = ({
               setEtc("물/화장실");
             }}
             className={[
-              "text-base rounded h-10 border border-text/10 w-full max-w-36 px-8 transition-colors",
+              buttons,
               etc === "물/화장실" ? "bg-text/10" : "",
             ].join(" ")}
             disabled={loading}
@@ -73,7 +75,7 @@ const Select = ({
               setEtc("세탁");
             }}
             className={[
-              "text-base rounded h-10 border border-text/10 w-full max-w-36 px-8 transition-colors",
+              buttons,
               etc === "세탁" ? "bg-text/10" : "",
             ].join(" ")}
             disabled={loading}
@@ -89,7 +91,7 @@ const Select = ({
                   if(etc === "물/화장실" || etc === "세탁") setEtc("");
                 }}
                 className={[
-                  "text-base rounded h-10 border border-text/10 w-full max-w-36 px-8 transition-colors",
+                  buttons,
                   where === koreanWhereTypeToEnglish(_) && etc !== "물/화장실" && etc !== "세탁"
                     ? "bg-text/10" : "",
                 ].join(" ")}

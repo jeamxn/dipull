@@ -81,7 +81,7 @@ const Homecoming = () => {
                     key={i}
                     onClick={() => setGoTimeI(i)}
                     className={[
-                      "text-base rounded h-10 border border-text/10 px-4 w-full transition-colors",
+                      "text-base rounded h-10 border border-text/10 w-full max-w-36 max-[670px]:max-w-[48%] max-[340px]:max-w-full px-8 transition-colors",
                       goTimeI === i ? "bg-text/10" : "",
                     ].join(" ")}
                     disabled={loading || !!myApply}
