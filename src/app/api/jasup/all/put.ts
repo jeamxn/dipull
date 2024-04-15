@@ -4,9 +4,9 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { getApplyStartDate, isStayApplyNotPeriod } from "./utils";
+import { JasupData, getCurrentTime, getToday } from "../utils";
 
-const DELETE = async (
+const PUT = async (
   req: Request,
 ) => {
   // 헤더 설정
@@ -22,7 +22,7 @@ const DELETE = async (
     status: 401,
     headers: new_headers
   });
-
+  
 };
 
-export default DELETE;
+export default PUT;

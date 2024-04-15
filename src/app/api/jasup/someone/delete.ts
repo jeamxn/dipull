@@ -4,8 +4,6 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { getApplyStartDate, isStayApplyNotPeriod } from "./utils";
-
 const DELETE = async (
   req: Request,
 ) => {
@@ -23,6 +21,7 @@ const DELETE = async (
     headers: new_headers
   });
 
+  
 };
 
 export default DELETE;

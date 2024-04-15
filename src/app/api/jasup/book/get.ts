@@ -1,12 +1,13 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { getApplyStartDate, isStayApplyNotPeriod } from "./utils";
+import { JasupBookDB, JasupBookPutData, JasupDB, JasupData, JasupWhere, getCurrentTime, getToday } from "../utils";
 
-const DELETE = async (
+const GET = async (
   req: Request,
 ) => {
   // 헤더 설정
@@ -23,6 +24,17 @@ const DELETE = async (
     headers: new_headers
   });
 
+  const client = await connectToDatabase();
+  const jasupBookCollection = client.db().collection<JasupBookDB>("jasup_book");
+  const my = await jasupBookCollection.find({ id: verified.payload.id }).toArray();
+
+  return new NextResponse(JSON.stringify({
+    message: "성공적으로 데이터를 가져왔습니다.",
+    data: my,
+  }), {
+    status: 200,
+    headers: new_headers
+  });
 };
 
-export default DELETE;
+export default GET;

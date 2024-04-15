@@ -188,3 +188,7 @@ input, textarea, button, select {
   1px 1px 0 #0000ff; /* 윤곽선 색상과 위치 */
   letter-spacing: 0rem;
 }
+
+.zoom {
+  transform: scale(1.3);
+}

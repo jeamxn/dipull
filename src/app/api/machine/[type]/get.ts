@@ -64,7 +64,7 @@ const GET = async (
       time: "",
       date: "",
       owner: "",
-      type: "",
+      type: params.type,
     }
   };
   
