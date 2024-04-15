@@ -1,10 +1,12 @@
+import { ValueOf } from "next/dist/shared/lib/constants";
+
 import { UserDB } from "@/app/auth/type";
 
 export type HomecomingData = {
   id: UserDB["id"];
   reason: string;
   week: string;
-  time: string;
+  time: ValueOf<typeof goTime>;
 };
 
 export type HomecomingDB = HomecomingData & {

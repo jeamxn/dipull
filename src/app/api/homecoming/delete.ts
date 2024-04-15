@@ -42,6 +42,20 @@ const DELETE = async (
   const client = await connectToDatabase();
   const homecomingCollection = client.db().collection("homecoming");
   const my = { id: verified.payload.id, week: await getApplyStartDate() };
+
+  const fri = moment(await getApplyStartDate()).day(5).format("YYYY-MM-DD");
+  const jasupBookCollection = client.db().collection("jasup_book");
+  const myBook = await jasupBookCollection.deleteOne({ 
+    id: verified.payload.id,
+    days: [5],
+    dates: {
+      start: fri,
+      end: fri,
+    },
+    type: "home",
+    etc: "금요귀가",
+  });
+
   const delete_ = await homecomingCollection.deleteOne(my);
 
   if(delete_.deletedCount === 0) return new NextResponse(JSON.stringify({

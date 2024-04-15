@@ -97,7 +97,7 @@ const Studyroom = ({
         loading ? "loading_background" : "",
       ].join(" ")}>
         {
-          studyroom.map((e, i) => e.color !== "rgb(var(--color-text) / .1)" ? (
+          studyroom.map((e, i) => e.color !== "rgb(var(--color-text) / .1)" && e.grade.length ? (
             <figure key={i} className="flex flex-row gap-2 items-center">
               <div className="w-4 h-4 rounded-sm" style={{ backgroundColor: e.color }} />
               <p className="text-base">{e.grade.join(", ")}학년 {e.gender === "male" ? "남" : "여"}학생</p>
