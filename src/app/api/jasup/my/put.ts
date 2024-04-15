@@ -52,9 +52,35 @@ const PUT = async (
     type,
     etc,
   };
-
   const client = await connectToDatabase();
   const jasupCollection = client.db().collection("jasup");
+
+  if(type === "none") {
+    const remove = await jasupCollection.deleteOne({
+      id: data.id,
+      date: data.date,
+      time: data.time,
+    });
+    if(remove.deletedCount) {
+      return new NextResponse(JSON.stringify({
+        message: "성공적으로 위치를 변경했습니다.",
+        ok: true,
+      }), {
+        status: 200,
+        headers: new_headers
+      });
+    }
+    else {
+      return new NextResponse(JSON.stringify({
+        message: "이미 미입실한 상태입니다. (예약 목록을 확인해주세요)",
+        ok: false,
+      }), {
+        status: 500,
+        headers: new_headers
+      });
+    }
+  }
+
   const put = await jasupCollection.updateOne({
     id: data.id,
     date: data.date,

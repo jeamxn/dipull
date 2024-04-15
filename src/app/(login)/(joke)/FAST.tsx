@@ -3,6 +3,7 @@
 import React from "react";
 import { useSetRecoilState } from "recoil";
 
+import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 import { isDarkColor } from "@/utils/isDarkColor";
 import { rand } from "@/utils/random";
@@ -20,19 +21,20 @@ const Fast = () => {
     return `${randomR} ${randomG} ${randomB}`;
   };
   const speedup = () => {
-    const colors = ["blue", "black", "red", "white"];
-    put();
-    let type = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? 1 : 0;
-    const color = () => {
-      document.documentElement.style.setProperty("--transition-default", " ");
-      document.documentElement.style.setProperty("--color-background", `var(--color-background-${colors[type]})`);
-      document.documentElement.style.setProperty("--color-text", `var(--color-text-${colors[type]})`);
-      document.documentElement.style.setProperty("--color-white", `var(--color-white-${colors[type]})`);
-      type += 1;
-      if(type === colors.length) type = 0;
-    };
-    color();
-    setInterval(color, 50);
+    alert.info("이제 삭제된 기능입니다 :)");
+    // const colors = ["blue", "black", "red", "white"];
+    // put();
+    // let type = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? 1 : 0;
+    // const color = () => {
+    //   document.documentElement.style.setProperty("--transition-default", " ");
+    //   document.documentElement.style.setProperty("--color-background", `var(--color-background-${colors[type]})`);
+    //   document.documentElement.style.setProperty("--color-text", `var(--color-text-${colors[type]})`);
+    //   document.documentElement.style.setProperty("--color-white", `var(--color-white-${colors[type]})`);
+    //   type += 1;
+    //   if(type === colors.length) type = 0;
+    // };
+    // color();
+    // setInterval(color, 50);
   };
   React.useEffect(() => {
     const setColor = () => {
