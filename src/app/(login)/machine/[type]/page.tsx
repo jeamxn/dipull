@@ -43,7 +43,7 @@ const Machine = (
       time: "",
       date: "",
       owner: "",
-      type: "",
+      type: params.type,
     },
   });
 
