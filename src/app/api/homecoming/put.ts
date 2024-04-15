@@ -53,7 +53,7 @@ const PUT = async (
 
   const { reason, time }: {
     reason: string;
-    time: ValueOf<typeof goTime>;
+    time: string;
   } = await req.json();
   if(!reason) return new NextResponse(JSON.stringify({
     success: false,
