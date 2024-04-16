@@ -8,24 +8,24 @@ const Qrcode = ({ number }: { number: string | number }) => {
   return (
     <>
       <div
-        className="p-2 bg-white rounded border border-text/10 cursor-pointer relative"
+        className="p-2 bg-white-light rounded border border-text-light/10 cursor-pointer relative"
         onClick={() => setClicked(true)}
       >
         <QRCode
           value={String(number)}
           className="w-16 h-16"
-          bgColor="rgb( var(--color-white) / 1 )"
-          fgColor="rgb( var(--color-text) / 1 )"
+          bgColor="rgb( var(--color-white-light) / 1 )"
+          fgColor="rgb( var(--color-text-light) / 1 )"
         />
         <svg
           viewBox="0 0 19 18"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute -right-2 -bottom-2 bg-white rounded-full p-1 border border-text/10 w-5 h-5"
+          className="absolute -right-2 -bottom-2 bg-white-light rounded-full p-1 border border-text-light/10 w-5 h-5"
         >
           <path
             d="M6.16797 7.56281H5.16797C4.88464 7.56281 4.64714 7.46697 4.45547 7.27531C4.2638 7.08364 4.16797 6.84614 4.16797 6.56281C4.16797 6.27947 4.2638 6.04197 4.45547 5.85031C4.64714 5.65864 4.88464 5.56281 5.16797 5.56281H6.16797V4.56281C6.16797 4.27947 6.2638 4.04197 6.45547 3.85031C6.64714 3.65864 6.88464 3.56281 7.16797 3.56281C7.4513 3.56281 7.6888 3.65864 7.88047 3.85031C8.07214 4.04197 8.16797 4.27947 8.16797 4.56281V5.56281H9.16797C9.4513 5.56281 9.6888 5.65864 9.88047 5.85031C10.0721 6.04197 10.168 6.27947 10.168 6.56281C10.168 6.84614 10.0721 7.08364 9.88047 7.27531C9.6888 7.46697 9.4513 7.56281 9.16797 7.56281H8.16797V8.56281C8.16797 8.84614 8.07214 9.08364 7.88047 9.27531C7.6888 9.46697 7.4513 9.56281 7.16797 9.56281C6.88464 9.56281 6.64714 9.46697 6.45547 9.27531C6.2638 9.08364 6.16797 8.84614 6.16797 8.56281V7.56281ZM7.16797 13.0628C5.3513 13.0628 3.8138 12.4336 2.55547 11.1753C1.29714 9.91697 0.667969 8.37947 0.667969 6.56281C0.667969 4.74614 1.29714 3.20864 2.55547 1.95031C3.8138 0.691972 5.3513 0.0628052 7.16797 0.0628052C8.98464 0.0628052 10.5221 0.691972 11.7805 1.95031C13.0388 3.20864 13.668 4.74614 13.668 6.56281C13.668 7.29614 13.5513 7.9878 13.318 8.6378C13.0846 9.28781 12.768 9.86281 12.368 10.3628L17.968 15.9628C18.1513 16.1461 18.243 16.3795 18.243 16.6628C18.243 16.9461 18.1513 17.1795 17.968 17.3628C17.7846 17.5461 17.5513 17.6378 17.268 17.6378C16.9846 17.6378 16.7513 17.5461 16.568 17.3628L10.968 11.7628C10.468 12.1628 9.89297 12.4795 9.24297 12.7128C8.59297 12.9461 7.9013 13.0628 7.16797 13.0628ZM7.16797 11.0628C8.41797 11.0628 9.48047 10.6253 10.3555 9.75031C11.2305 8.87531 11.668 7.81281 11.668 6.56281C11.668 5.31281 11.2305 4.25031 10.3555 3.37531C9.48047 2.50031 8.41797 2.06281 7.16797 2.06281C5.91797 2.06281 4.85547 2.50031 3.98047 3.37531C3.10547 4.25031 2.66797 5.31281 2.66797 6.56281C2.66797 7.81281 3.10547 8.87531 3.98047 9.75031C4.85547 10.6253 5.91797 11.0628 7.16797 11.0628Z"
-            fill="rgb(var(--color-text) / 1)"
+            fill="rgb(var(--color-text-light) / 1)"
           />
         </svg>
       </div>
@@ -34,12 +34,12 @@ const Qrcode = ({ number }: { number: string | number }) => {
           className="z-50 fixed top-0 left-0 flex flex-col gap-4 items-center justify-center backdrop-blur-xl w-full h-full"
           onClick={() => setClicked(false)}
         >
-          <div className="bg-white rounded border border-text/10 p-[2vmin] w-[75vmin] h-[75vmin] aspect-square">
+          <div className="bg-white-light rounded-lg border border-text-light/10 p-[3.25vmin] w-[75vmin] h-[75vmin] aspect-square">
             <QRCode
               value={String(number)}
               className="w-full h-full"
-              bgColor="rgb( var(--color-white) / 0 )"
-              fgColor="rgb( var(--color-text) / 1 )"
+              bgColor="rgb( var(--color-white-light) / 0 )"
+              fgColor="rgb( var(--color-text-light) / 1 )"
             />
           </div>
           <div className="flex flex-row items-center justify-center gap-2 cursor-pointer">

@@ -22,7 +22,7 @@ type GetUser = {
 
 const Jasup = () => {
   const deviceList = useDeviceList();
-  const [device, setDevice] = React.useState<MediaDeviceInfo | null>(null);
+  const [device, setDevice] = React.useState<MediaDeviceInfo>(deviceList[0]);
   const [leftright, setLeftRight] = React.useState(-1);
   const [loading, setLoading] = React.useState(false);
   const [number, setNumber] = React.useState("");
@@ -206,7 +206,7 @@ const Jasup = () => {
               </div>
             </div>
             <select 
-              className="w-full px-2 text-text/40 border-0"
+              className="w-full px-2 text-text/40 border-0 bg-transparent"
               value={device?.deviceId}
               onChange={(e) => {
                 const device = deviceList.find(device => device.deviceId === e.target.value);
