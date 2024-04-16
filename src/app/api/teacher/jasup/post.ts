@@ -32,6 +32,30 @@ const POST = async (
     headers: new_headers
   });
 
+  const { id } = await req.json();
+
+  if(!id) return new NextResponse(JSON.stringify({
+    message: "학생을 선택해주세요.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+
+  const jasupAdminCollection = client.db().collection("jasup_admin");
+  const deleteUser = await jasupAdminCollection.deleteOne({ id });
+
+  if(deleteUser.deletedCount) return new NextResponse(JSON.stringify({
+    message: "자습 도우미에서 삭제되었습니다.",
+  }), {
+    status: 200,
+    headers: new_headers
+  });
+  else return new NextResponse(JSON.stringify({
+    message: "자습 도우미로 지정되어 있지 않습니다.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
 };
 
 export default POST;

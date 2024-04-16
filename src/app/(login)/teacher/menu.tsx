@@ -7,7 +7,11 @@ import React from "react";
 const menu = [
   {
     url: "/teacher/edit",
-    name: "학생수정",
+    name: "기숙사 수정",
+  },
+  {
+    url: "/teacher/jasup",
+    name: "자습 도우미",
   },
   {
     url: "/teacher/download",
@@ -16,7 +20,7 @@ const menu = [
   {
     url: "/teacher/wakeup",
     name: "기상송",
-  }
+  },
 ];
 
 const Menu = () => {

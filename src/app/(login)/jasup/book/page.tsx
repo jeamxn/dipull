@@ -69,7 +69,7 @@ const Jasup = () => {
     setLoading(true);
     try{
       const res = await instance.get("/api/jasup/book");
-      setMyData(res.data.data);
+      setMyData(res.data.data.reverse());
     }
     catch(e: any){
       alert.error(e.response.data.message);
@@ -95,9 +95,10 @@ const Jasup = () => {
     <>
       <Menu />
       <Insider>
-        <section className="flex flex-col gap-1">
+        <section className="flex flex-col gap-3">
           <section className="flex flex-col gap-1">
             <h1 className="text-xl font-semibold">예약 목록</h1>
+            <h1 className="text-base text-[#e11d48]">상단의 예약이 먼저 반영됩니다.</h1>
           </section>
           <article className={[
             "flex flex-row gap-2 bg-white rounded border border-text/10 p-5 justify-start items-start overflow-auto",
@@ -143,7 +144,7 @@ const Jasup = () => {
             </table>
           </article>
         </section>
-        <section className="flex flex-col gap-1">
+        <section className="flex flex-col gap-3">
           <section className="flex flex-col gap-1">
             <h1 className="text-xl font-semibold">날짜 선택</h1>
           </section>
@@ -170,7 +171,7 @@ const Jasup = () => {
             />
           </article>
         </section>
-        <section className="flex flex-col gap-1">
+        <section className="flex flex-col gap-3">
           <section className="flex flex-col gap-1">
             <h1 className="text-xl font-semibold">요일 선택</h1>
           </section>
@@ -200,7 +201,7 @@ const Jasup = () => {
             }
           </article>
         </section>
-        <section className="flex flex-col gap-1">
+        <section className="flex flex-col gap-3">
           <section className="flex flex-col gap-1">
             <h1 className="text-xl font-semibold">시간 선택</h1>
           </section>
