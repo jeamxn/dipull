@@ -26,7 +26,7 @@ const OutingOption = ({
     description: "",
   });
   return (
-    <section className="flex flex-col gap-2">
+    <section className="flex flex-col gap-3">
       <h1 className="text-xl font-semibold">{title}</h1>
       <article className={[
         "flex flex-col gap-2 bg-white rounded border border-text/10 p-5",

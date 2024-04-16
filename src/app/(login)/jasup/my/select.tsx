@@ -48,7 +48,7 @@ const Select = ({
 
   return (
     <>
-      <section className="flex flex-col gap-1">
+      <section className="flex flex-col gap-3">
         <section className="flex flex-col gap-1">
           <h1 className="text-xl font-semibold">{title}</h1>
         </section>

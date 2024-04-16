@@ -54,7 +54,7 @@ const Outing = () => {
     <>
       <Menu />
       <Insider>
-        <section className="flex flex-col gap-3">
+        <section className="flex flex-col gap-5">
           <h1 className="text-xl font-semibold">외출 및 급식 변경 신청하기</h1>
           <OutingOption 
             title="토요일"
