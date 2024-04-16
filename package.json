@@ -11,6 +11,7 @@
   "dependencies": {
     "@fireworks-js/react": "^2.10.7",
     "@vercel/analytics": "^1.2.2",
+    "@yudiel/react-qr-scanner": "^2.0.0-beta.3",
     "axios": "^1.6.7",
     "cookie": "^0.6.0",
     "exceljs": "^4.4.0",
