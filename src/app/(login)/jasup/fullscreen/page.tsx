@@ -1,6 +1,6 @@
 "use client";
 
-import { Scanner } from "@yudiel/react-qr-scanner";
+import { Scanner, useDeviceList } from "@yudiel/react-qr-scanner";
 import { DecodeHintType } from "@zxing/library";
 import React from "react";
 
@@ -21,6 +21,8 @@ type GetUser = {
 };
 
 const Jasup = () => {
+  const deviceList = useDeviceList();
+  const [device, setDevice] = React.useState<MediaDeviceInfo | null>(null);
   const [leftright, setLeftRight] = React.useState(-1);
   const [loading, setLoading] = React.useState(false);
   const [number, setNumber] = React.useState("");
@@ -138,66 +140,85 @@ const Jasup = () => {
             />
           </Insider>
         ) : (
-          <div className="flex flex-row items-center justify-center p-4 gap-4">
-            <div 
-              id="scanner"
-              className="w-96 h-[656px] border border-text/20 rounded-md overflow-hidden transition-all"
-              style={{
-                transform: leftright ? "scaleX(-1)" : "",
-              }}
-              onClick={() => setLeftRight(p => p === 0 ? 1 : 0)}
-            >
-              <Scanner
-                styles={{
-                  container: {
-                    width: "100%",
-                    height: "100%",
-                  },
-                  video: {
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  },
+          <div className="flex flex-col items-center justify-center p-4 gap-2">
+            <div className="flex flex-row items-center justify-center gap-4">
+              <div 
+                id="scanner"
+                className="w-96 h-[656px] border border-text/20 rounded-md overflow-hidden transition-all"
+                style={{
+                  transform: leftright ? "scaleX(-1)" : "",
                 }}
-                onResult={(text, result) => setNumber(text)}
-              />
-            </div>
-            <div className="flex flex-col gap-2 w-min">
-              <div className={[
-                "border border-text/20 text-5xl rounded-md flex justify-center items-center h-28",
-                loading ? "loading_background" : "",
-              ].join(" ")}>
+                onClick={() => setLeftRight(p => p === 0 ? 1 : 0)}
+              >
+                <Scanner
+                  options={{
+                    deviceId: device?.deviceId,
+                  }}
+                  styles={{
+                    container: {
+                      width: "100%",
+                      height: "100%",
+                    },
+                    video: {
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    },
+                  }}
+                  onResult={(text, result) => setNumber(text)}
+                />
+              </div>
+              <div className="flex flex-col gap-2 w-min">
+                <div className={[
+                  "border border-text/20 text-5xl rounded-md flex justify-center items-center h-28",
+                  loading ? "loading_background" : "",
+                ].join(" ")}>
+                  {
+                    selected ? `${selected.name} (${selected.gender === "male" ? "남" : "여"})` : number
+                  }
+                </div>
                 {
-                  selected ? `${selected.name} (${selected.gender === "male" ? "남" : "여"})` : number
+                  [[1, 2, 3], [4, 5, 6], [7, 8, 9], ["C", 0, selected ? "확인" : "←"]].map((row, i) => (
+                    <div key={i} className="flex flex-row gap-2">
+                      {
+                        row.map((e, j) => (
+                          <button 
+                            key={j}
+                            onClick={() => {
+                              if(e === "C") return setNumber("");
+                              else if(e === "확인") return setSet(true);
+                              else if(e === "←") return setNumber(p => p.slice(0, -1));
+                              if(number.length >= 4) return;
+                              setNumber(p => p + e);
+                            }}
+                            className={[
+                              "w-28 h-32 flex items-center justify-center border border-text/20 text-5xl rounded-md cursor-pointer",
+                              loading ? "loading_background" : "",
+                            ].join(" ")}
+                          >
+                            {e}
+                          </button>
+                        ))
+                      }
+                    </div>
+                  ))
                 }
               </div>
+            </div>
+            <select 
+              className="w-full px-2 text-text/40 border-0"
+              value={device?.deviceId}
+              onChange={(e) => {
+                const device = deviceList.find(device => device.deviceId === e.target.value);
+                if(device) setDevice(device);
+              }}
+            >
               {
-                [[1, 2, 3], [4, 5, 6], [7, 8, 9], ["C", 0, selected ? "확인" : "←"]].map((row, i) => (
-                  <div key={i} className="flex flex-row gap-2">
-                    {
-                      row.map((e, j) => (
-                        <button 
-                          key={j}
-                          onClick={() => {
-                            if(e === "C") return setNumber("");
-                            else if(e === "확인") return setSet(true);
-                            else if(e === "←") return setNumber(p => p.slice(0, -1));
-                            if(number.length >= 4) return;
-                            setNumber(p => p + e);
-                          }}
-                          className={[
-                            "w-28 h-32 flex items-center justify-center border border-text/20 text-5xl rounded-md cursor-pointer",
-                            loading ? "loading_background" : "",
-                          ].join(" ")}
-                        >
-                          {e}
-                        </button>
-                      ))
-                    }
-                  </div>
+                deviceList.map((device, i) => (
+                  <option key={i} value={device.deviceId}>{device.label}</option>
                 ))
               }
-            </div>
+            </select>
           </div>
         )
       }
