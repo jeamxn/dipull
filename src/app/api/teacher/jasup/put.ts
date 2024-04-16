@@ -5,7 +5,7 @@ import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-const POST = async (
+const PUT = async (
   req: Request,
 ) => {
   // 헤더 설정
@@ -32,6 +32,41 @@ const POST = async (
     headers: new_headers
   });
 
+  const { id }: {
+    id: string;
+  } = await req.json();
+  if(!id) return new NextResponse(JSON.stringify({
+    message: "학생을 선택 해주세요.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+
+  const jasupAdminCollection = client.db().collection("jasup_admin");
+  const putUser = await jasupAdminCollection.updateOne({ id }, {
+    $set: { id }
+  }, {
+    upsert: true
+  });
+
+  if(putUser.upsertedCount) return new NextResponse(JSON.stringify({
+    message: "자습 도우미로 지정되었습니다.",
+  }), {
+    status: 200,
+    headers: new_headers
+  });
+  else if(putUser.matchedCount) return new NextResponse(JSON.stringify({
+    message: "이미 자습 도우미로 지정되어 있습니다.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+  else return new NextResponse(JSON.stringify({
+    message: "자습 도우미로 지정하는데 실패했습니다.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
 };
 
-export default POST;
+export default PUT;
