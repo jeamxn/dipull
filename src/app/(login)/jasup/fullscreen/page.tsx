@@ -1,14 +1,15 @@
 "use client";
 
-import moment from "moment";
+import { Scanner } from "@yudiel/react-qr-scanner";
+import { DecodeHintType } from "@zxing/library";
 import React from "react";
 
 import { JasupData, JasupKoreanWhereArray, JasupWhere, WeekDayTime, getCurrentTime, koreanWhereTypeToEnglish } from "@/app/api/jasup/utils";
 import { Outing } from "@/app/api/outing/utils";
-import { UserDB, UserData } from "@/app/auth/type";
 import Insider from "@/provider/insider";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
+
 
 import Select from "../my/select";
 
@@ -20,6 +21,7 @@ type GetUser = {
 };
 
 const Jasup = () => {
+  const [leftright, setLeftRight] = React.useState(-1);
   const [loading, setLoading] = React.useState(false);
   const [number, setNumber] = React.useState("");
   const [where, setWhere] = React.useState<JasupWhere>("none");
@@ -31,6 +33,20 @@ const Jasup = () => {
   });
   const [selected, setSelected] = React.useState<GetUser | null>(null);
   const [set, setSet] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    if(leftright === -1) {
+      const data = localStorage.getItem("leftright");
+      if(data) {
+        const { leftright } = JSON.parse(data);
+        setLeftRight(leftright);
+      }
+      return;
+    }
+    localStorage.setItem("leftright", JSON.stringify({
+      leftright
+    }));
+  }, [leftright]);
 
   const findUser = async () => {
     setLoading(true);
@@ -123,6 +139,29 @@ const Jasup = () => {
           </Insider>
         ) : (
           <div className="flex flex-row items-center justify-center p-4 gap-4">
+            <div 
+              id="scanner"
+              className="w-96 h-[656px] border border-text/20 rounded-md overflow-hidden transition-all"
+              style={{
+                transform: leftright ? "scaleX(-1)" : "",
+              }}
+              onClick={() => setLeftRight(p => p === 0 ? 1 : 0)}
+            >
+              <Scanner
+                styles={{
+                  container: {
+                    width: "100%",
+                    height: "100%",
+                  },
+                  video: {
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  },
+                }}
+                onResult={(text, result) => setNumber(text)}
+              />
+            </div>
             <div className="flex flex-col gap-2 w-min">
               <div className={[
                 "border border-text/20 text-5xl rounded-md flex justify-center items-center h-28",

@@ -192,3 +192,9 @@ input, textarea, button, select {
 .zoom {
   transform: scale(1.3);
 }
+
+#scanner svg {
+  display: none;
+  opacity: 0;
+  pointer-events: none;
+}
