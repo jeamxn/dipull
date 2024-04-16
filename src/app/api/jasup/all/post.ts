@@ -51,13 +51,13 @@ const POST = async (
   });
 
   const queryOfGradeClass = gradeClass || (!gradeClass && myGradeClass === 99) ?
-    gradeClass === 99 || (!gradeClass && myGradeClass === 99) ? {} :
+    gradeClass === 99 ? {} :
       gradeClass === 10 ? { gradeClass: { $gte: 10, $lt: 20 } } :
         gradeClass === 20 ? { gradeClass: { $gte: 20, $lt: 30 } } :
-          gradeClass === 30 ? { gradeClass: { $gte: 30, $lt: 40 } } :
+          gradeClass === 30 || (!gradeClass && myGradeClass === 99) ? { gradeClass: { $gte: 30, $lt: 40 } } :
             { gradeClass } : { gradeClass: myGradeClass };
   const gradeClassQuery = gradeClass || (!gradeClass && myGradeClass === 99) ? 
-    gradeClass === 99 || (!gradeClass && myGradeClass === 99) ? {
+    gradeClass === 99 ? {
       $gte: 0,
       $lt: 10000,
     } : gradeClass === 10 ? {
@@ -66,7 +66,7 @@ const POST = async (
     } : gradeClass === 20 ? {
       $gte: 2000,
       $lt: 3000,
-    } : gradeClass === 30 ? {
+    } : gradeClass === 30 || (!gradeClass && myGradeClass === 99) ? {
       $gte: 3000,
       $lt: 4000,
     } : { 
@@ -139,7 +139,7 @@ const POST = async (
     data: {
       data: none_id.sort((a, b) => a.number - b.number),
       count: cnt,
-      gradeClass: gradeClass || Math.floor(verified.payload.data.number / 100),
+      gradeClass: !gradeClass && myGradeClass === 99 ? 30 : gradeClass || Math.floor(verified.payload.data.number / 100),
       date: date || today,
       time: time || current,
       isAdmin,

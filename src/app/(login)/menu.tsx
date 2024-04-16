@@ -7,7 +7,7 @@ import React from "react";
 
 import { TokenInfo, defaultUserData } from "@/app/auth/type";
 
-const menu = [
+const mainMenu = [
   {
     url: "/",
     name: "정보",
@@ -32,7 +32,7 @@ const menu = [
 
 const Menu = () => {
   const pathname = usePathname();
-  const [menuCopy, setMenuCopy] = React.useState(menu);
+  const [menuCopy, setMenuCopy] = React.useState(mainMenu);
   const [userInfo, setUserInfo] = React.useState(defaultUserData);
 
   React.useEffect(() => {
