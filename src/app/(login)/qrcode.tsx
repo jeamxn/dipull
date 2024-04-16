@@ -28,7 +28,7 @@ const Qrcode = ({
             className="z-50 fixed top-0 left-0 flex flex-col gap-4 items-center justify-center backdrop-blur-xl w-full h-full"
             onClick={() => setClicked(false)}
           >
-            <div className="bg-white rounded border border-text/10 p-[2vmin] w-[50vmin] h-[50vmin] aspect-square">
+            <div className="bg-white rounded border border-text/10 p-[2vmin] w-[75vmin] h-[75vmin] aspect-square">
               <QRCode 
                 value={String(number)}
                 className="w-full h-full"
