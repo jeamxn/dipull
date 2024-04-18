@@ -69,7 +69,7 @@ const PUT = async (
 
   const seetSelectQuery = { week: await getApplyStartDate(), seat: seat };
   const seatSelect = await stayCollection.findOne(seetSelectQuery);
-  if(seatSelect) {
+  if(seatSelect && seat !== "교실") {
     return new NextResponse(JSON.stringify({
       success: false,
       message: "이미 신청된 자리입니다.",
