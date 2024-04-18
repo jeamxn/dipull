@@ -10,7 +10,7 @@ const Login = () => {
   const ref = React.useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const login = async () => {
-    const url = `${process.env.NEXT_PUBLIC_DIMIGOIN_URI}/auth?client=${process.env.NEXT_PUBLIC_DIMIGOIN_KEY}&redirect=${process.env.NEXT_PUBLIC_APP_URI}/auth`;
+    const url = `${process.env.NEXT_PUBLIC_DIMIGOIN_URI}/oauth?client=${process.env.NEXT_PUBLIC_DIMIGOIN_KEY}&redirect=${process.env.NEXT_PUBLIC_APP_URI}/auth`;
     router.push(url);
   };
 
