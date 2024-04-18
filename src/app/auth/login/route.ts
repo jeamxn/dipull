@@ -10,29 +10,21 @@ import { refresh, sign } from "@/utils/jwt";
 
 import type { DB_userData, TokenInfo, UserData } from "../type";
 
+import { ClientType } from "./type";
+
 export const GET = async (req: Request) => {
   // 디미고인에서 받은 토큰 가져오기
   const { searchParams } = new URL(req.url!);
   const token = searchParams.get("token") || "";
 
   // 디미고인 퍼블릭 키 가져오기
-  const public_key = await axios.get(`${process.env.NEXT_PUBLIC_DIMIGOIN_URI}/auth/public`);
+  const public_key = await axios.get(`${process.env.NEXT_PUBLIC_DIMIGOIN_URI}/oauth/public`);
   const public_key_encodes = await jose.importSPKI(public_key.data, "RS256");
 
   // 디미고인 토큰 디코딩
   const decodedToken = await jose.jwtVerify(token, public_key_encodes);
   const data = decodedToken.payload as {
-    data: {
-      type: string;
-      openId: string;
-      name: string;
-      gender: string;
-      studentId: {
-        grade: number;
-        class: number;
-        number: number;
-      }
-    },
+    data: ClientType,
     iss: string;
     aud: string;
     iat: number;
@@ -41,12 +33,12 @@ export const GET = async (req: Request) => {
 
   // refresh, access 토큰 발급
   const refreshData: UserData = {
-    id: data.data.openId,
+    id: data.data.id,
     type: data.data.type,
-    profile_image: `${process.env.NEXT_PUBLIC_APP_URI}/profile.jpg`,
+    profile_image: data.data.profile_image,
     gender: data.data.gender,
     name: data.data.name,
-    number: data.data.studentId?.grade ? data.data.studentId.grade * 1000 + data.data.studentId.class * 100 + data.data.studentId.number : 9999,
+    number: Number(data.data.number),
   };
 
   const refreshToken = await refresh(refreshData);
@@ -73,7 +65,7 @@ export const GET = async (req: Request) => {
   // DB 업데이트
   const client = await connectToDatabase();
   const userCollection = client.db().collection("users");
-  const query = { id: data.data.openId };
+  const query = { id: data.data.id };
   const update = {
     $set: update_data,
   };
