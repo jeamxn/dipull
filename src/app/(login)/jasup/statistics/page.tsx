@@ -228,6 +228,27 @@ const Jasup = () => {
                   </td>
                 </tr>
                 {
+                  Object.entries(statistics).map(([key, value], i) => (
+                    <tr className="border-y border-text/10" key={i}>
+                      <td className="w-20 p-2" colSpan={3}>
+                        <p className="text-center text-base font-bold">{englishWhereTypeToKorean(key as JasupWhere)}</p>
+                      </td>
+                      <td className="w-20 p-2" colSpan={3}>
+                        <p className="text-center text-base">{value}명</p>
+                      </td>
+                    </tr>
+                  ))
+                }
+                <tr className="border-y border-text/10">
+                  <td className="w-20 p-2" colSpan={3}>
+                    <p className="text-center text-base font-bold">합계</p>
+                  </td>
+                  <td className="w-20 p-2" colSpan={3}>
+                    <p className="text-center text-base">{sum}명</p>
+                  </td>
+                </tr>
+                <tr><td colSpan={6} className="p-1"></td></tr>
+                {
                   data.length ? data.map((e, i) => (
                     <tr className="border-y border-text/10" key={i}>
                       <td className="p-2 w-16">
@@ -272,26 +293,6 @@ const Jasup = () => {
                     </tr>
                   )
                 }
-                {
-                  Object.entries(statistics).map(([key, value], i) => (
-                    <tr className="border-y border-text/10" key={i}>
-                      <td className="w-20 p-2" colSpan={3}>
-                        <p className="text-center text-base font-bold">{englishWhereTypeToKorean(key as JasupWhere)}</p>
-                      </td>
-                      <td className="w-20 p-2" colSpan={3}>
-                        <p className="text-center text-base">{value}명</p>
-                      </td>
-                    </tr>
-                  ))
-                }
-                <tr className="border-y border-text/10">
-                  <td className="w-20 p-2" colSpan={3}>
-                    <p className="text-center text-base font-bold">합계</p>
-                  </td>
-                  <td className="w-20 p-2" colSpan={3}>
-                    <p className="text-center text-base">{sum}명</p>
-                  </td>
-                </tr>
               </tbody>
             </table>
           </article>
