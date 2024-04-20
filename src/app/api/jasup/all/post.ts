@@ -146,7 +146,10 @@ const POST = async (
     result.forEach((e) => {
       for(let i = 0; i < none_id.length; i++) {
         if(e.owner === none_id[i].id) {
-          newNoneId.push(none_id[i]);
+          newNoneId.push({
+            ...none_id[i],
+            etc: none_id[i].etc ? none_id[i].etc : e.seat === "교실" ? "교실" : `좌석 ${e.seat}`,
+          });
         }
       }
     });
