@@ -6,6 +6,7 @@ import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
+import { StayDB, getApplyStartDate } from "../../stay/utils";
 import { JasupBookDB, JasupDB, JasupData, JasupDataWithUser, JasupWhere, getCurrentTime, getToday } from "../utils";
 
 const POST = async (
@@ -33,10 +34,11 @@ const POST = async (
   const jasupCollection = client.db().collection("jasup");
   const usersCollection = client.db().collection<UserDB>("users");
 
-  const { date, time, gradeClass }: {
+  const { date, time, gradeClass, isStay }: {
     date: JasupData["date"];
     time: JasupData["time"];
     gradeClass: JasupData["gradeClass"];
+    isStay: boolean;
   } = await req.json();
 
   const jasupAdminCollection = client.db().collection("jasup_admin");
@@ -130,14 +132,34 @@ const POST = async (
     }
   }
 
-  for(const e of none_id) {
+  const newNoneId: (JasupDataWithUser)[] = [];
+
+  if(isStay) {
+    const stayCollection = client.db().collection("stay");
+    const query = { week: await getApplyStartDate() };
+    const result = await stayCollection.find(query).toArray() as unknown as StayDB[];
+    result.forEach((e) => {
+      for(let i = 0; i < none_id.length; i++) {
+        if(e.owner === none_id[i].id) {
+          newNoneId.push(none_id[i]);
+        }
+      }
+    });
+  }
+  else {
+    for(const e of none_id) {
+      newNoneId.push(e);
+    }
+  }
+
+  for(const e of newNoneId) {
     cnt[e.type] += 1;
   }
 
   return new NextResponse(JSON.stringify({
     message: "성공적으로 데이터를 가져왔습니다.",
     data: {
-      data: none_id.sort((a, b) => a.number - b.number),
+      data: newNoneId.sort((a, b) => a.number - b.number),
       count: cnt,
       gradeClass: !gradeClass && myGradeClass === 99 ? 30 : gradeClass || Math.floor(verified.payload.data.number / 100),
       date: date || today,
