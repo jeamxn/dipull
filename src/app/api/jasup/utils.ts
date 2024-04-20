@@ -52,13 +52,13 @@ export const getCurrentTime = () => {
 export type JasupTime = "morning" | "am1" | "am2" | "pm1" | "pm2" | "night1" | "night2";
 export type JasupKoreanTime = "아침" | "오전 1타임" | "오전 2타임" | "오후 1타임" | "오후 2타임(방과후)" | "야간 1타임" | "야간 2타임";
 
-export type JasupWhere = "none" | "classroom" | "studyroom" | "KTroom" | "etcroom" | "healthroom" | "dormitory" | "outing" | "home" | "afterschool";
-export type JasupKoreanWhere = "미입실" | "교실" | "열람실" | "KT실" | "특별실" | "보건실" | "생활관" | "외출" | "귀가(결석)" | "방과후";
+export type JasupWhere = "none" | "water" | "bathroom" | "laundry" | "corridor" | "classroom" | "studyroom" | "KTroom" | "203" | "etcroom" | "healthroom" | "dormitory" | "outing" | "home" | "afterschool";
+export type JasupKoreanWhere = "미입실" | "물" | "화장실" | "세탁" | "복도" | "교실" | "열람실" | "KT실" | "창업준비실" | "특별실" | "보건실" | "생활관" | "외출" | "귀가(결석)" | "방과후";
 
 export const JasupTimeArray: JasupTime[] = ["morning", "am1", "am2", "pm1", "pm2", "night1", "night2"];
-export const JasupWhereArray: JasupWhere[] = ["studyroom", "classroom", "KTroom", "etcroom", "healthroom", "dormitory", "outing", "afterschool", "home", "none"];
+export const JasupWhereArray: JasupWhere[] = ["water", "bathroom", "laundry", "corridor", "studyroom", "classroom", "KTroom", "203", "etcroom", "healthroom", "dormitory", "outing", "afterschool", "home", "none"];
 export const JasupKoreanTimeArray: JasupKoreanTime[] = ["아침", "오전 1타임", "오전 2타임", "오후 1타임", "오후 2타임(방과후)", "야간 1타임", "야간 2타임"];  
-export const JasupKoreanWhereArray: JasupKoreanWhere[] = ["열람실", "교실", "KT실", "특별실", "보건실", "생활관", "외출", "방과후", "귀가(결석)", "미입실"];
+export const JasupKoreanWhereArray: JasupKoreanWhere[] = ["물", "화장실", "세탁", "복도", "열람실", "교실", "KT실", "창업준비실", "특별실", "보건실", "생활관", "외출", "방과후", "귀가(결석)", "미입실"];
 
 export const englishTimeTypeToKorean: (type: JasupTime) => JasupKoreanTime = (type) => {
   switch(type) {
@@ -85,9 +85,14 @@ export const koreanTimeTypeToEnglish: (type: JasupKoreanTime) => JasupTime = (ty
 export const englishWhereTypeToKorean: (type: JasupWhere) => JasupKoreanWhere = (type) => {
   switch(type) {
   case "none": return "미입실";
+  case "water": return "물";
+  case "bathroom": return "화장실";
+  case "laundry": return "세탁";
+  case "corridor": return "복도";
   case "classroom": return "교실";
   case "studyroom": return "열람실";
   case "KTroom": return "KT실";
+  case "203": return "창업준비실";
   case "etcroom": return "특별실";
   case "healthroom": return "보건실";
   case "dormitory": return "생활관";
@@ -99,9 +104,14 @@ export const englishWhereTypeToKorean: (type: JasupWhere) => JasupKoreanWhere = 
 export const koreanWhereTypeToEnglish: (type: JasupKoreanWhere) => JasupWhere = (type) => {
   switch(type) {
   case "미입실": return "none";
+  case "물": return "water";
+  case "화장실": return "bathroom";
+  case "세탁": return "laundry";
+  case "복도": return "corridor";
   case "교실": return "classroom";
   case "열람실": return "studyroom";
   case "KT실": return "KTroom";
+  case "창업준비실": return "203";
   case "특별실": return "etcroom";
   case "보건실": return "healthroom";
   case "생활관": return "dormitory";
