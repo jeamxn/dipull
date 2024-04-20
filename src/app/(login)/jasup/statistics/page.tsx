@@ -4,7 +4,7 @@ import moment from "moment";
 import Link from "next/link";
 import React from "react";
 
-import { JasupData, JasupDataWithUser, JasupKoreanWhereArray, JasupTime, JasupWhere, WeekDayTime, englishTimeTypeToKorean, englishWhereTypeToKorean, getCurrentTime, koreanWhereTypeToEnglish } from "@/app/api/jasup/utils";
+import { JasupData, JasupDataWithUser, JasupTime, JasupWhere, WeekDayTime, englishTimeTypeToKorean, englishWhereTypeToKorean, getCurrentTime, koreanWhereTypeToEnglish } from "@/app/api/jasup/utils";
 import { Outing } from "@/app/api/outing/utils";
 import Insider from "@/provider/insider";
 import { alert } from "@/utils/alert";
@@ -47,6 +47,7 @@ const Jasup = () => {
     description: "",
   });
   const [selected, setSelected] = React.useState<JasupDataWithUser | null>(null);
+  const [isStay, setIsStay] = React.useState<boolean>(false);
 
   const sum = Object.values(statistics).reduce((acc, cur) => acc + cur, 0);
 
@@ -97,11 +98,12 @@ const Jasup = () => {
     setLoading(false);
   };
 
-  const getAllJasupData = async (gradeClassInner?: number) => {
+  const getAllJasupData = async () => {
     setLoading(true);
     try{
       const { data } = await instance.post("/api/jasup/all", {
-        gradeClass: gradeClassInner,
+        gradeClass: gradeClass,
+        isStay: isStay,
       });
       setData(data.data.data);
       setDefault({
@@ -120,7 +122,7 @@ const Jasup = () => {
 
   React.useEffect(() => {
     getAllJasupData();
-  }, []);
+  }, [isStay, gradeClass]);
 
   return (
     <>
@@ -140,45 +142,58 @@ const Jasup = () => {
               </div>
               {
                 isAdmin ? (
-                  <select 
-                    className="bg-transparent"
-                    value={gradeClass}
-                    onChange={(e) => {
-                      setGradeClass(parseInt(e.target.value));
-                      getAllJasupData(parseInt(e.target.value));
-                    }}
-                  >
-                    <option value="99">전체</option>
-                    <optgroup label="1학년">
-                      <option value="10">1학년 전체</option>
-                      <option value="11">1학년 1반</option>
-                      <option value="12">1학년 2반</option>
-                      <option value="13">1학년 3반</option>
-                      <option value="14">1학년 4반</option>
-                      <option value="15">1학년 5반</option>
-                      <option value="16">1학년 6반</option>
-                    </optgroup>
-                    <optgroup label="2학년">
-                      <option value="20">2학년 전체</option>
-                      <option value="21">2학년 1반</option>
-                      <option value="22">2학년 2반</option>
-                      <option value="23">2학년 3반</option>
-                      <option value="24">2학년 4반</option>
-                      <option value="25">2학년 5반</option>
-                      <option value="26">2학년 6반</option>
-                    </optgroup>
-                    <optgroup label="3학년">
-                      <option value="30">3학년 전체</option>
-                      <option value="31">3학년 1반</option>
-                      <option value="32">3학년 2반</option>
-                      <option value="33">3학년 3반</option>
-                      <option value="34">3학년 4반</option>
-                      <option value="35">3학년 5반</option>
-                      <option value="36">3학년 6반</option>
-                    </optgroup>
-                  </select>
+                  <>
+                    <select 
+                      className="bg-transparent"
+                      value={gradeClass}
+                      onChange={(e) => {
+                        const gradeClass = parseInt(e.target.value);
+                        setGradeClass(gradeClass);
+                      }}
+                    >
+                      <option value="99">전체</option>
+                      <optgroup label="1학년">
+                        <option value="10">1학년 전체</option>
+                        <option value="11">1학년 1반</option>
+                        <option value="12">1학년 2반</option>
+                        <option value="13">1학년 3반</option>
+                        <option value="14">1학년 4반</option>
+                        <option value="15">1학년 5반</option>
+                        <option value="16">1학년 6반</option>
+                      </optgroup>
+                      <optgroup label="2학년">
+                        <option value="20">2학년 전체</option>
+                        <option value="21">2학년 1반</option>
+                        <option value="22">2학년 2반</option>
+                        <option value="23">2학년 3반</option>
+                        <option value="24">2학년 4반</option>
+                        <option value="25">2학년 5반</option>
+                        <option value="26">2학년 6반</option>
+                      </optgroup>
+                      <optgroup label="3학년">
+                        <option value="30">3학년 전체</option>
+                        <option value="31">3학년 1반</option>
+                        <option value="32">3학년 2반</option>
+                        <option value="33">3학년 3반</option>
+                        <option value="34">3학년 4반</option>
+                        <option value="35">3학년 5반</option>
+                        <option value="36">3학년 6반</option>
+                      </optgroup>
+                    </select>
+                  </>
                 ) : null
               }
+              <select 
+                className="bg-transparent"
+                value={isStay ? "STAY" : "ALL"}
+                onChange={(e) => {
+                  const newIsStay = e.target.value === "STAY";
+                  setIsStay(newIsStay);
+                }}
+              >
+                <option value="ALL">전체</option>
+                <option value="STAY">잔류자</option>
+              </select>
             </section>
             {
               isAdmin ? (
