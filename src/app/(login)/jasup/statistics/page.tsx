@@ -48,6 +48,7 @@ const Jasup = () => {
   });
   const [selected, setSelected] = React.useState<JasupDataWithUser | null>(null);
   const [isStay, setIsStay] = React.useState<boolean>(false);
+  const [isFirst, setIsFirst] = React.useState<boolean>(true);
 
   const sum = Object.values(statistics).reduce((acc, cur) => acc + cur, 0);
 
@@ -102,7 +103,7 @@ const Jasup = () => {
     setLoading(true);
     try{
       const { data } = await instance.post("/api/jasup/all", {
-        gradeClass: gradeClass,
+        gradeClass: isFirst ? "" : gradeClass,
         isStay: isStay,
       });
       setData(data.data.data);
@@ -113,6 +114,7 @@ const Jasup = () => {
       setStatistics(data.data.count);
       setGradeClass(data.data.gradeClass);
       setIsAdmin(data.data.isAdmin);
+      setIsFirst(false);
     }
     catch(e: any){
       alert.error(e.response.data.message);
