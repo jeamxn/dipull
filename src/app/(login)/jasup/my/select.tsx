@@ -29,6 +29,7 @@ const Select = ({
   buttonText?: string;
 }) => {
   const [userInfo, setUserInfo] = React.useState(defaultUserData);
+
   React.useEffect(() => {
     const accessToken = localStorage.getItem("accessToken")!;
     const decrypt = jose.decodeJwt(accessToken) as TokenInfo;
@@ -41,8 +42,6 @@ const Select = ({
   }, [tmpOuting.start, tmpOuting.end, tmpOuting.description]);
 
   React.useEffect(() => {
-    if(where === "etcroom" || where === "outing" || where === "afterschool") return;
-    if(where === "studyroom" && (etc === "물/화장실" || etc === "세탁")) return;
     setEtc("");
   }, [where]);
 
@@ -56,43 +55,16 @@ const Select = ({
           "flex flex-wrap flex-row gap-2 bg-white rounded border border-text/10 p-5 justify-center items-center",
           loading ? "loading_background" : "",
         ].join(" ")}>
-          <button 
-            onClick={() => {
-              setWhere(userInfo.number > 3000 ? "studyroom" : "classroom");
-              setEtc("물/화장실");
-            }}
-            className={[
-              buttons,
-              etc === "물/화장실" ? "bg-text/10" : "",
-            ].join(" ")}
-            disabled={loading}
-          >
-              물/화장실
-          </button>
-          <button 
-            onClick={() => {
-              setWhere(userInfo.number > 3000 ? "studyroom" : "classroom");
-              setEtc("세탁");
-            }}
-            className={[
-              buttons,
-              etc === "세탁" ? "bg-text/10" : "",
-            ].join(" ")}
-            disabled={loading}
-          >
-              세탁
-          </button>
           {
             JasupKoreanWhereArray.map((_, i) => (
               <button 
                 key={i}
                 onClick={() => {
                   setWhere(koreanWhereTypeToEnglish(_));
-                  if(etc === "물/화장실" || etc === "세탁") setEtc("");
                 }}
                 className={[
                   buttons,
-                  where === koreanWhereTypeToEnglish(_) && etc !== "물/화장실" && etc !== "세탁"
+                  where === koreanWhereTypeToEnglish(_)
                     ? "bg-text/10" : "",
                 ].join(" ")}
                 disabled={loading}

@@ -4,7 +4,7 @@ import moment from "moment";
 import Link from "next/link";
 import React from "react";
 
-import { JasupData, JasupDataWithUser, JasupTime, JasupWhere, WeekDayTime, englishTimeTypeToKorean, englishWhereTypeToKorean, getCurrentTime, koreanWhereTypeToEnglish } from "@/app/api/jasup/utils";
+import { JasupData, JasupDataWithUser, JasupKoreanWhereArray, JasupTime, JasupWhere, WeekDayTime, englishTimeTypeToKorean, englishWhereTypeToKorean, getCurrentTime, koreanWhereTypeToEnglish } from "@/app/api/jasup/utils";
 import { Outing } from "@/app/api/outing/utils";
 import Insider from "@/provider/insider";
 import { alert } from "@/utils/alert";
@@ -38,6 +38,11 @@ const Jasup = () => {
     outing: 0,
     home: 0,
     afterschool: 0,
+    "203": 0,
+    water: 0,
+    bathroom: 0,
+    laundry: 0,
+    corridor: 0,
   });
   const [where, setWhere] = React.useState<JasupWhere>("none");
   const [etc, setEtc] = React.useState<JasupData["etc"]>("");
@@ -228,13 +233,13 @@ const Jasup = () => {
                   </td>
                 </tr>
                 {
-                  Object.entries(statistics).map(([key, value], i) => (
+                  JasupKoreanWhereArray.map((v, i) => (
                     <tr className="border-y border-text/10" key={i}>
                       <td className="w-20 p-2" colSpan={3}>
-                        <p className="text-center text-base font-bold">{englishWhereTypeToKorean(key as JasupWhere)}</p>
+                        <p className="text-center text-base font-bold">{v}</p>
                       </td>
                       <td className="w-20 p-2" colSpan={3}>
-                        <p className="text-center text-base">{value}명</p>
+                        <p className="text-center text-base">{statistics[koreanWhereTypeToEnglish(v)]}명</p>
                       </td>
                     </tr>
                   ))
