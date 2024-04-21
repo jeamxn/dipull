@@ -27,7 +27,7 @@ const mainMenu = [
   {
     url: "/jasup/my",
     name: "자습",
-  }
+  },
 ];
 
 const Menu = () => {
@@ -42,12 +42,19 @@ const Menu = () => {
   }, []);
 
   React.useEffect(() => {
-    if(userInfo.type !== "teacher") return;
-    setMenuCopy([
-      ...menuCopy, 
+    if(userInfo.type === "teacher") 
+      setMenuCopy([
+        ...mainMenu, 
+        {
+          url: "/teacher/edit",
+          name: "관리",
+        }
+      ]);
+    else setMenuCopy([
+      ...mainMenu,
       {
-        url: "/teacher/edit",
-        name: "관리",
+        url: "/bamboo",
+        name: "대숲",
       }
     ]);
   }, [userInfo]);
