@@ -43,9 +43,9 @@ export const metadata: Metadata = {
       "type": "image/png", 
       "sizes": "512x512"
     },
+      
   ],
   manifest: "/manifest.json",
-  viewport: "width=device-width, initial-scale=1, viewport-fit=cover",
 };
 
 const RootLayout = async ({

@@ -80,11 +80,12 @@ const Bamboo = () => {
               onChange={(e) => setTextarea(e.target.value)}
               maxLength={380}
             />
-            <span className="text-text/50 text-right font-light text-sm absolute right-0 bottom-0 my-4 mx-2 px-2 max-w-20 rounded-sm py-1 cursor-text backdrop-blur-xl">{textarea.length}/380자</span>
-            <span className="text-text/50 text-left font-light text-sm absolute left-0 bottom-0 my-4 mx-2 px-2 max-w-20 rounded-sm py-1 cursor-text backdrop-blur-xl">
+            <span className="text-text/50 text-right font-light text-sm absolute right-0 bottom-0 my-4 mx-2 px-2 rounded-sm py-1 cursor-text backdrop-blur-xl">{textarea.length}/380자</span>
+            <span className="text-text/50 text-left font-light text-sm absolute left-0 bottom-0 my-4 mx-2 px-2 rounded-sm py-1 cursor-text backdrop-blur-xl">
               {
-                grade ? Math.floor(userInfo.number / 1000) + "학년 " : ""
+                grade ? Math.floor(userInfo.number / 1000) + "학년" : ""
               }
+              &nbsp;
               {
                 anonymous ? "익명" : userInfo.name
               }</span>

@@ -31,24 +31,22 @@ const LoginedLayout = async ({
     <>
       {
         veryfied.ok ? (
-          <>
-            <header className="w-full">
-              <article className="w-full flex justify-center items-center border-b border-text/10 px-5 py-3">
-                <p className="text-primary text-lg font-semibold">디미고인 풀 서비스 V3</p>
-              </article>
-              <article className="w-full py-4 px-4 border-b border-text/10 flex flex-row items-center justify-between gap-4">
-                <div className="flex flex-row gap-4 items-center">
-                  <img src={veryfied.payload.profile_image} alt={veryfied.payload.name} width={60} height={60} className="rounded-full" />
-                  <figure className="flex flex-col justify-center items-start">
-                    <p className="font-semibold text-lg">{veryfied.payload.number} {veryfied.payload.name}</p>
-                    <Logout />
-                  </figure>
-                </div>
-                <Qrcode number={veryfied.payload.number} />
-              </article>
-            </header>
+          <header className="w-full">
+            <article className="w-full flex justify-center items-center border-b border-text/10 px-5 py-3">
+              <p className="text-primary text-lg font-semibold">디미고인 풀 서비스 V3</p>
+            </article>
+            <article className="w-full py-4 px-4 border-b border-text/10 flex flex-row items-center justify-between gap-4">
+              <div className="flex flex-row gap-4 items-center">
+                <img src={veryfied.payload.profile_image} alt={veryfied.payload.name} width={60} height={60} className="rounded-full" />
+                <figure className="flex flex-col justify-center items-start">
+                  <p className="font-semibold text-lg">{veryfied.payload.number} {veryfied.payload.name}</p>
+                  <Logout />
+                </figure>
+              </div>
+              <Qrcode number={veryfied.payload.number} />
+            </article>
             <Menu />
-          </>
+          </header>
         ) : null
       }
       {children}
