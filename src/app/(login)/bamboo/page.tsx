@@ -1,13 +1,22 @@
 "use client";
 
+import * as jose from "jose";
 import moment from "moment";
 import React from "react";
 
+import { TokenInfo, defaultUserData } from "@/app/auth/type";
 import Insider from "@/provider/insider";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
-const Jasup = () => {
+const Bamboo = () => {
+  const [userInfo, setUserInfo] = React.useState(defaultUserData);
+
+  React.useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken")!;
+    const decrypt = jose.decodeJwt(accessToken) as TokenInfo;
+    setUserInfo(decrypt.data);
+  }, []);
   const [loading, setLoading] = React.useState(false);
   const [textarea, setTextarea] = React.useState("");
   const [anonymous, setAnonymous] = React.useState(true);
@@ -71,7 +80,14 @@ const Jasup = () => {
               onChange={(e) => setTextarea(e.target.value)}
               maxLength={380}
             />
-            <span className="text-text/50 text-right font-light text-sm absolute right-0 bottom-0 m-4 p-2 max-w-20 rounded-sm py-1 cursor-text backdrop-blur-xl">{textarea.length}/380자</span>
+            <span className="text-text/50 text-right font-light text-sm absolute right-0 bottom-0 my-4 mx-2 px-2 max-w-20 rounded-sm py-1 cursor-text backdrop-blur-xl">{textarea.length}/380자</span>
+            <span className="text-text/50 text-left font-light text-sm absolute left-0 bottom-0 my-4 mx-2 px-2 max-w-20 rounded-sm py-1 cursor-text backdrop-blur-xl">
+              {
+                grade ? Math.floor(userInfo.number / 1000) + "학년 " : ""
+              }
+              {
+                anonymous ? "익명" : userInfo.name
+              }</span>
           </div>
           <div className="flex flex-row items-center justify-end gap-2 w-full">
             <button 
@@ -161,4 +177,4 @@ const Jasup = () => {
 };
 
 
-export default Jasup;
+export default Bamboo;
