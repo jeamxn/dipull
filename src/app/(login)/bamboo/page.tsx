@@ -22,10 +22,15 @@ const Bamboo = () => {
   const [anonymous, setAnonymous] = React.useState(true);
   const [grade, setGrade] = React.useState(true);
   const [data, setData] = React.useState<{
+    _id: string;
     user: string;
     text: string;
     timestamp: string;
     number: number;
+    isgood: boolean;
+    isbad: boolean;
+    good: number;
+    bad: number;
   }[]>([]);
 
   const put = async () => {
@@ -48,6 +53,7 @@ const Bamboo = () => {
   };
 
   const get = async () => {
+    setLoading(true);
     try{
       const res = await instance.get("/api/bamboo");
       setData(res.data.data);
@@ -55,6 +61,23 @@ const Bamboo = () => {
     catch(e: any){
       alert.warn(e.response.data.message);
     }
+    setLoading(false);
+  };
+
+  const put_reaction = async (_id: string, type: "good" | "bad") => {
+    setLoading(true);
+    const loading_alert = alert.loading("대나무 숲에 반응 등록 중...");
+    try{
+      const res = await instance.put("/api/bamboo/emotion", {
+        _id, type,
+      });
+      await get();
+      alert.update(loading_alert, res.data.message, "success");
+    }
+    catch(e: any){
+      alert.update(loading_alert, e.response.data.message, "error");
+    }
+    setLoading(false);
   };
 
   React.useEffect(() => {
@@ -132,7 +155,7 @@ const Bamboo = () => {
               <article 
                 key={index}
                 className={[
-                  "flex flex-col gap-1 bg-white rounded border border-text/10 p-5 justify-start items-start overflow-auto",
+                  "flex flex-col gap-2 bg-white rounded border border-text/10 p-5 justify-start items-start overflow-auto",
                   loading ? "loading_background" : "",
                 ].join(" ")}
                 id={`${index}`}
@@ -154,12 +177,29 @@ const Bamboo = () => {
                     &nbsp;(#{item.number || 0})
                   </p>
                 </div>
-                <div>
+                <div className="flex flex-col justify-start items-start">
                   {
                     item.text.split("\n").map((line, i) => (
                       <p key={i}>{line}</p>
                     ))
                   }
+                </div>
+                <div className="flex flex-row gap-1">
+                  <button
+                    className={[
+                      "text-sm hover:text-primary transition-colors",
+                      item.isgood ? "text-primary" : "text-text/40",
+                    ].join(" ")}
+                    onClick={() => put_reaction(item._id, "good")}
+                  >추천 {item.good || 0}</button>
+                  <p className="text-sm text-text/40 transition-colors">·</p>
+                  <button
+                    className={[
+                      "text-sm hover:text-primary transition-colors",
+                      item.isbad ? "text-primary" : "text-text/40",
+                    ].join(" ")}
+                    onClick={() => put_reaction(item._id, "bad")}
+                  >비추 {item.bad || 0}</button>
                 </div>
               </article>
             );
