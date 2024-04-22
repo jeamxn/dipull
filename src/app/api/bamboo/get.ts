@@ -31,10 +31,15 @@ const GET = async (
         id: bamboo.user,
       });
       return {
+        _id: bamboo._id,
         user: `${bamboo.grade ? `${Math.floor(user?.number / 1000)}학년 ` : ""}${bamboo.anonymous ? "익명" : user?.name}`,
         text: bamboo.text,
         timestamp: bamboo.timestamp,
         number: bamboo.number,
+        isgood: bamboo.good?.includes(verified.payload.id) || false,
+        isbad: bamboo.bad?.includes(verified.payload.id) || false,
+        good: bamboo.good?.length || 0,
+        bad: bamboo.bad?.length || 0,
       };
     })
   );
