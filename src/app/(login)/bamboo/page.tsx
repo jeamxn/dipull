@@ -52,13 +52,13 @@ const Bamboo = () => {
     setLoading(false);
   };
 
-  const get = async (start: number = 0) => {
+  const get = async (start: number = 0, end: number = 0) => {
     setLoading(true);
     try{
       const res = await instance.post("/api/bamboo", {
-        start,
+        start, end,
       });
-      if(start) setData([...data, ...res.data.data]);
+      if(start && !end) setData([...data, ...res.data.data]);
       else setData(res.data.data);
     }
     catch(e: any){
@@ -74,7 +74,30 @@ const Bamboo = () => {
       const res = await instance.put("/api/bamboo/emotion", {
         _id, type,
       });
-      await get();
+      // await get();
+      setData(data.map((item) => {
+        if(item._id === _id) {
+          if(type === "good") {
+            if(item.isgood) item.good--;
+            else item.good++;
+            item.isgood = !item.isgood;
+            if(item.isbad) {
+              item.bad--;
+              item.isbad = !item.isbad;
+            }
+          }
+          else {
+            if(item.isbad) item.bad--;
+            else item.bad++;
+            item.isbad = !item.isbad;
+            if(item.isgood) {
+              item.good--;
+              item.isgood = !item.isgood;
+            }
+          }
+        }
+        return item;
+      }));
       alert.update(loading_alert, res.data.message, "success");
     }
     catch(e: any){
