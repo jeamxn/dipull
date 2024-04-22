@@ -52,11 +52,14 @@ const Bamboo = () => {
     setLoading(false);
   };
 
-  const get = async () => {
+  const get = async (start: number = 0) => {
     setLoading(true);
     try{
-      const res = await instance.get("/api/bamboo");
-      setData(res.data.data);
+      const res = await instance.post("/api/bamboo", {
+        start,
+      });
+      if(start) setData([...data, ...res.data.data]);
+      else setData(res.data.data);
     }
     catch(e: any){
       alert.warn(e.response.data.message);
@@ -149,61 +152,80 @@ const Bamboo = () => {
           <h1 className="text-xl font-semibold">제보 목록</h1>
         </section>
         {
-          data.length ? data.map((item, index) => {
-            const diff = moment().diff(moment(item.timestamp, "YYYY-MM-DD HH:mm:ss"), "minutes");
-            return (
-              <article 
-                key={index}
-                className={[
-                  "flex flex-col gap-2 bg-white rounded border border-text/10 p-5 justify-start items-start overflow-auto",
-                  loading ? "loading_background" : "",
-                ].join(" ")}
-                id={`${index}`}
-              >
-                <div className="flex flex-row items-center justify-between w-full">
-                  <div className="flex flex-row">
-                    <b className="font-medium">{item.user}</b>의 대나무&nbsp;
-                  </div>
-                  <p className="text-text/30">
-                    {
-                      diff < 1 ? "방금 전" :
-                        diff < 60 ? `${diff}분 전` :
-                          diff < 1440 ? `${Math.floor(diff / 60)}시간 전` :
-                            diff < 10080 ? `${Math.floor(diff / 1440)}일 전` :
-                              diff < 40320 ? `${Math.floor(diff / 10080)}주 전` :
-                                diff < 525600 ? `${Math.floor(diff / 40320)}달 전` :
-                                  `${Math.floor(diff / 525600)}년 전`
-                    }
-                    &nbsp;(#{item.number || 0})
-                  </p>
-                </div>
-                <div className="flex flex-col justify-start items-start">
-                  {
-                    item.text.split("\n").map((line, i) => (
-                      <p key={i}>{line}</p>
-                    ))
-                  }
-                </div>
-                <div className="flex flex-row gap-1">
-                  <button
+          data.length ? (
+            <>
+              {
+                data.map((item, index) => {
+                  const diff = moment().diff(moment(item.timestamp, "YYYY-MM-DD HH:mm:ss"), "minutes");
+                  return (
+                    <article 
+                      key={index}
+                      className={[
+                        "flex flex-col gap-2 bg-white rounded border border-text/10 p-5 justify-start items-start overflow-auto",
+                        loading ? "loading_background" : "",
+                      ].join(" ")}
+                      id={`${index}`}
+                    >
+                      <div className="flex flex-row items-center justify-between w-full">
+                        <div className="flex flex-row">
+                          <b className="font-medium">{item.user}</b>의 대나무&nbsp;
+                        </div>
+                        <p className="text-text/30">
+                          {
+                            diff < 1 ? "방금 전" :
+                              diff < 60 ? `${diff}분 전` :
+                                diff < 1440 ? `${Math.floor(diff / 60)}시간 전` :
+                                  diff < 10080 ? `${Math.floor(diff / 1440)}일 전` :
+                                    diff < 40320 ? `${Math.floor(diff / 10080)}주 전` :
+                                      diff < 525600 ? `${Math.floor(diff / 40320)}달 전` :
+                                        `${Math.floor(diff / 525600)}년 전`
+                          }
+                          &nbsp;(#{item.number || 0})
+                        </p>
+                      </div>
+                      <div className="flex flex-col justify-start items-start">
+                        {
+                          item.text.split("\n").map((line, i) => (
+                            <p key={i}>{line}</p>
+                          ))
+                        }
+                      </div>
+                      <div className="flex flex-row gap-1">
+                        <button
+                          className={[
+                            "text-sm hover:text-primary transition-colors",
+                            item.isgood ? "text-primary" : "text-text/40",
+                          ].join(" ")}
+                          onClick={() => put_reaction(item._id, "good")}
+                        >추천 {item.good || 0}</button>
+                        <p className="text-sm text-text/40 transition-colors">·</p>
+                        <button
+                          className={[
+                            "text-sm hover:text-primary transition-colors",
+                            item.isbad ? "text-primary" : "text-text/40",
+                          ].join(" ")}
+                          onClick={() => put_reaction(item._id, "bad")}
+                        >비추 {item.bad || 0}</button>
+                      </div>
+                    </article>
+                  );
+                })
+              }
+              {
+                data[data.length - 1].number === 1 ? null : (
+                  <button 
                     className={[
-                      "text-sm hover:text-primary transition-colors",
-                      item.isgood ? "text-primary" : "text-text/40",
+                      "border w-full max-w-32 text-base font-medium rounded h-10",
+                      loading ? "cursor-not-allowed border-text/30 text-text/30" : "cursor-pointer bg-primary text-white",
                     ].join(" ")}
-                    onClick={() => put_reaction(item._id, "good")}
-                  >추천 {item.good || 0}</button>
-                  <p className="text-sm text-text/40 transition-colors">·</p>
-                  <button
-                    className={[
-                      "text-sm hover:text-primary transition-colors",
-                      item.isbad ? "text-primary" : "text-text/40",
-                    ].join(" ")}
-                    onClick={() => put_reaction(item._id, "bad")}
-                  >비추 {item.bad || 0}</button>
-                </div>
-              </article>
-            );
-          }) : (
+                    onClick={() => get(data.length)}
+                  >
+                    더보기
+                  </button>
+                )
+              }
+            </>
+          ) : (
             <article className={[
               "flex flex-col gap-1 bg-white rounded border border-text/10 p-5 justify-start items-center overflow-auto",
               loading ? "loading_background" : "",

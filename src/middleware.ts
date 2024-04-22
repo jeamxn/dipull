@@ -18,6 +18,9 @@ export const middleware = async (request: NextRequest) => {
       else if(request.nextUrl.pathname.startsWith("/teacher") && verified.payload.type !== "teacher") {
         return NextResponse.redirect(new URL("/", defaultUrl));
       }
+      else if(request.nextUrl.pathname.startsWith("/bamboo") && verified.payload.type !== "student") {
+        return NextResponse.redirect(new URL("/", defaultUrl));
+      }
     }
     else if(verified.ok) {
       return NextResponse.redirect(new URL("/", defaultUrl));

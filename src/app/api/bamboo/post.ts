@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-const GET = async (
+const POST = async (
   req: Request,
 ) => {
   // 헤더 설정
@@ -21,10 +21,23 @@ const GET = async (
     headers: new_headers
   });
 
+  const json = await req.json();
+  const start = json.start || 0;
+  
   const client = await connectToDatabase();
+  const statesCollection = client.db().collection("states");
+  const counting = (await statesCollection.findOne({
+    type: "bamboo",
+  }))?.count || 0;
+
   const bambooCollection = client.db().collection("bamboo");
   const userCollection = client.db().collection("users");
-  const bamboos = await bambooCollection.find().toArray();
+  const bamboos = await bambooCollection.find({
+    number: {
+      $lte: counting - start,
+      $gt: counting - 20 - start,
+    }
+  }).toArray();
   const newBamboo = await Promise.all(
     bamboos.map(async (bamboo) => {
       const user = await userCollection.findOne({
@@ -52,4 +65,4 @@ const GET = async (
   });
 };
 
-export default GET;
+export default POST;
