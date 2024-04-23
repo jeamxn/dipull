@@ -45,6 +45,8 @@ const Area = ({
           value={textarea}
           onChange={(e) => setTextarea(e)}
           minHeight="12rem"
+          className="text-text bg-white"
+          
         />
       </div>
       <div className="w-full flex flex-row items-center justify-between">
