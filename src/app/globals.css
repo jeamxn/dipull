@@ -46,19 +46,18 @@
     --color-background: var(--color-background-light);
     --color-text: var(--color-text-light);
     --color-white: var(--color-white-light);
-
-    @media (prefers-color-scheme: dark) { 
-      --color-primary: var(--key-color);
-      --color-background: var(--color-background-dark);
-      --color-text: var(--color-text-dark);
-      --color-white: var(--color-white-dark);
-    }
-    @media (prefers-dark-interface) {
-      --color-primary: var(--key-color);
-      --color-background: var(--color-background-dark);
-      --color-text: var(--color-text-dark);
-      --color-white: var(--color-white-dark);
-    }
+  }
+  :root[color-theme="light"] {
+    --color-primary: var(--key-color);
+    --color-background: var(--color-background-light);
+    --color-text: var(--color-text-light);
+    --color-white: var(--color-white-light);
+  }
+  :root[color-theme="dark"] {
+    --color-primary: var(--key-color);
+    --color-background: var(--color-background-dark);
+    --color-text: var(--color-text-dark);
+    --color-white: var(--color-white-dark);
   }
 }
 html,
