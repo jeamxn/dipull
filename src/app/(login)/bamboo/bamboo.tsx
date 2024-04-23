@@ -60,7 +60,10 @@ const BambooBox = ({
         </p>
       </div>
       <div className="flex flex-col justify-start items-start">
-        <MarkdownPreview source={item.text} />
+        <MarkdownPreview 
+          source={item.text} 
+          className="bg-white text-text"
+        />
       </div>
       <div className="flex flex-row gap-1">
         <button
