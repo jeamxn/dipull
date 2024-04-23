@@ -2,6 +2,7 @@ import "moment-timezone";
 import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import xss from "xss";
 
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
@@ -58,7 +59,7 @@ const PUT = async (
   const { insertedId } = await bambooCommentCollection.insertOne({
     document: params.id,
     user: verified.payload.id,
-    text: textarea,
+    text: xss(textarea),
     timestamp: moment().tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss"),
     anonymous: anonymous, 
     grade: grade,
