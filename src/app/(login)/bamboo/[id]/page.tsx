@@ -79,15 +79,15 @@ const Bamboo = (
     setLoading(false);
   };
 
-  const get_comment = async (start: number = 0, end: number = 0) => {
+  const get_comment = async (start: number = 0) => {
     setLoading(true);
     try{
       const [res] = await Promise.all([
         instance.post(`/api/bamboo/${params.id}/comment`, {
-          start, end,
+          start,
         }),
       ]);
-      if(start && !end) setCommentData([...comment_data, ...res.data.data]);
+      if(start) setCommentData([...comment_data, ...res.data.data]);
       else setCommentData(res.data.data);
     }
     catch(e: any){

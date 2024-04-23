@@ -26,7 +26,6 @@ const POST = async (
 
   const json = await req.json();
   const start = json.start || 0;
-  const end = json.end || 0;
   
   const client = await connectToDatabase();
   const statesCollection = client.db().collection("states");
