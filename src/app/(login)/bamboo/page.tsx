@@ -22,6 +22,7 @@ export type Data = {
   isbad: boolean;
   good: number;
   bad: number;
+  comment?: number;
 };
 
 const Bamboo = () => {
