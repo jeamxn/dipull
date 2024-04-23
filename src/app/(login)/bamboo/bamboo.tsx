@@ -82,7 +82,7 @@ const BambooBox = ({
           onClick={() => put_reaction(item._id, "bad")}
         >비추 {item.bad || 0}</button>
         {
-          click && (
+          !isComment && (
             <>
               <p className="text-sm text-text/40 transition-colors">·</p>
               <button
@@ -90,7 +90,7 @@ const BambooBox = ({
                   "text-sm hover:text-primary text-text/40 transition-colors",
                 ].join(" ")}
                 onClick={() => router.push(`/bamboo/${item._id}`)}
-              >자세히 보기</button>
+              >댓글 {item?.comment || 0}</button>
             </>
           )
         }

@@ -44,12 +44,18 @@ const GET = async (
     }
   ]).toArray();
   const userCollection = client.db().collection("users");
+  const statesCollection = client.db().collection("states");
 
   const newBamboo = await Promise.all(
     bamboos.map(async (bamboo) => {
-      const user = await userCollection.findOne({
-        id: bamboo.user,
-      });
+      const [ user, commnet ] = await Promise.all([
+        userCollection.findOne({
+          id: bamboo.user,
+        }),
+        statesCollection.findOne({
+          type: "bamboo_comment",
+        }),
+      ]);
       return {
         _id: bamboo._id,
         user: `${bamboo.grade ? `${Math.floor(user?.number / 1000)}학년 ` : ""}${bamboo.anonymous ? "익명" : user?.name}`,
@@ -60,6 +66,7 @@ const GET = async (
         isbad: bamboo.bad?.includes(verified.payload.id) || false,
         good: bamboo.good?.length || 0,
         bad: bamboo.bad?.length || 0,
+        comment: commnet?.count?.[bamboo._id.toString()] || 0,
       };
     })
   );
