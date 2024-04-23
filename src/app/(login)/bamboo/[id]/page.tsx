@@ -67,8 +67,8 @@ const Bamboo = (
       const res = await instance.put(`/api/bamboo/${params.id}/comment`, {
         textarea, anonymous, grade,
       });
-      await get_comment();
       alert.update(loading_alert, res.data.message, "success");
+      await get_comment(true);
       setTextarea("");
       setAnonymous(true);
       setGrade(true);
@@ -80,17 +80,18 @@ const Bamboo = (
   };
 
   const [number, setNumber] = React.useState(0);
-  const get_comment = async () => {
+  const get_comment = async (isSet: boolean = false) => {
     setLoading(true);
     try{
       const [res] = await Promise.all([
         instance.post(`/api/bamboo/${params.id}/comment`, {
-          start: number,
+          start: isSet ? 0 : number,
         }),
       ]);
       if(number) setCommentData([...comment_data, ...res.data.data]);
       else setCommentData(res.data.data);
-      setNumber(p => p + 20);
+      if(isSet) setNumber(0);
+      else setNumber(p => p + 20);
     }
     catch(e: any){
       alert.warn(e.response.data.message);
@@ -175,7 +176,7 @@ const Bamboo = (
 
   React.useEffect(() => {
     get();
-    get_comment();
+    get_comment(true);
   }, []);
 
   const router = useRouter();
