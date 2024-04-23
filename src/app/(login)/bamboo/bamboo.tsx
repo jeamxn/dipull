@@ -1,3 +1,4 @@
+import MarkdownPreview from "@uiw/react-markdown-preview";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -59,11 +60,7 @@ const BambooBox = ({
         </p>
       </div>
       <div className="flex flex-col justify-start items-start">
-        {
-          item.text.split("\n").map((line, i) => (
-            <p key={i}>{line}</p>
-          ))
-        }
+        <MarkdownPreview source={item.text} />
       </div>
       <div className="flex flex-row gap-1">
         <button

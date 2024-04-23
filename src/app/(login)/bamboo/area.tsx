@@ -1,6 +1,13 @@
+import dynamic from "next/dynamic";
 import React from "react";
 
+import { limit } from "@/app/api/bamboo/utils";
 import { UserData } from "@/app/auth/type";
+
+const MarkdownEditor = dynamic(
+  () => import("@uiw/react-markdown-editor").then((mod) => mod.default),
+  { ssr: false }
+);
 
 const Area = ({
   loading,
@@ -33,23 +40,29 @@ const Area = ({
       "flex flex-col gap-1 bg-white rounded border border-text/10 p-5 justify-start items-start overflow-auto",
       loading ? "loading_background" : "",
     ].join(" ")}>
-      <div className="w-full h-full relative">
-        <textarea 
-          className="w-full min-h-40 h-full border border-text/10 rounded p-3 bg-transparent"
-          placeholder={placeholder?.textarea || "제보할 내용을 입력해주세요."}
+      <div className="w-full h-full">
+        <MarkdownEditor 
           value={textarea}
-          onChange={(e) => setTextarea(e.target.value)}
-          maxLength={380}
+          onChange={(e) => setTextarea(e)}
+          minHeight="12rem"
         />
-        <span className="text-text/50 text-right font-light text-sm absolute right-0 bottom-0 my-4 mx-2 px-2 rounded-sm py-1 cursor-text backdrop-blur-xl">{textarea.length}/380자</span>
-        <span className="text-text/50 text-left font-light text-sm absolute left-0 bottom-0 my-4 mx-2 px-2 rounded-sm py-1 cursor-text backdrop-blur-xl">
+      </div>
+      <div className="w-full flex flex-row items-center justify-between">
+        <span className="text-text/50 text-left font-light text-sm rounded-sm py-1 cursor-text backdrop-blur-xl">
           {
             grade ? Math.floor(userInfo.number / 1000) + "학년" : ""
           }
           &nbsp;
           {
             anonymous ? "익명" : userInfo.name
-          }</span>
+          }
+        </span>
+        <span className={[
+          "text-right font-light text-sm rounded-sm py-1 cursor-text backdrop-blur-xl",
+          textarea.length > limit ? "text-[#EF4444]" : "text-text/50",
+        ].join(" ")}>
+          {textarea.length}/{limit}자
+        </span>
       </div>
       <div className="flex flex-row items-center justify-end gap-2 w-full">
         <button 
@@ -73,9 +86,10 @@ const Area = ({
         <button 
           className={[
             "border w-full max-w-32 text-base font-medium rounded h-10",
-            loading || !textarea ? "cursor-not-allowed border-text/30 text-text/30" : "cursor-pointer bg-primary text-white",
+            loading || !textarea || textarea.length > limit ? "cursor-not-allowed border-text/30 text-text/30" : "cursor-pointer bg-primary text-white",
           ].join(" ")}
           onClick={put}
+          disabled={loading || !textarea || textarea.length > limit}
         >
           {placeholder?.put || "제보하기"}
         </button>

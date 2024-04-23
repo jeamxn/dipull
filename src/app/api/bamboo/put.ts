@@ -6,6 +6,8 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
+import { limit } from "./utils";
+
 const PUT = async (
   req: Request,
 ) => {
@@ -30,8 +32,8 @@ const PUT = async (
     status: 400,
     headers: new_headers
   });
-  else if(textarea.length > 380) return new NextResponse(JSON.stringify({
-    message: "최대 380자까지 입력 가능합니다.",
+  else if(textarea.length > limit) return new NextResponse(JSON.stringify({
+    message: `최대 ${limit}자까지 입력 가능합니다.`,
   }), {
     status: 400,
     headers: new_headers
