@@ -79,16 +79,18 @@ const Bamboo = (
     setLoading(false);
   };
 
-  const get_comment = async (start: number = 0) => {
+  const [number, setNumber] = React.useState(0);
+  const get_comment = async () => {
     setLoading(true);
     try{
       const [res] = await Promise.all([
         instance.post(`/api/bamboo/${params.id}/comment`, {
-          start,
+          start: number,
         }),
       ]);
-      if(start) setCommentData([...comment_data, ...res.data.data]);
+      if(number) setCommentData([...comment_data, ...res.data.data]);
       else setCommentData(res.data.data);
+      setNumber(p => p + 20);
     }
     catch(e: any){
       alert.warn(e.response.data.message);
@@ -245,7 +247,7 @@ const Bamboo = (
                       "border w-full max-w-32 text-base font-medium rounded h-10",
                       loading ? "cursor-not-allowed border-text/30 text-text/30" : "cursor-pointer bg-primary text-white",
                     ].join(" ")}
-                    onClick={() => get_comment(comment_data.length)}
+                    onClick={() => get_comment()}
                   >
                     더보기
                   </button>
