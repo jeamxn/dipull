@@ -38,7 +38,6 @@ const Bamboo = () => {
   const [anonymous, setAnonymous] = React.useState(true);
   const [grade, setGrade] = React.useState(true);
   const [data, setData] = React.useState<Data[]>([]);
-  const [topData, setTopData] = React.useState<Data[]>([]);
 
   const put = async () => {
     setLoading(true);
@@ -62,13 +61,11 @@ const Bamboo = () => {
   const get = async (start: number = 0, end: number = 0) => {
     setLoading(true);
     try{
-      const [res, res1] = await Promise.all([
+      const [res] = await Promise.all([
         instance.post("/api/bamboo", {
           start, end,
         }),
-        instance.get("/api/bamboo/top"),
       ]);
-      setTopData(res1.data.data);
       if(start && !end) setData([...data, ...res.data.data]);
       else setData(res.data.data);
     }
@@ -139,34 +136,6 @@ const Bamboo = () => {
           put={put}
           userInfo={userInfo}
         />
-      </section>
-      <section className="flex flex-col gap-3">
-        <section className="flex flex-col gap-1">
-          <h1 className="text-xl font-semibold">오늘의 대나무 Top.3</h1>
-        </section>
-        {
-          topData.length ? (
-            <>
-              {
-                topData.map((item, index) => (
-                  <BambooBox
-                    key={index}
-                    item={item}
-                    loading={loading}
-                    put_reaction={put_reaction}
-                  />
-                ))
-              }
-            </>
-          ) : (
-            <article className={[
-              "flex flex-col gap-1 bg-white rounded border border-text/10 p-5 justify-start items-center overflow-auto",
-              loading ? "loading_background" : "",
-            ].join(" ")}>
-              <p className="text-text/40">오늘의 대나무가 없습니다.</p>
-            </article>
-          )
-        }
       </section>
       <section className="flex flex-col gap-3">
         <section className="flex flex-col gap-1">
