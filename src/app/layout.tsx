@@ -8,6 +8,8 @@ import React from "react";
 import RecoilProvider from "@/provider/RecoilProvider";
 import ToastProvider from "@/provider/ToastProvider";
 
+import Darkmode from "./Darkmode";
+
 export const metadata: Metadata = {
   title: "디미고인 풀 서비스 V3",
   description: "그래그래 드디어 왔다 디미고인 풀 서비스 V3",
@@ -70,6 +72,7 @@ const RootLayout = async ({
           </ToastProvider>
         </RecoilProvider>
         <Analytics />
+        <Darkmode />
       </body>
     </html>
   );
