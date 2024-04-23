@@ -57,16 +57,18 @@ const Bamboo = () => {
     }
     setLoading(false);
   };
-
-  const get = async (start: number = 0) => {
+  
+  const [number, setNumber] = React.useState(0);
+  const get = async () => {
     setLoading(true);
     try{
       const [res] = await Promise.all([
         instance.post("/api/bamboo", {
-          start,
+          start: number,
         }),
       ]);
-      if(start) setData([...data, ...res.data.data]);
+      setNumber(p => p + 20);
+      if(number) setData([...data, ...res.data.data]);
       else setData(res.data.data);
     }
     catch(e: any){
@@ -161,7 +163,7 @@ const Bamboo = () => {
                       "border w-full max-w-32 text-base font-medium rounded h-10",
                       loading ? "cursor-not-allowed border-text/30 text-text/30" : "cursor-pointer bg-primary text-white",
                     ].join(" ")}
-                    onClick={() => get(data.length)}
+                    onClick={() => get()}
                   >
                     더보기
                   </button>
