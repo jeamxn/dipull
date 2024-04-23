@@ -1,9 +1,12 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { OutingDB, OutingGetResponse, defaultOutingData } from "@/app/api/outing/utils";
 import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
+
+import { getApplyStartDate } from "../../stay/utils";
 
 const POST = async (
   req: Request,
@@ -32,6 +35,35 @@ const POST = async (
     headers: new_headers
   });
 
+  const { owner } = await req.json();
+
+  if(!owner) return new NextResponse(JSON.stringify({
+    message: "학생을 선택해주세요.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+  
+  // db connect
+  const outingCollection = client.db().collection("outing");
+  const query = { owner: owner, week: await getApplyStartDate() };
+  const result = await outingCollection.findOne(query) as unknown as OutingDB | null;
+
+  const resData: OutingGetResponse = {
+    success: true,
+    data: result ? {
+      sat: result.sat,
+      sun: result.sun,
+    } : {
+      sat: defaultOutingData,
+      sun: defaultOutingData,
+    }
+  };
+
+  return new NextResponse(JSON.stringify(resData), {
+    status: 200,
+    headers: new_headers
+  });
 };
 
 export default POST;
