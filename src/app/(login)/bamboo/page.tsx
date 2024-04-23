@@ -9,6 +9,21 @@ import Insider from "@/provider/insider";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
+import Area from "./area";
+import BambooBox from "./bamboo";
+
+export type Data = {
+  _id: string;
+  user: string;
+  text: string;
+  timestamp: string;
+  number: number;
+  isgood: boolean;
+  isbad: boolean;
+  good: number;
+  bad: number;
+};
+
 const Bamboo = () => {
   const [userInfo, setUserInfo] = React.useState(defaultUserData);
 
@@ -21,17 +36,8 @@ const Bamboo = () => {
   const [textarea, setTextarea] = React.useState("");
   const [anonymous, setAnonymous] = React.useState(true);
   const [grade, setGrade] = React.useState(true);
-  const [data, setData] = React.useState<{
-    _id: string;
-    user: string;
-    text: string;
-    timestamp: string;
-    number: number;
-    isgood: boolean;
-    isbad: boolean;
-    good: number;
-    bad: number;
-  }[]>([]);
+  const [data, setData] = React.useState<Data[]>([]);
+  const [topData, setTopData] = React.useState<Data[]>([]);
 
   const put = async () => {
     setLoading(true);
@@ -55,9 +61,13 @@ const Bamboo = () => {
   const get = async (start: number = 0, end: number = 0) => {
     setLoading(true);
     try{
-      const res = await instance.post("/api/bamboo", {
-        start, end,
-      });
+      const [res, res1] = await Promise.all([
+        instance.post("/api/bamboo", {
+          start, end,
+        }),
+        instance.get("/api/bamboo/top"),
+      ]);
+      setTopData(res1.data.data);
       if(start && !end) setData([...data, ...res.data.data]);
       else setData(res.data.data);
     }
@@ -117,58 +127,45 @@ const Bamboo = () => {
           <h1 className="text-xl font-semibold">디미고 대나무 숲</h1>
           <h1 className="text-base text-[#e11d48]">문제가 될 수 있는 대나무는 검토 후 삭제됩니다.</h1>
         </section>
-        <article className={[
-          "flex flex-col gap-1 bg-white rounded border border-text/10 p-5 justify-start items-start overflow-auto",
-          loading ? "loading_background" : "",
-        ].join(" ")}>
-          <div className="w-full h-full relative">
-            <textarea 
-              className="w-full min-h-40 h-full border border-text/10 rounded p-3 bg-transparent"
-              placeholder="제보할 내용을 입력해주세요."
-              value={textarea}
-              onChange={(e) => setTextarea(e.target.value)}
-              maxLength={380}
-            />
-            <span className="text-text/50 text-right font-light text-sm absolute right-0 bottom-0 my-4 mx-2 px-2 rounded-sm py-1 cursor-text backdrop-blur-xl">{textarea.length}/380자</span>
-            <span className="text-text/50 text-left font-light text-sm absolute left-0 bottom-0 my-4 mx-2 px-2 rounded-sm py-1 cursor-text backdrop-blur-xl">
+        <Area
+          loading={loading}
+          textarea={textarea}
+          setTextarea={setTextarea}
+          anonymous={anonymous}
+          setAnonymous={setAnonymous}
+          grade={grade}
+          setGrade={setGrade}
+          put={put}
+          userInfo={userInfo}
+        />
+      </section>
+      <section className="flex flex-col gap-3">
+        <section className="flex flex-col gap-1">
+          <h1 className="text-xl font-semibold">오늘의 대나무 Top.3</h1>
+        </section>
+        {
+          topData.length ? (
+            <>
               {
-                grade ? Math.floor(userInfo.number / 1000) + "학년" : ""
+                topData.map((item, index) => (
+                  <BambooBox
+                    key={index}
+                    item={item}
+                    loading={loading}
+                    put_reaction={put_reaction}
+                  />
+                ))
               }
-              &nbsp;
-              {
-                anonymous ? "익명" : userInfo.name
-              }</span>
-          </div>
-          <div className="flex flex-row items-center justify-end gap-2 w-full">
-            <button 
-              className={[
-                "border w-full max-w-32 text-base font-medium rounded h-10 cursor-pointer",
-                !grade ? "border-text/30 text-text/30" : "border-primary text-primary",
-              ].join(" ")}
-              onClick={() => setGrade(p => !p)}
-            >
-              학년 {grade ? "O" : "X"}
-            </button>
-            <button 
-              className={[
-                "border w-full max-w-32 text-base font-medium rounded h-10 cursor-pointer",
-                !anonymous ? "border-text/30 text-text/30" : "border-primary text-primary",
-              ].join(" ")}
-              onClick={() => setAnonymous(p => !p)}
-            >
-              익명 {anonymous ? "O" : "X"}
-            </button>
-            <button 
-              className={[
-                "border w-full max-w-32 text-base font-medium rounded h-10",
-                loading || !textarea ? "cursor-not-allowed border-text/30 text-text/30" : "cursor-pointer bg-primary text-white",
-              ].join(" ")}
-              onClick={put}
-            >
-              제보하기
-            </button>
-          </div>
-        </article>
+            </>
+          ) : (
+            <article className={[
+              "flex flex-col gap-1 bg-white rounded border border-text/10 p-5 justify-start items-center overflow-auto",
+              loading ? "loading_background" : "",
+            ].join(" ")}>
+              <p className="text-text/40">오늘의 대나무가 없습니다.</p>
+            </article>
+          )
+        }
       </section>
       <section className="flex flex-col gap-3">
         <section className="flex flex-col gap-1">
@@ -178,61 +175,14 @@ const Bamboo = () => {
           data.length ? (
             <>
               {
-                data.map((item, index) => {
-                  const diff = moment().diff(moment(item.timestamp, "YYYY-MM-DD HH:mm:ss"), "minutes");
-                  return (
-                    <article 
-                      key={index}
-                      className={[
-                        "flex flex-col gap-2 bg-white rounded border border-text/10 p-5 justify-start items-start overflow-auto",
-                        loading ? "loading_background" : "",
-                      ].join(" ")}
-                      id={`${index}`}
-                    >
-                      <div className="flex flex-row items-center justify-between w-full">
-                        <div className="flex flex-row">
-                          <b className="font-medium">{item.user}</b>의 대나무&nbsp;
-                        </div>
-                        <p className="text-text/30">
-                          {
-                            diff < 1 ? "방금 전" :
-                              diff < 60 ? `${diff}분 전` :
-                                diff < 1440 ? `${Math.floor(diff / 60)}시간 전` :
-                                  diff < 10080 ? `${Math.floor(diff / 1440)}일 전` :
-                                    diff < 40320 ? `${Math.floor(diff / 10080)}주 전` :
-                                      diff < 525600 ? `${Math.floor(diff / 40320)}달 전` :
-                                        `${Math.floor(diff / 525600)}년 전`
-                          }
-                          &nbsp;(#{item.number || 0})
-                        </p>
-                      </div>
-                      <div className="flex flex-col justify-start items-start">
-                        {
-                          item.text.split("\n").map((line, i) => (
-                            <p key={i}>{line}</p>
-                          ))
-                        }
-                      </div>
-                      <div className="flex flex-row gap-1">
-                        <button
-                          className={[
-                            "text-sm hover:text-primary transition-colors",
-                            item.isgood ? "text-primary" : "text-text/40",
-                          ].join(" ")}
-                          onClick={() => put_reaction(item._id, "good")}
-                        >추천 {item.good || 0}</button>
-                        <p className="text-sm text-text/40 transition-colors">·</p>
-                        <button
-                          className={[
-                            "text-sm hover:text-primary transition-colors",
-                            item.isbad ? "text-primary" : "text-text/40",
-                          ].join(" ")}
-                          onClick={() => put_reaction(item._id, "bad")}
-                        >비추 {item.bad || 0}</button>
-                      </div>
-                    </article>
-                  );
-                })
+                data.map((item, index) => (
+                  <BambooBox
+                    key={index}
+                    item={item}
+                    loading={loading}
+                    put_reaction={put_reaction}
+                  />
+                ))
               }
               {
                 data[data.length - 1].number === 1 ? null : (
