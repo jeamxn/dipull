@@ -58,15 +58,15 @@ const Bamboo = () => {
     setLoading(false);
   };
 
-  const get = async (start: number = 0, end: number = 0) => {
+  const get = async (start: number = 0) => {
     setLoading(true);
     try{
       const [res] = await Promise.all([
         instance.post("/api/bamboo", {
-          start, end,
+          start,
         }),
       ]);
-      if(start && !end) setData([...data, ...res.data.data]);
+      if(start) setData([...data, ...res.data.data]);
       else setData(res.data.data);
     }
     catch(e: any){
