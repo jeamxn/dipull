@@ -64,7 +64,7 @@ const POST = async (
   );
 
   return new NextResponse(JSON.stringify({
-    data: newBamboo.reverse(),
+    data: newBamboo.sort((a, b) => b.number - a.number),
   }), {
     status: 200,
     headers: new_headers
