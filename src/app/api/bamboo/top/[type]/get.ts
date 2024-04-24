@@ -53,7 +53,6 @@ const GET = async (
     {
       $sort: {
         emotion_number: -1,
-        timestamp: -1,
       },
     },
     {
