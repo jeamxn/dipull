@@ -176,7 +176,7 @@ const Bamboo = (
 
   React.useEffect(() => {
     get();
-    get_comment(true);
+    get_comment();
   }, []);
 
   const router = useRouter();
