@@ -38,6 +38,8 @@ const Bamboo = () => {
   const [anonymous, setAnonymous] = React.useState(true);
   const [grade, setGrade] = React.useState(true);
   const [data, setData] = React.useState<Data[]>([]);
+  const [top, setTop] = React.useState<Data[]>([]);
+  const [topType, setTopType] = React.useState<"day" | "week">("day");
 
   const put = async () => {
     setLoading(true);
@@ -66,6 +68,7 @@ const Bamboo = () => {
         instance.post("/api/bamboo", {
           start: isSet ? 0 : number,
         }),
+        getTop(),
       ]);
       if(number) setData([...data, ...res.data.data]);
       else setData(res.data.data);
@@ -77,6 +80,24 @@ const Bamboo = () => {
     }
     setLoading(false);
   };
+
+  const getTop = async () => {
+    setLoading(true);
+    try{
+      const [top_res] = await Promise.all([
+        instance.get(`/api/bamboo/top/${topType}`),
+      ]);
+      setTop(top_res.data.data);
+    }
+    catch(e: any){
+      alert.warn(e.response.data.message);
+    }
+    setLoading(false);
+  };
+
+  React.useEffect(() => {
+    getTop();
+  }, [topType]);
 
   const put_reaction = async (_id: string, type: "good" | "bad") => {
     setLoading(true);
@@ -139,6 +160,51 @@ const Bamboo = () => {
           put={put}
           userInfo={userInfo}
         />
+      </section>
+      <section className="flex flex-col gap-3">
+        <section className="flex flex-row gap-1">
+          <h1 className="text-xl font-semibold">최고의 대나무 ::</h1>
+          <h1 
+            className={[
+              "text-xl font-semibold cursor-pointer",
+              topType === "day" ? "text-text" : "text-text/30",
+            ].join(" ")}
+            onClick={() => setTopType("day")}
+          >하루</h1>
+          <h1 className="text-xl font-semibold text-text/30">·</h1>
+          <h1 
+            className={[
+              "text-xl font-semibold cursor-pointer",
+              topType === "week" ? "text-text" : "text-text/30",
+            ].join(" ")}
+            onClick={() => setTopType("week")}
+          >일주일</h1>
+        </section>
+        {
+          top.length ? (
+            <>
+              {
+                top.map((item, index) => (
+                  <BambooBox
+                    key={index}
+                    item={item}
+                    loading={loading}
+                    put_reaction={put_reaction}
+                  />
+                ))
+              }
+            </>
+          ) : (
+            <article className={[
+              "flex flex-col gap-1 bg-white rounded border border-text/10 p-5 justify-start items-center overflow-auto",
+              loading ? "loading_background" : "",
+            ].join(" ")}>
+              <p className="text-text/40">
+                {topType === "day" ? "오늘" : "이번 주"} 최고의 대나무가 없습니다.
+              </p>
+            </article>
+          )
+        }
       </section>
       <section className="flex flex-col gap-3">
         <section className="flex flex-col gap-1">
