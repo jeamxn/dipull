@@ -63,6 +63,19 @@ const BambooBox = ({
         <MarkdownPreview 
           source={item.text} 
           className="bg-white text-text"
+          // click _blank
+          components={{
+            a: ({ href, children }) => (
+              <a 
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                {children}
+              </a>
+            ),
+          }}
         />
       </div>
       <div className="flex flex-row gap-1">
