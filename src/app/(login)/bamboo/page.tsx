@@ -118,7 +118,7 @@ const Bamboo = () => {
   };
 
   React.useEffect(() => {
-    get(true);
+    get();
   }, []);
 
   return (
