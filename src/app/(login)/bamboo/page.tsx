@@ -130,6 +130,29 @@ const Bamboo = () => {
         }
         return item;
       }));
+      setTop(top.map((item) => {
+        if(item._id === _id) {
+          if(type === "good") {
+            if(item.isgood) item.good--;
+            else item.good++;
+            item.isgood = !item.isgood;
+            if(item.isbad) {
+              item.bad--;
+              item.isbad = !item.isbad;
+            }
+          }
+          else {
+            if(item.isbad) item.bad--;
+            else item.bad++;
+            item.isbad = !item.isbad;
+            if(item.isgood) {
+              item.good--;
+              item.isgood = !item.isgood;
+            }
+          }
+        }
+        return item;
+      }));
       alert.update(loading_alert, res.data.message, "success");
     }
     catch(e: any){
@@ -162,23 +185,26 @@ const Bamboo = () => {
         />
       </section>
       <section className="flex flex-col gap-3">
-        <section className="flex flex-row gap-1">
-          <h1 className="text-xl font-semibold">최고의 대나무 ::</h1>
-          <h1 
-            className={[
-              "text-xl font-semibold cursor-pointer",
-              topType === "day" ? "text-text" : "text-text/30",
-            ].join(" ")}
-            onClick={() => setTopType("day")}
-          >하루</h1>
-          <h1 className="text-xl font-semibold text-text/30">·</h1>
-          <h1 
-            className={[
-              "text-xl font-semibold cursor-pointer",
-              topType === "week" ? "text-text" : "text-text/30",
-            ].join(" ")}
-            onClick={() => setTopType("week")}
-          >일주일</h1>
+        <section className="flex flex-row gap-2">
+          <h1 className="text-xl font-semibold">최고의 대나무</h1>
+          <h1 className="text-xl font-semibold">::</h1>
+          <div className="flex flex-row gap-1">
+            <h1 
+              className={[
+                "text-xl font-semibold cursor-pointer",
+                topType === "day" ? "text-text" : "text-text/30",
+              ].join(" ")}
+              onClick={() => setTopType("day")}
+            >하루</h1>
+            <h1 className="text-xl font-semibold text-text/30">·</h1>
+            <h1 
+              className={[
+                "text-xl font-semibold cursor-pointer",
+                topType === "week" ? "text-text" : "text-text/30",
+              ].join(" ")}
+              onClick={() => setTopType("week")}
+            >일주일</h1>
+          </div>
         </section>
         {
           top.length ? (
