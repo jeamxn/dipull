@@ -53,6 +53,7 @@ const GET = async (
     {
       $sort: {
         emotion_number: -1,
+        timestamp: -1,
       },
     },
     {
@@ -85,7 +86,7 @@ const GET = async (
   );
 
   return new NextResponse(JSON.stringify({
-    data: newBamboo.sort((a, b) => b.number - a.number),
+    data: newBamboo,
   }), {
     status: 200,
     headers: new_headers
