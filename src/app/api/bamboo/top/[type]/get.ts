@@ -86,7 +86,7 @@ const GET = async (
   );
 
   return new NextResponse(JSON.stringify({
-    data: newBamboo,
+    data: newBamboo.sort((a, b) => (b.good.length - b.bad.length) - (a.good.length - a.bad.length))
   }), {
     status: 200,
     headers: new_headers
