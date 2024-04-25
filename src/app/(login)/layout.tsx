@@ -1,15 +1,15 @@
-/* eslint-disable @next/next/no-img-element */
 import { headers } from "next/headers";
 import React from "react";
 
 import { refreshVerify } from "@/utils/jwt";
 
+import MainLogo from "./(header)/mainLogo";
+import Menu from "./(header)/menu";
+import MobileMenu from "./(header)/MobileMenu";
+import User from "./(header)/user";
 import Alert from "./(joke)/alert";
 import Fast from "./(joke)/FAST";
 import FireworkFrame from "./(joke)/fireworks";
-import Logout from "./logout";
-import Menu from "./menu";
-import Qrcode from "./qrcode";
 
 const LoginedLayout = async ({
   children,
@@ -31,23 +31,18 @@ const LoginedLayout = async ({
     <>
       {
         veryfied.ok ? (
-          <header className="w-full">
-            <article className="w-full flex justify-center items-center border-b border-text/10 px-5 py-3">
-              <p className="text-primary text-lg font-semibold">디미고인 풀 서비스 V3</p>
-            </article>
-            <article className="w-full py-4 px-4 border-b border-text/10 flex flex-row items-center justify-between gap-4">
-              <div className="flex flex-row gap-4 items-center">
-                <img src={veryfied.payload.profile_image} alt={veryfied.payload.name} width={60} height={60} className="rounded-full" />
-                <figure className="flex flex-col justify-center items-start">
-                  <p className="font-semibold text-lg">{veryfied.payload.number} {veryfied.payload.name}</p>
-                  <Logout />
-                </figure>
-              </div>
-              <Qrcode number={veryfied.payload.number} />
-            </article>
-            <Menu />
+          <header className="h-14 z-50 bg-background/50 backdrop-blur-xl fixed top-0 left-0 w-full px-4 border-b border-text/10 flex flex-row items-center justify-center">
+            <div className="flex flex-row items-center justify-between w-full max-w-[700px]">
+              <MainLogo />
+              <Menu />
+            </div>
+            <MobileMenu />
           </header>
         ) : null
+      }
+      <div className="h-14" />
+      {
+        veryfied.ok ? <User payload={veryfied.payload} /> : null
       }
       {children}
       <div className="absolute top-0 left-0 -z-[1]">
