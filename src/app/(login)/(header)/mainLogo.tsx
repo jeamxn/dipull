@@ -10,7 +10,8 @@ import { TokenInfo, defaultUserData } from "@/app/auth/type";
 
 import { mainMenu, studentsMenu, teachersMenu } from "./utils";
 
-const parseToNumber = ["º", "¡", "™", "£", "¢", "∞", "§", "¶", "•", "ª"];
+export const optionParseToNumber = ["º", "¡", "™", "£", "¢", "∞", "§", "¶", "•", "ª"];
+export const optionShiftparseToNumber = ["‚", "⁄", "€", "‹", "›", "ﬁ", "ﬂ", "‡", "°", "·"];
 
 const MainLogo = () => {
   const pathname = usePathname();
@@ -36,8 +37,8 @@ const MainLogo = () => {
           const index = parseInt(event.key) - 1;
           if(menuCopy[index]) router.push(menuCopy[index].url);
         }
-        if(parseToNumber.includes(event.key)) {
-          const index = parseToNumber.indexOf(event.key) - 1;
+        if(optionParseToNumber.includes(event.key)) {
+          const index = optionParseToNumber.indexOf(event.key) - 1;
           if(menuCopy[index]) router.push(menuCopy[index].url);
         }
       }
