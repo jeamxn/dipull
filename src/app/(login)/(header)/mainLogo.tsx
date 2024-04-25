@@ -8,7 +8,7 @@ import React from "react";
 
 import { TokenInfo, defaultUserData } from "@/app/auth/type";
 
-import { mainMenu, studentsMenu, teachersMenu } from "./utils";
+import { mainMenu, max, studentsMenu, teachersMenu } from "./utils";
 
 const MainLogo = () => {
   const pathname = usePathname();
@@ -34,11 +34,14 @@ const MainLogo = () => {
       >
         <Image src="/public/logo.svg" alt="logo" width={24} height={24} />
       </Link>
-      <p className="font-semibold text-base hidden max-[425px]:flex">
+      <p className={[
+        "font-semibold text-base hidden",
+        `max-[${max}px]:flex`,
+      ].join(" ")}>
         {
           menuCopy.map((item, index) => {
             const isCurrentPage = pathname.split("/")[1] === item.url.split("/")[1];
-            return isCurrentPage ? item.name : null;
+            return isCurrentPage ? item.showname || item.name : null;
           })
         }
       </p>
