@@ -31,7 +31,7 @@ const LoginedLayout = async ({
     <>
       {
         veryfied.ok ? (
-          <header className="mt-safe h-14 z-50 bg-background/50 backdrop-blur-xl fixed top-0 left-0 w-full px-4 border-b border-text/10 flex flex-row items-center justify-center">
+          <header className="pt-safe h-14 z-50 bg-background/50 backdrop-blur-xl fixed top-0 left-0 w-full px-4 border-b border-text/10 flex flex-row items-center justify-center">
             <div className="flex flex-row items-center justify-between w-full max-w-[700px]">
               <MainLogo />
               <Menu />
