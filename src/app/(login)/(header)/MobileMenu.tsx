@@ -7,7 +7,7 @@ import React from "react";
 
 import { TokenInfo, defaultUserData } from "@/app/auth/type";
 
-import { mainMenu, max, studentsMenu, teachersMenu } from "./utils";
+import { mainMenu, studentsMenu, teachersMenu } from "./utils";
 
 const MobileMenu = () => {
   const [expanded, setExpanded] = React.useState(false);
@@ -29,10 +29,7 @@ const MobileMenu = () => {
 
   return (
     <>
-      <nav className={[
-        "hidden flex-row justify-around z-50",
-        `max-[${max}px]:flex`,
-      ].join(" ")}>
+      <nav className="hidden flex-row justify-around max-[425px]:flex z-50">
         <div 
           className={[
             "p-4 transition-all",
@@ -47,9 +44,8 @@ const MobileMenu = () => {
         </div>
       </nav>
       <div className={[
-        "hidden flex-col gap-2 justify-center items-center fixed top-0 left-0 w-full bg-background transition-all overflow-hidden z-40",
+        "hidden max-[425px]:flex flex-col gap-2 justify-center items-center fixed top-0 left-0 w-full bg-background transition-all overflow-hidden z-40",
         expanded ? "max-h-[100vh] h-[100vh]" : "max-h-0 h-0",
-        `max-[${max}px]:flex`,
       ].join(" ")}
       style={{
         backdropFilter: "blur(24px)"

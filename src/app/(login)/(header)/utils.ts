@@ -1,5 +1,3 @@
-export const max = 425;
-
 type MenuItem = {
   url: string;
   name: string;
