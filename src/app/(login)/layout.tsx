@@ -29,6 +29,12 @@ const LoginedLayout = async ({
 
   return (
     <>
+      <div 
+        className="w-full h-[100vh] bg-background/50 backdrop-blur-xl fixed left-0 z-50" 
+        style={{
+          bottom: "calc(100vh - calc(env(safe-area-inset-top) * -1))",
+        }}
+      />
       {
         veryfied.ok ? (
           <header 
@@ -45,7 +51,12 @@ const LoginedLayout = async ({
           </header>
         ) : null
       }
-      <div className="h-14" />
+      <div 
+        className="min-h-14" 
+        style={{
+          height: "calc(env(safe-area-inset-top) + 3.5rem)",
+        }}
+      />
       {
         veryfied.ok ? <User payload={veryfied.payload} /> : null
       }

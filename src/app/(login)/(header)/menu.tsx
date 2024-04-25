@@ -7,7 +7,7 @@ import React from "react";
 
 import { TokenInfo, defaultUserData } from "@/app/auth/type";
 
-import { mainMenu, studentsMenu, teachersMenu } from "./utils";
+import { mainMenu, max, studentsMenu, teachersMenu } from "./utils";
 
 const Menu = () => {
   const pathname = usePathname();
@@ -26,7 +26,10 @@ const Menu = () => {
   }, [userInfo]);
 
   return (
-    <nav className="flex flex-row justify-around max-[425px]:hidden">
+    <nav className={[
+      "flex flex-row justify-around",
+      `max-[${max}px]:hidden`,
+    ].join(" ")}>
       {
         menuCopy.map((item, index) => {
           const isCurrentPage = pathname.split("/")[1] === item.url.split("/")[1];
