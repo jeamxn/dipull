@@ -22,25 +22,27 @@ const Home = () => {
   }, []);
 
   return (
-    <Insider>
-      {
-        userInfo.type === "student" ? (
-          <article className="flex flex-col gap-3">
-            <section className="flex flex-col gap-1">
-              <h1 className="text-xl font-semibold">디미고 대나무 숲</h1>
-              <div className="flex flex-row gap-1">
-                <h1 className="text-base text-primary">새롭게 추가된 기능을 확인해보세요!</h1>
-                <Link href="/bamboo" prefetch>
-                  <h1 className="text-base text-primary underline">바로가기</h1>
-                </Link>
-              </div>
-            </section>
-          </article>
-        ) : null
-      }
-      <Iwannagohome />
-      <Comments />
-    </Insider>
+    <>
+      <Insider>
+        {
+          userInfo.type === "student" ? (
+            <article className="flex flex-col gap-3">
+              <section className="flex flex-col gap-1">
+                <h1 className="text-xl font-semibold">디미고 대나무 숲</h1>
+                <div className="flex flex-row gap-1">
+                  <h1 className="text-base text-primary">새롭게 추가된 기능을 확인해보세요!</h1>
+                  <Link href="/bamboo" prefetch>
+                    <h1 className="text-base text-primary underline">바로가기</h1>
+                  </Link>
+                </div>
+              </section>
+            </article>
+          ) : null
+        }
+        <Iwannagohome />
+        <Comments />
+      </Insider>
+    </>
   );
 };
 
