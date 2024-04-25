@@ -3,15 +3,18 @@
 import * as jose from "jose";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 import { TokenInfo, defaultUserData } from "@/app/auth/type";
 
 import { mainMenu, studentsMenu, teachersMenu } from "./utils";
 
+const parseToNumber = ["º", "¡", "™", "£", "¢", "∞", "§", "¶", "•", "ª"];
+
 const MainLogo = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const [menuCopy, setMenuCopy] = React.useState(mainMenu);
   const [userInfo, setUserInfo] = React.useState(defaultUserData);
 
@@ -26,11 +29,30 @@ const MainLogo = () => {
     else setMenuCopy([ ...mainMenu, ...studentsMenu ]);
   }, [userInfo]);
 
+  React.useEffect(() => {
+    const onCommandKeyDown = (event: KeyboardEvent) => {
+      if(event.altKey) {
+        if(event.key >= "1" && event.key <= "9") {
+          const index = parseInt(event.key) - 1;
+          if(menuCopy[index]) router.push(menuCopy[index].url);
+        }
+        if(parseToNumber.includes(event.key)) {
+          const index = parseToNumber.indexOf(event.key) - 1;
+          if(menuCopy[index]) router.push(menuCopy[index].url);
+        }
+      }
+    };
+    window.addEventListener("keydown", onCommandKeyDown);
+    return () => {
+      window.removeEventListener("keydown", onCommandKeyDown);
+    };
+  }, [pathname, menuCopy]);
+
   return (
     <div className="flex flex-row items-center justify-center">
       <Link 
         href="/"
-        className="flex flex-row items-center justify-start gap-2 p-4 cursor-pointer z-50"
+        className="flex flex-row items-center justify-start gap-2 p-2 m-2 rounded hover:bg-text/15 cursor-pointer z-50"
       >
         <Image src="/public/logo.svg" alt="logo" width={24} height={24} />
       </Link>

@@ -35,7 +35,7 @@ const Menu = () => {
               key={index} 
               href={item.url}
               className={[
-                "w-full text-center p-4 text-sm font-semibold hover:text-text/100 transition-colors",
+                "w-full text-center px-4 py-2 my-2 text-sm rounded hover:bg-text/15 font-semibold transition-colors",
                 // isCurrentPage && pathname.split("/").length === 2 ? "border-b-2 border-primary" : "",
                 isCurrentPage ? "text-text/100" : "text-text/40",
               ].join(" ")}
