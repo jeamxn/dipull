@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
+
+import { optionShiftparseToNumber } from "../(header)/mainLogo";
 
 const menu = [
   {
@@ -25,6 +27,25 @@ const menu = [
 
 const Menu = () => {
   const pathname = usePathname();
+  const router = useRouter();
+  React.useEffect(() => {
+    const onCommandKeyDown = (event: KeyboardEvent) => {
+      if(event.altKey) {
+        if(event.key >= "1" && event.key <= "9") {
+          const index = parseInt(event.key) - 1;
+          if(menu[index]) router.push(menu[index].url);
+        }
+        if(optionShiftparseToNumber.includes(event.key)) {
+          const index = optionShiftparseToNumber.indexOf(event.key) - 1;
+          if(menu[index]) router.push(menu[index].url);
+        }
+      }
+    };
+    window.addEventListener("keydown", onCommandKeyDown);
+    return () => {
+      window.removeEventListener("keydown", onCommandKeyDown);
+    };
+  }, [pathname, menu]);
 
   return (
     <nav className="px-4 w-full border-b border-text/10 flex flex-row justify-around">
