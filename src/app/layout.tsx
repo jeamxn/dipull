@@ -11,12 +11,12 @@ import ToastProvider from "@/provider/ToastProvider";
 import Darkmode from "./Darkmode";
 
 export const metadata: Metadata = {
-  title: "디미고인 풀 서비스 V3",
-  description: "그래그래 드디어 왔다 디미고인 풀 서비스 V3",
+  title: "디풀",
+  description: "그래그래 드디어 왔다 디풀",
   openGraph:{
-    title: "디미고인 풀 서비스 V3",
-    siteName: "디미고인 풀 서비스 V3",
-    description: "그래그래 드디어 왔다 디미고인 풀 서비스 V3",
+    title: "디풀",
+    siteName: "디풀",
+    description: "그래그래 드디어 왔다 디풀",
     type: "website",
     url: "https://dimigo.net",
     locale: "ko_KR",
