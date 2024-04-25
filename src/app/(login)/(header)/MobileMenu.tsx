@@ -25,6 +25,14 @@ const MobileMenu = () => {
   React.useEffect(() => {
     if(userInfo.type === "teacher") setMenuCopy([ ...mainMenu, ...teachersMenu ]);
     else setMenuCopy([ ...mainMenu, ...studentsMenu ]);
+    const onCommandKeyDown = (event: KeyboardEvent) => {
+      if(event.key === "Escape") setExpanded(false);
+      if(event.key === "Enter") setExpanded(p => !p);
+    };
+    window.addEventListener("keydown", onCommandKeyDown);
+    return () => {
+      window.removeEventListener("keydown", onCommandKeyDown);
+    };
   }, [userInfo]);
 
   return (
@@ -32,8 +40,7 @@ const MobileMenu = () => {
       <nav className="hidden flex-row justify-around max-[425px]:flex z-50">
         <div 
           className={[
-            "p-4 transition-all",
-            // expand됐을 때 회전
+            "px-2 py-3 mx-2 my-1 rounded hover:bg-text/15 transition-all cursor-pointer",
             expanded ? "transform -rotate-90" : "",
           ].join(" ")}
           onClick={() => setExpanded(p => !p)}
@@ -60,7 +67,6 @@ const MobileMenu = () => {
                 href={item.url}
                 className={[
                   "w-full text-center p-4 font-semibold hover:text-text/100 transition-colors text-2xl",
-                  // isCurrentPage && pathname.split("/").length === 2 ? "border-b-2 border-primary" : "",
                   isCurrentPage ? "text-text/100" : "text-text/40",
                 ].join(" ")}
                 prefetch={true}
