@@ -27,7 +27,6 @@ const MobileMenu = () => {
     else setMenuCopy([ ...mainMenu, ...studentsMenu ]);
     const onCommandKeyDown = (event: KeyboardEvent) => {
       if(event.key === "Escape") setExpanded(false);
-      if(event.key === "Enter") setExpanded(p => !p);
     };
     window.addEventListener("keydown", onCommandKeyDown);
     return () => {
