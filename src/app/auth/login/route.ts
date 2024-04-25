@@ -13,15 +13,15 @@ import type { DB_userData, TokenInfo, UserData } from "../type";
 import { ClientType } from "./type";
 
 export const GET = async (req: Request) => {
-  // 디미고인에서 받은 토큰 가져오기
+  // 디풀에서 받은 토큰 가져오기
   const { searchParams } = new URL(req.url!);
   const token = searchParams.get("token") || "";
 
-  // 디미고인 퍼블릭 키 가져오기
+  // 디풀 퍼블릭 키 가져오기
   const public_key = await axios.get(`${process.env.NEXT_PUBLIC_DIMIGOIN_URI}/oauth/public`);
   const public_key_encodes = await jose.importSPKI(public_key.data, "RS256");
 
-  // 디미고인 토큰 디코딩
+  // 디풀 토큰 디코딩
   const decodedToken = await jose.jwtVerify(token, public_key_encodes);
   const data = decodedToken.payload as {
     data: ClientType;

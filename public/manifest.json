@@ -1,7 +1,7 @@
 {
-  "name": "디미고인 풀 서비스",
+  "name": "디풀",
   "short_name": "디풀",
-  "description": "그래그래 드디어 왔다 디미고인 풀 서비스 V3",
+  "description": "그래그래 드디어 왔다 디풀",
   "icons": [
     { 
       "src": "/favicon.ico", 
