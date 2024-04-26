@@ -4,24 +4,14 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
-import { optionShiftparseToNumber } from "../(header)/mainLogo";
+import { optionShiftparseToNumber } from "@/app/(login)/(header)/mainLogo";
+import { MenuItem } from "@/app/(login)/(header)/utils";
 
-const menu = [
-  {
-    url: "/jasup/my",
-    name: "메인",
-  },
-  {
-    url: "/jasup/book",
-    name: "예약",
-  },
-  {
-    url: "/jasup/statistics",
-    name: "통계",
-  },
-];
-
-const Menu = () => {
+const SubMenu = ({
+  menu
+}: {
+  menu: MenuItem[];
+}) => {
   const pathname = usePathname();
   const router = useRouter();
   React.useEffect(() => {
@@ -42,6 +32,7 @@ const Menu = () => {
       window.removeEventListener("keydown", onCommandKeyDown);
     };
   }, [pathname, menu]);
+
   return (
     <nav className="px-4 w-full border-b border-text/10 flex flex-row justify-around">
       {
@@ -66,4 +57,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default SubMenu;

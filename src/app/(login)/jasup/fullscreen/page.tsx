@@ -1,10 +1,9 @@
 "use client";
 
 import { Scanner, useDeviceList } from "@yudiel/react-qr-scanner";
-import { DecodeHintType } from "@zxing/library";
 import React from "react";
 
-import { JasupData, JasupKoreanWhereArray, JasupWhere, WeekDayTime, getCurrentTime, koreanWhereTypeToEnglish } from "@/app/api/jasup/utils";
+import { JasupData, JasupWhere, WeekDayTime, getCurrentTime, koreanWhereTypeToEnglish } from "@/app/api/jasup/utils";
 import { Outing } from "@/app/api/outing/utils";
 import Insider from "@/provider/insider";
 import { alert } from "@/utils/alert";

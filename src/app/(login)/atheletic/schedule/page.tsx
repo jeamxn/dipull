@@ -3,10 +3,6 @@
 import moment from "moment";
 import React from "react";
 
-import Insider from "@/provider/insider";
-
-import Menu from "../menu";
-
 import ScheduleBox from "./ScheduleBox";
 
 const schedule = [
@@ -143,22 +139,16 @@ const Schedule = () => {
   }, []);
 
   return (
-    <>
-      <Menu />
-      <Insider>
-        <section className="flex flex-col gap-3">
-          <h1 className="text-xl font-semibold">일정</h1>
-          <section className="flex flex-col gap-1">
-            {
-              schedule.map((element) => {
-                return <ScheduleBox key={element.event} currentTime={currentTime} {...element} />;
-              })
-            }
-          </section>
-
-        </section>
-      </Insider>
-    </>
+    <section className="flex flex-col gap-3">
+      <h1 className="text-xl font-semibold">일정</h1>
+      <section className="flex flex-col gap-1">
+        {
+          schedule.map((element) => {
+            return <ScheduleBox key={element.event} currentTime={currentTime} {...element} />;
+          })
+        }
+      </section>
+    </section>
   );
 };
 
