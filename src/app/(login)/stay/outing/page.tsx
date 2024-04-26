@@ -4,11 +4,8 @@ import { AxiosResponse } from "axios";
 import React from "react";
 
 import { OutingAndMealData, OutingGetResponse, defaultOutingData } from "@/app/api/outing/utils";
-import Insider from "@/provider/insider";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
-
-import Menu from "../menu";
 
 import OutingOption from "./outingOption";
 
@@ -52,30 +49,27 @@ const Outing = () => {
 
   return (
     <>
-      <Menu />
-      <Insider>
-        <section className="flex flex-col gap-5">
-          <h1 className="text-xl font-semibold">외출 및 급식 변경 신청하기</h1>
-          <OutingOption 
-            title="토요일"
-            data={sat}
-            setData={setSat}
-            loading={loading}
-          />
-          <OutingOption 
-            title="일요일"
-            data={sun}
-            setData={setSun}
-            loading={loading}
-          />
-        </section>
-        <button 
-          className="bg-primary text-white w-full text-base font-semibold rounded h-10"
-          onClick={putOutingData}
-        >
+      <section className="flex flex-col gap-5">
+        <h1 className="text-xl font-semibold">외출 및 급식 변경 신청하기</h1>
+        <OutingOption 
+          title="토요일"
+          data={sat}
+          setData={setSat}
+          loading={loading}
+        />
+        <OutingOption 
+          title="일요일"
+          data={sun}
+          setData={setSun}
+          loading={loading}
+        />
+      </section>
+      <button 
+        className="bg-primary text-white w-full text-base font-semibold rounded h-10"
+        onClick={putOutingData}
+      >
         신청하기
-        </button>
-      </Insider>
+      </button>
     </>
   );
 };

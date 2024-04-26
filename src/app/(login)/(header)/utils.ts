@@ -1,4 +1,4 @@
-type MenuItem = {
+export type MenuItem = {
   url: string;
   name: string;
   showname?: string;

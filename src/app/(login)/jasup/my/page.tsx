@@ -1,15 +1,11 @@
 "use client";
 
-import moment from "moment";
 import React from "react";
 
-import { JasupData, JasupKoreanWhereArray, JasupWhere, WeekDayTime, getCurrentTime, koreanWhereTypeToEnglish } from "@/app/api/jasup/utils";
+import { JasupData, JasupWhere, WeekDayTime, getCurrentTime, koreanWhereTypeToEnglish } from "@/app/api/jasup/utils";
 import { Outing } from "@/app/api/outing/utils";
-import Insider from "@/provider/insider";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
-
-import Menu from "../menu";
 
 import Select from "./select";
 
@@ -65,21 +61,16 @@ const Jasup = () => {
   };
 
   return (
-    <>
-      <Menu />
-      <Insider>
-        <Select 
-          loading={loading}
-          etc={etc}
-          setEtc={setEtc}
-          where={where}
-          setWhere={setWhere}
-          tmpOuting={tmpOuting}
-          setTmpOuting={setTmpOuting}
-          onButtonClick={putJasupData}
-        />
-      </Insider>
-    </>
+    <Select 
+      loading={loading}
+      etc={etc}
+      setEtc={setEtc}
+      where={where}
+      setWhere={setWhere}
+      tmpOuting={tmpOuting}
+      setTmpOuting={setTmpOuting}
+      onButtonClick={putJasupData}
+    />
   );
 };
 
