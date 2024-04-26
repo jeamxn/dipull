@@ -4,8 +4,7 @@ import React from "react";
 import SubMenu from "@/components/submenu";
 import Insider from "@/provider/insider";
 
-import { menu } from "./route";
-
+import { menu } from "./utils";
 
 export const metadata: Metadata = {
   title: "기상송 :: 디풀",
