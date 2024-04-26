@@ -116,7 +116,7 @@ const Jasup = () => {
   };
 
   return (
-    <div className="w-full h-full fixed bg-white top-0 left-0 flex flex-row items-center justify-center">
+    <div className="z-50 w-full h-full fixed bg-white top-0 left-0 flex flex-row items-center justify-center">
       {
         set ? (
           <Insider 
