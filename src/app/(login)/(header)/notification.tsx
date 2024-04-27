@@ -65,8 +65,8 @@ const Notification = () => {
       </div>
       <div 
         className={[
-          "bg-white absolute top-[3.6rem] right-0 z-50 notification w-96 max-w-[100vw] border border-text/10 rounded flex-col transition-opacity duration-300",
-          "max-[500px]:translate-x-4 max-[500px]:rounded-none max-[500px]:top-[3.3rem]",
+          "bg-white absolute top-[3.6rem] right-0 z-50 notification w-[100vw] max-w-96 border border-text/10 rounded flex-col transition-opacity duration-300",
+          "max-[500px]:rounded-none max-[500px]:top-[3.3rem] max-[500px]:max-w-[100vw] max-[500px]:fixed",
           isBlock ? "flex" : "hidden",
           isClicked ? "opacity-100" : "opacity-0",
         ].join(" ")}
