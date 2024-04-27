@@ -40,10 +40,9 @@ const Fast = () => {
       document.documentElement.style.setProperty("--key-color", getColor());
     };
     setColor();
-    const interval = setInterval(setColor, 1000);
+    // const interval = setInterval(setColor, 1000);
     get();
-
-    return () => clearInterval(interval);
+    // return () => clearInterval(interval);
   }, []);
 
   const get = async () => {
@@ -76,8 +75,8 @@ const Fast = () => {
       {/* <p className="text-text/40 text-sm font-bold">[ 주의 :: 이 사이트는 광과민성 발작을 유발할 수 있습니다 ]</p> */}
       {/* <p className="text-text/40 text-sm">[⚠️ 위험, 충격, 공포, 기괴 ⚠️] 절대 <button className="text-primary/40 underline" onClick={speedup}>여기</button>를 누르지 마세요!</p> */}
       <p className="text-text/40 text-sm">축하해줄 일이 있나요? <button className="text-primary/40 underline" onClick={firework}>여기</button>를 누르세요!</p>
-      <p></p>
-      <p></p>
+      {/* <p></p> */}
+      {/* <p></p> */}
     </>
   );
 };

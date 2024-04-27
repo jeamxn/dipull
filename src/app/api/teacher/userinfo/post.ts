@@ -27,13 +27,13 @@ const POST = async (
   // DB 접속
   const client = await connectToDatabase();
   const userCollection = client.db().collection("users");
-  const selectMember = await userCollection.findOne({ id: verified.payload.data.id }) as unknown as UserDB;
-  if(selectMember.type !== "teacher") return new NextResponse(JSON.stringify({
-    message: "교사만 접근 가능합니다.",
-  }), {
-    status: 403,
-    headers: new_headers
-  });
+  // const selectMember = await userCollection.findOne({ id: verified.payload.data.id }) as unknown as UserDB;
+  // if(selectMember.type !== "teacher") return new NextResponse(JSON.stringify({
+  //   message: "교사만 접근 가능합니다.",
+  // }), {
+  //   status: 403,
+  //   headers: new_headers
+  // });
 
   const { name } = await req.json();
 
@@ -51,7 +51,7 @@ const POST = async (
   ;
   const options = {
     // 15개만 가져오기
-    limit: 15
+    limit: 5
   };
   const result = await userCollection.find(query, options).toArray() as unknown as UserDB[];
   const data: UserInfo[] = result.map(e => ({
@@ -59,6 +59,8 @@ const POST = async (
     gender: e.gender,
     name: e.name,
     number: e.number,
+    profile_image: e.profile_image,
+    type: e.type,
   }));
   
   const stayResponse: UserInfoResponse = {

@@ -67,7 +67,11 @@ const RootLayout = async ({
       <body>
         <RecoilProvider>
           <ToastProvider>
-            <main>
+            <main
+              style={{
+                minHeight: "calc(100% - 3.5rem)",
+              }}
+            >
               {children}
             </main>
           </ToastProvider>

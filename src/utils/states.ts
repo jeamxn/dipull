@@ -18,3 +18,13 @@ export const notificationsAtom = atom<Notification[]>({
   key: "notifications",
   default: [],
 });
+
+export const isFooterAtom = atom({
+  key: "isFooter",
+  default: true,
+});
+
+export const isHeaderAtom = atom({
+  key: "isHeader",
+  default: true,
+});

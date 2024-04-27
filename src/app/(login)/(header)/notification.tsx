@@ -66,7 +66,7 @@ const Notification = () => {
       <div 
         className={[
           "bg-white absolute top-[3.6rem] right-0 z-50 notification w-[100vw] max-w-96 border border-text/10 rounded flex-col transition-opacity duration-300",
-          "max-[500px]:rounded-none max-[500px]:top-[3.3rem] max-[500px]:max-w-[100vw] max-[500px]:fixed",
+          "max-[520px]:rounded-none max-[520px]:top-[3.3rem] max-[520px]:max-w-[100vw] max-[520px]:fixed",
           isBlock ? "flex" : "hidden",
           isClicked ? "opacity-100" : "opacity-0",
         ].join(" ")}
@@ -100,7 +100,7 @@ const Notification = () => {
                 </div>
                 <div 
                   className={[
-                    "group/remove group-hover/notification:opacity-100 opacity-0 max-[500px]:opacity-100",
+                    "group/remove group-hover/notification:opacity-100 opacity-0 max-[520px]:opacity-100",
                     "h-10 w-10 p-2 flex flex-row items-center justify-center rounded-full hover:bg-text/15 transition-all cursor-pointer",
                   ].join(" ")}
                   onClick={() => {
