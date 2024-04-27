@@ -36,7 +36,7 @@ const MobileMenu = () => {
 
   return (
     <>
-      <nav className="hidden flex-row justify-around max-[425px]:flex z-50">
+      <nav className="hidden flex-row justify-around max-[500px]:flex z-50">
         <div 
           className={[
             "px-2 py-3 mx-2 my-1 rounded hover:bg-text/15 transition-all cursor-pointer",
@@ -50,7 +50,7 @@ const MobileMenu = () => {
         </div>
       </nav>
       <div className={[
-        "hidden max-[425px]:flex flex-col gap-2 justify-center items-center fixed top-0 left-0 w-full bg-background transition-all overflow-hidden z-40",
+        "hidden max-[500px]:flex flex-col gap-2 justify-center items-center fixed top-0 left-0 w-full bg-background transition-all overflow-hidden z-40",
         expanded ? "max-h-[100vh] h-[100vh]" : "max-h-0 h-0",
       ].join(" ")}
       style={{

@@ -26,7 +26,7 @@ const Menu = () => {
   }, [userInfo]);
 
   return (
-    <nav className="flex flex-row justify-around max-[425px]:hidden">
+    <nav className="flex flex-row justify-around max-[500px]:hidden">
       {
         menuCopy.map((item, index) => {
           const isCurrentPage = pathname.split("/")[1] === item.url.split("/")[1];
