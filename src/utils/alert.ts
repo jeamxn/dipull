@@ -72,14 +72,6 @@ const nofitication = ({
   }, 
   onGranted?: boolean
 }) => {
-  window.Notification.requestPermission().then((result) => {
-    if (result === "granted") {
-      navigator.serviceWorker.ready.then((registration) => {
-        registration.showNotification(message, options);
-      });
-    }
-  });
-
   const notify = () => {
     const notification = new window.Notification(message, { icon: "/favicon.ico", ...options });
     notification.onclick = () => {
