@@ -8,6 +8,7 @@ import React from "react";
 import RecoilProvider from "@/provider/RecoilProvider";
 import ToastProvider from "@/provider/ToastProvider";
 
+import AddServiceWorker from "./addServiceWorker";
 import Darkmode from "./Darkmode";
 
 export const metadata: Metadata = {
@@ -71,8 +72,9 @@ const RootLayout = async ({
             </main>
           </ToastProvider>
         </RecoilProvider>
-        <Analytics />
         <Darkmode />
+        <AddServiceWorker />
+        <Analytics />
       </body>
     </html>
   );

@@ -57,7 +57,7 @@ const MainLogo = () => {
       >
         <Image src="/public/logo.svg" alt="logo" width={24} height={24} />
       </Link>
-      <p className="font-semibold text-base hidden max-[425px]:flex">
+      <p className="font-semibold text-base hidden max-[500px]:flex">
         {
           menuCopy.map((item, index) => {
             const isCurrentPage = pathname.split("/")[1] === item.url.split("/")[1];

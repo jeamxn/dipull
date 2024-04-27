@@ -6,6 +6,7 @@ import { refreshVerify } from "@/utils/jwt";
 import MainLogo from "./(header)/mainLogo";
 import Menu from "./(header)/menu";
 import MobileMenu from "./(header)/MobileMenu";
+import Notification from "./(header)/notification";
 import User from "./(header)/user";
 import Alert from "./(joke)/alert";
 import Fast from "./(joke)/FAST";
@@ -47,7 +48,10 @@ const LoginedLayout = async ({
               <MainLogo />
               <Menu />
             </div>
-            <MobileMenu />
+            <div className="flex flex-row items-center relative">
+              <Notification />
+              <MobileMenu />
+            </div>
           </header>
         ) : null
       }
