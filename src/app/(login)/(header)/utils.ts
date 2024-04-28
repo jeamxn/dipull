@@ -29,11 +29,11 @@ export const mainMenu: MenuItem[] = [
     name: "자습",
     showname: "자습 위치 설정"
   },
-  {
-    url: "/dm",
-    name: "DM",
-    showname: "다이랙트 메시지"
-  },
+  // {
+  //   url: "/dm",
+  //   name: "DM",
+  //   showname: "다이랙트 메시지"
+  // },
 ];
 
 export const teachersMenu: MenuItem[] = [
