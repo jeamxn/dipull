@@ -101,7 +101,7 @@ a {
   text-decoration: none;
 }
 div{
-  user-select: none;
+  /* user-select: none; */
 }
 
 input, textarea, button, select {
@@ -112,6 +112,10 @@ input, textarea, button, select {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   outline: none;
+}
+
+body::-webkit-scrollbar {
+	z-index: 1000;
 }
 
 .loading_background {
