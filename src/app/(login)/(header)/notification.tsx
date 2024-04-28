@@ -18,17 +18,14 @@ const Notification = () => {
   React.useEffect(() => {
     let timer: NodeJS.Timeout;
     if(isClicked) {
-      const notificationPermission = alert.nofitication({
+      alert.nofitication({
         message: "알림을 허용했습니다.",
         options: {
           body: "알림을 허용했습니다.",
         },
         onGranted: false,
+        noError: true,
       });
-      if(!notificationPermission) {
-        setIsClicked(false);
-        return;
-      }
       setIsBlock(true);
     } else {
       timer = setTimeout(() => {
@@ -65,7 +62,7 @@ const Notification = () => {
       </div>
       <div 
         className={[
-          "bg-white absolute top-[3.6rem] right-0 z-50 notification w-[100vw] max-w-96 border border-text/10 rounded flex-col transition-opacity duration-300",
+          "mt-safe bg-white absolute top-[3.6rem] right-0 z-50 notification w-[100vw] max-w-96 border border-text/10 rounded flex-col transition-opacity duration-300",
           "max-[520px]:rounded-none max-[520px]:top-[3.3rem] max-[520px]:max-w-[100vw] max-[520px]:fixed",
           isBlock ? "flex" : "hidden",
           isClicked ? "opacity-100" : "opacity-0",
