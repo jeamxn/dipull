@@ -57,20 +57,22 @@ const nofitication = ({
   options,
   toToastify, 
   onGranted = true,
+  noError = false,
 }: {
-  url?: string,
-  message: string, 
-  options?: NotificationOptions,
+  url?: string;
+  message: string;
+  options?: NotificationOptions;
   toToastify?: {
-    toastifyType: "warn" | "error" | "success" | "loading" | "info",
-    options?: ToastOptions
+    toastifyType: "warn" | "error" | "success" | "loading" | "info";
+    options?: ToastOptions;
   } | {
-    toastifyType: "update",
-    id: Id,
-    type?: TypeOptions,
-    options?: UpdateOptions
+    toastifyType: "update";
+    id: Id;
+    type?: TypeOptions;
+    options?: UpdateOptions;
   }, 
-  onGranted?: boolean
+  onGranted?: boolean;
+  noError?: boolean;
 }) => {
   const notify = () => {
     const notification = new window.Notification(message, { icon: "/favicon.ico", ...options });
@@ -79,6 +81,7 @@ const nofitication = ({
     };
   };
   if (!("Notification" in window)) {
+    if(noError) return false;
     if(toToastify) {
       if(toToastify.toastifyType === "update") {
         update(toToastify.id, message, toToastify.type, toToastify.options);
@@ -91,6 +94,7 @@ const nofitication = ({
     return false;
   }
   else if(window.Notification.permission === "denied") {
+    if(noError) return false;
     if(toToastify) {
       if(toToastify.toastifyType === "update") {
         update(toToastify.id, message, toToastify.type, toToastify.options);
@@ -105,6 +109,7 @@ const nofitication = ({
   else if (window.Notification.permission === "default") {
     window.Notification.requestPermission().then((permission) => {
       if(permission === "denied") {
+        if(noError) return false;
         if(toToastify) {
           if(toToastify.toastifyType === "update") {
             update(toToastify.id, message, toToastify.type, toToastify.options);
