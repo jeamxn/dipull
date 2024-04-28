@@ -46,6 +46,8 @@ const GET = async (
       gender: user.gender,
       name: user.name,
       number: user.number,
+      profile_image: user.profile_image,
+      type: user.type,
     });
   }
 
