@@ -4,6 +4,7 @@ import * as jose from "jose";
 import moment from "moment";
 import React from "react";
 
+import { TopBambooType } from "@/app/api/bamboo/utils";
 import { TokenInfo, defaultUserData } from "@/app/auth/type";
 import Insider from "@/provider/insider";
 import { alert } from "@/utils/alert";
@@ -39,7 +40,7 @@ const Bamboo = () => {
   const [grade, setGrade] = React.useState(true);
   const [data, setData] = React.useState<Data[]>([]);
   const [top, setTop] = React.useState<Data[]>([]);
-  const [topType, setTopType] = React.useState<"day" | "week">("day");
+  const [topType, setTopType] = React.useState<TopBambooType>("day");
 
   const put = async () => {
     setLoading(true);
@@ -190,7 +191,7 @@ const Bamboo = () => {
       </section>
       <section className="flex flex-col gap-3">
         <section className="flex flex-row gap-2">
-          <h1 className="text-xl font-semibold">최고의 대나무</h1>
+          <h1 className="text-xl font-semibold whitespace-nowrap">최고의 대나무</h1>
           <h1 className="text-xl font-semibold">::</h1>
           <div className="flex flex-row gap-1">
             <h1 
@@ -208,6 +209,14 @@ const Bamboo = () => {
               ].join(" ")}
               onClick={() => setTopType("week")}
             >일주일</h1>
+            <h1 className="text-xl font-semibold text-text/30">·</h1>
+            <h1 
+              className={[
+                "text-xl font-semibold cursor-pointer",
+                topType === "all" ? "text-text" : "text-text/30",
+              ].join(" ")}
+              onClick={() => setTopType("all")}
+            >전체</h1>
           </div>
         </section>
         {
