@@ -6,11 +6,12 @@ import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
 import { getApplyStartDate } from "../../../stay/utils";
+import { TopBambooType } from "../../utils";
 
 const GET = async (
   req: Request,
   { params }: { params: {
-    type: "week" | "day",
+    type: TopBambooType;
   } }
 ) => {
   // 헤더 설정
@@ -36,7 +37,9 @@ const GET = async (
     {
       $match: {
         timestamp: {
-          $gte: params.type === "day" ? moment().tz("Asia/Seoul").format("YYYY-MM-DD") : await getApplyStartDate(),
+          $gte: params.type === "day" ? 
+            moment().tz("Asia/Seoul").format("YYYY-MM-DD") : 
+            params.type === "week" ? await getApplyStartDate() : "",
         },
       }
     },
