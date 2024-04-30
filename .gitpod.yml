@@ -3,7 +3,7 @@ image:
 
 tasks:
   - init: |
-      mkdir -p /workspace/data && mongod --dbpath /workspace/data
+      mkdir -p /workspace/data && mongod --fork --dbpath /workspace/data
       curl -fsSL https://bun.sh/install | bash && source ~/.bashrc 
       bun install
     command: bun dev
