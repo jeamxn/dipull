@@ -10,58 +10,60 @@ import { rand } from "@/utils/random";
 import { isFireworkFrameAtom } from "@/utils/states";
 
 const Fast = () => {
-  const getColor: () => string = () => {
-    const randomR = rand(0, 255);
-    const randomG = rand(0, 255);
-    const randomB = rand(0, 255);
-    const isDark = isDarkColor(randomR, randomG, randomB);
-    const isDarkMode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-    if(isDarkMode && isDark) return getColor();
-    else if(!isDarkMode && !isDark) return getColor();
-    return `${randomR} ${randomG} ${randomB}`;
-  };
-  const speedup = () => {
-    const colors = ["blue", "black", "red", "white"];
-    put();
-    let type = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? 1 : 0;
-    const color = () => {
-      document.documentElement.style.setProperty("--transition-default", " ");
-      document.documentElement.style.setProperty("--color-background", `var(--color-background-${colors[type]})`);
-      document.documentElement.style.setProperty("--color-text", `var(--color-text-${colors[type]})`);
-      document.documentElement.style.setProperty("--color-white", `var(--color-white-${colors[type]})`);
-      type += 1;
-      if(type === colors.length) type = 0;
+  /*
+    const getColor: () => string = () => {
+      const randomR = rand(0, 255);
+      const randomG = rand(0, 255);
+      const randomB = rand(0, 255);
+      const isDark = isDarkColor(randomR, randomG, randomB);
+      const isDarkMode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      if(isDarkMode && isDark) return getColor();
+      else if(!isDarkMode && !isDark) return getColor();
+      return `${randomR} ${randomG} ${randomB}`;
     };
-    color();
-    setInterval(color, 50);
-  };
+    const speedup = () => {
+      const colors = ["blue", "black", "red", "white"];
+      put();
+      let type = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? 1 : 0;
+      const color = () => {
+        document.documentElement.style.setProperty("--transition-default", " ");
+        document.documentElement.style.setProperty("--color-background", `var(--color-background-${colors[type]})`);
+        document.documentElement.style.setProperty("--color-text", `var(--color-text-${colors[type]})`);
+        document.documentElement.style.setProperty("--color-white", `var(--color-white-${colors[type]})`);
+        type += 1;
+        if(type === colors.length) type = 0;
+      };
+      color();
+      setInterval(color, 50);
+    };
+
+    const get = async () => {
+      try {
+        const res = await instance("/api/joke");
+        console.log(res.data.isJoking);
+        if(res.data.isJoking) speedup();
+      } catch(e) {
+        console.error(e);
+      }
+    };
+
+    const put = async () => {
+      try {
+        await instance.put("/api/joke");
+      } catch(e) {
+        console.error(e);
+      }
+    };
+  */
+
   React.useEffect(() => {
     const setColor = () => {
-      document.documentElement.style.setProperty("--key-color", getColor());
+      const color = localStorage.getItem("color") || "64 84 214";
+      localStorage.setItem("color", color);
+      document.documentElement.style.setProperty("--key-color", color);
     };
     setColor();
-    // const interval = setInterval(setColor, 1000);
-    get();
-    // return () => clearInterval(interval);
   }, []);
-
-  const get = async () => {
-    try {
-      const res = await instance("/api/joke");
-      console.log(res.data.isJoking);
-      if(res.data.isJoking) speedup();
-    } catch(e) {
-      console.error(e);
-    }
-  };
-
-  const put = async () => {
-    try {
-      await instance.put("/api/joke");
-    } catch(e) {
-      console.error(e);
-    }
-  };
 
   const setIsFireworkFrame = useSetRecoilState(isFireworkFrameAtom);
   const firework = () => {

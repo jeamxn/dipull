@@ -1,10 +1,9 @@
 "use client";
 
 import * as jose from "jose";
-import Image from "next/image";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
+import { TwitterPicker } from "react-color";
 
 import { TokenInfo, defaultUserData } from "@/app/auth/type";
 
@@ -18,6 +17,7 @@ const MainLogo = () => {
   const router = useRouter();
   const [menuCopy, setMenuCopy] = React.useState(mainMenu);
   const [userInfo, setUserInfo] = React.useState(defaultUserData);
+  const [clicked, setClicked] = React.useState(false);
 
   React.useEffect(() => {
     const accessToken = localStorage.getItem("accessToken")!;
@@ -51,9 +51,9 @@ const MainLogo = () => {
 
   return (
     <div className="flex flex-row items-center justify-center">
-      <Link 
-        href="/"
-        className="flex flex-row items-center justify-start gap-2 p-2 m-2 rounded hover:bg-text/15 cursor-pointer z-50 w-10 h-10"
+      <div
+        className="flex flex-row items-center justify-start gap-2 p-2 m-2 rounded hover:bg-text/15 cursor-pointer z-50 w-10 h-10 relative"
+        onClick={() => setClicked(p => !p)}
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 21" fill="none">
           <g clipPath="url(#clip0_1_1390)">
@@ -68,7 +68,20 @@ const MainLogo = () => {
             </clipPath>
           </defs>
         </svg>
-      </Link>
+        {
+          clicked ? (
+            <TwitterPicker
+              color={localStorage.getItem("color") || "#4054d6"}
+              onChange={(color) => {
+                const colorRgb = color.rgb.r + " " + color.rgb.g + " " + color.rgb.b;
+                localStorage.setItem("color", colorRgb);
+                document.documentElement.style.setProperty("--key-color", colorRgb);
+              }}
+              className="absolute z-50 top-14 bg-white -ml-[0.625rem]"
+            />
+          ) : null
+        }
+      </div>
       <p className="font-semibold text-base hidden max-[520px]:flex whitespace-nowrap">
         {
           menuCopy.map((item, index) => {
