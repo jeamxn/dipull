@@ -49,10 +49,24 @@ const MainLogo = () => {
     };
   }, [pathname, menuCopy]);
 
+  React.useEffect(() => {
+    //다른 곳 눌렀을 때 isClicked를 false로 만들어야 함
+    const handleClick = (e: MouseEvent) => {
+      if(
+        !(e.target as HTMLElement).closest(".logo-icon") 
+        && !(e.target as HTMLElement).closest(".color-picker")
+      ) {
+        setClicked(false);
+      }
+    };
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, []);
+
   return (
     <div className="flex flex-row items-center justify-center">
       <div
-        className="flex flex-row items-center justify-start gap-2 p-2 m-2 rounded hover:bg-text/15 cursor-pointer z-50 w-10 h-10 relative"
+        className="logo-icon flex flex-row items-center justify-start gap-2 p-2 m-2 rounded hover:bg-text/15 cursor-pointer z-50 w-10 h-10 relative"
         onClick={() => setClicked(p => !p)}
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 21" fill="none">
@@ -77,7 +91,7 @@ const MainLogo = () => {
                 localStorage.setItem("color", colorRgb);
                 document.documentElement.style.setProperty("--key-color", colorRgb);
               }}
-              className="absolute z-50 top-14 bg-white -ml-[0.625rem]"
+              className="color-picker absolute z-50 top-14 -ml-[0.625rem]"
             />
           ) : null
         }
