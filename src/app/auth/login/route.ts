@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 import "moment-timezone";
 
 import { connectToDatabase } from "@/utils/db";
-import { refresh, sign } from "@/utils/jwt";
+import { refresh, refreshVerify, sign } from "@/utils/jwt";
 
 import type { DB_userData, TokenInfo, UserData } from "../type";
 

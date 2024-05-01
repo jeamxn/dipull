@@ -15,7 +15,7 @@ const List = () => {
     setLoading(true);
     try {
       const { data } = await instance.get("/api/pikachu");
-      console.log(data);
+      // console.log(data);
       setData(data.data);
     } catch (e) {
       console.error(e);
