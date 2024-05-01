@@ -4,15 +4,23 @@ import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
+import { alert } from "@/utils/alert";
+
 const Auth = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
   const login = async () => {
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_APP_URI}/auth/login?token=${token}`);
-    localStorage.setItem("accessToken", res.data.accessToken);
-    router.replace("/");
+    try{
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_APP_URI}/auth/login?token=${token}`);
+      localStorage.setItem("accessToken", res.data.accessToken);
+      router.replace("/");
+    }
+    catch {
+      alert.info("로그인에 실패했습니다.");
+      router.replace("/login");
+    }
   };
 
   React.useEffect(() => {
