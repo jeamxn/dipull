@@ -4,11 +4,9 @@ image:
 tasks:
   - name: nextjs
     init: |
-      mkdir -p /workspace/data
       curl -fsSL https://bun.sh/install | bash && source ~/.bashrc 
       bun install
     command: |
-      mongod --fork --logpath /var/log/mongod.log --dbpath /workspace/data
       bun dev
       
 ports:
