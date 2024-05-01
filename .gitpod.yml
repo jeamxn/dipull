@@ -1,8 +1,10 @@
-image: gitpod/workspace-bun
+image:
+  file: .gitpod.Dockerfile
 
 tasks:
   - name: nextjs
     init: |
+      npm install -g bun
       bun install
       docker compose pull
     command: |
