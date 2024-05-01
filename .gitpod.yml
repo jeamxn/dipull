@@ -3,8 +3,9 @@ tasks:
     init: |
       curl -fsSL https://bun.sh/install | bash && source ~/.bashrc 
       bun install
+      docker compose pull
     command: |
-      mkdir -p /workspace/data && mongod --dbpath /workspace/data --fork --logpath /workspace/data/mongod.log
+      docker compose up -d
       bun dev
 
 ports:
