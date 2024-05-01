@@ -2,7 +2,7 @@ import axios from "axios";
 
 // axios 인스턴스를 생성
 const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_APP_URI,
+  baseURL: window.location.origin,
   withCredentials: false,
   headers: {
   }
@@ -24,7 +24,7 @@ instance.interceptors.response.use(
   (response) => response, 
   async (error) => {
     if(error.response.status === 401) {
-      const refresh = await axios.get(`${process.env.NEXT_PUBLIC_APP_URI}/auth/refresh`);
+      const refresh = await axios.get(`${window.location.origin}/auth/refresh`);
       const accessToken = refresh.data.accessToken;
       localStorage.setItem("accessToken", accessToken);
       error.config.headers.Authorization = `Bearer ${accessToken}`;
