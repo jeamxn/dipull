@@ -1,14 +1,15 @@
-image:
-    file: .gitpod.dockerfile
-
 tasks:
   - name: nextjs
     init: |
       curl -fsSL https://bun.sh/install | bash && source ~/.bashrc 
       bun install
     command: |
+      mkdir -p /workspace/data && mongod --dbpath /workspace/data --fork --logpath /workspace/data/mongod.log
       bun dev
-      
+
+image:
+    file: .gitpod.dockerfile
+
 ports:
   - name: mognodb
     port: 27017
