@@ -1,7 +1,8 @@
+image: gitpod/workspace-bun
+
 tasks:
   - name: nextjs
     init: |
-      curl -fsSL https://bun.sh/install | bash && source ~/.bashrc 
       bun install
       docker compose pull
     command: |
@@ -13,7 +14,7 @@ ports:
     port: 27017
     onOpen: ignore
   - name: mognodb-express
-    port: 8081
+    port: 8081  
     onOpen: open-browser
   - name: NEXT.JS
     port: 3000
