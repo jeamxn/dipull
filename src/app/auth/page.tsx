@@ -13,7 +13,7 @@ const Auth = () => {
 
   const login = async () => {
     try{
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_APP_URI}/auth/login?token=${token}`);
+      const res = await axios.get(`/auth/login?token=${token}`);
       localStorage.setItem("accessToken", res.data.accessToken);
       router.replace("/");
     }

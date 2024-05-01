@@ -49,7 +49,7 @@ const BambooBox = ({
             onClick={() => {
               if(isComment) return;
               let tempInput = document.createElement("input");
-              tempInput.value = `${process.env.NEXT_PUBLIC_APP_URI}/bamboo/${item._id}`;
+              tempInput.value = `${window.location.origin}/bamboo/${item._id}`;
               document.body.appendChild(tempInput);
               tempInput.select();
               document.execCommand("copy");
