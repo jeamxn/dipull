@@ -2,8 +2,18 @@ image:
     file: .gitpod.dockerfile
 
 tasks:
-  - init: |
-      mkdir -p /workspace/data && mongod --fork --dbpath /workspace/data
+  - name: nextjs
+    init: |
       curl -fsSL https://bun.sh/install | bash && source ~/.bashrc 
       bun install
     command: bun dev
+  - name: database
+    command: mkdir -p /workspace/data && mongod --fork --dbpath /workspace/data
+
+ports:
+  - name: mognodb
+    port: 27017
+    onOpen: ignore
+  - name: NEXT.JS
+    port: 3000
+    onOpen: open-browser
