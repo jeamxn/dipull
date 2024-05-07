@@ -40,20 +40,46 @@ const GET = async (
 
   const homecomingCollection = client.db().collection("homecoming");
   const query = { week: await getApplyStartDate() };
-  const result = await homecomingCollection.find(query).toArray() as unknown as HomecomingDB[];
+  const aggregationPipeline = [
+    {
+      $lookup: {
+        from: "users",
+        localField: "id",
+        foreignField: "id",
+        as: "userInfo"
+      }
+    },
+    {
+      $unwind: "$userInfo"
+    },
+    {
+      $project: {
+        _id: 0,
+        id: "$id",
+        name: "$userInfo.name",
+        number: "$userInfo.number",
+        reason: "$reason",
+        week: "$week",
+        time: "$time",
+      }
+    },
+    {
+      $match: query
+    }
+  ];
+  const result = await homecomingCollection.aggregate(aggregationPipeline).toArray();
+
   const byGradeClassObj: SheetByGradeClassObj = {};
   for(const e of result) {
-    const user = await userCollection.findOne({ id: e.id }) as unknown as UserDB;
-    if(!user?.id) continue;
-    const grade = Math.floor(user.number / 1000);
-    const classNum = Math.floor(user.number / 100) % 10;
+    const grade = Math.floor(e.number / 1000);
+    const classNum = Math.floor(e.number / 100) % 10;
     if(!byGradeClassObj[grade]) byGradeClassObj[grade] = {};
     if(!byGradeClassObj[grade][classNum]) byGradeClassObj[grade][classNum] = [];
     const pushData: SheetGradeClassInner = {
-      id: user.id,
-      name: user.name,
-      number: user.number,
-      gender: user.gender,
+      id: e.id,
+      name: e.name,
+      number: e.number,
+      gender: e.gender,
       week: e.week,
       reason: e.reason,
       time: e.time,
