@@ -9,6 +9,7 @@ import Comments from "@/components/comments";
 import Insider from "@/provider/insider";
 
 import Iwannagohome from "./iwannagohome";
+import Luck from "./luck";
 // import Meal from "./meal";
 // import Timetable from "./timetable";
 
@@ -39,6 +40,7 @@ const Home = () => {
             </article>
           ) : null
         }
+        <Luck />
         <Iwannagohome />
         <Comments />
       </Insider>
