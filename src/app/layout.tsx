@@ -62,6 +62,7 @@ const RootLayout = async ({
       <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafaff"/>
       <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#000000"/>
+      <meta name="google-adsense-account" content="ca-pub-7372688315698125" />
       <link rel="apple-touch-icon" href="/public/icons/apple-touch-icon.png" />
       <body>
         <RecoilProvider>
