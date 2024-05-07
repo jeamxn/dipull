@@ -36,32 +36,84 @@ const GET = async (
     headers: new_headers
   });
 
-
   const stayCollection = client.db().collection("stay");
-  const outingCollection = client.db().collection("outing");
   const query = { week: await getApplyStartDate() };
-  const result = await stayCollection.find(query).toArray() as unknown as StayDB[];
+
+  const result = await stayCollection.aggregate([
+    { $match: query },
+    {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "id",
+        as: "user"
+      }
+    },
+    {
+      $lookup: {
+        from: "outing",
+        let: { ownerId: "$owner", week: "$week" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$owner", "$$ownerId"] },
+                  { $eq: ["$week", "$$week"] }
+                ]
+              }
+            }
+          }
+        ],
+        as: "outing"
+      }
+    },
+    {
+      $addFields: {
+        user: { $arrayElemAt: ["$user", 0] },
+        outing: { $arrayElemAt: ["$outing", 0] }
+      }
+    },
+    {
+      $addFields: {
+        grade: { $floor: { $divide: ["$user.number", 1000] } },
+        classNum: { $floor: { $mod: [{ $divide: ["$user.number", 100] }, 10] } }
+      }
+    },
+    {
+      $group: {
+        _id: { grade: "$grade", classNum: "$classNum" },
+        data: {
+          $push: {
+            id: "$user.id",
+            name: "$user.name",
+            number: "$user.number",
+            gender: "$user.gender",
+            seat: "$seat",
+            week: "$week",
+            sat: { $ifNull: ["$outing.sat", defaultOutingData] },
+            sun: { $ifNull: ["$outing.sun", defaultOutingData] }
+          }
+        }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        grade: "$_id.grade",
+        classNum: "$_id.classNum",
+        data: 1
+      }
+    }
+  ]).toArray();
+
   const byGradeClassObj: SheetByGradeClassObj = {};
-  for(const e of result) {
-    const user = await userCollection.findOne({ id: e.owner }) as unknown as UserDB;
-    const outing = await outingCollection.findOne({ owner: e.owner, week: e.week }) as unknown as OutingDB;
-    if(!user?.id) continue;
-    const grade = Math.floor(user.number / 1000);
-    const classNum = Math.floor(user.number / 100) % 10;
-    if(!byGradeClassObj[grade]) byGradeClassObj[grade] = {};
-    if(!byGradeClassObj[grade][classNum]) byGradeClassObj[grade][classNum] = [];
-    const pushData: SheetGradeClassInner = {
-      id: user.id,
-      name: user.name,
-      number: user.number,
-      gender: user.gender,
-      seat: e.seat,
-      week: e.week,
-      sat: outing?.sat || defaultOutingData,
-      sun: outing?.sun || defaultOutingData,
-    };
-    byGradeClassObj[grade][classNum].push(pushData);
-  }
+  result.forEach((item: any) => {
+    const { grade, classNum, data } = item;
+    if (!byGradeClassObj[grade]) byGradeClassObj[grade] = {};
+    if (!byGradeClassObj[grade][classNum]) byGradeClassObj[grade][classNum] = [];
+    byGradeClassObj[grade][classNum] = data;
+  });
   
   const response: SheetResponse = {
     message: "성공적으로 데이터를 가져왔습니다.",

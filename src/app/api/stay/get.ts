@@ -27,28 +27,51 @@ const GET = async (
   // DB 접속
   const client = await connectToDatabase();
   const stayCollection = client.db().collection("stay");
-  const userCollection = client.db().collection("users");
   const studyroomCollection = client.db().collection("studyroom");
   const query = { week: await getApplyStartDate() };
-  const result = await stayCollection.find(query).toArray() as unknown as StayDB[];
+  const aggregationPipeline = [
+    {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "id",
+        as: "userInfo"
+      }
+    },
+    {
+      $unwind: "$userInfo"
+    },
+    {
+      $project: {
+        _id: 0,
+        id: "$owner",
+        name: "$userInfo.name",
+        number: "$userInfo.number",
+        seat: "$seat",
+        week: "$week"
+      }
+    },
+    {
+      $match: query
+    }
+  ];
+  const result = await stayCollection.aggregate(aggregationPipeline).toArray();
+
 
   const bySeatsObj: BySeatsObj = {};
   const byGradeClassObj: ByGradeClassObj = {};
   for(const e of result) {
-    const user = await userCollection.findOne({ id: e.owner }) as unknown as UserDB;
-    if(!user?.id) continue;
     if(!bySeatsObj[e.seat[0]]) bySeatsObj[e.seat[0]] = {};
-    bySeatsObj[e.seat[0]][e.seat.slice(1, e.seat.length)] = `${user.number} ${user.name}`;
-
-    const grade = Math.floor(user.number / 1000);
-    const classNum = Math.floor(user.number / 100) % 10;
+    bySeatsObj[e.seat[0]][e.seat.slice(1, e.seat.length)] = `${e.number} ${e.name}`;
+    const grade = Math.floor(e.number / 1000);
+    const classNum = Math.floor(e.number / 100) % 10;
     if(!byGradeClassObj[grade]) byGradeClassObj[grade] = {};
     if(!byGradeClassObj[grade][classNum]) byGradeClassObj[grade][classNum] = [];
     const pushData: GradeClassInner = {
-      id: user.id,
-      name: user.name,
-      number: user.number,
-      gender: user.gender,
+      id: e.id,
+      name: e.name,
+      number: e.number,
+      gender: e.gender,
       seat: e.seat,
       week: e.week,
     };
@@ -58,7 +81,6 @@ const GET = async (
   const mySelectQuery = { week: await getApplyStartDate(), owner: verified.payload.id };
   const mySelect = await stayCollection.findOne(mySelectQuery) as unknown as StayDB;
   const { seat } = mySelect || { seat: "" };
-
   
   const getAllOfStudyroom = await studyroomCollection.find({}).toArray() as unknown as StudyroomDB[];
   const studyroomData: StudyroomData[] = getAllOfStudyroom.map(({_id, ...e}) => e);

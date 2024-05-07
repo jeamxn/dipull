@@ -1,4 +1,6 @@
 import "moment-timezone";
+import { machine } from "os";
+
 import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -37,16 +39,42 @@ const GET = async (
   // DB에서 불러오기
   const client = await connectToDatabase();
   const machineCollection = client.db().collection("machine");
-  const userCollection = client.db().collection("users");
   const query = { type: params.type, date: moment().tz("Asia/Seoul").format("YYYY-MM-DD") };
-  const result = await machineCollection.find(query).toArray() as unknown as MachineDB[];
+  const aggregationPipeline = [
+    {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "id",
+        as: "userInfo"
+      }
+    },
+    {
+      $unwind: "$userInfo"
+    },
+    {
+      $project: {
+        _id: 0,
+        id: "$owner",
+        name: "$userInfo.name",
+        number: "$userInfo.number",
+        machine: "$machine",
+        time: "$time",
+        date: "$date",
+        type: "$type",
+      }
+    },
+    {
+      $match: query
+    }
+  ];
+  const result = await machineCollection.aggregate(aggregationPipeline).toArray();
 
   const isStay = moment().tz("Asia/Seoul").day() === 0 || moment().tz("Asia/Seoul").day() === 6;
 
   const defaultData = getDefaultValue(params.type, isStay);
   for(const item of result) {
-    const userData = await userCollection.findOne({ id: item.owner }) as unknown as UserData;
-    defaultData[item.machine].time[item.time] = `${userData.number} ${userData.name}`;
+    defaultData[item.machine].time[item.time] = `${item.number} ${item.name}`;
   }
 
   const myBookQuery = { type: params.type, date: moment().tz("Asia/Seoul").format("YYYY-MM-DD"), owner: verified.userId };
