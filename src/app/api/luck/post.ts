@@ -47,7 +47,7 @@ const POST = async (
     "애정운": convert[10],
     "금전운": convert[12],
     "직장운": convert[14],
-    "학업, 성적운": convert[16],
+    "학업운": convert[16],
     "건강운": convert[18],
   };
 
