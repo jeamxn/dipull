@@ -63,7 +63,7 @@ const Luck = () => {
               setDate(e.target.value);
               localStorage.setItem("birthday", e.target.value);
             }}
-            className="bg-transparent w-full text-text"
+            className="bg-transparent w-full text-text text-left"
           />
           <p className="text-text/45">생일을 입력해주세요.</p>
           <p className="text-text/45">운세는 <a className="text-primary/50 underline" href="https://search.naver.com/search.naver?query=네이버+운세" target="_blank" rel="noreferrer">네이버</a>에서 불러옵니다! 재미로만 참고해주세요!</p>
