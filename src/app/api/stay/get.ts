@@ -47,8 +47,9 @@ const GET = async (
         id: "$owner",
         name: "$userInfo.name",
         number: "$userInfo.number",
+        gender: "$userInfo.gender",
         seat: "$seat",
-        week: "$week"
+        week: "$week",
       }
     },
     {
