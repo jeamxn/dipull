@@ -77,6 +77,12 @@
     --color-white: var(--color-white-dark);
   }
 }
+
+::selection {
+  background-color: rgb(var(--color-primary) / 1);
+  color: rgb(var(--color-text) / 1);
+}
+
 html,
 body {
   width: 100%;
