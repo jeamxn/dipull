@@ -224,3 +224,5 @@ body::-webkit-scrollbar {
   opacity: 0;
   pointer-events: none;
 }
+
+.input-left::-webkit-date-and-time-value{ text-align:left; }
