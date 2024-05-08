@@ -9,7 +9,7 @@ import LuckComponent from "./luckCompoenet";
 
 const Luck = () => {
   const [loading, setLoading] = React.useState(false);
-  const [date, setDate] = React.useState(moment("20060927").format("YYYYMMDD"));
+  const [date, setDate] = React.useState("2006-09-27");
   const [data, setData] = React.useState<LuckData>({
     "총운": "",
     "애정운": "",
