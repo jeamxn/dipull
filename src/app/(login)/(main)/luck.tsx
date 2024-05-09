@@ -19,7 +19,6 @@ const Luck = () => {
     "건강운": "",
   });
   const [show, setShow] = React.useState(false);
-  const [current, setCurrent] = React.useState<keyof LuckData | null>("총운");
 
   const get = async () => {
     if(date > moment().format("YYYYMMDD")){
@@ -32,9 +31,7 @@ const Luck = () => {
       const { data } = await instance.post("/api/luck", {
         date: moment(date).format("YYYYMMDD"),
       });
-      setCurrent("총운");
       setData(data.data);
-      console.log(data);
     }
     catch(e){
       console.error(e);
@@ -44,7 +41,6 @@ const Luck = () => {
 
   React.useEffect(() => {
     const birthday = localStorage.getItem("birthday");
-    console.log(birthday);
     if(birthday) setDate(birthday);
   }, []);
 
@@ -82,19 +78,16 @@ const Luck = () => {
                 <h1 className="text-base text-text/40 w-full text-center">운세를 불러오는 중...</h1>
               ) : 
                 Object.entries(data).map(([key, value], index) => (
-                  <>
+                  <React.Fragment key={index}>
                     <LuckComponent 
-                      key={key}
                       keyString={key as keyof LuckData}
-                      current={current}
-                      setCurrent={setCurrent}
                       value={value} 
                       loading={loading}
                     />
                     {
                       index === Object.keys(data).length - 1 ? null : <hr className="border-t border-text/10" />
                     }
-                  </>
+                  </React.Fragment>
                 ))
             }
           </div>
