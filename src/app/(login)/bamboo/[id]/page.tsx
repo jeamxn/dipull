@@ -196,7 +196,7 @@ const Bamboo = (
       <section className="flex flex-col gap-3">
         <section className="flex flex-row gap-0 items-center">
           <Link
-            href={"/bamboo#"+data.number}
+            href={`/bamboo#${data.number}`}
             className="p-2 cursor-pointer"
           >
             <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
