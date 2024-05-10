@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import React from "react";
 
+import Insider from "@/provider/insider";
 import { connectToDatabase } from "@/utils/db";
 import { refreshVerify } from "@/utils/jwt";
 
@@ -42,25 +43,27 @@ const Pict = async () => {
   const result = await jolupPictCollection.find(query).project(projection).toArray();
 
   return (
-    <div className="flex flex-col gap-2 mt-4">
-      {
-        result.length ? result.map((r, i) => (
-          <a 
-            href={r.url} 
-            key={i} 
-            target="_blank" 
-            rel="noreferrer"
-            className="select-none"
-          >
-            <div className="p-4 rounded border border-text/10 bg-white">
-              <p>{r.who.join(" ")}</p>
-            </div>
-          </a>
-        )) : (
-          <h1>최재민의 핸드폰으로 찍은 사진이 없습니다.</h1>
-        )
-      }
-    </div>
+    <Insider>
+      <div className="flex flex-col gap-2 mt-4">
+        {
+          result.length ? result.map((r, i) => (
+            <a 
+              href={r.url} 
+              key={i} 
+              target="_blank" 
+              rel="noreferrer"
+              className="select-none"
+            >
+              <div className="p-4 rounded border border-text/10 bg-white">
+                <p>{r.who.join(" ")}</p>
+              </div>
+            </a>
+          )) : (
+            <h1>최재민의 핸드폰으로 찍은 사진이 없습니다.</h1>
+          )
+        }
+      </div>
+    </Insider>
   );
 };
 
