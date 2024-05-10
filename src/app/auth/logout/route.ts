@@ -11,6 +11,14 @@ export const GET = async (req: Request) => {
   // 헤더 설정
   const new_headers = new Headers();
   new_headers.append("Content-Type", "application/json; charset=utf-8");
+  
+  // 쿠키 설정
+  const refreshTokenCookie = serialize("refreshToken", "", {
+    path: "/",
+    expires: moment().tz("Asia/Seoul").subtract(1, "days").toDate(),
+    httpOnly: true,
+  });
+  new_headers.append("Set-Cookie", refreshTokenCookie);
     
   // Authorization 헤더 확인
   const authorization = headers().get("authorization");
@@ -31,14 +39,6 @@ export const GET = async (req: Request) => {
       refreshToken: "",
     }
   });
-
-  // 쿠키 설정
-  const refreshTokenCookie = serialize("refreshToken", "", {
-    path: "/",
-    expires: moment().tz("Asia/Seoul").subtract(1, "days").toDate(),
-    httpOnly: true,
-  });
-  new_headers.append("Set-Cookie", refreshTokenCookie);
   
   // 응답
   return new NextResponse(JSON.stringify({
