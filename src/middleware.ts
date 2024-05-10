@@ -13,6 +13,11 @@ export const middleware = async (request: NextRequest) => {
   requestHeaders.set("x-origin", origin);
 
   try{
+    const userAgent = requestHeaders.get("user-agent");
+    if(userAgent?.includes("KAKAOTALK")){
+      return NextResponse.redirect(`kakaotalk://web/openExternal?url=${encodeURIComponent(request.url)}`);
+    }
+    
     if(!request.nextUrl.pathname.startsWith("/login")){
       if(!verified.ok) {
         return NextResponse.redirect(new URL("/login", origin));
