@@ -23,7 +23,8 @@ const BambooBox = ({
   const router = useRouter();
   const diff = moment().diff(moment(item.timestamp, "YYYY-MM-DD HH:mm:ss"), "minutes");
   return (
-    <article 
+    <article
+      id={(item.number || 0).toString()}
       className={[
         "flex flex-col gap-2 bg-white rounded border border-text/10 p-5 justify-start items-start overflow-auto",
         loading ? "loading_background" : "",
