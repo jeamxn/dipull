@@ -41,30 +41,80 @@ const OutingOption = ({
             onChange={e => setTmpOuting(p => ({ ...p, description: e.target.value }))}
           />
           {
-            title === "일요일" ? (
+            title === "토요일" ? (
               <button 
                 className="w-min text-base rounded h-10 bg-text/10 border border-text/10 px-4"
                 onClick={() => {
                   if(data.outing.find(outing => 
-                    outing.description === "자기계발외출" &&
-                    outing.start === "10:20" &&
-                    outing.end === "14:00"
+                    outing.description === "KT" &&
+                    outing.start === "09:00" &&
+                    outing.end === "22:40"
                   )) return;
                   setData(p => {
                     const meal = { ...p.meal };
-                    meal.lunch = false;
                     const outing = [ ...p.outing ];
                     outing.push({
-                      start: "10:20",
-                      end: "14:00",
-                      description: "자기계발외출"
+                      start: "09:00",
+                      end: "22:40",
+                      description: "KT"
                     });
                     return { meal, outing };
                   });
                 }}
               >
-                자기계발외출
+                KT
               </button>
+            ) : null
+          }
+          {
+            title === "일요일" ? (
+              <div className="flex flex-row gap-2">
+                <button 
+                  className="w-min text-base rounded h-10 bg-text/10 border border-text/10 px-4"
+                  onClick={() => {
+                    if(data.outing.find(outing => 
+                      outing.description === "자기계발외출" &&
+                      outing.start === "10:20" &&
+                      outing.end === "14:00"
+                    )) return;
+                    setData(p => {
+                      const meal = { ...p.meal };
+                      meal.lunch = false;
+                      const outing = [ ...p.outing ];
+                      outing.push({
+                        start: "10:20",
+                        end: "14:00",
+                        description: "자기계발외출"
+                      });
+                      return { meal, outing };
+                    });
+                  }}
+                >
+                  자기계발외출
+                </button>
+                <button 
+                  className="w-min text-base rounded h-10 bg-text/10 border border-text/10 px-4"
+                  onClick={() => {
+                    if(data.outing.find(outing => 
+                      outing.description === "KT" &&
+                      outing.start === "09:00" &&
+                      outing.end === "22:40"
+                    )) return;
+                    setData(p => {
+                      const meal = { ...p.meal };
+                      const outing = [ ...p.outing ];
+                      outing.push({
+                        start: "09:00",
+                        end: "22:40",
+                        description: "KT"
+                      });
+                      return { meal, outing };
+                    });
+                  }}
+                >
+                  KT
+                </button>
+              </div>
             ) : null
           }
         </section>
