@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@fireworks-js/react": "^2.10.7",
+    "@next/third-parties": "^14.2.3",
     "@uiw/react-markdown-editor": "^6.1.1",
     "@uiw/react-markdown-preview": "^5.1.1",
     "@vercel/analytics": "^1.2.2",
