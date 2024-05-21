@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import "react-toastify/dist/ReactToastify.css";
@@ -78,6 +79,7 @@ const RootLayout = async ({
         </RecoilProvider>
         <Darkmode />
         <Analytics />
+        <GoogleAnalytics gaId="G-1X4669WKHE" />
       </body>
     </html>
   );
