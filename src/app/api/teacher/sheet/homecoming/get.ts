@@ -58,6 +58,7 @@ const GET = async (
         id: "$id",
         name: "$userInfo.name",
         number: "$userInfo.number",
+        gender: "$userInfo.gender",
         reason: "$reason",
         week: "$week",
         time: "$time",
