@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "christian-kohler.npm-intellisense",
+    "dbaeumer.vscode-eslint",
+    "github.copilot",
+    "github.vscode-pull-request-github",
+    "naumovs.color-highlight",
+    "PKief.material-icon-theme",
+  ],
+}
