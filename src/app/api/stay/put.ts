@@ -47,10 +47,19 @@ const PUT = async (
       headers: new_headers
     });
   }
+  
+  const isClassStay = (await getStates("class_stay"))[Math.floor(verified.payload.data.number / 1000)];
 
-  if(seat === "교실" && !(await getStates("class_stay"))) return new NextResponse(JSON.stringify({
+  if(seat === "교실" && !isClassStay) return new NextResponse(JSON.stringify({
     success: false,
     message: "이번 주는 교실 잔류가 아닙니다. 열람실 좌석을 선택해주세요.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+  else if (seat !== "교실" && isClassStay) return new NextResponse(JSON.stringify({
+    success: false,
+    message: "이번 주는 열람실 잔류가 아닙니다. 좌석을 선택하지 마세요.",
   }), {
     status: 400,
     headers: new_headers

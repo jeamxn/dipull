@@ -1,7 +1,7 @@
 export const menu = [
   {
     url: "/teacher/edit",
-    name: "기숙사 수정",
+    name: "생활관 수정",
   },
   {
     url: "/teacher/jasup",
@@ -9,7 +9,7 @@ export const menu = [
   },
   {
     url: "/teacher/download",
-    name: "다운로드",
+    name: "설정 및 다운로드",
   },
   {
     url: "/teacher/wakeup",

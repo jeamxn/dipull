@@ -4,6 +4,8 @@ import React from "react";
 
 import { alert } from "@/utils/alert";
 
+import Classstay from "./classstay";
+import GotoClass from "./gotoClass";
 import HomecomingSheet from "./homecomingSheet";
 import StaySheet from "./staySheet";
 
@@ -39,6 +41,8 @@ const Admin = () => {
           }
         </article>
       </article>
+      <Classstay />
+      <GotoClass />
     </>
   );
 };
