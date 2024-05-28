@@ -31,7 +31,7 @@
     "react-qr-code": "^2.0.12",
     "react-toastify": "^10.0.5",
     "recoil": "^0.7.7",
-    "sweetalert2": "^11.10.7",
+    "sweetalert2": "^11.11.0",
     "xss": "^1.0.15",
     "youtube-search": "^1.1.6"
   },
