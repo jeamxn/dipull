@@ -38,10 +38,15 @@ export type ByGradeClassObj = {
 export type StayGetResponse = {
   message: string;
   data: {
-      bySeatsObj: BySeatsObj;
-      byGradeClassObj: ByGradeClassObj;
-      mySelect: string;
-      studyroom: StudyroomData[];
+    bySeatsObj: BySeatsObj;
+    byGradeClassObj: ByGradeClassObj;
+    mySelect: string;
+    studyroom: StudyroomData[];
+    classStay: {
+      1: boolean;
+      2: boolean;
+      3: boolean;
+    }
   };
   query: {
       week: string;

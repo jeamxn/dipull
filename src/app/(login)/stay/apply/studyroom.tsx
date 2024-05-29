@@ -13,6 +13,7 @@ const Studyroom = ({
   userInfo,
   disabled,
   allowSelect,
+  classStay,
 }: {
   loading: boolean;
   selectedSeat: string;
@@ -23,7 +24,13 @@ const Studyroom = ({
   userInfo: UserData;
   disabled?: boolean;
   allowSelect?: boolean;
+  classStay: {
+    1: boolean;
+    2: boolean;
+    3: boolean;
+  };
 }) => {
+  const classStayArr = Object.keys(classStay).filter(e => classStay[e as unknown as 1 | 2 | 3]);
   return (
     <>
       <table className={[
@@ -100,9 +107,19 @@ const Studyroom = ({
           studyroom.map((e, i) => e.color !== "rgb(var(--color-text) / .1)" && e.grade.length ? (
             <figure key={i} className="flex flex-row gap-2 items-center">
               <div className="w-4 h-4 rounded-sm" style={{ backgroundColor: e.color }} />
-              <p className="text-base">{e.grade.join(", ")}학년 {e.gender === "male" ? "남" : "여"}학생</p>
+              <p className="text-base">{e.grade.filter(e => {
+                return !classStay[e as 1 | 2 | 3];
+              }).join(", ")}학년 {e.gender === "male" ? "남" : "여"}학생</p>
             </figure>
           ) : null)
+        }
+        {
+          classStayArr.length ? (
+            <figure className="flex flex-row gap-2 items-center">
+              <div className="w-4 h-4 rounded-sm bg-[#7dbcff]" />
+              <p className="text-base">{classStayArr.join(", ")}학년 교실</p>
+            </figure>
+          ) : null
         }
       </article>
     </>

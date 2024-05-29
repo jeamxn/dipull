@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
+import { getStates } from "@/utils/getStates";
 import { verify } from "@/utils/jwt";
 
 import { ByGradeClassObj, BySeatsObj, StayGetResponse, StayDB, getApplyStartDate, StudyroomDB, StudyroomData, GradeClassInner } from "./utils";
@@ -84,7 +85,8 @@ const GET = async (
   const { seat } = mySelect || { seat: "" };
   
   const getAllOfStudyroom = await studyroomCollection.find({}).toArray() as unknown as StudyroomDB[];
-  const studyroomData: StudyroomData[] = getAllOfStudyroom.map(({_id, ...e}) => e);
+  const studyroomData: StudyroomData[] = getAllOfStudyroom.map(({ _id, ...e }) => e);
+  const classStay = await getStates("class_stay");
 
   const stayResponse: StayGetResponse = {
     message: "성공적으로 데이터를 가져왔습니다.",
@@ -92,7 +94,8 @@ const GET = async (
       bySeatsObj, 
       byGradeClassObj,
       mySelect: seat,
-      studyroom: studyroomData
+      studyroom: studyroomData,
+      classStay
     },
     query
   };
