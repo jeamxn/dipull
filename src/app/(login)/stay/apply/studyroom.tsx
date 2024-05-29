@@ -104,14 +104,17 @@ const Studyroom = ({
         loading ? "loading_background" : "",
       ].join(" ")}>
         {
-          studyroom.map((e, i) => e.color !== "rgb(var(--color-text) / .1)" && e.grade.length ? (
-            <figure key={i} className="flex flex-row gap-2 items-center">
-              <div className="w-4 h-4 rounded-sm" style={{ backgroundColor: e.color }} />
-              <p className="text-base">{e.grade.filter(e => {
-                return !classStay[e as 1 | 2 | 3];
-              }).join(", ")}학년 {e.gender === "male" ? "남" : "여"}학생</p>
-            </figure>
-          ) : null)
+          studyroom.map((e, i) => {
+            const newGrade = e.grade.filter(e => {
+              return !classStay[e as 1 | 2 | 3];
+            });
+            return e.color !== "rgb(var(--color-text) / .1)" && newGrade.length ? (
+              <figure key={i} className="flex flex-row gap-2 items-center">
+                <div className="w-4 h-4 rounded-sm" style={{ backgroundColor: e.color }} />
+                <p className="text-base">{newGrade.join(", ")}학년 {e.gender === "male" ? "남" : "여"}학생</p>
+              </figure>
+            ) : null;
+          })
         }
         {
           classStayArr.length ? (
