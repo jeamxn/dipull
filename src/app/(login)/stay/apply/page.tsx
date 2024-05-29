@@ -20,6 +20,11 @@ const Stay = () => {
   const [byGradeClassObj, setByGradeClassObj] = React.useState<ByGradeClassObj>({});
   const [studyroom, setStudyroom] = React.useState<StayGetResponse["data"]["studyroom"]>([]);
   const [userInfo, setUserInfo] = React.useState(defaultUserData);
+  const [classStay, setClassStay] = React.useState<StayGetResponse["data"]["classStay"]>({
+    1: false,
+    2: false,
+    3: false,
+  });
 
   const getStayData = async () => {
     setLoading(true);
@@ -29,6 +34,7 @@ const Stay = () => {
       setByGradeClassObj(res.data.data.byGradeClassObj);
       setMySelect(res.data.data.mySelect);
       setStudyroom(res.data.data.studyroom);
+      setClassStay(res.data.data.classStay);
     }
     catch(e: any){
       alert.error(e.response.data.message);
@@ -84,6 +90,7 @@ const Stay = () => {
           bySeatsObj={bySeatsObj}
           studyroom={studyroom}
           userInfo={userInfo}
+          classStay={classStay}
         />
         <div className="p-1" />
         <section className="flex flex-col items-center justify-center gap-1">
