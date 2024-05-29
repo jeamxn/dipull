@@ -80,7 +80,7 @@
 
 ::selection {
   background-color: rgb(var(--color-primary) / 1);
-  color: rgb(var(--color-text) / 1);
+  color: rgb(var(--color-background) / 1);
 }
 
 html,

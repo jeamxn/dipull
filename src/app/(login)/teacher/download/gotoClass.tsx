@@ -42,6 +42,8 @@ const GotoClass = () => {
                   showCancelButton: true,
                   confirmButtonText: "수정",
                   cancelButtonText: "취소",
+                  background: "rgb(var(--color-white) / 1)",
+                  color: "rgb(var(--color-text) / 1)",
                 }).then((result) => {
                   if (result.isConfirmed) {
                     download(i + 1);

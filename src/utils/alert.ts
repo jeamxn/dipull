@@ -39,6 +39,9 @@ const update = (id: Id, message: ToastContent, type?: TypeOptions, options?: Upd
     return toast.update(id, { render: message, ...defaultOptions, ...options });
 };
 
+const done = (id: Id) => { 
+  return toast.done(id);
+};
 interface NotificationOptions {
   badge?: string;
   body?: string;
@@ -142,4 +145,5 @@ export const alert = {
   update,
   info,
   nofitication,
+  done,
 };
