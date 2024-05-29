@@ -2,6 +2,7 @@
 
 import * as jose from "jose";
 import React from "react";
+import Swal from "sweetalert2";
 
 import { MachineDB, Machine as MachineType } from "@/app/api/machine/[type]/utils";
 import { TokenInfo, defaultUserData } from "@/app/auth/type";
@@ -59,33 +60,46 @@ const Machine = (
 
   const putWasherData = async () => {
     setLoading(true);
-    const loading = alert.loading("신청 중 입니다.");
     try{
       const res = await instance.put(`/api/machine/${params.type}`, {
         machine: selectedMachine,
         time: selectedTime,
       });
       await getWasherData();
-      alert.update(loading, res.data.message, "success");
     }
     catch(e: any){
-      alert.update(loading, e.response.data.message, "error");
+      alert.error(e.response.data.message);
     }
     setLoading(false);
   };
 
+  const confirmDelete = async () => {
+    Swal.fire({
+      title: `${machineKorean[params.type]}기 신청 취소`,
+      text: `정말 ${machineKorean[params.type]}기 신청을 취소하시겠습니까?`,
+      icon: "warning",
+      showCancelButton: true,
+      cancelButtonText: "닫기",
+      confirmButtonText: "신청 취소",
+      background: "rgb(var(--color-white) / 1)",
+      color: "rgb(var(--color-text) / 1)",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteWasherData();
+      }
+    });
+  };
+
   const deleteWasherData = async () => {
     setLoading(true);
-    const loading = alert.loading("신청 취소 중 입니다.");
     try{
       const deletemsg = await instance.delete(`/api/machine/${params.type}`);
       setSelectedMachine("");
       setSelectedTime("");
       await getWasherData();
-      alert.update(loading, deletemsg.data.message, "success");
     }
     catch(e: any){
-      alert.update(loading, e.response.data.message, "error");
+      alert.error(e.response.data.message);
     }
     setLoading(false);
   };
@@ -112,7 +126,7 @@ const Machine = (
                 className={[
                   "w-full bg-primary text-white font-semibold px-4 py-2 rounded-md text-base "
                 ].join(" ")}
-                onClick={deleteWasherData}
+                onClick={confirmDelete}
               >취소하기</button>
             </section>
           ) : (
