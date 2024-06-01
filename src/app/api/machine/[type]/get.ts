@@ -9,7 +9,7 @@ import { UserData } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { MachineDB, Params, getDefaultValue } from "./utils";
+import { MachineDB, Params, getApplyStartTime, getDefaultValue } from "./utils";
 
 const GET = async (
   req: Request,
@@ -73,8 +73,12 @@ const GET = async (
   const isStay = moment().tz("Asia/Seoul").day() === 0 || moment().tz("Asia/Seoul").day() === 6;
 
   const defaultData = getDefaultValue(params.type, isStay);
-  for(const item of result) {
-    defaultData[item.machine].time[item.time] = `${item.number} ${item.name}`;
+  const currentTime = moment(moment().tz("Asia/Seoul").format("HH:mm"), "HH:mm");
+  const applyStartDate = moment(await getApplyStartTime(), "HH:mm");
+  if (currentTime.isAfter(applyStartDate)) {
+    for(const item of result) {
+      defaultData[item.machine].time[item.time] = `${item.number} ${item.name}`;
+    }
   }
 
   const myBookQuery = { type: params.type, date: moment().tz("Asia/Seoul").format("YYYY-MM-DD"), owner: verified.userId };

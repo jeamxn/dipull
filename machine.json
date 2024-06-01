@@ -1,0 +1,92 @@
+[
+  {
+    "machine": "H2L",
+    "time": "오후 6시 35분",
+    "date": "2024-06-02",
+    "owner": "65d0a7932893e7ba99634e08",
+    "type": "washer"
+  },
+  {
+    "machine": "H2L",
+    "time": "오후 7시 35분",
+    "date": "2024-06-02",
+    "owner": "65e501b81422b300adc85e37",
+    "type": "washer"
+  },
+
+  {
+    "machine": "H4L",
+    "time": "오후 6시 35분",
+    "date": "2024-06-02",
+    "owner": "65e501b81422b300adc85e95",
+    "type": "washer"
+  },
+  {
+    "machine": "H4L",
+    "time": "오후 7시 35분",
+    "date": "2024-06-02",
+    "owner": "65e501b81422b300adc85e9d",
+    "type": "washer"
+  },
+
+  {
+    "machine": "H5N",
+    "time": "오후 6시 35분",
+    "date": "2024-06-02",
+    "owner": "65e501b81422b300adc85e33",
+    "type": "washer"
+  },
+  {
+    "machine": "H5N",
+    "time": "오후 7시 35분",
+    "date": "2024-06-02",
+    "owner": "65e501b81422b300adc85ea9",
+    "type": "washer"
+  },
+
+
+  {
+    "machine": "H2N",
+    "time": "오후 7시 35분",
+    "date": "2024-06-02",
+    "owner": "65d0a7932893e7ba99634e08",
+    "type": "dryer"
+  },
+  {
+    "machine": "H2N",
+    "time": "오후 9시 30분",
+    "date": "2024-06-02",
+    "owner": "65e501b81422b300adc85e37",
+    "type": "dryer"
+  },
+
+  {
+    "machine": "H4N",
+    "time": "오후 7시 35분",
+    "date": "2024-06-02",
+    "owner": "65e501b81422b300adc85e95",
+    "type": "dryer"
+  },
+  {
+    "machine": "H4N",
+    "time": "오후 9시 30분",
+    "date": "2024-06-02",
+    "owner": "65e501b81422b300adc85e9d",
+    "type": "dryer"
+  },
+
+  {
+    "machine": "H5N",
+    "time": "오후 7시 35분",
+    "date": "2024-06-02",
+    "owner": "65e501b81422b300adc85e33",
+    "type": "dryer"
+  },
+  {
+    "machine": "H5N",
+    "time": "오후 9시 30분",
+    "date": "2024-06-02",
+    "owner": "65e501b81422b300adc85ea9",
+    "type": "dryer"
+  }
+]
