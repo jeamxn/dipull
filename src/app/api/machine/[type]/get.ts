@@ -86,15 +86,9 @@ const GET = async (
   const myBookData: {
     booked: boolean;
     info: MachineDB;
-  } = myBook ? {
+  } = currentTime.isAfter(applyStartDate) && myBook ? {
     booked: true,
-    info: currentTime.isAfter(applyStartDate) ? myBook : {
-      machine: "",
-      time: "",
-      date: "",
-      owner: "",
-      type: params.type,
-    },
+    info: myBook,
   } : {
     booked: false,
     info: {
