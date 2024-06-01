@@ -75,7 +75,7 @@ const GET = async (
   const defaultData = getDefaultValue(params.type, isStay);
   const currentTime = moment(moment().tz("Asia/Seoul").format("HH:mm"), "HH:mm");
   const applyStartDate = moment(await getApplyStartTime(), "HH:mm");
-  if (currentTime.isAfter(applyStartDate)) {
+  if (currentTime.isSameOrAfter(applyStartDate)) {
     for(const item of result) {
       defaultData[item.machine].time[item.time] = `${item.number} ${item.name}`;
     }
@@ -86,7 +86,7 @@ const GET = async (
   const myBookData: {
     booked: boolean;
     info: MachineDB;
-  } = currentTime.isAfter(applyStartDate) && myBook ? {
+  } = currentTime.isSameOrAfter(applyStartDate) && myBook ? {
     booked: true,
     info: myBook,
   } : {
