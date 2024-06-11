@@ -41,7 +41,6 @@ const GET = async (
     if(!allObj[v.id]){
       allObj[v.id] = {
         title: v.title,
-        thumbnails: v.thumbnails,
         date: v.date,
         count: 0,
         week: v.week,
@@ -52,7 +51,6 @@ const GET = async (
       myObj.push({
         title: v.title,
         id: v.id,
-        thumbnails: v.thumbnails,
         date: v.date,
         owner: v.owner,
         _id: v._id,
