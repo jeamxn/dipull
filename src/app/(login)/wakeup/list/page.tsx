@@ -96,7 +96,7 @@ const Admin = () => {
                     >
                       <div className="flex flex-col gap-3">
                         <img
-                          src={v.thumbnails.high?.url || v.thumbnails.medium?.url || v.thumbnails.default?.url || ""}
+                          src={`https://i.ytimg.com/vi/${key}/default.jpg`}
                           alt={v.title}
                           className="max-w-[160px] object-cover rounded aspect-video cursor-pointer"
                         />
@@ -106,9 +106,7 @@ const Admin = () => {
                     <td
                       className="text-center px-4 select-none"
                       onClick={() => putWakeup({
-                        title: v.title,
                         id: key,
-                        thumbnails: v.thumbnails,
                       })}
                     >
                       <div className="flex justify-center items-center h-full">

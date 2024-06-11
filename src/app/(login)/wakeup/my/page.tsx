@@ -74,7 +74,7 @@ const Admin = () => {
                   >
                     <div className="flex flex-col gap-3">
                       <img 
-                        src={v.thumbnails.high?.url || v.thumbnails.medium?.url || v.thumbnails.default?.url || ""} 
+                        src={`https://i.ytimg.com/vi/${v.id}/default.jpg`} 
                         alt={v.title}
                         className="max-w-[160px] object-cover rounded aspect-video cursor-pointer"
                       />

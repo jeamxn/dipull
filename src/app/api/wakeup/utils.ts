@@ -5,7 +5,6 @@ import { YouTubeSearchResults } from "youtube-search";
 export type WakeupData = {
   title: YouTubeSearchResults["title"];
   id: YouTubeSearchResults["id"];
-  thumbnails: YouTubeSearchResults["thumbnails"];
   date: string;
   owner: string;
   gender: string;
@@ -19,7 +18,6 @@ export type WakeupDB = WakeupData & {
 export type WakeupGET = {
   [key: WakeupDB["id"]]: {
     title: WakeupDB["title"];
-    thumbnails: WakeupDB["thumbnails"];
     date: WakeupDB["date"];
     count: number;
     week: WakeupDB["week"];
