@@ -22,12 +22,25 @@ const GET = async (
   // Authorization 헤더 확인
   const authorization = headers().get("authorization");
   const verified = await verify(authorization?.split(" ")[1] || "");
-  if(!verified.ok || !verified.payload?.id) return new NextResponse(JSON.stringify({
-    message: "로그인이 필요합니다.",
-  }), {
-    status: 401,
-    headers: new_headers
-  });
+  if(!verified.ok || !verified.payload?.id) {
+    try {    
+      const type = req.url.split("?")[1].split("=")[1];
+      if(type !== process.env.TEACHERS_CODE) return new NextResponse(JSON.stringify({
+        message: "로그인이 필요합니다.",
+      }), {
+        status: 401,
+        headers: new_headers
+      });
+    }
+    catch {
+      return new NextResponse(JSON.stringify({
+        message: "로그인이 필요합니다.",
+      }), {
+        status: 401,
+        headers: new_headers
+      });
+    }
+  }
 
   if(params.type !== "washer" && params.type !== "dryer") return new NextResponse(JSON.stringify({
     message: "잘못된 요청입니다.",
