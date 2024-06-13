@@ -16,7 +16,7 @@ const Comments = () => {
     scriptElem.async = true;
     scriptElem.crossOrigin = "anonymous";
 
-    scriptElem.setAttribute("data-repo", "jeamxn/dimigoin-pull-service");
+    scriptElem.setAttribute("data-repo", "jeamxn/dipull");
     scriptElem.setAttribute("data-repo-id", "R_kgDOJ8SJEg");
     scriptElem.setAttribute("data-category", "Comments");
     scriptElem.setAttribute("data-category-id", "DIC_kwDOJ8SJEs4CeEWZ");
