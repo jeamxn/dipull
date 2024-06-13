@@ -21,23 +21,37 @@ const GET = async (
   // Authorization 헤더 확인
   const authorization = headers().get("authorization");
   const verified = await verify(authorization?.split(" ")[1] || "");
-  if(!verified.ok || !verified.payload?.id) return new NextResponse(JSON.stringify({
-    message: "로그인이 필요합니다.",
-  }), {
-    status: 401,
-    headers: new_headers
-  });
+  if (!verified.ok || !verified.payload?.id) {
+    try {    
+      const type = req.url.split("?")[1].split("=")[1];
+      if(type !== process.env.TEACHERS_CODE) return new NextResponse(JSON.stringify({
+        message: "로그인이 필요합니다.",
+      }), {
+        status: 401,
+        headers: new_headers
+      });
+    }
+    catch {
+      return new NextResponse(JSON.stringify({
+        message: "로그인이 필요합니다.",
+      }), {
+        status: 401,
+        headers: new_headers
+      });
+    }
+  }
+  else {
+    const client = await connectToDatabase();
+    const userCollection = client.db().collection("users");
+    const selectMember = await userCollection.findOne({ id: verified.payload.data.id }) as unknown as UserDB;
+    if (selectMember.type !== "teacher") return new NextResponse(JSON.stringify({
+      message: "교사만 접근 가능합니다.",
+    }), {
+      status: 403,
+      headers: new_headers
+    });
+  }
   const client = await connectToDatabase();
-  const userCollection = client.db().collection("users");
-  const selectMember = await userCollection.findOne({ id: verified.payload.data.id }) as unknown as UserDB;
-  if(selectMember.type !== "teacher") return new NextResponse(JSON.stringify({
-    message: "교사만 접근 가능합니다.",
-  }), {
-    status: 403,
-    headers: new_headers
-  });
-
-
   const homecomingCollection = client.db().collection("homecoming");
   const query = { week: await getApplyStartDate() };
   const aggregationPipeline = [
