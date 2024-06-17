@@ -1,11 +1,46 @@
 import "moment-timezone";
-import moment from "moment";
 import { ObjectId } from "mongodb";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { Data } from "@/app/(login)/bamboo/page";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
+
+export const getBambooById = async (userid: string, bambooid: string) => {
+  const client = await connectToDatabase();
+  const bambooCollection = client.db().collection("bamboo");
+  const objcet_id = ObjectId.createFromHexString(bambooid);
+  const bamboo = await bambooCollection.findOne({
+    _id: objcet_id,
+  });
+  const userCollection = client.db().collection("users");
+
+  if (!bamboo) return {
+    error: true,
+    message: "해당하는 글을 찾을 수 없습니다.",
+  };
+
+  const user = await userCollection.findOne({
+    id: bamboo.user,
+  });
+  const newBamboo: Data = {
+    _id: bamboo._id,
+    user: `${bamboo.grade ? `${Math.floor(user?.number / 1000)}학년 ` : ""}${bamboo.anonymous ? "익명" : user?.name}`,
+    text: bamboo.text,
+    timestamp: bamboo.timestamp,
+    number: bamboo.number,
+    isgood: bamboo.good?.includes(userid) || false,
+    isbad: bamboo.bad?.includes(userid) || false,
+    good: bamboo.good?.length || 0,
+    bad: bamboo.bad?.length || 0,
+  };
+
+  return {
+    error: false,
+    data: newBamboo,
+  };
+};
 
 const GET = async (
   req: Request,
@@ -27,39 +62,16 @@ const GET = async (
     headers: new_headers
   });
 
-  const client = await connectToDatabase();
-  const bambooCollection = client.db().collection("bamboo");
-  const today = moment().tz("Asia/Seoul").format("YYYY-MM-DD");
-  const objcet_id = ObjectId.createFromHexString(params.id);
-  const bamboo = await bambooCollection.findOne({
-    _id: objcet_id,
-  });
-  const userCollection = client.db().collection("users");
-
-  if(!bamboo) return new NextResponse(JSON.stringify({
-    message: "대나무를 찾을 수 없습니다.",
+  const { error, message, data } = await getBambooById(verified.payload.id, params.id);
+  if(error) return new NextResponse(JSON.stringify({
+    message,
   }), {
-    status: 400,
+    status: 404,
     headers: new_headers
   });
 
-  const user = await userCollection.findOne({
-    id: bamboo.user,
-  });
-  const newBamboo = {
-    _id: bamboo._id,
-    user: `${bamboo.grade ? `${Math.floor(user?.number / 1000)}학년 ` : ""}${bamboo.anonymous ? "익명" : user?.name}`,
-    text: bamboo.text,
-    timestamp: bamboo.timestamp,
-    number: bamboo.number,
-    isgood: bamboo.good?.includes(verified.payload.id) || false,
-    isbad: bamboo.bad?.includes(verified.payload.id) || false,
-    good: bamboo.good?.length || 0,
-    bad: bamboo.bad?.length || 0,
-  };
-
   return new NextResponse(JSON.stringify({
-    data: newBamboo,
+    data: data,
   }), {
     status: 200,
     headers: new_headers

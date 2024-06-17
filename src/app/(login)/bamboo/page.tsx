@@ -10,7 +10,7 @@ import { verify } from "@/utils/jwt";
 import BambooContent from "./BambooContent";
 
 export type Data = {
-  _id: ObjectId;
+  _id: ObjectId | string;
   user: string;
   text: string;
   timestamp: string;
@@ -36,8 +36,14 @@ async function fetchData() {
   const res = await getBamboo(verified.payload?.id!, 0) as Data[];
 
   return {
-    initialData: res,
-    initialTop: topRes,
+    initialData: res.map(v => ({
+      ...v,
+      _id: String(v._id),
+    })),
+    initialTop: topRes.map(v => ({
+      ...v,
+      _id: String(v._id),
+    })),
     userInfo: verified.payload?.data || defaultUserData,
   };
 }

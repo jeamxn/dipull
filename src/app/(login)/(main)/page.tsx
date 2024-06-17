@@ -26,12 +26,10 @@ const Home = async () => {
           userInfo.type === "student" ? (
             <article className="flex flex-col gap-3">
               <section className="flex flex-col gap-1">
-                <h1 className="text-xl font-semibold">디미고 대나무 숲</h1>
-                <div className="flex flex-row gap-1">
-                  <h1 className="text-base text-primary">새롭게 추가된 기능을 확인해보세요!</h1>
-                  <Link href="/bamboo" prefetch>
-                    <h1 className="text-base text-primary underline">바로가기</h1>
-                  </Link>
+                <h1 className="text-xl font-semibold">개발 공지</h1>
+                <div className="flex flex-col gap-1">
+                  <h1 className="text-base text-primary">SSR(서버 사이드 랜더링) 기술을 테스트 중입니다.</h1>
+                  <h1 className="text-base text-primary">데이터 표시에 오류가 있을 수 있는 점 양해 바랍니다.</h1>
                 </div>
               </section>
             </article>
