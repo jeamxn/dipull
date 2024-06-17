@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import { useRouter } from "next/navigation";
 import React from "react";
 import { YouTubeSearchResults } from "youtube-search";
 
@@ -8,6 +9,7 @@ import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
 const Admin = () => {
+  const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const [list, setList] = React.useState<YouTubeSearchResults[]>([]);
@@ -41,6 +43,7 @@ const Admin = () => {
           data: select
         }
       );
+      router.refresh();
       alert.update(loading, res.data.message, "success");
     }
     catch(e: any){
