@@ -1,7 +1,9 @@
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import React from "react";
 
-import { refreshVerify } from "@/utils/jwt";
+import { refreshVerify, verify } from "@/utils/jwt";
+
+import { defaultUserData } from "../auth/type";
 
 import Footer from "./(header)/footer";
 import Header from "./(header)/header";
@@ -13,16 +15,9 @@ const LoginedLayout = async ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const cookie = headers().get("cookie")?.replaceAll(" ", "").split(";").map((c: string) => {
-    const [key, value] = c.split("=");
-    return {
-      key: key,
-      value: value,
-    };
-  }) || [];
-  const cookieJSON = Object.fromEntries(cookie.map((c: any) => [c.key, c.value]));
-  const { refreshToken } = cookieJSON;
-  const veryfied = await refreshVerify(refreshToken);
+  const accessToken = cookies().get("accessToken")?.value || "";
+  const verified = await verify(accessToken|| "");
+  const userInfo = verified.payload?.data || defaultUserData;
 
   return (
     <>
@@ -32,9 +27,13 @@ const LoginedLayout = async ({
           bottom: "calc(100vh - calc(env(safe-area-inset-top) * -1))",
         }}
       />
-      <Header veryfied={veryfied} />
       {
-        veryfied.ok ? <User payload={veryfied.payload} /> : null
+        verified.ok ? (
+          <>
+            <Header userInfo={userInfo} />
+            <User payload={userInfo} />
+          </>
+        ) : null
       }
       {children}
       <div className="absolute top-0 left-0 -z-[1]">

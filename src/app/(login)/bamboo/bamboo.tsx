@@ -85,7 +85,7 @@ const BambooBox = ({
             "text-sm hover:text-primary transition-colors",
             item.isgood ? "text-primary" : "text-text/40",
           ].join(" ")}
-          onClick={() => put_reaction(item._id, "good")}
+          onClick={() => put_reaction(String(item._id), "good")}
         >추천 {item.good || 0}</button>
         <p className="text-sm text-text/40 transition-colors">·</p>
         <button
@@ -93,7 +93,7 @@ const BambooBox = ({
             "text-sm hover:text-primary transition-colors",
             item.isbad ? "text-primary" : "text-text/40",
           ].join(" ")}
-          onClick={() => put_reaction(item._id, "bad")}
+          onClick={() => put_reaction(String(item._id), "bad")}
         >비추 {item.bad || 0}</button>
         {
           !isComment && (

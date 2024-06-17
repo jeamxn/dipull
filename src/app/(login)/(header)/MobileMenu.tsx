@@ -5,26 +5,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-import { TokenInfo, defaultUserData } from "@/app/auth/type";
+import { TokenInfo, UserData, defaultUserData } from "@/app/auth/type";
 
 import { mainMenu, studentsMenu, teachersMenu } from "./utils";
 
-const MobileMenu = () => {
+const MobileMenu = ({
+  userInfo
+}: {
+  userInfo: UserData
+}) => {
   const [expanded, setExpanded] = React.useState(false);
-
   const pathname = usePathname();
-  const [menuCopy, setMenuCopy] = React.useState(mainMenu);
-  const [userInfo, setUserInfo] = React.useState(defaultUserData);
+  const menuCopy = userInfo.type === "teacher" ? [ ...mainMenu, ...teachersMenu ] : [ ...mainMenu, ...studentsMenu ];
 
   React.useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken")!;
-    const decrypt = jose.decodeJwt(accessToken) as TokenInfo;
-    setUserInfo(decrypt.data);
-  }, []);
-
-  React.useEffect(() => {
-    if(userInfo.type === "teacher") setMenuCopy([ ...mainMenu, ...teachersMenu ]);
-    else setMenuCopy([ ...mainMenu, ...studentsMenu ]);
     const onCommandKeyDown = (event: KeyboardEvent) => {
       if(event.key === "Escape") setExpanded(false);
     };
@@ -32,7 +26,7 @@ const MobileMenu = () => {
     return () => {
       window.removeEventListener("keydown", onCommandKeyDown);
     };
-  }, [userInfo]);
+  }, []);
 
   return (
     <>

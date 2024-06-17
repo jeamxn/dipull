@@ -35,21 +35,6 @@ const BambooCommentContent = (
   const [loading, setLoading] = React.useState(false);
   const [data, setData] = React.useState<Data>(init.bamboo);
 
-  const get = async () => {
-    setLoading(true);
-    try{
-      const [res] = await Promise.all([
-        instance.get(`/api/bamboo/${params.id}`),
-      ]);
-      setData(res.data.data);
-    }
-    catch(e: any){
-      alert.warn(e.response.data.message);
-      router.push("/bamboo");
-    }
-    setLoading(false);
-  };
-
   const put_comment = async () => {
     setLoading(true);
     const loading_alert = alert.loading("대나무 숲에 글자 새기는 중...");

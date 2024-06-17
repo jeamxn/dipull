@@ -31,6 +31,7 @@ const MachinePage = async ({
       init={{
         bamboo: {
           ...init_bamboo,
+          comment: init_comment.length,
           _id: String(init_bamboo._id),
         },
         comment: init_comment,
