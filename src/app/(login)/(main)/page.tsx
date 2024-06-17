@@ -30,6 +30,7 @@ const Home = async () => {
                 <div className="flex flex-col gap-1">
                   <h1 className="text-base text-primary">SSR(서버 사이드 랜더링) 기술을 테스트 중입니다.</h1>
                   <h1 className="text-base text-primary">데이터 표시에 오류가 있을 수 있는 점 양해 바랍니다.</h1>
+                  <h1 className="text-base text-primary">새로고침 시 정상적인 데이터를 불러올 수 있습니다.</h1>
                 </div>
               </section>
             </article>
@@ -43,7 +44,7 @@ const Home = async () => {
             date: iwannagoHomeInit.date,
           }}
         />
-        <Comments />
+        {/* <Comments /> */}
       </Insider>
     </>
   );

@@ -1,11 +1,12 @@
 "use client";
 
-import * as jose from "jose";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { useSetRecoilState } from "recoil";
 
-import { TokenInfo, UserData, defaultUserData } from "@/app/auth/type";
+import { UserData } from "@/app/auth/type";
+import { loadingAtom } from "@/utils/states";
 
 import { mainMenu, studentsMenu, teachersMenu } from "./utils";
 
@@ -13,7 +14,8 @@ const Menu = ({
   userInfo
 }: {
   userInfo: UserData
-}) => {
+  }) => {
+  const setLoading = useSetRecoilState(loadingAtom);
   const pathname = usePathname();
   const menuCopy = userInfo.type === "teacher" ? [ ...mainMenu, ...teachersMenu ] : [ ...mainMenu, ...studentsMenu ];
 
@@ -24,7 +26,7 @@ const Menu = ({
           const isCurrentPage = pathname.split("/")[1] === item.url.split("/")[1];
           return (
             <Link
-              key={index} 
+              key={index}
               href={item.url}
               className={[
                 "w-full text-center px-4 py-2 my-2 text-sm rounded hover:bg-text/15 font-semibold transition-colors",

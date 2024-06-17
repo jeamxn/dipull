@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 import { UserData } from "@/app/auth/type";
 import { isHeaderAtom } from "@/utils/states";
 
+import Loading from "./loading";
 import MainLogo from "./mainLogo";
 import Menu from "./menu";
 import MobileMenu from "./MobileMenu";
@@ -33,6 +34,7 @@ const Header = ({
           <Notification />
           <MobileMenu userInfo={userInfo} />
         </div>
+        <Loading />
       </header>
       <div 
         className="min-h-14" 
