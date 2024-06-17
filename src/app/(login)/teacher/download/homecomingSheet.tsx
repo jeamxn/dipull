@@ -1,3 +1,5 @@
+"use client";
+
 import { AxiosResponse } from "axios";
 import * as Excel from "exceljs";
 import { saveAs } from "file-saver";
@@ -150,13 +152,8 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
   saveAs(blob, `${grade}학년 금요귀가 현황.xlsx`);
 };
 
-const HomecomingSheet = ({
-  loading,
-  setLoading,
-}: {
-  loading: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const HomecomingSheet = () => {
+  const [loading, setLoading] = React.useState(false);
   const download = async (grade: number) => {
     setLoading(true);
     try{

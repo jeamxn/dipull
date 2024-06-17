@@ -6,14 +6,11 @@ import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
 const Search = ({
-  loading,
-  setLoading,
   getData,
 }: {
-  loading: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   getData: () => any;
 }) => {
+  const [loading, setLoading] = React.useState(false);
   const [selectedUser, setSelectedUser] = React.useState<UserInfo>(defaultUserData);
   const [userList, setUserList] = React.useState<UserInfo[]>([]);
   const [search, setSearch] = React.useState("");

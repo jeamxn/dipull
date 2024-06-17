@@ -1,3 +1,5 @@
+"use server";
+
 import { connectToDatabase } from "./db";
 
 export const getStates = async (type: string) => {

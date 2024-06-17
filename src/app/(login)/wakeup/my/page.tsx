@@ -1,16 +1,12 @@
-import { cookies } from "next/headers";
 import React from "react";
 
 import { getWakeup } from "@/app/api/wakeup/server";
-import { defaultUserData } from "@/app/auth/type";
-import { verify } from "@/utils/jwt";
+import { getUserInfo } from "@/utils/server";
 
 import MyListContent from "./MyListContent";
 
 const MachinePage = async () => {
-  const accessToken = cookies().get("accessToken")?.value || "";
-  const verified = await verify(accessToken|| "");
-  const initialUserInfo = verified.payload?.data || defaultUserData;
+  const initialUserInfo = await getUserInfo();
   const initialData = await getWakeup(initialUserInfo.id, initialUserInfo.gender);
 
   return (
