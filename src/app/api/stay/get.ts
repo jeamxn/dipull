@@ -8,24 +8,7 @@ import { verify } from "@/utils/jwt";
 
 import { ByGradeClassObj, BySeatsObj, StayGetResponse, StayDB, getApplyStartDate, StudyroomDB, StudyroomData, GradeClassInner } from "./utils";
 
-const GET = async (
-  req: Request,
-) => {
-  // 헤더 설정
-  const new_headers = new Headers();
-  new_headers.append("Content-Type", "application/json; charset=utf-8");
-  
-  // Authorization 헤더 확인
-  const authorization = headers().get("authorization");
-  const verified = await verify(authorization?.split(" ")[1] || "");
-  if(!verified.ok || !verified.payload?.id) return new NextResponse(JSON.stringify({
-    message: "로그인이 필요합니다.",
-  }), {
-    status: 401,
-    headers: new_headers
-  });
-
-  // DB 접속
+export const getStayApply = async (id: string) => { 
   const client = await connectToDatabase();
   const stayCollection = client.db().collection("stay");
   const studyroomCollection = client.db().collection("studyroom");
@@ -80,7 +63,7 @@ const GET = async (
     byGradeClassObj[grade][classNum].push(pushData);
   }
 
-  const mySelectQuery = { week: await getApplyStartDate(), owner: verified.payload.id };
+  const mySelectQuery = { week: await getApplyStartDate(), owner: id };
   const mySelect = await stayCollection.findOne(mySelectQuery) as unknown as StayDB;
   const { seat } = mySelect || { seat: "" };
   
@@ -88,16 +71,38 @@ const GET = async (
   const studyroomData: StudyroomData[] = getAllOfStudyroom.map(({ _id, ...e }) => e);
   const classStay = await getStates("class_stay");
 
-  const stayResponse: StayGetResponse = {
-    message: "성공적으로 데이터를 가져왔습니다.",
-    data: { 
-      bySeatsObj, 
+  return {
+    data: {
+      bySeatsObj,
       byGradeClassObj,
       mySelect: seat,
       studyroom: studyroomData,
-      classStay
+      classStay,
     },
     query
+  };
+};
+
+const GET = async (
+  req: Request,
+) => {
+  // 헤더 설정
+  const new_headers = new Headers();
+  new_headers.append("Content-Type", "application/json; charset=utf-8");
+  
+  // Authorization 헤더 확인
+  const authorization = headers().get("authorization");
+  const verified = await verify(authorization?.split(" ")[1] || "");
+  if (!verified.ok || !verified.payload?.id) return new NextResponse(JSON.stringify({
+    message: "로그인이 필요합니다.",
+  }), {
+    status: 401,
+    headers: new_headers
+  });
+
+  const stayResponse: StayGetResponse = {
+    message: "성공적으로 데이터를 가져왔습니다.",
+    ...await getStayApply(verified.payload.id),
   };
 
   return new NextResponse(JSON.stringify(stayResponse), {

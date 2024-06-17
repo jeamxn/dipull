@@ -1,26 +1,23 @@
-"use client";
-
 import * as jose from "jose";
+import { cookies } from "next/headers";
 import Link from "next/link";
 import React from "react";
 
+import { getIwannagohome } from "@/app/api/iwannagohome/get";
 import { TokenInfo, defaultUserData } from "@/app/auth/type";
 import Comments from "@/components/comments";
 import Insider from "@/provider/insider";
+import { verify } from "@/utils/jwt";
 
 import Iwannagohome from "./iwannagohome";
 import Luck from "./luck";
-// import Meal from "./meal";
-// import Timetable from "./timetable";
 
-const Home = () => {
-  const [userInfo, setUserInfo] = React.useState(defaultUserData);
+const Home = async () => {
+  const accessToken = cookies().get("accessToken")?.value || "";
+  const verified = await verify(accessToken|| "");
+  const userInfo = verified.payload?.data || defaultUserData;
 
-  React.useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken")!;
-    const decrypt = jose.decodeJwt(accessToken) as TokenInfo;
-    setUserInfo(decrypt.data);
-  }, []);
+  const iwannagoHomeInit = await getIwannagohome(userInfo.id);
 
   return (
     <>
@@ -41,7 +38,13 @@ const Home = () => {
           ) : null
         }
         <Luck />
-        <Iwannagohome />
+        <Iwannagohome
+          init={{
+            count: iwannagoHomeInit.count,
+            my: iwannagoHomeInit.my,
+            date: iwannagoHomeInit.date,
+          }}
+        />
         <Comments />
       </Insider>
     </>

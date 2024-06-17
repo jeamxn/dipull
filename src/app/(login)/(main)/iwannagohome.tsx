@@ -1,13 +1,23 @@
+"use client";
+
 import moment from "moment";
 import React, { DetailedHTMLProps, HTMLAttributes } from "react";
 
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
-const Iwannagohome = () => {
-  const [count, setCount] = React.useState([-1, -1]);
-  const [my, setMy] = React.useState(-1);
-  const [date, setDate] = React.useState<moment.Moment>(moment());
+const Iwannagohome = ({
+  init
+}: {
+  init: {
+    count: number[];
+    my: number;
+    date: string;
+  }
+}) => {
+  const [count, setCount] = React.useState(init.count);
+  const [my, setMy] = React.useState(init.my);
+  const [date, setDate] = React.useState<moment.Moment>(moment(init.date, "YYYY-MM-DD"));
   const [pwd, setPwd] = React.useState("");
 
   React.useEffect(() => {

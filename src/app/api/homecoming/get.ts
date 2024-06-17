@@ -10,6 +10,17 @@ import { getApplyStartDate } from "../stay/utils";
 
 import { HomecomingDB } from "./utils";
 
+export const getHomecoming = async (id: string) => { 
+  const client = await connectToDatabase();
+  const homecomingCollection = client.db().collection("homecoming");
+  const my = { id: id, week: await getApplyStartDate() };
+  const data = await homecomingCollection.findOne(my) as unknown as HomecomingDB;
+  return {
+    id: data?._id || id,
+    reason: data?.reason || "",
+    time: data?.time || "",
+  };
+};
 
 const GET = async (
   req: Request,
@@ -28,18 +39,9 @@ const GET = async (
     headers: new_headers
   });
 
-  const client = await connectToDatabase();
-  const homecomingCollection = client.db().collection("homecoming");
-  const my = { id: verified.payload.id, week: await getApplyStartDate() };
-  const data = await homecomingCollection.findOne(my) as unknown as HomecomingDB;
-
   return new NextResponse(JSON.stringify({
     ok: true,
-    data: {
-      id: data?._id || verified.payload.id,
-      reason: data?.reason || "",
-      time: data?.time || "",
-    },
+    data: await getHomecoming(verified.payload.id),
   }), {
     status: 200,
     headers: new_headers

@@ -8,6 +8,20 @@ import { verify } from "@/utils/jwt";
 
 import { OutingDB, OutingGetResponse, defaultOutingData } from "./utils";
 
+export const getOuting = async (id: string) => { 
+  const client = await connectToDatabase();
+  const outingCollection = client.db().collection("outing");
+  const query = { owner: id, week: await getApplyStartDate() };
+  const result = await outingCollection.findOne(query) as unknown as OutingDB | null;
+  return result ? {
+    sat: result.sat,
+    sun: result.sun,
+  } : {
+    sat: defaultOutingData,
+    sun: defaultOutingData,
+  };
+};
+
 const GET = async (
   req: Request,
 ) => {
@@ -33,13 +47,7 @@ const GET = async (
 
   const resData: OutingGetResponse = {
     success: true,
-    data: result ? {
-      sat: result.sat,
-      sun: result.sun,
-    } : {
-      sat: defaultOutingData,
-      sun: defaultOutingData,
-    }
+    data: await getOuting(verified.payload.data.id),
   };
 
   return new NextResponse(JSON.stringify(resData), {
