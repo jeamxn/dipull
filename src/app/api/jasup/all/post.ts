@@ -7,25 +7,14 @@ import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
 import { StayDB, getApplyStartDate } from "../../stay/utils";
-import { JasupBookDB, JasupDB, JasupData, JasupDataWithUser, JasupWhere, getCurrentTime, getToday } from "../utils";
+import { JasupBookDB, JasupDB, JasupData, JasupDataWithUser, JasupTime, JasupWhere, getCurrentTime, getToday } from "../utils";
 
-const POST = async (
-  req: Request,
-) => {
-  // 헤더 설정
-  const new_headers = new Headers();
-  new_headers.append("Content-Type", "application/json; charset=utf-8");
-  
-  // Authorization 헤더 확인
-  const authorization = headers().get("authorization");
-  const verified = await verify(authorization?.split(" ")[1] || "");
-  if(!verified.ok || !verified.payload?.id) return new NextResponse(JSON.stringify({
-    message: "로그인이 필요합니다.",
-  }), {
-    status: 401,
-    headers: new_headers
-  });
-
+export const getAllJasup = async (id: string, number: number, { date, time, gradeClass, isStay }: {
+  date?: JasupData["date"];
+  time?: JasupData["time"];
+  gradeClass: JasupData["gradeClass"];
+  isStay: boolean;
+}) => {
   const todayMoment = getToday();
   const today = todayMoment.format("YYYY-MM-DD");
   const current = getCurrentTime();
@@ -34,23 +23,16 @@ const POST = async (
   const jasupCollection = client.db().collection("jasup");
   const usersCollection = client.db().collection<UserDB>("users");
 
-  const { date, time, gradeClass, isStay }: {
-    date: JasupData["date"];
-    time: JasupData["time"];
-    gradeClass: JasupData["gradeClass"];
-    isStay: boolean;
-  } = await req.json();
-
   const jasupAdminCollection = client.db().collection("jasup_admin");
   const allAdmin = (await jasupAdminCollection.find({}).toArray()).map((admin: any) => admin.id);
-  const isAdmin = allAdmin.includes(verified.payload.id) || verified.payload.data.number === 9999;
-  const myGradeClass = Math.floor(verified.payload.data.number / 100);
-  if(!isAdmin && myGradeClass !== gradeClass && myGradeClass !== 99 && gradeClass) return new NextResponse(JSON.stringify({
-    message: "권한이 없습니다.",
-  }), {
-    status: 403,
-    headers: new_headers
-  });
+  const isAdmin = allAdmin.includes(id) || number === 9999;
+  const myGradeClass = Math.floor(number / 100);
+  if (!isAdmin && myGradeClass !== gradeClass && myGradeClass !== 99 && gradeClass) {
+    return {
+      error: true,
+      message: "권한이 없습니다.",
+    };
+  }
 
   const queryOfGradeClass = gradeClass || (!gradeClass && myGradeClass === 99) ?
     gradeClass === 99 ? {} :
@@ -75,8 +57,8 @@ const POST = async (
       $gte: gradeClass * 100, 
       $lt: (gradeClass + 1) * 100 
     } : {
-      $gte: Math.floor(verified.payload.data.number / 100) * 100,
-      $lt: Math.floor(verified.payload.data.number / 100 + 1) * 100
+      $gte: Math.floor(number / 100) * 100,
+      $lt: Math.floor(number / 100 + 1) * 100
     };
 
   const data = await jasupCollection.find({
@@ -164,16 +146,62 @@ const POST = async (
     cnt[e.type] += 1;
   }
 
+  const outer: JasupAllPostResponse = {
+    data: newNoneId.sort((a, b) => a.number - b.number),
+    count: cnt,
+    gradeClass: !gradeClass && myGradeClass === 99 ? 30 : gradeClass || Math.floor(number / 100),
+    date: date || today,
+    time: time || current,
+    isAdmin,
+  };
+
+  return {
+    error: false,
+    data: outer,
+  };
+};
+
+export type JasupAllPostResponse = {
+  data: JasupDataWithUser[];
+  count: {
+    [key in JasupWhere]: number;
+  };
+  gradeClass: number;
+  date: string;
+  time: JasupTime;
+  isAdmin: boolean;
+};
+
+const POST = async (
+  req: Request,
+) => {
+  // 헤더 설정
+  const new_headers = new Headers();
+  new_headers.append("Content-Type", "application/json; charset=utf-8");
+  
+  // Authorization 헤더 확인
+  const authorization = headers().get("authorization");
+  const verified = await verify(authorization?.split(" ")[1] || "");
+  if(!verified.ok || !verified.payload?.id) return new NextResponse(JSON.stringify({
+    message: "로그인이 필요합니다.",
+  }), {
+    status: 401,
+    headers: new_headers
+  });
+
+  const {
+    data, error, message
+  } = await getAllJasup(verified.payload.id, verified.payload.data.number, await req.json());
+  if(error) return new NextResponse(JSON.stringify({
+    message: message,
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+
   return new NextResponse(JSON.stringify({
     message: "성공적으로 데이터를 가져왔습니다.",
-    data: {
-      data: newNoneId.sort((a, b) => a.number - b.number),
-      count: cnt,
-      gradeClass: !gradeClass && myGradeClass === 99 ? 30 : gradeClass || Math.floor(verified.payload.data.number / 100),
-      date: date || today,
-      time: time || current,
-      isAdmin,
-    },
+    data: data,
   }), {
     status: 200,
     headers: new_headers

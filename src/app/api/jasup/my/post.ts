@@ -6,7 +6,43 @@ import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { JasupBookDB, JasupDB, JasupData, JasupWhere, getCurrentTime, getToday } from "../utils";
+import { JasupBookDB, JasupDB, JasupData, getCurrentTime, getToday } from "../utils";
+
+export const getMyJasup = async (id: string, req: {
+  date?: JasupData["date"];
+  time?: JasupData["time"];
+  gradeClass?: JasupData["gradeClass"];
+}) => { 
+  const todayMoment = getToday();
+  const today = todayMoment.format("YYYY-MM-DD");
+  const current = getCurrentTime();
+
+  const client = await connectToDatabase();
+  const jasupCollection = client.db().collection<JasupDB>("jasup");
+
+  const { date, time, gradeClass } = req;
+  const queryOfGradeClass = gradeClass ? { gradeClass } : {};
+
+  const data = await jasupCollection.findOne({
+    id: id,
+    date: date || today,
+    time: time || current,
+    ...queryOfGradeClass,
+  });
+
+  const jasupBookCollection = client.db().collection("jasup_book");
+  const mys = await jasupBookCollection.find({
+    id: id,
+    days: { $elemMatch: { $eq: date ? moment(date, "YYYY-MM-DD").day() : todayMoment.day() } },
+    times: { $elemMatch: { $eq: time || current } },
+  }).toArray() as unknown as JasupBookDB[];
+  const my = mys.length ? mys.reverse().find((e) => e.dates.start <= (date || today) && e.dates.end >=  (date || today)) || {} as JasupBookDB : {} as JasupBookDB;
+
+  return {
+    type: data?.type || my?.type || "none",
+    etc: data?.etc || my?.etc || "",
+  };
+};
 
 const POST = async (
   req: Request,
@@ -25,41 +61,9 @@ const POST = async (
     headers: new_headers
   });
 
-  const todayMoment = getToday();
-  const today = todayMoment.format("YYYY-MM-DD");
-  const current = getCurrentTime();
-
-  const client = await connectToDatabase();
-  const jasupCollection = client.db().collection<JasupDB>("jasup");
-
-  const { date, time, gradeClass }: {
-    date: JasupData["date"];
-    time: JasupData["time"];
-    gradeClass: JasupData["gradeClass"];
-  } = await req.json();
-  const queryOfGradeClass = gradeClass ? { gradeClass } : {};
-
-  const data = await jasupCollection.findOne({
-    id: verified.payload.id,
-    date: date || today,
-    time: time || current,
-    ...queryOfGradeClass,
-  });
-
-  const jasupBookCollection = client.db().collection("jasup_book");
-  const mys = await jasupBookCollection.find({
-    id: verified.payload.id,
-    days: { $elemMatch: { $eq: date ? moment(date, "YYYY-MM-DD").day() : todayMoment.day() } },
-    times: { $elemMatch: { $eq: time || current } },
-  }).toArray() as unknown as JasupBookDB[];
-  const my = mys.length ? mys.reverse().find((e) => e.dates.start <= (date || today) && e.dates.end >=  (date || today)) || {} as JasupBookDB : {} as JasupBookDB;
-
   return new NextResponse(JSON.stringify({
     message: "성공적으로 데이터를 가져왔습니다.",
-    data: {
-      type: data?.type || my?.type || "none",
-      etc: data?.etc || my?.etc || "",
-    },
+    data: await getMyJasup(verified.payload.id, await req.json())
   }), {
     status: 200,
     headers: new_headers
