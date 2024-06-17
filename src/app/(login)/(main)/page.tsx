@@ -43,6 +43,7 @@ const Home = async () => {
             my: iwannagoHomeInit.my,
             date: iwannagoHomeInit.date,
           }}
+          userInfo={userInfo}
         />
         {/* <Comments /> */}
       </Insider>
