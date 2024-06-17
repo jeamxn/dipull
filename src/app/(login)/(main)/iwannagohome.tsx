@@ -1,6 +1,7 @@
 "use client";
 
 import moment from "moment";
+import { useRouter } from "next/navigation";
 import React, { DetailedHTMLProps, HTMLAttributes } from "react";
 
 import { alert } from "@/utils/alert";
@@ -14,7 +15,8 @@ const Iwannagohome = ({
     my: number;
     date: string;
   }
-}) => {
+  }) => {
+  const router = useRouter();
   const [count, setCount] = React.useState(init.count);
   const [my, setMy] = React.useState(init.my);
   const [date, setDate] = React.useState<moment.Moment>(moment(init.date, "YYYY-MM-DD"));
@@ -41,6 +43,7 @@ const Iwannagohome = ({
       setCount(data.data.count);
       setMy(data.data.my);
       setDate(moment(data.data.date, "YYYY-MM-DD"));
+      router.refresh();
     }
     catch(e){
       console.error(e);
