@@ -47,10 +47,6 @@ const Iwannagohome = ({
     }
   };
 
-  React.useEffect(() => {
-    getMeal();
-  }, []);
-
   const sunday = date.clone().day(0);
   const saturday = date.clone().day(6).add(1, "day");
 
