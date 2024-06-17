@@ -63,7 +63,7 @@ const BambooBox = ({
       <div className="flex flex-col justify-start items-start">
         <MarkdownPreview 
           source={item.text} 
-          className="bg-white text-text"
+          className="bg-transparent text-text"
           // click _blank
           components={{
             a: ({ href, children }) => (
