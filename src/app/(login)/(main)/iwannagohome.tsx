@@ -4,23 +4,35 @@ import moment from "moment";
 import { useRouter } from "next/navigation";
 import React, { DetailedHTMLProps, HTMLAttributes } from "react";
 
+import { UserInfo } from "@/app/api/teacher/userinfo/utils";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
 const Iwannagohome = ({
-  init
+  init,
+  userInfo,
 }: {
   init: {
     count: number[];
     my: number;
     date: string;
-  }
-  }) => {
+  };
+  userInfo: UserInfo;
+}) => {
   const router = useRouter();
   const [count, setCount] = React.useState(init.count);
   const [my, setMy] = React.useState(init.my);
   const [date, setDate] = React.useState<moment.Moment>(moment(init.date, "YYYY-MM-DD"));
   const [pwd, setPwd] = React.useState("");
+
+  const logout = async () => {
+    await instance.get("/auth/logout");
+    router.push("/login");
+  };
+
+  React.useEffect(() => {
+    if (!userInfo.id) logout();
+  }, []);
 
   React.useEffect(() => {
     if(!pwd.includes("1010011")) return;
