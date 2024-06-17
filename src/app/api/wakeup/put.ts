@@ -71,7 +71,24 @@ const PUT = async (
     };
     const add = await wakeupCollection.insertOne(putData);
 
-    if(add) {
+    const mySelect = await wakeupCollection.find({
+      owner: verified.payload.data.id,
+      date: today.format("YYYY-MM-DD"),
+      gender: verified.payload.data.gender,
+    }).toArray();
+    if (mySelect.length > 3) {
+      await wakeupCollection.deleteOne({
+        _id: add.insertedId,
+      });
+      return new NextResponse(JSON.stringify({
+        message: "하루에 3곡까지만 추가할 수 있습니다.",
+        ok: false,
+      }), {
+        status: 400,
+        headers: new_headers
+      });
+    }
+    else if(add) {
       return new NextResponse(JSON.stringify({
         message: "성공적으로 추가되었습니다.",
         ok: true,
@@ -79,16 +96,16 @@ const PUT = async (
         status: 200,
         headers: new_headers
       });
-  
     }
-
-    return new NextResponse(JSON.stringify({
-      message: "오류가 발생했습니다.",
-      ok: false,
-    }), {
-      status: 500,
-      headers: new_headers
-    });
+    else {
+      return new NextResponse(JSON.stringify({
+        message: "오류가 발생했습니다.",
+        ok: false,
+      }), {
+        status: 500,
+        headers: new_headers
+      });
+    }
   }
   catch (e: any) {
     if (e.response.data.type !== "video") return new NextResponse(JSON.stringify({
