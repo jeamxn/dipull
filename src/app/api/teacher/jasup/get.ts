@@ -1,12 +1,9 @@
-import "moment-timezone";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { UserDB } from "@/app/auth/type";
-import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { UserInfo } from "../userinfo/utils";
+import { getTeacherJasup } from "./server";
 
 const GET = async (
   req: Request,
@@ -25,35 +22,17 @@ const GET = async (
     headers: new_headers
   });
 
-  const client = await connectToDatabase();
-  const userCollection = client.db().collection("users");
-  const selectMember = await userCollection.findOne({ id: verified.payload.data.id }) as unknown as UserDB;
-  if(selectMember.type !== "teacher") return new NextResponse(JSON.stringify({
-    message: "교사만 접근 가능합니다.",
+  const data = await getTeacherJasup(verified.payload.id);
+  if (data.error) return new NextResponse(JSON.stringify({
+    message: data.message,
   }), {
-    status: 403,
+    status: 400,
     headers: new_headers
   });
 
-  const jasupAdminCollection = client.db().collection("jasup_admin");
-  const getAll = await jasupAdminCollection.find({}).toArray();
-
-  const users: UserInfo[] = [];
-  for(const data of getAll) {
-    const user = await userCollection.findOne({ id: data.id }) as unknown as UserDB;
-    users.push({
-      id: user.id,
-      gender: user.gender,
-      name: user.name,
-      number: user.number,
-      profile_image: user.profile_image,
-      type: user.type,
-    });
-  }
-
   return new NextResponse(JSON.stringify({
     message: "자습 도우미 학생 목록을 성공적으로 불러왔습니다.",
-    data: users.sort((a, b) => a.number - b.number),
+    data: data.data,
   }), {
     status: 200,
     headers: new_headers

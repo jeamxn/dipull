@@ -3,8 +3,9 @@ import { NextResponse } from "next/server";
 
 import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
-import { getStates } from "@/utils/getStates";
 import { verify } from "@/utils/jwt";
+
+import { getStayWhere } from "./server";
 
 const GET = async (
   req: Request,
@@ -35,7 +36,7 @@ const GET = async (
 
   return new NextResponse(JSON.stringify({
     success: true,
-    data: await getStates("class_stay"),
+    data: await getStayWhere(),
   }), {
     status: 200,
     headers: new_headers

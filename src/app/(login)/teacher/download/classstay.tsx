@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import React from "react";
 
 import { alert } from "@/utils/alert";
@@ -9,17 +12,16 @@ type ClassstayType = {
   grade3: boolean;
 };
 
-const Classstay = () => {
+const Classstay = ({ init }: {
+  init: boolean[],
+}) => {
+  const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [isClassstay, setIsClassstay] = React.useState<ClassstayType>({
-    grade1: false,
-    grade2: false,
-    grade3: false,
+    grade1: init[1],
+    grade2: init[2],
+    grade3: init[3],
   });
-
-  React.useEffect(() => {
-    getClassstay();
-  }, []);
 
   const getClassstay = async () => { 
     setLoading(true);
@@ -31,6 +33,7 @@ const Classstay = () => {
         grade3: res.data.data[3],
       };
       setIsClassstay(newData);
+      router.refresh();
     }
     catch(e: any){
       alert.error(e.response.data.message);
@@ -43,7 +46,7 @@ const Classstay = () => {
     const loading = alert.loading("잔류 장소 설정 중 입니다.");
     try{
       const res = await instance.post("/api/teacher/stay/where", isClassstay_inner);
-      // await getOutingData();
+      await getClassstay();
       alert.update(loading, res.data.message, "success");
     }
     catch(e: any){
