@@ -1,26 +1,10 @@
-import "moment-timezone";
-import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { getApplyStartDate } from "../stay/utils";
+import { getHomecoming } from "./server";
 
-import { HomecomingDB } from "./utils";
-
-export const getHomecoming = async (id: string) => { 
-  const client = await connectToDatabase();
-  const homecomingCollection = client.db().collection("homecoming");
-  const my = { id: id, week: await getApplyStartDate() };
-  const data = await homecomingCollection.findOne(my) as unknown as HomecomingDB;
-  return {
-    id: data?._id || id,
-    reason: data?.reason || "",
-    time: data?.time || "",
-  };
-};
 
 const GET = async (
   req: Request,

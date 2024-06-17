@@ -1,11 +1,9 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { UserDB, UserData } from "@/app/auth/type";
+import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
-
-import { JasupDB, JasupData, JasupWhere, getCurrentTime, getToday } from "../utils";
 
 const POST = async (
   req: Request,

@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import React from "react";
 
-import { getWakeup } from "@/app/api/wakeup/get";
+import { getWakeup } from "@/app/api/wakeup/server";
 import { defaultUserData } from "@/app/auth/type";
 import { verify } from "@/utils/jwt";
 

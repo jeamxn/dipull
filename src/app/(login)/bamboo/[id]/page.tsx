@@ -1,10 +1,8 @@
-import { cookies } from "next/headers";
 import React from "react";
 
-import { getBambooComment } from "@/app/api/bamboo/[id]/comment/post";
-import { getBambooById } from "@/app/api/bamboo/[id]/get";
-import { defaultUserData } from "@/app/auth/type";
-import { verify } from "@/utils/jwt";
+import { getBambooComment } from "@/app/api/bamboo/[id]/comment/server";
+import { getBambooById } from "@/app/api/bamboo/[id]/server";
+import { getUserInfo } from "@/utils/server";
 
 import BambooCommentContent from "./BambooCommentContent";
 
@@ -15,12 +13,9 @@ const MachinePage = async ({
     id: string,
   }
 }) => {
-  const accessToken = cookies().get("accessToken")?.value || "";
-  const verified = await verify(accessToken|| "");
-  const userInfo = verified.payload?.data || defaultUserData;
-
-  const init_bamboo = (await getBambooById(verified.payload?.id!, params.id)).data!;
-  const init_comment = (await getBambooComment(verified.payload?.id!, params.id, 0)).map(v => ({
+  const initialUserInfo = await getUserInfo();
+  const init_bamboo = (await getBambooById(initialUserInfo.id, params.id)).data!;
+  const init_comment = (await getBambooComment(initialUserInfo.id, params.id, 0)).map(v => ({
     ...v,
     _id: String(v._id),
   }));
@@ -35,7 +30,7 @@ const MachinePage = async ({
           _id: String(init_bamboo._id),
         },
         comment: init_comment,
-        userInfo
+        userInfo: initialUserInfo,
       }}
     />
   );

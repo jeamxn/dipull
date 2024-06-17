@@ -1,11 +1,10 @@
 import { ObjectId } from "mongodb";
-import { cookies } from "next/headers";
 import React from "react";
 
-import { getBamboo } from "@/app/api/bamboo/post";
+import { getBamboo } from "@/app/api/bamboo/server";
 import { getTopBamboo } from "@/app/api/bamboo/top/[type]/get";
-import { TokenInfo, defaultUserData } from "@/app/auth/type";
-import { verify } from "@/utils/jwt";
+import { TokenInfo } from "@/app/auth/type";
+import { getUserInfo } from "@/utils/server";
 
 import BambooContent from "./BambooContent";
 
@@ -28,31 +27,22 @@ export interface BambooProps {
   userInfo: TokenInfo["data"];
 }
 
-async function fetchData() {
-  const accessToken = cookies().get("accessToken")?.value || "";
-  const verified = await verify(accessToken || "");
-  
-  const topRes = await getTopBamboo("day", verified.payload?.id!);
-  const res = await getBamboo(verified.payload?.id!, 0) as Data[];
-
-  return {
-    initialData: res.map(v => ({
-      ...v,
-      _id: String(v._id),
-    })),
-    initialTop: topRes.map(v => ({
-      ...v,
-      _id: String(v._id),
-    })),
-    userInfo: verified.payload?.data || defaultUserData,
-  };
-}
-
 const Bamboo = async () => {
-  const { initialData, initialTop, userInfo } = await fetchData();
+  const initialUserInfo = await getUserInfo();
+  const topRes = await getTopBamboo("day", initialUserInfo.id!);
+  const res = await getBamboo(initialUserInfo.id!, 0) as Data[];
+
+  const initialData = res.map(v => ({
+    ...v,
+    _id: String(v._id),
+  }));
+  const initialTop = topRes.map(v => ({
+    ...v,
+    _id: String(v._id),
+  }));
 
   return (
-    <BambooContent initialData={initialData} initialTop={initialTop} userInfo={userInfo} />
+    <BambooContent initialData={initialData} initialTop={initialTop} userInfo={initialUserInfo} />
   );
 };
 

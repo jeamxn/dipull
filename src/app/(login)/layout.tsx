@@ -1,9 +1,6 @@
-import { cookies, headers } from "next/headers";
 import React from "react";
 
-import { refreshVerify, verify } from "@/utils/jwt";
-
-import { defaultUserData } from "../auth/type";
+import { getUserAndVerify } from "@/utils/server";
 
 import Footer from "./(header)/footer";
 import Header from "./(header)/header";
@@ -15,9 +12,7 @@ const LoginedLayout = async ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const accessToken = cookies().get("accessToken")?.value || "";
-  const verified = await verify(accessToken|| "");
-  const userInfo = verified.payload?.data || defaultUserData;
+  const { verified, userInfo } = await getUserAndVerify();
 
   return (
     <>

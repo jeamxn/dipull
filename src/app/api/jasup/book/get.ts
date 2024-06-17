@@ -6,12 +6,7 @@ import { verify } from "@/utils/jwt";
 
 import { JasupBookDB } from "../utils";
 
-export const getJasupBook = async (id: string) => { 
-  const client = await connectToDatabase();
-  const jasupBookCollection = client.db().collection<JasupBookDB>("jasup_book");
-  const my: JasupBookDB[] = await jasupBookCollection.find({ id: id }).toArray();
-  return my;
-};
+import { getJasupBook } from "./server";
 
 const GET = async (
   req: Request,

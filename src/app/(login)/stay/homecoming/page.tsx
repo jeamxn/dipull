@@ -1,18 +1,13 @@
-import { cookies } from "next/headers";
 import React from "react";
 
-import { getHomecoming } from "@/app/api/homecoming/get";
+import { getHomecoming } from "@/app/api/homecoming/server";
 import { goTime } from "@/app/api/homecoming/utils";
-import { defaultUserData } from "@/app/auth/type";
-import { verify } from "@/utils/jwt";
+import { getUserInfo } from "@/utils/server";
 
 import HomecomingContent from "./HomecomingContent";
 
 const Outing = async () => {
-  const accessToken = cookies().get("accessToken")?.value || "";
-  const verified = await verify(accessToken|| "");
-  const initialUserInfo = verified.payload?.data || defaultUserData;
-
+  const initialUserInfo = await getUserInfo();
   const init = await getHomecoming(initialUserInfo.id);
   return (
     <HomecomingContent

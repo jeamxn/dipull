@@ -1,12 +1,10 @@
 "use client";
 
 import { AxiosResponse } from "axios";
-import * as jose from "jose";
 import React from "react";
 
 import { ByGradeClassObj, BySeatsObj, StayGetResponse } from "@/app/api/stay/utils";
 import { UserInfo } from "@/app/api/teacher/userinfo/utils";
-import { TokenInfo, defaultUserData } from "@/app/auth/type";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 

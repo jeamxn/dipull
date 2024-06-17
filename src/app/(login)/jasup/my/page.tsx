@@ -1,18 +1,12 @@
-import { cookies } from "next/headers";
 import React from "react";
 
-import { getJasupBook } from "@/app/api/jasup/book/get";
-import { getMyJasup } from "@/app/api/jasup/my/post";
-import { defaultUserData } from "@/app/auth/type";
-import { verify } from "@/utils/jwt";
+import { getMyJasup } from "@/app/api/jasup/my/server";
+import { getUserInfo } from "@/utils/server";
 
 import JasupMyContent from "./JasupMyContent";
 
 const Apply = async () => {
-  const accessToken = cookies().get("accessToken")?.value || "";
-  const verified = await verify(accessToken|| "");
-  const initialUserInfo = verified.payload?.data || defaultUserData;
-
+  const initialUserInfo = await getUserInfo();
   const init = await getMyJasup(initialUserInfo.id, {});
   
   return (
