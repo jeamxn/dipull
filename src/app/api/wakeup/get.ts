@@ -5,8 +5,52 @@ import { getApplyStartDate } from "@/app/api/stay/utils";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-
 import { WakeupDB, WakeupGET, getToday } from "./utils";
+
+export const getWakeup = async (id: string, gender: string) => {
+  const today = getToday();
+  const client = await connectToDatabase();
+  const wakeupCollection = client.db().collection("wakeup");
+  const query = {
+    week: await getApplyStartDate(),
+    gender: gender,
+  };
+  const data = await wakeupCollection.find(query).toArray() as unknown as WakeupDB[];
+
+  const allObj: WakeupGET = {};
+  const myObj: WakeupDB[] = [];
+  
+  for (const v of data) {
+    if (!allObj[v.id]) {
+      allObj[v.id] = {
+        title: v.title,
+        date: v.date,
+        count: 0,
+        week: v.week,
+      };
+    }
+    allObj[v.id].count++;
+    if (v.owner === id && v.date === today.format("YYYY-MM-DD")) {
+      myObj.push({
+        title: v.title,
+        id: v.id,
+        date: v.date,
+        owner: v.owner,
+        _id: v._id,
+        gender: v.gender,
+        week: v.week,
+      });
+    }
+  }
+
+  return {
+    all: allObj,
+    my: myObj,
+    today: today.format("YYYY-MM-DD"),
+    gender: gender,
+    week: await getApplyStartDate(),
+  };
+};
 
 const GET = async (
   req: Request,
@@ -24,50 +68,9 @@ const GET = async (
     status: 401,
     headers: new_headers
   });
-  
-  const today = getToday();
-  const client = await connectToDatabase();
-  const wakeupCollection = client.db().collection("wakeup");
-  const query = {
-    week: await getApplyStartDate(),
-    gender: verified.payload.data.gender,
-  };
-  const data = await wakeupCollection.find(query).toArray() as unknown as WakeupDB[];
-
-  const allObj: WakeupGET = {};
-  const myObj: WakeupDB[] = [];
-  
-  for(const v of data){
-    if(!allObj[v.id]){
-      allObj[v.id] = {
-        title: v.title,
-        date: v.date,
-        count: 0,
-        week: v.week,
-      };
-    }
-    allObj[v.id].count++;
-    if(v.owner === verified.payload.id && v.date === today.format("YYYY-MM-DD")){
-      myObj.push({
-        title: v.title,
-        id: v.id,
-        date: v.date,
-        owner: v.owner,
-        _id: v._id,
-        gender: v.gender,
-        week: v.week,
-      });
-    }
-  }
 
   return new NextResponse(JSON.stringify({
-    data: {
-      all: allObj,
-      my: myObj,
-      today: today.format("YYYY-MM-DD"),
-      gender: verified.payload.data.gender,
-      week: await getApplyStartDate(),
-    },
+    data: await getWakeup(verified.payload.id, verified.payload.data.gender),
   }), {
     status: 200,
     headers: new_headers
