@@ -1,12 +1,12 @@
-@import url(//fonts.2w.vc/wanted-sans/static/font.css);
-/* @import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.2/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css"); */
+@import url("https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.2/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css");
+/* @import url(//fonts.2w.vc/wanted-sans/static/font.css); */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 * {
-  font-family: "Wanted Sans", sans-serif;
-  /* font-family: "Wanted Sans Variable", "Wanted Sans", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif; */
+  /* font-family: "Wanted Sans", sans-serif; */
+  font-family: "Wanted Sans Variable", "Wanted Sans", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   letter-spacing: -.02rem;
   margin: 0;
   padding: 0;
