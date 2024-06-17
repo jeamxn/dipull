@@ -10,6 +10,24 @@ import { verify } from "@/utils/jwt";
 
 import { IwannagohomeDB } from "./utils";
 
+export const getIwannagohome = async (id: string) => {
+  const client = await connectToDatabase();
+  const iwannagohomeCollection = client.db().collection("iwannagohome");
+  const date = await getApplyStartDate();
+  const myData = await iwannagohomeCollection.findOne({ id: id, date: date }) as unknown as IwannagohomeDB;
+  const count = [0, 0];
+  const all = await iwannagohomeCollection.find({ date: date }).toArray();
+  all.length && all.forEach((v) => {
+    count[v.pick]++;
+  });
+
+  return {
+    my: myData?.pick,
+    count,
+    date,
+  };
+};
+
 const GET = async (
   req: Request,
 ) => {
@@ -27,23 +45,9 @@ const GET = async (
     headers: new_headers
   });
 
-  const client = await connectToDatabase();
-  const iwannagohomeCollection = client.db().collection("iwannagohome");
-  const date = await getApplyStartDate();
-  const myData = await iwannagohomeCollection.findOne({ id: verified.payload.id, date: date }) as unknown as IwannagohomeDB;
-  const count = [0, 0];
-  const all = await iwannagohomeCollection.find({ date: date }).toArray();
-  all.length && all.forEach((v) => {
-    count[v.pick]++;
-  });
-
   return new NextResponse(JSON.stringify({
     ok: true,
-    data: {
-      my: myData?.pick,
-      count,
-      date,
-    },
+    data: await getIwannagohome(verified.payload.id),
   }), {
     status: 200,
     headers: new_headers

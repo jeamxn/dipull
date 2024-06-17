@@ -6,7 +6,8 @@ import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
 
-import { OutingDB, OutingGetResponse, defaultOutingData } from "./utils";
+import { getOuting } from "./server";
+import { OutingDB, OutingGetResponse } from "./utils";
 
 const GET = async (
   req: Request,
@@ -33,13 +34,7 @@ const GET = async (
 
   const resData: OutingGetResponse = {
     success: true,
-    data: result ? {
-      sat: result.sat,
-      sun: result.sun,
-    } : {
-      sat: defaultOutingData,
-      sun: defaultOutingData,
-    }
+    data: await getOuting(verified.payload.data.id),
   };
 
   return new NextResponse(JSON.stringify(resData), {

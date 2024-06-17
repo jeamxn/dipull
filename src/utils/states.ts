@@ -1,5 +1,9 @@
-import moment from "moment";
 import { atom } from "recoil";
+
+export const loadingAtom = atom({
+  key: "loading",
+  default: false,
+});
 
 export const isFireworkFrameAtom = atom({
   key: "isFireworkFrame",

@@ -1,11 +1,12 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { JasupBookDB, JasupBookPutData, JasupDB, JasupData, JasupWhere, getCurrentTime, getToday } from "../utils";
+import { JasupBookDB } from "../utils";
+
+import { getJasupBook } from "./server";
 
 const GET = async (
   req: Request,
@@ -30,7 +31,7 @@ const GET = async (
 
   return new NextResponse(JSON.stringify({
     message: "성공적으로 데이터를 가져왔습니다.",
-    data: my,
+    data: await getJasupBook(verified.payload.id),
   }), {
     status: 200,
     headers: new_headers

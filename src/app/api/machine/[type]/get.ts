@@ -1,15 +1,10 @@
-import "moment-timezone";
-import { machine } from "os";
-
-import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { UserData } from "@/app/auth/type";
-import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { MachineDB, Params, getApplyStartTime, getDefaultValue } from "./utils";
+import { getMachineData } from "./server";
+import { Params } from "./utils";
 
 const GET = async (
   req: Request,
@@ -49,70 +44,8 @@ const GET = async (
     headers: new_headers
   });
 
-  // DB에서 불러오기
-  const client = await connectToDatabase();
-  const machineCollection = client.db().collection("machine");
-  const query = { type: params.type, date: moment().tz("Asia/Seoul").format("YYYY-MM-DD") };
-  const aggregationPipeline = [
-    {
-      $lookup: {
-        from: "users",
-        localField: "owner",
-        foreignField: "id",
-        as: "userInfo"
-      }
-    },
-    {
-      $unwind: "$userInfo"
-    },
-    {
-      $project: {
-        _id: 0,
-        id: "$owner",
-        name: "$userInfo.name",
-        number: "$userInfo.number",
-        machine: "$machine",
-        time: "$time",
-        date: "$date",
-        type: "$type",
-      }
-    },
-    {
-      $match: query
-    }
-  ];
-  const result = await machineCollection.aggregate(aggregationPipeline).toArray();
+  const { defaultData, myBookData } = await getMachineData(params.type, verified.payload?.id || "");
 
-  const isStay = moment().tz("Asia/Seoul").day() === 0 || moment().tz("Asia/Seoul").day() === 6;
-
-  const defaultData = getDefaultValue(params.type, isStay);
-  const currentTime = moment(moment().tz("Asia/Seoul").format("HH:mm"), "HH:mm");
-  const applyStartDate = moment(await getApplyStartTime(), "HH:mm");
-  if (currentTime.isSameOrAfter(applyStartDate)) {
-    for(const item of result) {
-      defaultData[item.machine].time[item.time] = `${item.number} ${item.name}`;
-    }
-  }
-
-  const myBookQuery = { type: params.type, date: moment().tz("Asia/Seoul").format("YYYY-MM-DD"), owner: verified.userId };
-  const myBook = await machineCollection.findOne(myBookQuery) as unknown as MachineDB || null;
-  const myBookData: {
-    booked: boolean;
-    info: MachineDB;
-  } = currentTime.isSameOrAfter(applyStartDate) && myBook ? {
-    booked: true,
-    info: myBook,
-  } : {
-    booked: false,
-    info: {
-      machine: "",
-      time: "",
-      date: "",
-      owner: "",
-      type: params.type,
-    }
-  };
-  
   return new NextResponse(JSON.stringify({
     message: verified.ok ? "success" : "fail",
     data: defaultData,

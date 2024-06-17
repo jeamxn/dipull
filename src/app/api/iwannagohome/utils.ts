@@ -3,6 +3,6 @@ import { UserDB } from "@/app/auth/type";
 export type IwannagohomeDB = {
   _id: string;
   owner: UserDB["id"];
-  pick: string;
+  pick: number;
   date: string;
 }

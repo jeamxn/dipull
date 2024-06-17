@@ -1,29 +1,23 @@
 "use client";
 
-import * as jose from "jose";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { useSetRecoilState } from "recoil";
 
-import { TokenInfo, defaultUserData } from "@/app/auth/type";
+import { UserData } from "@/app/auth/type";
+import { loadingAtom } from "@/utils/states";
 
 import { mainMenu, studentsMenu, teachersMenu } from "./utils";
 
-const Menu = () => {
+const Menu = ({
+  userInfo
+}: {
+  userInfo: UserData
+  }) => {
+  const setLoading = useSetRecoilState(loadingAtom);
   const pathname = usePathname();
-  const [menuCopy, setMenuCopy] = React.useState(mainMenu);
-  const [userInfo, setUserInfo] = React.useState(defaultUserData);
-
-  React.useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken")!;
-    const decrypt = jose.decodeJwt(accessToken) as TokenInfo;
-    setUserInfo(decrypt.data);
-  }, []);
-
-  React.useEffect(() => {
-    if(userInfo.type === "teacher") setMenuCopy([ ...mainMenu, ...teachersMenu ]);
-    else setMenuCopy([ ...mainMenu, ...studentsMenu ]);
-  }, [userInfo]);
+  const menuCopy = userInfo.type === "teacher" ? [ ...mainMenu, ...teachersMenu ] : [ ...mainMenu, ...studentsMenu ];
 
   return (
     <nav className="flex flex-row justify-around max-[520px]:hidden">
@@ -32,7 +26,7 @@ const Menu = () => {
           const isCurrentPage = pathname.split("/")[1] === item.url.split("/")[1];
           return (
             <Link
-              key={index} 
+              key={index}
               href={item.url}
               className={[
                 "w-full text-center px-4 py-2 my-2 text-sm rounded hover:bg-text/15 font-semibold transition-colors",

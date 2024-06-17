@@ -1,14 +1,9 @@
-import "moment-timezone";
-import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { getApplyStartDate } from "../stay/utils";
-
-import { HomecomingDB } from "./utils";
+import { getHomecoming } from "./server";
 
 
 const GET = async (
@@ -28,18 +23,9 @@ const GET = async (
     headers: new_headers
   });
 
-  const client = await connectToDatabase();
-  const homecomingCollection = client.db().collection("homecoming");
-  const my = { id: verified.payload.id, week: await getApplyStartDate() };
-  const data = await homecomingCollection.findOne(my) as unknown as HomecomingDB;
-
   return new NextResponse(JSON.stringify({
     ok: true,
-    data: {
-      id: data?._id || verified.payload.id,
-      reason: data?.reason || "",
-      time: data?.time || "",
-    },
+    data: await getHomecoming(verified.payload.id),
   }), {
     status: 200,
     headers: new_headers

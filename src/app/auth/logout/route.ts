@@ -18,7 +18,13 @@ export const GET = async (req: Request) => {
     expires: moment().tz("Asia/Seoul").subtract(1, "days").toDate(),
     httpOnly: true,
   });
+  const accessTokenCookie = serialize("accessToken", "", {
+    path: "/",
+    expires: moment().tz("Asia/Seoul").subtract(1, "days").toDate(),
+    httpOnly: true,
+  });
   new_headers.append("Set-Cookie", refreshTokenCookie);
+  new_headers.append("Set-Cookie", accessTokenCookie);
     
   // Authorization 헤더 확인
   const authorization = headers().get("authorization");

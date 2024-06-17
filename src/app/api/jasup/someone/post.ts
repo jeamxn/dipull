@@ -2,11 +2,10 @@ import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { JasupBookDB, JasupDB, JasupData, JasupWhere, getCurrentTime, getToday } from "../utils";
+import { JasupBookDB, JasupDB, JasupData, getCurrentTime, getToday } from "../utils";
 
 const POST = async (
   req: Request,

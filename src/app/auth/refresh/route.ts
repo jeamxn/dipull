@@ -66,6 +66,13 @@ export const GET = async (req: Request) => {
   });
   headers.append("Set-Cookie", refreshTokenCookie);
 
+  const accessTokenCookie = serialize("accessToken", newAccessToken, {
+    path: "/",
+    expires: moment().tz("Asia/Seoul").add(1, "days").toDate(),
+    httpOnly: true,
+  });
+  headers.append("Set-Cookie", accessTokenCookie);
+
   // 응답
   return new NextResponse(JSON.stringify({
     message: "토큰이 갱신되었습니다.",
