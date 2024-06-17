@@ -13,7 +13,7 @@ import ToastProvider from "@/provider/ToastProvider";
 import Darkmode from "./Darkmode";
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  const x_origin = headers().get("x-origin") || "";
+  const x_origin = headers().get("x-origin") || process.env.NEXT_PUBLIC_DIMIGOIN_URI || "";
   return {
     title: "디풀",
     description: "그래그래 드디어 왔다 디풀",

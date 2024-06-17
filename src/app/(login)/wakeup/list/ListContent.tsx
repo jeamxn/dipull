@@ -2,6 +2,7 @@
 "use client";
 
 import moment from "moment";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 import { WakeupDB, WakeupGET } from "@/app/api/wakeup/utils";
@@ -17,6 +18,7 @@ const ListContent = ({ initailData }: {
     week: string;
   };
 }) => {
+  const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [wakeup, setWakeup] = React.useState<WakeupGET>(initailData.all);
   const [week, setWeek] = React.useState<moment.Moment>(moment(initailData.week, "YYYY-MM-DD"));
@@ -31,6 +33,7 @@ const ListContent = ({ initailData }: {
       setWeek(moment(res.data.data.week, "YYYY-MM-DD"));
       setGender(res.data.data.gender);
       setMy(res.data.data.my);
+      router.refresh();
     }
     catch(e: any){
       alert.error(e.response.data.message);

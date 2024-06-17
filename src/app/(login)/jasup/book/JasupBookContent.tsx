@@ -1,6 +1,7 @@
 "use client";
 
 import moment from "moment";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 import { JasupBookDB, JasupBookPutData, JasupData, JasupKoreanTimeArray, JasupTime, JasupTimeArray, JasupWhere, WeekDayTime, englishTimeTypeToKorean, englishWhereTypeToKorean, getCurrentTime, koreanTimeTypeToEnglish, koreanWhereTypeToEnglish } from "@/app/api/jasup/utils";
@@ -15,6 +16,7 @@ const JasupBookContent = ({
 }: {
   init: JasupBookDB[];
 }) => {
+  const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [where, setWhere] = React.useState<JasupWhere>("none");
   const [etc, setEtc] = React.useState<JasupData["etc"]>("");
@@ -39,10 +41,6 @@ const JasupBookContent = ({
     days, dates, times, type: where, etc,
   };
 
-  // React.useEffect(() => {
-  //   getJasupData();
-  // }, []);
-
   const putJasupData = async () => {
     setLoading(true);
     const loading = alert.loading("자습 예약 추가 중 입니다.");
@@ -62,6 +60,7 @@ const JasupBookContent = ({
     try{
       const res = await instance.get("/api/jasup/book");
       setMyData(res.data.data.reverse());
+      router.refresh();
     }
     catch(e: any){
       alert.error(e.response.data.message);

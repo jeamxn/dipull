@@ -1,6 +1,7 @@
 "use client";
 
 import { AxiosResponse } from "axios";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 import { ByGradeClassObj, BySeatsObj, StayGetResponse } from "@/app/api/stay/utils";
@@ -15,6 +16,7 @@ const StayContent = ({ init, userInfo }: {
   init: StayGetResponse["data"];
   userInfo: UserInfo;
 }) => {
+  const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [selectedSeat, setSelectedSeat] = React.useState("@0");
   const [mySelect, setMySelect] = React.useState<StayGetResponse["data"]["mySelect"]>(init.mySelect);
@@ -32,6 +34,7 @@ const StayContent = ({ init, userInfo }: {
       setMySelect(res.data.data.mySelect);
       setStudyroom(res.data.data.studyroom);
       setClassStay(res.data.data.classStay);
+      router.refresh();
     }
     catch(e: any){
       alert.error(e.response.data.message);

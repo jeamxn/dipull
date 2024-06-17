@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React from "react";
 
 import { TopBambooType } from "@/app/api/bamboo/utils";
@@ -12,6 +13,7 @@ import BambooBox from "./bamboo";
 import { BambooProps, Data } from "./page";
 
 const BambooContent: React.FC<BambooProps> = ({ initialData, initialTop, userInfo }) => {
+  const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [textarea, setTextarea] = React.useState("");
   const [anonymous, setAnonymous] = React.useState(true);
@@ -55,6 +57,7 @@ const BambooContent: React.FC<BambooProps> = ({ initialData, initialTop, userInf
         setData([...data, ...res.data.data]);
         setNumber(p => p + 20);
       }
+      router.refresh();
     } catch (e: any) {
       alert.warn(e.response.data.message);
     }
@@ -66,6 +69,7 @@ const BambooContent: React.FC<BambooProps> = ({ initialData, initialTop, userInf
     try {
       const top_res = await instance.get(`/api/bamboo/top/${topType1}`);
       setTop(top_res.data.data);
+      router.refresh();
     } catch (e: any) {
       alert.warn(e.response.data.message);
     }

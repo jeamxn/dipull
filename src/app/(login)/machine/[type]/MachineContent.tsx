@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React from "react";
 import Swal from "sweetalert2";
 
@@ -28,8 +29,7 @@ interface MachineContentProps {
 }
 
 const MachineContent: React.FC<MachineContentProps> = ({ params, initialData, initialBooking, initialUserInfo: userInfo }) => {
-  // console.log(userInfo);
-
+  const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [data, setData] = React.useState<{ [key: string]: MachineType }>(initialData);
   const [selectedMachine, setSelectedMachine] = React.useState("");
@@ -42,6 +42,7 @@ const MachineContent: React.FC<MachineContentProps> = ({ params, initialData, in
       const res = await instance.get(`/api/machine/${params.type}`);
       setData(res.data.data);
       setMyBooking(res.data.myBooking);
+      router.refresh();
     } catch (e) {
       console.error(e);
     }
@@ -85,7 +86,6 @@ const MachineContent: React.FC<MachineContentProps> = ({ params, initialData, in
       await instance.delete(`/api/machine/${params.type}`);
       setSelectedMachine("");
       setSelectedTime("");
-      await getWasherData();
     } catch (e: any) {
       alert.error(e.response.data.message);
     }

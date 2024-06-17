@@ -1,6 +1,7 @@
 "use client";
 
 import { AxiosResponse } from "axios";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 import { goTime } from "@/app/api/homecoming/utils";
@@ -15,7 +16,8 @@ const HomecomingContent = ({
     input: string;
     goTimeI: number;
   }
-}) => {
+  }) => {
+  const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [myApply, setMyApply] = React.useState(init.myApply);
   const [input, setInput] = React.useState(init.input);
@@ -28,6 +30,7 @@ const HomecomingContent = ({
       setMyApply(res.data.data.reason);
       setInput(res.data.data.reason);
       setGoTimeI(goTime.indexOf(res.data.data.time));
+      router.refresh();
     }
     catch(e: any){
       alert.error(e.response.data.message);

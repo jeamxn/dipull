@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React from "react";
 
 import { JasupData, JasupWhere, WeekDayTime, getCurrentTime, koreanWhereTypeToEnglish } from "@/app/api/jasup/utils";
@@ -16,7 +17,8 @@ const JasupMyContent = ({
     type: JasupWhere;
     etc: string;
   }
-}) => {
+  }) => {
+  const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [where, setWhere] = React.useState<JasupWhere>(init.type);
   const [etc, setEtc] = React.useState<JasupData["etc"]>(init.etc);
@@ -39,6 +41,7 @@ const JasupMyContent = ({
         end: etc.split("(")[1].split(")")[0].split("~")[1],
         description: etc.split("(")[0],
       });
+      router.refresh();
     }
     catch(e: any){
       alert.error(e.response.data.message);

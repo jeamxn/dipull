@@ -28,6 +28,7 @@ const BambooCommentContent = (
     }
   },
 ) => {
+  const router = useRouter();
   const [textarea, setTextarea] = React.useState("");
   const [anonymous, setAnonymous] = React.useState(true);
   const [grade, setGrade] = React.useState(true);
@@ -71,6 +72,7 @@ const BambooCommentContent = (
         setNumber(p => p + 20);
         setCommentData([...comment_data, ...res.data.data]);
       }
+      router.refresh();
     }
     catch(e: any){
       alert.warn(e.response.data.message);
@@ -157,8 +159,6 @@ const BambooCommentContent = (
   //   get();
   //   get_comment(true);
   // }, []);
-
-  const router = useRouter();
 
   React.useEffect(() => {
     if(params.id) return;

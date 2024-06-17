@@ -1,6 +1,7 @@
 "use client";
 
 import { AxiosResponse } from "axios";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 import { OutingAndMealData, OutingGetResponse, defaultOutingData } from "@/app/api/outing/utils";
@@ -16,7 +17,8 @@ const OutingContent = ({
     sat: OutingAndMealData;
     sun: OutingAndMealData;
   }
-}) => {
+  }) => {
+  const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [sat, setSat] = React.useState<OutingAndMealData>(init.sat);
   const [sun, setSun] = React.useState<OutingAndMealData>(init.sun);
@@ -27,6 +29,7 @@ const OutingContent = ({
       const res: AxiosResponse<OutingGetResponse> = await instance.get("/api/outing");
       setSat(res.data.data.sat);
       setSun(res.data.data.sun);
+      router.refresh();
     }
     catch(e: any){
       alert.error(e.response.data.message);

@@ -2,9 +2,10 @@
 
 import moment from "moment";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
-import { JasupAllPostResponse } from "@/app/api/jasup/all/post";
+import { JasupAllPostResponse } from "@/app/api/jasup/all/server";
 import { JasupData, JasupDataWithUser, JasupKoreanWhereArray, JasupTime, JasupWhere, WeekDayTime, englishTimeTypeToKorean, englishWhereTypeToKorean, getCurrentTime, koreanWhereTypeToEnglish } from "@/app/api/jasup/utils";
 import { Outing } from "@/app/api/outing/utils";
 import { alert } from "@/utils/alert";
@@ -17,6 +18,7 @@ const JasupStatisticsContent = ({
 }: {
     init: JasupAllPostResponse;
 }) => {
+  const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [isAdmin, setIsAdmin] = React.useState<boolean>(init.isAdmin);
   const [data, setData] = React.useState<JasupDataWithUser[]>(init.data);
@@ -66,6 +68,7 @@ const JasupStatisticsContent = ({
         end: etc.split("(")[1].split(")")[0].split("~")[1],
         description: etc.split("(")[0],
       });
+      router.refresh();
     }
     catch(e: any){
       alert.error(e.response.data.message);

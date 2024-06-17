@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import { useRouter } from "next/navigation";
 import React from "react";
 
 import { WakeupDB, WakeupGET } from "@/app/api/wakeup/utils";
@@ -16,6 +17,7 @@ const MyListContent = ({ initailData }: {
     week: string;
   };
 }) => {
+  const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [my, setMy] = React.useState<WakeupDB[]>(initailData.my);
 
@@ -29,6 +31,7 @@ const MyListContent = ({ initailData }: {
         }
       );
       await getWakeup();
+      router.refresh();
       alert.update(loading, res.data.message, "success");
     }
     catch(e: any){
