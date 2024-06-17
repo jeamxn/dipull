@@ -7,6 +7,7 @@ import { refreshVerify } from "@/utils/jwt";
 export const middleware = async (request: NextRequest) => {
   const origin = request.nextUrl.origin;
   const refreshToken = cookies().get("refreshToken")?.value || "";
+  const accessToken = cookies().get("accessToken")?.value;
   const verified = await refreshVerify(refreshToken);
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-url", request.url);
@@ -19,7 +20,7 @@ export const middleware = async (request: NextRequest) => {
     }
     
     if(!request.nextUrl.pathname.startsWith("/login")){
-      if(!verified.ok) {
+      if(!verified.ok || !accessToken) {
         return NextResponse.redirect(new URL("/login", origin));
       }
       else if(request.nextUrl.pathname.startsWith("/teacher") && verified.payload.type !== "teacher") {
