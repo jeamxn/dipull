@@ -1,9 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useRecoilValue } from "recoil";
 
 import { UserData } from "@/app/auth/type";
+import instance from "@/utils/instance";
 import { isHeaderAtom } from "@/utils/states";
 
 import Loading from "./loading";
@@ -18,6 +20,17 @@ const Header = ({
   userInfo: UserData
 }) => {
   const isHeader = useRecoilValue(isHeaderAtom);
+  const router = useRouter();
+
+  const logout = async () => {
+    await instance.get("/auth/logout");
+    router.push("/login");
+  };
+
+  React.useEffect(() => {
+    if (!userInfo.id) logout();
+  }, []);
+
   return isHeader ? (
     <>
       <header 
