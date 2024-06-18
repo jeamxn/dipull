@@ -1,6 +1,11 @@
 # 1. 디풀
 
-한국디지털미디어고등학교에서 사용하는 인트라넷 버전 3입니다.
+[한국디지털미디어고등학교](https://dimigo.hs.kr/)에서 사용하는 인트라넷입니다.
+
+개발에 참여하고 싶다면 디풀 개발자 커뮤니티에 가입해주세요.
+
+[Discord 디풀 개발자 커뮤니티에 가입하기
+](https://discord.gg/U7FBXyPKM6)
 
 # 2. 설정
 
@@ -93,6 +98,20 @@ bun install
 
 `.env` 파일을 생성하고 [`.env.example`](./.env.example)의 내용을 추가해주세요.
 
+#### 필수 항목
+- `MONGODB_URI` 연결할 MongoDB의 URI
+- `NEXT_PUBLIC_DIMIGOIN_KEY` [디미고인 API 키](https://auth.dimigo.net/)
+- `JWT_SECRET` JWT 토큰 생성 시 사용할 시크릿 키
+
+#### 기본 값 유지
+- `NEXT_PUBLIC_DIMIGOIN_URI` 디미고인 API URI
+- `NEXT_PUBLIC_INSTA_TAG` 체육대회 인스타그램 태그
+
+#### 해당 기능 사용 시
+- `TEACHERS_CODE` 구글 Sheets API 사용 시 사용할 인증 코드
+- `NEIS_API_KEY` NEIS API 사용 시 사용할 API 키
+- `YOUTUBE_API_KEY` 기상송 검색 시 사용할 Youtube API 키 (GCP 발급)
+- `FIREBASE_*` Firebase 사용 시 사용할 설정
 
 
 ### ⑧ DB 초기화
