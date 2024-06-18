@@ -23,6 +23,16 @@ const PUT = async (
     headers: new_headers
   });
 
+  if (verified.payload.data.number < 3000 || verified.payload.data.gender !== "male") {
+    return new NextResponse(JSON.stringify({
+      message: "호실 선택 권한이 없습니다.",
+      ok: false,
+    }), {
+      status: 200,
+      headers: new_headers
+    });
+  }
+
   const { hosil, hnumber } = await req.json();
 
   const client = await connectToDatabase();
