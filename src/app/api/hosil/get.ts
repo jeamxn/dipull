@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 import { verify } from "@/utils/jwt";
 
-import { getIwannagohome } from "./server";
+import { getHosil } from "./server";
 
 const GET = async (
   req: Request,
@@ -24,7 +24,7 @@ const GET = async (
 
   return new NextResponse(JSON.stringify({
     ok: true,
-    data: await getIwannagohome(verified.payload.id),
+    data: await getHosil(),
   }), {
     status: 200,
     headers: new_headers
