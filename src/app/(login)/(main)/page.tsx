@@ -1,14 +1,12 @@
-import * as jose from "jose";
 import { cookies } from "next/headers";
-import Link from "next/link";
 import React from "react";
 
-import { getIwannagohome } from "@/app/api/iwannagohome/get";
-import { TokenInfo, defaultUserData } from "@/app/auth/type";
-import Comments from "@/components/comments";
+import { getIwannagohome } from "@/app/api/iwannagohome/server";
+import { defaultUserData } from "@/app/auth/type";
 import Insider from "@/provider/insider";
 import { verify } from "@/utils/jwt";
 
+import HosilInfo from "./hosilInfo";
 import Iwannagohome from "./iwannagohome";
 import Luck from "./luck";
 
@@ -26,16 +24,21 @@ const Home = async () => {
           userInfo.type === "student" ? (
             <article className="flex flex-col gap-3">
               <section className="flex flex-col gap-1">
-                <h1 className="text-xl font-semibold">개발 공지</h1>
+                <h1 className="text-xl font-semibold">업데이트 내역</h1>
                 <div className="flex flex-col gap-1">
-                  <h1 className="text-base text-primary">SSR(서버 사이드 랜더링) 기술을 테스트 중입니다.</h1>
-                  <h1 className="text-base text-primary">데이터 표시에 오류가 있을 수 있는 점 양해 바랍니다.</h1>
-                  <h1 className="text-base text-primary">새로고침 시 정상적인 데이터를 불러올 수 있습니다.</h1>
+                  <p className="text-base text-primary">1. SSR(서버 사이드 랜더링) 기술을 도입했습니다!</p>
+                  <p className="text-base text-primary">2. 기상송 신청이 3개 이상 되는 버그를 해결했습니다.</p>
+                  <p className="text-base text-primary">3. 기상송 관련 취약점을 해결했습니다.</p>
                 </div>
               </section>
             </article>
           ) : null
         }
+        {/* {
+          userInfo.number > 3000 && userInfo.gender === "male" ? (
+            <HosilInfo />
+          ) : null
+        } */}
         <Luck />
         <Iwannagohome
           init={{

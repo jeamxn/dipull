@@ -28,9 +28,9 @@ const Notification = () => {
       });
       setIsBlock(true);
     } else {
-      timer = setTimeout(() => {
-        setIsBlock(false);
-      }, 300);
+      // timer = setTimeout(() => {
+      //   setIsBlock(false);
+      // }, 300);
     }
     return () => clearTimeout(timer);
   }, [isClicked]);
