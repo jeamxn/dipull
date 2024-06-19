@@ -27,8 +27,7 @@ const Home = async () => {
                 <h1 className="text-xl font-semibold">업데이트 내역</h1>
                 <div className="flex flex-col gap-1">
                   <p className="text-base text-primary">1. SSR(서버 사이드 랜더링) 기술을 도입했습니다!</p>
-                  <p className="text-base text-primary">2. 기상송 신청이 3개 이상 되는 버그를 해결했습니다.</p>
-                  <p className="text-base text-primary">3. 기상송 관련 취약점을 해결했습니다.</p>
+                  <p className="text-base text-primary">2. 로딩 프로세스 바를 추가했습니다.</p>
                 </div>
               </section>
             </article>

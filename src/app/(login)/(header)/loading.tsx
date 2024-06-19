@@ -5,7 +5,7 @@ import { useRecoilState } from "recoil";
 import { loadingAtom } from "@/utils/states";
 
 const Loading = ({
-  fixed = false,
+  fixed = true,
 }: {
   fixed?: boolean,
 }) => {
@@ -40,7 +40,7 @@ const Loading = ({
   return (
     <div className={[
       "w-full",
-      fixed ? "fixed top-0" : "absolute bottom-0"
+      fixed ? "fixed top-0 z-50" : "absolute bottom-0"
     ].join (" ")}>
       <div
         className={[
