@@ -1,8 +1,8 @@
 import MarkdownPreview from "@uiw/react-markdown-preview";
 import moment from "moment";
-import { useRouter } from "next/navigation";
 import React from "react";
 
+import Linker from "@/components/Linker";
 import { alert } from "@/utils/alert";
 
 import { Data } from "./page";
@@ -20,7 +20,6 @@ const BambooBox = ({
   click?: boolean;
   isComment?: boolean;
 }) => {
-  const router = useRouter();
   const diff = moment().diff(moment(item.timestamp, "YYYY-MM-DD HH:mm:ss"), "minutes");
   return (
     <article
@@ -99,12 +98,15 @@ const BambooBox = ({
           !isComment && (
             <>
               <p className="text-sm text-text/40 transition-colors">·</p>
-              <button
+              <Linker
                 className={[
                   "text-sm hover:text-primary text-text/40 transition-colors",
                 ].join(" ")}
-                onClick={() => router.push(`/bamboo/${item._id}`)}
-              >댓글 {item?.comment || 0}</button>
+                href={`/bamboo/${item._id}`}
+                prefetch={true}
+              >
+                댓글 {item?.comment || 0}
+              </Linker>
             </>
           )
         }

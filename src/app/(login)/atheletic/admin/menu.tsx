@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+
+import Linker from "@/components/Linker";
 
 const menu = [
   {
@@ -32,7 +33,7 @@ const Menu = () => {
         menu.map((item, index) => {
           const isCurrentPage = pathname.split("/")[3] === item.url.split("/")[3];
           return (
-            <Link
+            <Linker
               key={index} 
               href={item.url}
               className={[
@@ -42,7 +43,7 @@ const Menu = () => {
               prefetch={true}
             >
               {item.name}
-            </Link>
+            </Linker>
           );
         })
       }
