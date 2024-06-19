@@ -1,11 +1,12 @@
 "use client";
 
-import * as jose from "jose";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import { useSetRecoilState } from "recoil";
 
-import { TokenInfo, UserData, defaultUserData } from "@/app/auth/type";
+import { UserData } from "@/app/auth/type";
+import Linker from "@/components/Linker";
+import { loadingAtom } from "@/utils/states";
 
 import { mainMenu, studentsMenu, teachersMenu } from "./utils";
 
@@ -13,7 +14,8 @@ const MobileMenu = ({
   userInfo
 }: {
   userInfo: UserData
-}) => {
+  }) => {
+  const setLoading = useSetRecoilState(loadingAtom);
   const [expanded, setExpanded] = React.useState(false);
   const pathname = usePathname();
   const menuCopy = userInfo.type === "teacher" ? [ ...mainMenu, ...teachersMenu ] : [ ...mainMenu, ...studentsMenu ];
@@ -55,7 +57,7 @@ const MobileMenu = ({
           menuCopy.map((item, index) => {
             const isCurrentPage = pathname.split("/")[1] === item.url.split("/")[1];
             return (
-              <Link
+              <Linker
                 key={index} 
                 href={item.url}
                 className={[
@@ -66,7 +68,7 @@ const MobileMenu = ({
                 onClick={() => setExpanded(false)}
               >
                 {item.showname || item.name}
-              </Link>
+              </Linker>
             );
           })
         }

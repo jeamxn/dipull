@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { useSetRecoilState } from "recoil";
 
 import { UserData } from "@/app/auth/type";
+import Linker from "@/components/Linker";
 import { loadingAtom } from "@/utils/states";
 
 import { mainMenu, studentsMenu, teachersMenu } from "./utils";
@@ -25,7 +25,7 @@ const Menu = ({
         menuCopy.map((item, index) => {
           const isCurrentPage = pathname.split("/")[1] === item.url.split("/")[1];
           return (
-            <Link
+            <Linker
               key={index}
               href={item.url}
               className={[
@@ -36,7 +36,7 @@ const Menu = ({
               prefetch={true}
             >
               {item.name}
-            </Link>
+            </Linker>
           );
         })
       }

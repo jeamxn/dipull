@@ -1,11 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 import { optionShiftparseToNumber } from "@/app/(login)/(header)/mainLogo";
 import { MenuItem } from "@/app/(login)/(header)/utils";
+
+import Linker from "./Linker";
 
 const SubMenu = ({
   menu
@@ -39,7 +40,7 @@ const SubMenu = ({
         menu.map((item, index) => {
           const isCurrentPage = pathname.split("/")[2] === item.url.split("/")[2];
           return (
-            <Link
+            <Linker
               key={index} 
               href={item.url}
               className={[
@@ -49,7 +50,7 @@ const SubMenu = ({
               prefetch={true}
             >
               {item.name}
-            </Link>
+            </Linker>
           );
         })
       }

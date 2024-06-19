@@ -25,15 +25,6 @@ const Iwannagohome = ({
   const [date, setDate] = React.useState<moment.Moment>(moment(init.date, "YYYY-MM-DD"));
   const [pwd, setPwd] = React.useState("");
 
-  const logout = async () => {
-    await instance.get("/auth/logout");
-    router.push("/login");
-  };
-
-  React.useEffect(() => {
-    if (!userInfo.id) logout();
-  }, []);
-
   React.useEffect(() => {
     if(!pwd.includes("1010011")) return;
     deleteJoke();

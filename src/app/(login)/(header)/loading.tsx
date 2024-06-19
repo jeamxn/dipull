@@ -1,45 +1,55 @@
+import { usePathname } from "next/navigation";
 import React from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 
 import { loadingAtom } from "@/utils/states";
 
-const Loading = () => {
-  const on = useRecoilValue(loadingAtom);
-  const [percent, setPercent] = React.useState(0);
-  const [loading, setLoading] = React.useState(false);
+const Loading = ({
+  fixed = false,
+}: {
+  fixed?: boolean,
+}) => {
+  const [loading, setLoading] = useRecoilState(loadingAtom);
+  const [end, setEnd] = React.useState(true);
 
-  React.useEffect(() => {
-    if (on) {
-      setLoading(true);
-      const timer = setTimeout(() => {
-        if(percent < 85)
-          setPercent((prev) => prev + 1);
-      }, 20);
-      return () => clearTimeout(timer);
+  React.useEffect(() => { 
+    if (loading) {
+      setEnd(false);
     }
-    else {
-      setPercent(0);
+  }, [loading]);
+
+  const pathname = usePathname();
+  const handleComplete = () => {
+    // if (!loading) return;
+    setEnd(true);
+    setTimeout(() => { 
       setLoading(false);
-    }
-  }, [on, percent]);
-
+      setEnd(false);
+    }, 200);
+  };
   React.useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(true);
-    }, 2000);
-    return () => clearTimeout(timer);
+    window.addEventListener("load", handleComplete);
+    return () => {
+      window.removeEventListener("load", handleComplete);
+    };
   }, []);
+  React.useEffect(() => {
+    handleComplete();
+  }, [pathname]);
 
-  return loading ? (
-    <div className="absolute bottom-0 w-full">
+  return (
+    <div className={[
+      "w-full",
+      fixed ? "fixed top-0" : "absolute bottom-0"
+    ].join (" ")}>
       <div
-        className="border-primary border-b-2"
-        style={{
-          width: loading ? `${percent}%` : "0%",
-        }}
+        className={[
+          "border-primary border-b-2 ease-in-out transition-all",
+          end ? "w-full duration-200" : loading ? "w-10/12 duration-[5s]" : "w-0 transition-none",
+        ].join(" ")}
       />
     </div>
-  ) : null;
+  );
 };
 
 export default Loading;

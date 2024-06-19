@@ -34,7 +34,7 @@ const LoginedLayout = async ({
       <div className="absolute top-0 left-0 -z-[1]">
         <FireworkFrame />
       </div>
-      <Footer />
+      <Footer userInfo={userInfo} />
     </>
   );
 };
