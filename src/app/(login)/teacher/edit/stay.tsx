@@ -83,10 +83,13 @@ const Stay = ({
     setLoading(false);
   };
 
-  const type = studyroom.find(e => 
+  const types = studyroom.filter(e =>
     e.seat[selectedSeat[0]]?.includes(Number(selectedSeat.slice(1, selectedSeat.length)))
   );
-
+  const grades = types.map(e => e.grade).sort().join(", ");
+  const gender = types.map(e => e.gender === "male" ? "남학생" : "여학생")
+    .filter((e, i, arr) => arr.indexOf(e) === i).join(", ");
+  
   const myApply = byGradeClassObj[Math.floor(selectedUser.number / 1000)]?.[Math.floor(selectedUser.number / 100) % 10].find(e => e.id === selectedUser.id);
   const isApplyed = myApply?.id;
   
@@ -117,7 +120,7 @@ const Stay = ({
               selectedSeat === "@0" ? (
                 <h1 className="text-xl font-semibold">선택된 좌석: 교실 잔류</h1>
               ) : (
-                <h1 className="text-xl font-semibold">선택된 좌석: {selectedSeat} ({type?.grade.join(", ")}학년 / {type?.gender === "male" ? "남학생": type?.gender === "female" ? "여학생" : "선택 불가"})</h1>
+                <h1 className="text-xl font-semibold">선택된 좌석: {selectedSeat} ({grades}학년 / {gender})</h1>
               )
           }
           <p>
