@@ -2,11 +2,9 @@
 
 import { usePathname } from "next/navigation";
 import React from "react";
-import { useSetRecoilState } from "recoil";
 
 import { UserData } from "@/app/auth/type";
 import Linker from "@/components/Linker";
-import { loadingAtom } from "@/utils/states";
 
 import { mainMenu, studentsMenu, teachersMenu } from "./utils";
 
@@ -15,15 +13,16 @@ const Menu = ({
 }: {
   userInfo: UserData
   }) => {
-  const setLoading = useSetRecoilState(loadingAtom);
   const pathname = usePathname();
-  const menuCopy = userInfo.type === "teacher" ? [ ...mainMenu, ...teachersMenu ] : [ ...mainMenu, ...studentsMenu ];
+  const menuOrigin = userInfo.type === "teacher" ? [ ...mainMenu, ...teachersMenu ] : [ ...mainMenu, ...studentsMenu ];
+  const menuSorted = menuOrigin.sort((a, b) => (a.order?.[userInfo.type] || -1) - (b.order?.[userInfo.type] || -1));
 
   return (
     <nav className="flex flex-row justify-around max-[520px]:hidden">
       {
-        menuCopy.map((item, index) => {
-          const isCurrentPage = pathname.split("/")[1] === item.url.split("/")[1];
+        menuSorted.map((item, index) => {
+          const isCurrentPage = pathname.split("/")[1] !== "teacher" ?
+            pathname.split("/")[1] === item.url.split("/")[1] : pathname.split("/")[2] === item.url.split("/")[2];
           return (
             <Linker
               key={index}

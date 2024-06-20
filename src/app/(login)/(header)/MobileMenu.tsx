@@ -15,7 +15,8 @@ const MobileMenu = ({
   }) => {
   const [expanded, setExpanded] = React.useState(false);
   const pathname = usePathname();
-  const menuCopy = userInfo.type === "teacher" ? [ ...mainMenu, ...teachersMenu ] : [ ...mainMenu, ...studentsMenu ];
+  const menuOrigin = userInfo.type === "teacher" ? [ ...mainMenu, ...teachersMenu ] : [ ...mainMenu, ...studentsMenu ];
+  const menuSorted = menuOrigin.sort((a, b) => (a.order?.[userInfo.type] || -1) - (b.order?.[userInfo.type] || -1));
 
   React.useEffect(() => {
     const onCommandKeyDown = (event: KeyboardEvent) => {
@@ -51,8 +52,9 @@ const MobileMenu = ({
       }}
       >
         {
-          menuCopy.map((item, index) => {
-            const isCurrentPage = pathname.split("/")[1] === item.url.split("/")[1];
+          menuSorted.map((item, index) => {
+            const isCurrentPage = pathname.split("/")[1] !== "teacher" ?
+              pathname.split("/")[1] === item.url.split("/")[1] : pathname.split("/")[2] === item.url.split("/")[2];
             return (
               <Linker
                 key={index} 

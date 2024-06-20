@@ -94,69 +94,74 @@ const MachineContent: React.FC<MachineContentProps> = ({ params, initialData, in
 
   return (
     <>
-      <section className="flex flex-col gap-3">
-        <h1 className="text-xl font-semibold">{machineKorean[params.type]}기 신청하기</h1>
-        {myBooking.booked ? (
-          <section className="flex flex-col gap-1">
-            <figure className="flex flex-col gap-1 justify-center items-center my-5">
-              <h1 className="text-xl font-semibold">오늘 예약한 {machineKorean[params.type]}기가 있어요.</h1>
-              <p>{machineName(myBooking.info.machine)} {myBooking.info.time.replace("* ", "")}</p>
-            </figure>
-            <button 
-              className="w-full bg-primary text-white font-semibold px-4 py-2 rounded-md text-base"
-              onClick={confirmDelete}
-            >
-              취소하기
-            </button>
-          </section>
-        ) : (
-          <section className="flex flex-col gap-1">
-            <figure className={`w-full bg-white border border-text/10 px-4 py-2 rounded-md text-base ${loading ? "loading_background" : ""}`}>
-              <select 
-                value={selectedMachine}
-                onChange={(e) => setSelectedMachine(e.target.value)}
-                className="w-full h-full bg-transparent"
-              >
-                <option value="">{machineKorean[params.type]}기를 선택해주세요</option>
-                {Object.entries(data).map(([name, machine], i) => (
-                  <option 
-                    key={i} 
-                    value={name}
-                    disabled={
-                      machine.allow.grades.indexOf(Math.floor(userInfo.number / 1000)) === -1 ||
-                      userInfo.gender !== machine.allow.gender
-                    }
+      {
+        userInfo.type === "student" ? (
+          <section className="flex flex-col gap-3">
+            <h1 className="text-xl font-semibold">{machineKorean[params.type]}기 신청하기</h1>
+            {myBooking.booked ? (
+              <section className="flex flex-col gap-1">
+                <figure className="flex flex-col gap-1 justify-center items-center my-5">
+                  <h1 className="text-xl font-semibold">오늘 예약한 {machineKorean[params.type]}기가 있어요.</h1>
+                  <p>{machineName(myBooking.info.machine)} {myBooking.info.time.replace("* ", "")}</p>
+                </figure>
+                <button 
+                  className="w-full bg-primary text-white font-semibold px-4 py-2 rounded-md text-base"
+                  onClick={confirmDelete}
+                >
+                  취소하기
+                </button>
+              </section>
+            ) : (
+              <section className="flex flex-col gap-1">
+                <figure className={`w-full bg-white border border-text/10 px-4 py-2 rounded-md text-base ${loading ? "loading_background" : ""}`}>
+                  <select 
+                    value={selectedMachine}
+                    onChange={(e) => setSelectedMachine(e.target.value)}
+                    className="w-full h-full bg-transparent"
                   >
-                    {machineToKorean(name, machine)}
-                  </option>
-                ))}
-              </select>
-            </figure>
-            <figure className={`w-full bg-white border border-text/10 px-4 py-2 rounded-md text-base ${loading ? "loading_background" : ""}`}>
-              <select
-                value={selectedTime}
-                onChange={(e) => setSelectedTime(e.target.value)}
-                className="w-full h-full bg-transparent"
-              >
-                <option value="">{machineKorean[params.type]} 시간을 선택해주세요</option>
-                {data[selectedMachine] &&
+                    <option value="">{machineKorean[params.type]}기를 선택해주세요</option>
+                    {Object.entries(data).map(([name, machine], i) => (
+                      <option 
+                        key={i} 
+                        value={name}
+                        disabled={
+                          machine.allow.grades.indexOf(Math.floor(userInfo.number / 1000)) === -1 ||
+                          userInfo.gender !== machine.allow.gender
+                        }
+                      >
+                        {machineToKorean(name, machine)}
+                      </option>
+                    ))}
+                  </select>
+                </figure>
+                <figure className={`w-full bg-white border border-text/10 px-4 py-2 rounded-md text-base ${loading ? "loading_background" : ""}`}>
+                  <select
+                    value={selectedTime}
+                    onChange={(e) => setSelectedTime(e.target.value)}
+                    className="w-full h-full bg-transparent"
+                  >
+                    <option value="">{machineKorean[params.type]} 시간을 선택해주세요</option>
+                    {data[selectedMachine] &&
                   Object.entries(data[selectedMachine].time).map(([time, status], i) => (
                     <option key={i} value={time} disabled={!!status}>
                       {time}
                     </option>
                   ))}
-              </select>
-            </figure>
-            <button 
-              className={`w-full bg-primary text-white font-semibold px-4 py-2 rounded-md text-base ${!selectedMachine || !selectedTime ? "opacity-50" : "opacity-100"}`}
-              disabled={!selectedMachine || !selectedTime}
-              onClick={putWasherData}
-            >
-              신청하기
-            </button>
+                  </select>
+                </figure>
+                <button 
+                  className={`w-full bg-primary text-white font-semibold px-4 py-2 rounded-md text-base ${!selectedMachine || !selectedTime ? "opacity-50" : "opacity-100"}`}
+                  disabled={!selectedMachine || !selectedTime}
+                  onClick={putWasherData}
+                >
+                  신청하기
+                </button>
+              </section>
+            )}
           </section>
-        )}
-      </section>
+        ) : null
+      }
+      
       <section className="flex flex-col gap-3">
         <div className="flex flex-row items-center">
           <h1 className="text-xl font-semibold">{machineKorean[params.type]}기 신청 현황</h1>
@@ -183,6 +188,7 @@ const MachineContent: React.FC<MachineContentProps> = ({ params, initialData, in
                 machine={machine} 
                 loading={loading} 
                 userInfo={userInfo}
+                expanded={userInfo.type === "teacher"}
               />
             ))}
         </article>
