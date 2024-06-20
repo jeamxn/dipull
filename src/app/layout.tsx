@@ -16,11 +16,11 @@ export const generateMetadata = async (): Promise<Metadata> => {
   const x_origin = headers().get("x-origin") || process.env.NEXT_PUBLIC_DIMIGOIN_URI || "";
   return {
     title: "디풀",
-    description: "그래그래 드디어 왔다 디풀",
+    description: "한국디지털미디어고등학교 인트라넷의 새 이름, 디풀. (디미고인 풀 서비스)",
     openGraph:{
       title: "디풀",
       siteName: "디풀",
-      description: "그래그래 드디어 왔다 디풀",
+      description: "한국디지털미디어고등학교 인트라넷의 새 이름, 디풀. (디미고인 풀 서비스)",
       type: "website",
       url: "https://dimigo.net",
       locale: "ko_KR",
