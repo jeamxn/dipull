@@ -4,7 +4,7 @@ export const menu = [
     name: "생활관 수정",
   },
   {
-    url: "/teacher/settings",
+    url: "/teacher/settings/studyroom",
     name: "설정",
   },
   {
