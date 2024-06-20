@@ -87,6 +87,7 @@ const Studyroom = ({
                       &&
                       !classStayArr.includes(String(e.grade))
                     );
+                    const isCannotSelect = types.some(e => e.grade === 0 && !e.color);
                     const isRightGender = types.some(e => e.gender === userInfo.gender);
                     const isRightGrade = types.some(e => e.grade === Math.floor(userInfo.number / 1000));
                     const isNoColor = types.every(e => !e.color);
@@ -108,6 +109,7 @@ const Studyroom = ({
                         ].join(" ")}
                         onClick={() => {
                           if (disabled_in) return;
+                          if (!showAllTypes && isCannotSelect) return;
                           if (setSelectedSeat && selectedSeat) {
                             if(key === selectedSeat) setSelectedSeat("@0");
                             else setSelectedSeat(key);
