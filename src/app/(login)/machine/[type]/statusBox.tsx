@@ -10,14 +10,16 @@ const StatusBox = ({
   machine,
   loading,
   userInfo,
+  expanded,
 }: {
   name: string;
   machine: Machine;
   loading: boolean;
   userInfo: UserData;
+  expanded?: boolean;
 }) => {
   const isOurGrade = machine.allow.grades.includes(Math.floor(userInfo.number / 1000)) && machine.allow.gender === userInfo.gender;
-  const [clicked, setClicked] = React.useState(isOurGrade);
+  const [clicked, setClicked] = React.useState(isOurGrade || expanded);
   return (
     <figure 
       onClick={() => setClicked(p => !p)}

@@ -99,7 +99,8 @@ const MainLogo = () => {
       <p className="font-semibold text-base hidden max-[520px]:flex whitespace-nowrap">
         {
           menuCopy.map((item, index) => {
-            const isCurrentPage = pathname.split("/")[1] === item.url.split("/")[1];
+            const isCurrentPage = pathname.split("/")[1] !== "teacher" ?
+              pathname.split("/")[1] === item.url.split("/")[1] : pathname.split("/")[2] === item.url.split("/")[2];
             return isCurrentPage ? item.showname || item.name : null;
           })
         }

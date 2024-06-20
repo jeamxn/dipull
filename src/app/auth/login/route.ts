@@ -24,7 +24,7 @@ export const GET = async (req: Request) => {
   // 디풀 토큰 디코딩
   const decodedToken = await jose.jwtVerify(token, public_key_encodes);
   const data = decodedToken.payload as {
-    data: ClientType;
+    data: UserData;
     iss: string;
     aud: string;
     iat: number;
