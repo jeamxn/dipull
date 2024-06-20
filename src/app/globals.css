@@ -17,6 +17,20 @@
   transition: var(--transition-default);
 }
 
+@keyframes rainbow {
+  0% {
+    background-position: 100% 0%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+.rainbow {
+  background: linear-gradient(to right, rgb(118, 56, 250), rgb(255, 214, 0), rgb(255, 122, 0), rgb(255, 1, 105), rgb(211, 0, 197), rgb(118, 56, 250), rgb(255, 214, 0));
+  background-size: 400% 100%;
+  animation: rainbow 2s linear infinite;
+}
+
 :root {
   overscroll-behavior: none;
 }
@@ -118,10 +132,6 @@ input, textarea, button, select {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   outline: none;
-}
-
-body::-webkit-scrollbar {
-	z-index: 1000;
 }
 
 .loading_background {
