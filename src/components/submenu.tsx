@@ -9,9 +9,13 @@ import { MenuItem } from "@/app/(login)/(header)/utils";
 import Linker from "./Linker";
 
 const SubMenu = ({
-  menu
+  menu,
+  nonePading,
+  subadd = 0,
 }: {
   menu: MenuItem[];
+  nonePading?: boolean;
+  subadd?: number;
 }) => {
   const pathname = usePathname();
   const router = useRouter();
@@ -35,10 +39,13 @@ const SubMenu = ({
   }, [pathname, menu]);
 
   return (
-    <nav className="px-4 w-full border-b border-text/10 flex flex-row justify-around">
+    <nav className={[
+      "w-full border-b border-text/10 flex flex-row justify-around",
+      nonePading ? "px-0" : "px-4"
+    ].join(" ")}>
       {
         menu.map((item, index) => {
-          const isCurrentPage = pathname.split("/")[2] === item.url.split("/")[2];
+          const isCurrentPage = pathname.split("/")[2 + subadd] === item.url.split("/")[2 + subadd];
           return (
             <Linker
               key={index} 

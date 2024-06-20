@@ -71,17 +71,26 @@ const PUT = async (
 
   const studyroomCollection = client.db().collection("studyroom");
   const getAllOfStudyroom = await studyroomCollection.find({}).toArray() as unknown as StudyroomDB[];
-  const studyroomData: StudyroomData[] = getAllOfStudyroom.map(({_id, ...e}) => e);
-  const type = studyroomData.find(
-    e => e.seat[seat[0]]?.includes(parseInt(seat.slice(1, seat.length)))
-  );
+  const studyroomData: StudyroomData[] = getAllOfStudyroom.map(({ _id, ...e }) => e);
+  const types = studyroomData.filter(e => e.seat[seat[0]]?.includes(parseInt(seat.slice(1, seat.length))));
+
+  const userGender = verified.payload.data.gender;
+  const userGrade = Math.floor(verified.payload.data.number / 1000);
+
+  const isNoColor = types.every(e => !e.color);
+  const isRightGender = types.some(e => e.gender === userGender);
+  const isRightGrade = types.some(e => e.grade === userGrade);
+
+  // const type = studyroomData.find(
+  //   e => e.seat[seat[0]]?.includes(parseInt(seat.slice(1, seat.length)))
+  // );
   if(
     seat !== "교실"
     &&
     (
-      !type?.color 
-        || type.gender !== verified.payload.data.gender 
-        || !type.grade.includes(Math.floor(verified.payload.data.number / 1000))
+      isNoColor 
+        || !isRightGender
+        || !isRightGrade
     )
   ) {
     return new NextResponse(JSON.stringify({
