@@ -7,7 +7,11 @@ import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
 
-const GotoClass = () => {
+const GotoClass = ({
+  getStayData
+}: {
+  getStayData: () => Promise<void>
+}) => {
   const [loading, setLoading] = React.useState(false);
 
   const download = async (grade: number) => {
@@ -17,6 +21,7 @@ const GotoClass = () => {
       const res = await instance.post("/api/teacher/stay/sendtoclass", {
         grade,
       });
+      await getStayData();
       alert.update(loading, res.data.message, "success");
     }
     catch(e: any){

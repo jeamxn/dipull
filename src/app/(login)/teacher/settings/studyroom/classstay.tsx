@@ -12,8 +12,9 @@ type ClassstayType = {
   grade3: boolean;
 };
 
-const Classstay = ({ init }: {
+const Classstay = ({ init, getStayData }: {
   init: boolean[],
+  getStayData: () => Promise<void>
 }) => {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
@@ -46,7 +47,7 @@ const Classstay = ({ init }: {
     const loading = alert.loading("잔류 장소 설정 중 입니다.");
     try{
       const res = await instance.post("/api/teacher/stay/where", isClassstay_inner);
-      await getClassstay();
+      await Promise.all([getClassstay(), getStayData()]);
       alert.update(loading, res.data.message, "success");
     }
     catch(e: any){

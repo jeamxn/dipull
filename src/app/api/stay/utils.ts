@@ -55,7 +55,7 @@ export type StayGetResponse = {
 
 export type StudyroomData = {
   color: string;
-  grade: number[];
+  grade: number;
   gender: string;
   seat: {
     [key: string]: number[];
