@@ -59,7 +59,7 @@ export const teachersMenu: MenuItem[] = [
     },
   },
   {
-    url: "/teacher/settings",
+    url: "/teacher/settings/studyroom",
     name: "설정",
     showname: "설정",
     order: {
