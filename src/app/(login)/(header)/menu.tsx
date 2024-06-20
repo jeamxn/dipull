@@ -34,6 +34,7 @@ const Menu = ({
                 isCurrentPage ? "text-text/100" : "text-text/40",
               ].join(" ")}
               prefetch={true}
+              disabled={isCurrentPage}
             >
               {item.name}
             </Linker>

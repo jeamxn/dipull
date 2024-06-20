@@ -2,11 +2,9 @@
 
 import { usePathname } from "next/navigation";
 import React from "react";
-import { useSetRecoilState } from "recoil";
 
 import { UserData } from "@/app/auth/type";
 import Linker from "@/components/Linker";
-import { loadingAtom } from "@/utils/states";
 
 import { mainMenu, studentsMenu, teachersMenu } from "./utils";
 
@@ -15,7 +13,6 @@ const MobileMenu = ({
 }: {
   userInfo: UserData
   }) => {
-  const setLoading = useSetRecoilState(loadingAtom);
   const [expanded, setExpanded] = React.useState(false);
   const pathname = usePathname();
   const menuCopy = userInfo.type === "teacher" ? [ ...mainMenu, ...teachersMenu ] : [ ...mainMenu, ...studentsMenu ];
@@ -66,6 +63,7 @@ const MobileMenu = ({
                 ].join(" ")}
                 prefetch={true}
                 onClick={() => setExpanded(false)}
+                disabled={isCurrentPage}
               >
                 {item.showname || item.name}
               </Linker>
