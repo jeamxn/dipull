@@ -90,9 +90,10 @@ const Studyroom = ({
                     const isRightGender = types.some(e => e.gender === userInfo.gender);
                     const isRightGrade = types.some(e => e.grade === Math.floor(userInfo.number / 1000));
                     const isNoColor = types.every(e => !e.color);
-                    const madeColorGradient = types.map(e => e.color).filter(e => e).map((e, i) => `${e} ${
+                    const mapedColor = types.map(e => e.color).filter(e => e);
+                    const madeColorGradient = mapedColor.map((e, i) => `${e} ${
                       i === 0 ? "0%" : `${(100 / types.length) * i}%`
-                    } ${(100 / types.length) * (i + 1)}%`);
+                    } ${(100 / mapedColor.length) * (i + 1)}%`);
                     // const madeColorGradient = types.map(e => e.color).filter(e => e);
                     const gradient = madeColorGradient.length > 1 ? `linear-gradient(-45deg, ${madeColorGradient.join(", ")})` : madeColorGradient[0];
                     const disabled_base = (disabled || owner || mySelect || !isRightGender || !isRightGrade);
