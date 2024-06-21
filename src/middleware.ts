@@ -45,5 +45,5 @@ export const middleware = async (request: NextRequest) => {
 };
 
 export const config = {
-  matcher: "/((?!auth|_next/static|_next/image|favicon.ico|public|manifest.json|api/teacher/sheet/*|api/machine/*).*)",
+  matcher: "/((?!auth|_next/static|_next/image|favicon.ico|public|cron|manifest.json|api/teacher/sheet/*|api/machine/*).*)",
 };
