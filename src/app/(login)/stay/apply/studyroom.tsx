@@ -2,6 +2,7 @@ import React from "react";
 
 import { BySeatsObj, StudyroomData } from "@/app/api/stay/utils";
 import { UserData } from "@/app/auth/type";
+import { isDarkColor } from "@/utils/isDarkColor";
 
 const Studyroom = ({
   loading,
@@ -94,19 +95,34 @@ const Studyroom = ({
                     const isRightGrade = types.some(e => e.grade === Math.floor(userInfo.number / 1000));
                     const isNoColor = types.every(e => !e.color);
                     const mapedColor = types.map(e => e.color).filter(e => e);
+                    // const madeColorGradient = mapedColor;
                     const madeColorGradient = mapedColor.map((e, i) => `${e} ${
                       i === 0 ? "0%" : `${(100 / types.length) * i}%`
                     } ${(100 / mapedColor.length) * (i + 1)}%`);
-                    // const madeColorGradient = types.map(e => e.color).filter(e => e);
+
+                    const isBrightColor = mapedColor.some(e => {
+                      const r = parseInt(e.slice(1, 3), 16);
+                      const g = parseInt(e.slice(3, 5), 16);
+                      const b = parseInt(e.slice(5, 7), 16);
+                      return !isDarkColor(r, g, b);
+                    });
+                    
                     const gradient = madeColorGradient.length > 1 ? `linear-gradient(-45deg, ${madeColorGradient.join(", ")})` : madeColorGradient[0];
                     const disabled_base = (disabled || owner || mySelect || !isRightGender || !isRightGrade);
                     const disabled_in = ((!allowSelect && disabled_base) || isNoColor) && !showAllTypes;
+
+                    const selected = (
+                      selectedSeat === key
+                      ||
+                      (selectedSeats && selectedSeats.includes(key))
+                    );
+                    const color = !isNoColor || showAllTypes ? gradient || "rgb(var(--color-text) / .25)" : "";
 
                     return (
                       <td 
                         key={j} 
                         className={[
-                          "w-10 h-10 rounded-sm flex justify-center items-center select-none transition-all",
+                          "w-10 h-10 rounded flex justify-center items-center select-none transition-all",
                           disabled_in ? "" : "cursor-pointer"
                         ].join(" ")}
                         onClick={() => {
@@ -124,25 +140,27 @@ const Studyroom = ({
                       >
                         <div
                           className={[
-                            "w-10 h-10 flex flex-row items-center justify-center rounded-sm transition-all",
-                            (
-                              selectedSeat === key
-                              ||
-                              (selectedSeats && selectedSeats.includes(key))
-                            ) ? "border-text border-[3px]" : "",
+                            "w-10 h-10 flex flex-row items-center justify-center rounded-sm transition-all relative",
                           ].join(" ")}
                           style={{
-                            background: !isNoColor || showAllTypes ? gradient || "rgb(var(--color-text) / .25)" : "",
+                            background: color,
                           }}
                         >
                           <p
                             className={[
-                              "text-center text-xs transition-all font-medium",
-                            // selectedSeat === key ? "text-white" : ""
+                              "text-center text-xs transition-all font-medium z-10",
+                              selected ? "text-text dark:text-text" : isBrightColor ? "text-text dark:text-white" : "text-white dark:text-text",
+                              // selectedSeat === key ? "text-white" : ""
                             ].join(" ")}
                           >
                             {!isNoColor || showAllTypes ? (isNameShow ? owner || key : key) : ""}
                           </p>
+                          <div
+                            className={[
+                              "absolute bg-background w-8 h-8 rounded-sm transition-all",
+                              selected ? "opacity-100" : "opacity-0",
+                            ].join(" ")}
+                          />
                         </div>
                       </td>
                     );

@@ -1,6 +1,6 @@
 const studyroom = [
   {
-    "color": "#3B89FF",
+    "color": "#3572EF",
     "grade": 3,
     "gender": "male",
     "seat": {
@@ -128,7 +128,7 @@ const studyroom = [
     }
   },
   {
-    "color": "#D65562",
+    "color": "#FF7D29",
     "grade": 3,
     "gender": "female",
     "seat": {
@@ -190,7 +190,7 @@ const studyroom = [
     }
   },
   {
-    "color": "#EB7371",
+    "color": "#FFBF78",
     "grade": 2,
     "gender": "female",
     "seat": {
@@ -241,7 +241,7 @@ const studyroom = [
     }
   },
   {
-    "color": "#5819E0",
+    "color": "#3ABEF9",
     "grade": 2,
     "gender": "male",
     "seat": {
@@ -308,7 +308,7 @@ const studyroom = [
     }
   },
   {
-    "color": "#EB9D71",
+    "color": "#FFEEA9",
     "grade": 1,
     "gender": "female",
     "seat": {
@@ -359,7 +359,7 @@ const studyroom = [
     }
   },
   {
-    "color": "#DB19E0",
+    "color": "#A7E6FF",
     "grade": 1,
     "gender": "male",
     "seat": {
