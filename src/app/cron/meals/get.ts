@@ -11,15 +11,15 @@ const GET = async (
   const new_headers = new Headers();
   new_headers.append("Content-Type", "application/json; charset=utf-8");
 
-  const authHeader = req.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return new NextResponse(JSON.stringify({
-      success: false,
-    }), {
-      status: 401,
-      headers: new_headers
-    });
-  }
+  // const authHeader = req.headers.get("authorization");
+  // if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  //   return new NextResponse(JSON.stringify({
+  //     success: false,
+  //   }), {
+  //     status: 401,
+  //     headers: new_headers
+  //   });
+  // }
 
   const meals = await getMealData();
   const client = await connectToDatabase();
