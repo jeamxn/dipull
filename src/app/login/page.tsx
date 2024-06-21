@@ -30,18 +30,9 @@ const Login = () => {
         ref={ref}
       >
         <section className="flex flex-row w-full justify-start items-start">
-          <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 20 21" fill="none">
-            <g clipPath="url(#clip0_1_1390)">
-              <rect y="16.75" width="20" height="3.75" rx="1.875" fill="rgb(var(--color-white) / 1)"></rect>
-              <path d="M1.5625 7.375C1.5625 6.33947 2.40197 5.5 3.4375 5.5C4.47303 5.5 5.3125 6.33947 5.3125 7.375L5.3125 13.625C5.3125 14.6605 4.47303 15.5 3.4375 15.5C2.40197 15.5 1.5625 14.6605 1.5625 13.625L1.5625 7.375Z" fill="rgb(var(--color-white) / 1)"></path>
-              <path d="M1.5625 2.375C1.5625 1.33947 2.40197 0.5 3.4375 0.5C4.47303 0.5 5.3125 1.33947 5.3125 2.375C5.3125 3.41053 4.47303 4.25 3.4375 4.25C2.40197 4.25 1.5625 3.41053 1.5625 2.375Z" fill="rgb(var(--color-white) / 1)"></path>
-              <path fillRule="evenodd" clipRule="evenodd" d="M12.8125 2.6875C9.7059 2.6875 7.1875 5.2059 7.1875 8.3125V13.625C7.1875 14.6605 8.02697 15.5 9.0625 15.5C10.098 15.5 10.9375 14.6605 10.9375 13.625V8.3125C10.9375 7.27697 11.777 6.4375 12.8125 6.4375C13.848 6.4375 14.6875 7.27697 14.6875 8.3125V13.625C14.6875 14.6605 15.527 15.5 16.5625 15.5C17.598 15.5 18.4375 14.6605 18.4375 13.625V8.3125C18.4375 5.2059 15.9191 2.6875 12.8125 2.6875Z" fill="rgb(var(--color-white) / 1)"></path>
-            </g>
-            <defs>
-              <clipPath id="clip0_1_1390">
-                <rect width="20" height="20" fill="white" transform="translate(0 0.5)"></rect>
-              </clipPath>
-            </defs>
+          <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path className="fill-white" d="M12.382 8.675H26.325V22.618L35 31.293V0H3.70703L12.382 8.675Z" />
+            <path className="fill-white" d="M22.618 26.325H8.675V12.382L0 3.70703V35H31.293L22.618 26.325Z" />
           </svg>
         </section>
         <article className="flex flex-col gap-2 justify-center items-end w-full">
