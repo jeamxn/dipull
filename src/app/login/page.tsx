@@ -22,7 +22,7 @@ const Login = () => {
       <div
         className="flex flex-row justify-between flex-wrap gap-10 max-[650px]:gap-0 items-center w-full py-16 px-32 max-[650px]:px-8 max-[650px]:py-8 z-50"
         style={{
-          height: "calc(100vh - max(env(safe-area-inset-top), 0px) - max(env(safe-area-inset-bottom), 0px))",
+          height: "calc(100dvh - max(env(safe-area-inset-top), 0px) - max(env(safe-area-inset-bottom), 0px))",
         }}
       >
         <div className="flex flex-col gap-6 max-[650px]:items-center max-[650px]:justify-center max-[650px]:w-full">
