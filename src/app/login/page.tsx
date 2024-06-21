@@ -18,10 +18,11 @@ const Login = () => {
 
   return (
     <>
+      <div className="pt-safe-or-0"/>
       <div
-        className="-mt-safe flex flex-row justify-between flex-wrap gap-10 max-[650px]:gap-0 items-center w-full py-16 px-32 max-[650px]:px-8 max-[650px]:py-8 z-50"
+        className="flex flex-row justify-between flex-wrap gap-10 max-[650px]:gap-0 items-center w-full py-16 px-32 max-[650px]:px-8 max-[650px]:py-8 z-50"
         style={{
-          height: "calc(100vh - env(safe-area-inset-top))",
+          height: "calc(100vh - max(env(safe-area-inset-top), 0px) - max(env(safe-area-inset-bottom), 0px))",
         }}
       >
         <div className="flex flex-col gap-6 max-[650px]:items-center max-[650px]:justify-center max-[650px]:w-full">
@@ -78,6 +79,7 @@ const Login = () => {
           <p className="text-base text-text/30 text-center min-[651px]:hidden px-4">디풀 계정으로 로그인 시 <Link href="https://docs.dimigo.net/terms/privacy" target="_blank" className="underline">개인정보처리방침</Link>에 동의하는 것으로 간주됩니다.</p>
         </div>
       </div>
+      <div className="pb-safe-or-0"/>
       <style>
         {`
           main {
