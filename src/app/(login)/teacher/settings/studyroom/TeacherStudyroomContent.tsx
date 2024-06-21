@@ -1,13 +1,11 @@
 "use client";
 
-import { AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 import Studyroom from "@/app/(login)/stay/apply/studyroom";
 import { ByGradeClassObj, BySeatsObj, StayGetResponse, StudyroomData } from "@/app/api/stay/utils";
 import { UserData, defaultUserData } from "@/app/auth/type";
-import Linker from "@/components/Linker";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
@@ -45,16 +43,17 @@ const TeacherStudyroomContent = ({
     classStay: StayGetResponse["data"]["classStay"];
     setClassStay: React.Dispatch<React.SetStateAction<StayGetResponse["data"]["classStay"]>>;
     getStayData: () => Promise<void>;
-}) => {
-
+  }) => {
+  const router = useRouter();
   const putStudyroomData = async () => {
     setLoading(true);
-    const loading = alert.loading("신청 중 입니다.");
+    const loading = alert.loading("잔류 좌석을 저장 중 입니다.");
     try{
       const res = await instance.put("/api/teacher/stay/studyroom", studyroom);
       await getStayData();
       setSelectedSeats([]);
       setSelectedStatic(undefined);
+      router.refresh();
       alert.update(loading, res.data.message, "success");
     }
     catch(e: any){

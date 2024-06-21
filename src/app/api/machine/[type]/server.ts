@@ -43,7 +43,7 @@ export const getMachineData = async (type: "washer" | "dryer", userId: string) =
 
   const isStay = moment().tz("Asia/Seoul").day() === 0 || moment().tz("Asia/Seoul").day() === 6;
 
-  const defaultData = getDefaultValue(type, isStay);
+  const defaultData = await getDefaultValue(type, isStay);
   const currentTime = moment(moment().tz("Asia/Seoul").format("HH:mm"), "HH:mm");
   const applyStartDate = moment(await getApplyStartTime(), "HH:mm");
   if (currentTime.isSameOrAfter(applyStartDate)) {
