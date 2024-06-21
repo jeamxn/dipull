@@ -22,7 +22,7 @@ const Config = ({
         type="text"
         className={[
           "w-full p-2 border border-text/10 rounded",
-          edit ? "bg-white" : "bg-[#F3F4F6]"
+          edit ? "bg-transparent" : "bg-text/10",
         ].join(" ")}
         value={thisKey}
         onChange={(e) => {

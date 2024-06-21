@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import * as jose from "jose";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 import Studyroom from "@/app/(login)/stay/apply/studyroom";
@@ -21,6 +22,7 @@ const Stay = ({
   selectedUser: UserInfo;
   setSelectedUser: React.Dispatch<React.SetStateAction<UserInfo>>;
 }) => {
+  const router = useRouter();
   const [selectedSeat, setSelectedSeat] = React.useState("@0");
   const [mySelect, setMySelect] = React.useState<StayGetResponse["data"]["mySelect"]>("");
   const [bySeatsObj, setBySeatsObj] = React.useState<BySeatsObj>({});
@@ -42,6 +44,7 @@ const Stay = ({
       setMySelect(res.data.data.mySelect);
       setStudyroom(res.data.data.studyroom);
       setClassStay(res.data.data.classStay);
+      router.refresh();
     }
     catch(e: any){
       alert.error(e.response.data.message);

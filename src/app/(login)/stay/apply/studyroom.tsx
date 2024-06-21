@@ -24,6 +24,7 @@ const Studyroom = ({
   children,
   selectedStatic,
   setSelectedStatic,
+  isNameShow = true,
 }: {
   loading: boolean;
   selectedSeat?: string;
@@ -49,6 +50,7 @@ const Studyroom = ({
   };
   selectedStatic?: StudyroomData;
   setSelectedStatic?: React.Dispatch<React.SetStateAction<StudyroomData | undefined>>;
+  isNameShow?: boolean;
 }) => {
   const classStayArr = Object.keys(classStay).filter(e => classStay[e as unknown as 1 | 2 | 3]);
   return (
@@ -139,7 +141,7 @@ const Studyroom = ({
                             // selectedSeat === key ? "text-white" : ""
                             ].join(" ")}
                           >
-                            {!isNoColor || showAllTypes ? (owner || key) : ""}
+                            {!isNoColor || showAllTypes ? (isNameShow ? owner || key : key) : ""}
                           </p>
                         </div>
                       </td>

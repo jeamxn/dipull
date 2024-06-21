@@ -1,4 +1,5 @@
 import { AxiosResponse } from "axios";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 import OutingOption from "@/app/(login)/stay/outing/outingOption";
@@ -18,7 +19,8 @@ const Outing = ({
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   selectedUser: UserInfo;
   setSelectedUser: React.Dispatch<React.SetStateAction<UserInfo>>;
-}) => {
+  }) => {
+  const router = useRouter();
   const [sat, setSat] = React.useState<OutingAndMealData>(defaultOutingData);
   const [sun, setSun] = React.useState<OutingAndMealData>(defaultOutingData);
 
@@ -35,6 +37,7 @@ const Outing = ({
       );
       setSat(res.data.data.sat);
       setSun(res.data.data.sun);
+      router.refresh();
     }
     catch(e: any){
       alert.error(e.response.data.message);
