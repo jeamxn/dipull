@@ -84,6 +84,7 @@ const Login = () => {
         {`
           main {
             max-width: 100vw;
+            overflow-y: hidden;
           }
         `}
       </style>
