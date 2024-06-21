@@ -43,7 +43,7 @@ const PUT = async (
   const { machine, time } = await req.json();
 
   const isStay = moment().tz("Asia/Seoul").day() === 0 || moment().tz("Asia/Seoul").day() === 6;
-  const defaultData = getDefaultValue(params.type, isStay);
+  const defaultData = await getDefaultValue(params.type, isStay);
 
   if(verified.payload.data.gender !== defaultData[machine].allow.gender)
     return new NextResponse(JSON.stringify({

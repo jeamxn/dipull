@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 import { UserInfo } from "@/app/api/teacher/userinfo/utils";
-import Linker from "@/components/Linker";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 

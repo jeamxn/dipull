@@ -141,12 +141,14 @@ const MachineContent: React.FC<MachineContentProps> = ({ params, initialData, in
                     className="w-full h-full bg-transparent"
                   >
                     <option value="">{machineKorean[params.type]} 시간을 선택해주세요</option>
-                    {data[selectedMachine] &&
-                  Object.entries(data[selectedMachine].time).map(([time, status], i) => (
-                    <option key={i} value={time} disabled={!!status}>
-                      {time}
-                    </option>
-                  ))}
+                    {
+                      data[selectedMachine] &&
+                        Object.entries(data[selectedMachine].time).map(([time, status], i) => (
+                          <option key={i} value={time} disabled={!!status}>
+                            {time}
+                          </option>
+                        ))
+                    }
                   </select>
                 </figure>
                 <button 

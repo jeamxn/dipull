@@ -46,99 +46,113 @@ export type MachineDB = {
   type: "washer" | "dryer";
 }
 
-export const getDefaultValue = (type: "washer" | "dryer", isStay: boolean) => {
-  const defaultTimeData: {
-    "washer": { [key: string]: string },
-    "dryer": { [key: string]: string },
-  } = isStay ? {
-    washer: {
-      "오후 6시 35분": "",
-      "오후 7시 35분": "",
-      "오후 8시 30분": "",
-      "오후 9시 30분": "",
-      "오후 10시 30분": "",
-      "* 오후 12시 00분": "",
-      "* 오후 1시 00분": "",
-    },
-    dryer: {
-      "오후 7시 35분": "",
-      "오후 9시 30분": "",
-      "* 오후 1시 00분": "",
-    }
-  } : {
-    washer: {
-      "오후 6시 35분": "",
-      "오후 7시 35분": "",
-      "오후 8시 30분": "",
-      "오후 9시 30분": "",
-      "오후 10시 30분": "",
-    },
-    dryer: {
-      "오후 7시 35분": "",
-      "오후 9시 30분": "",
-    }
+export type MachineConfig = {
+  stay: {
+    washer: string[];
+    dryer: string[];
+  },
+  common: {
+    washer: string[];
+    dryer: string[];
+  }
+}
+
+type MachineTime = {
+  "washer": { [key: string]: string },
+  "dryer": { [key: string]: string },
+};
+
+export const getDefaultValue = async (type: "washer" | "dryer", isStay: boolean) => {
+  const machineConfig: MachineConfig = await getStates("machine_time");
+  const stayConfig = machineConfig.stay;
+  const commonConfig = machineConfig.common;
+
+  const stayConfigObj: MachineTime = {
+    washer: {},
+    dryer: {},
   };
+  const commonConfigObj: MachineTime = {
+    washer: {},
+    dryer: {},
+  };
+
+  for (const key of stayConfig.washer) { 
+    stayConfigObj.washer[key] = "";
+  }
+  for (const key of stayConfig.dryer) {
+    stayConfigObj.dryer[key] = "";
+  }
+  for (const key of commonConfig.washer) {
+    commonConfigObj.washer[key] = "";
+  }
+  for (const key of commonConfig.dryer) {
+    commonConfigObj.dryer[key] = "";
+  }
+
+  const isAllTime = isStay || await getStates("machine_all_time");
+  const isAllWasher = isStay || await getStates("machine_all_washer");
+  const defaultTimeData: MachineTime = isAllTime ? stayConfigObj : commonConfigObj;
 
   const defaultData: MachineData = type === "washer" ? {
     "W1N": {
       allow: {
-        grades: isStay ? [1, 2, 3] : [1],
+        grades: isAllWasher ? [1, 2, 3] : [1],
         gender: "female"
       },
       time: {...defaultTimeData[type]}
     },
     "W2N": {
       allow: {
-        grades: isStay ? [1, 2, 3] : [2],
+        grades: isAllWasher ? [1, 2, 3] : [2],
         gender: "female"
       },
       time: {...defaultTimeData[type]}
     },
     "W3N": {
       allow: {
-        grades: isStay ? [1, 2, 3] : [3],
+        grades: isAllWasher ? [1, 2, 3] : [3],
         gender: "female"
       },
       time: {...defaultTimeData[type]}
     },
     "H2R": {
       allow: {
-        grades: isStay ? [1, 2, 3] : [1],
+        grades: isAllWasher ? [1, 2, 3] : [1],
         gender: "male"
       },
       time: {...defaultTimeData[type]}
     },
     "H4L": {
       allow: {
-        grades: isStay ? [1, 2, 3] : [1],
+        grades: isAllWasher ? [1, 2, 3] : [1],
         gender: "male"
       },
       time: {...defaultTimeData[type]}
     },
     "H4R": {
       allow: {
-        grades: isStay ? [1, 2, 3] : [2],
+        grades: isAllWasher ? [1, 2, 3] : [2],
         gender: "male"
       },
       time: {...defaultTimeData[type]}
     },
     "H5N": {
       allow: {
-        grades: isStay ? [1, 2, 3] : [2],
+        grades: isAllWasher ? [1, 2, 3] : [2],
         gender: "male"
       },
       time: {...defaultTimeData[type]}
     },
     "H2C": {
       allow: {
-        grades: isStay ? [1, 2, 3] : [3],
+        grades: isAllWasher ? [1, 2, 3] : [3],
         gender: "male"
       },
       time: {...defaultTimeData[type]}
     },
     "H2L": {
       allow: {
-        grades: isStay ? [1, 2, 3] : [3],
+        grades: isAllWasher ? [1, 2, 3] : [3],
         gender: "male"
       },
       time: {...defaultTimeData[type]}
@@ -146,42 +160,42 @@ export const getDefaultValue = (type: "washer" | "dryer", isStay: boolean) => {
   } : {
     "W1N": {
       allow: {
-        grades: isStay ? [1, 2, 3] : [1],
+        grades: isAllWasher ? [1, 2, 3] : [1],
         gender: "female"
       },
       time: {...defaultTimeData[type]}
     },
     "W2N": {
       allow: {
-        grades: isStay ? [1, 2, 3] : [2],
+        grades: isAllWasher ? [1, 2, 3] : [2],
         gender: "female"
       },
       time: {...defaultTimeData[type]}
     },
     "W3N": {
       allow: {
-        grades: isStay ? [1, 2, 3] : [3],
+        grades: isAllWasher ? [1, 2, 3] : [3],
         gender: "female"
       },
       time: {...defaultTimeData[type]}
     },
     "H2N": {
       allow: {
-        grades: isStay ? [1, 2, 3] : [3],
+        grades: isAllWasher ? [1, 2, 3] : [3],
         gender: "male"
       },
       time: {...defaultTimeData[type]}
     },
     "H4N": {
       allow: {
-        grades: isStay ? [1, 2, 3] : [2],
+        grades: isAllWasher ? [1, 2, 3] : [2],
         gender: "male"
       },
       time: {...defaultTimeData[type]}
     },
     "H5N": {
       allow: {
-        grades: isStay ? [1, 2, 3] : [1],
+        grades: isAllWasher ? [1, 2, 3] : [1],
         gender: "male"
       },
       time: {...defaultTimeData[type]}
