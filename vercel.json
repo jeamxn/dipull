@@ -1,8 +1,0 @@
-{
-  "crons": [
-    {
-      "path": "/cron/meals",
-      "schedule": "0 */1 * * *"
-    }
-  ]
-}
