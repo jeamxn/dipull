@@ -87,6 +87,7 @@ const TeacherStudyroomContent = ({
           canSelectStatic
           selectedStatic={selectedStatic}
           setSelectedStatic={setSelectedStatic}
+          isNameShow={false}
           // showStatics={false}
         >
           <article className={[
