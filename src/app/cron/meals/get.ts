@@ -19,7 +19,7 @@ const GET = async (
   //     status: 401,
   //     headers: new_headers
   //   });
-  // }
+  // } 
 
   const meals = await getMealData();
   const client = await connectToDatabase();
