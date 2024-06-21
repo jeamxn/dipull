@@ -19,22 +19,34 @@ const GET = async (
   //     status: 401,
   //     headers: new_headers
   //   });
-  // }
+  // } 
 
-  const meals = await getMealData();
-  const client = await connectToDatabase();
-  const mealsCollection = client.db().collection("meals");
+  try {
+    const meals = await getMealData();
+    const client = await connectToDatabase();
+    const mealsCollection = client.db().collection("meals");
 
-  await Promise.all(meals.map(async (meal) => {
-    await mealsCollection.updateOne({ date: meal.date }, { $set: meal }, { upsert: true });
-  }));
+    await Promise.all(meals.map(async (meal) => {
+      await mealsCollection.updateOne({ date: meal.date }, { $set: meal }, { upsert: true });
+    }));
 
-  return new NextResponse(JSON.stringify({
-    success: true,
-  }), {
-    status: 200,
-    headers: new_headers
-  });
+    return new NextResponse(JSON.stringify({
+      success: true,
+      meals: meals.length,
+    }), {
+      status: 200,
+      headers: new_headers
+    });
+  }
+  catch (e: any) {
+    return new NextResponse(JSON.stringify({
+      success: false,
+      error: e.message,
+    }), {
+      status: 500,
+      headers: new_headers
+    });
+  }
 };
 
 export default GET;
