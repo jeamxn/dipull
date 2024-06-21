@@ -18,7 +18,12 @@ const Login = () => {
 
   return (
     <>
-      <div className="-mt-safe flex flex-row justify-between flex-wrap gap-10 max-[650px]:gap-0 items-center w-full h-screen py-16 px-32 max-[650px]:px-8 max-[650px]:py-8 z-50">
+      <div
+        className="-mt-safe flex flex-row justify-between flex-wrap gap-10 max-[650px]:gap-0 items-center w-full py-16 px-32 max-[650px]:px-8 max-[650px]:py-8 z-50"
+        style={{
+          height: "calc(100vh - env(safe-area-inset-top))",
+        }}
+      >
         <div className="flex flex-col gap-6 max-[650px]:items-center max-[650px]:justify-center max-[650px]:w-full">
           <div className="flex flex-col gap-4 w-full max-[650px]:justify-center">
             <div className="flex flex-row gap-3 items-center max-[650px]:justify-center">
