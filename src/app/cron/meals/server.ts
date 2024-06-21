@@ -15,7 +15,11 @@ type Meals = {
 
 export const getMealData = async () => {
   const url = "https://www.dimigo.hs.kr/index.php?mid=school_cafeteria";
-  const { data } = await axios.get(url);
+  const { data } = await axios.get(url, {
+    headers: {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+    },
+  });
   const root = parse(data);
 
   const table = root.querySelector("#dimigo_post_cell_1")?.childNodes;
@@ -30,7 +34,11 @@ export const getMealData = async () => {
       const href = title.toString().match(/href="([^"]+)"/)?.[1] || "";
       const date = time.format("YYYY-MM-DD");
       if (!href) throw new Error("URL not found");
-      const mealRow = await axios.get(href);
+      const mealRow = await axios.get(href, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+        },
+      });
       const mealRoot = parse(mealRow.data).querySelector("#siDoc > ul:nth-child(5) > li > div.scConDoc.clearBar > div");
       if (!mealRoot?.childNodes) throw new Error("Children not found");
       const children = mealRoot.childNodes.map((x) => 
