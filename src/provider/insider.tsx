@@ -5,6 +5,7 @@ const Insider = ({
   style,
   className,
   ref,
+  defaultClass = true,
   ...props
 }: Readonly<{
   children?: React.ReactNode;
@@ -12,9 +13,10 @@ const Insider = ({
   className?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>["className"];
   ref?: React.RefObject<HTMLDivElement>;
   props?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+  defaultClass?: boolean;
 }>) => {
   return (
-    <main className={["py-4 px-4 flex flex-col gap-8", className].join(" ")} {...props}>
+    <main className={[defaultClass ? "py-4 px-4 flex flex-col gap-8" : "", className].join(" ")} {...props}>
       {children}
     </main>
   );

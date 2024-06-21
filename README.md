@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="./public/public/logo_text.svg" height="50px">
+  <p align="center"><b><i>Dipull :: 한국디지털미디어고등학교 인트라넷의 새 이름</i></b></p>
+</p>
+
 # 1. 디풀
 
 [한국디지털미디어고등학교](https://dimigo.hs.kr/)에서 사용하는 인트라넷입니다.
