@@ -2,9 +2,11 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
+import { useSetRecoilState } from "recoil";
 
 import { optionShiftparseToNumber } from "@/app/(login)/(header)/mainLogo";
 import { MenuItem } from "@/app/(login)/(header)/utils";
+import { loadingAtom } from "@/utils/states";
 
 import Linker from "./Linker";
 
@@ -16,7 +18,8 @@ const SubMenu = ({
   menu: MenuItem[];
   nonePading?: boolean;
   subadd?: number;
-}) => {
+  }) => {
+  const setLoading = useSetRecoilState(loadingAtom);
   const pathname = usePathname();
   const router = useRouter();
   React.useEffect(() => {
@@ -24,11 +27,25 @@ const SubMenu = ({
       if(event.altKey) {
         if(event.key >= "1" && event.key <= "9") {
           const index = parseInt(event.key) - 1;
-          if(menu[index]) router.push(menu[index].url);
+          if (menu[index]) {
+            const isCurrentPage = pathname.split("/")[2 + subadd] === menu[index].url.split("/")[2 + subadd];
+            if (isCurrentPage) { 
+              return event.preventDefault();
+            }
+            setLoading(true);
+            router.push(menu[index].url);
+          }
         }
         if(optionShiftparseToNumber.includes(event.key)) {
           const index = optionShiftparseToNumber.indexOf(event.key) - 1;
-          if(menu[index]) router.push(menu[index].url);
+          if (menu[index]) {
+            const isCurrentPage = pathname.split("/")[2 + subadd] === menu[index].url.split("/")[2 + subadd];
+            if (isCurrentPage) { 
+              return event.preventDefault();
+            }
+            setLoading(true);
+            router.push(menu[index].url);
+          }
         }
       }
     };

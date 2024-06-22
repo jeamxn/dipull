@@ -28,7 +28,7 @@ const Header = ({
         }}
       >
         <div className="flex flex-row items-center justify-between w-full max-w-[700px]">
-          <MainLogo />
+          <MainLogo userInfo={userInfo} />
           <Menu userInfo={userInfo} />
         </div>
         <div className="flex flex-row items-center relative">

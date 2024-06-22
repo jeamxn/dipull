@@ -1,45 +1,55 @@
 "use client";
 
-import * as jose from "jose";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-import { TwitterPicker } from "react-color";
+import { useSetRecoilState } from "recoil";
 
-import { TokenInfo, defaultUserData } from "@/app/auth/type";
+import { UserData } from "@/app/auth/type";
+import Linker from "@/components/Linker";
+import { loadingAtom } from "@/utils/states";
 
 import { mainMenu, studentsMenu, teachersMenu } from "./utils";
 
 export const optionParseToNumber = ["º", "¡", "™", "£", "¢", "∞", "§", "¶", "•", "ª"];
 export const optionShiftparseToNumber = ["‚", "⁄", "€", "‹", "›", "ﬁ", "ﬂ", "‡", "°", "·"];
 
-const MainLogo = () => {
+const MainLogo = ({
+  userInfo
+}: {
+  userInfo: UserData
+  }) => {
+  const setLoading = useSetRecoilState(loadingAtom);
   const pathname = usePathname();
   const router = useRouter();
-  const [menuCopy, setMenuCopy] = React.useState(mainMenu);
-  const [userInfo, setUserInfo] = React.useState(defaultUserData);
-  const [clicked, setClicked] = React.useState(false);
-
-  React.useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken")!;
-    const decrypt = jose.decodeJwt(accessToken) as TokenInfo;
-    setUserInfo(decrypt.data);
-  }, []);
-
-  React.useEffect(() => {
-    if(userInfo.type === "teacher") setMenuCopy([ ...mainMenu, ...teachersMenu ]);
-    else setMenuCopy([ ...mainMenu, ...studentsMenu ]);
-  }, [userInfo]);
-
+  const menuOrigin = userInfo.type === "teacher" ? [ ...mainMenu, ...teachersMenu ] : [ ...mainMenu, ...studentsMenu ];
+  const menuSorted = menuOrigin.sort((a, b) => (a.order?.[userInfo.type] || -1) - (b.order?.[userInfo.type] || -1));
+  
   React.useEffect(() => {
     const onCommandKeyDown = (event: KeyboardEvent) => {
-      if(event.altKey) {
+      if (event.altKey) {
         if(event.key >= "1" && event.key <= "9") {
           const index = parseInt(event.key) - 1;
-          if(menuCopy[index]) router.push(menuCopy[index].url);
+          if (menuSorted[index]) {
+            const isCurrentPage = pathname.split("/")[1] !== "teacher" ?
+              pathname.split("/")[1] === menuSorted[index].url.split("/")[1] : pathname.split("/")[2] === menuSorted[index].url.split("/")[2];
+            if (isCurrentPage) { 
+              return event.preventDefault();
+            }
+            setLoading(true);
+            router.push(menuSorted[index].url);
+          }
         }
         if(optionParseToNumber.includes(event.key)) {
           const index = optionParseToNumber.indexOf(event.key) - 1;
-          if(menuCopy[index]) router.push(menuCopy[index].url);
+          if (menuSorted[index]) {
+            const isCurrentPage = pathname.split("/")[1] !== "teacher" ?
+              pathname.split("/")[1] === menuSorted[index].url.split("/")[1] : pathname.split("/")[2] === menuSorted[index].url.split("/")[2];
+            if (isCurrentPage) { 
+              return event.preventDefault();
+            }
+            setLoading(true);
+            router.push(menuSorted[index].url);
+          }
         }
       }
     };
@@ -47,27 +57,16 @@ const MainLogo = () => {
     return () => {
       window.removeEventListener("keydown", onCommandKeyDown);
     };
-  }, [pathname, menuCopy]);
-
-  React.useEffect(() => {
-    //다른 곳 눌렀을 때 isClicked를 false로 만들어야 함
-    const handleClick = (e: MouseEvent) => {
-      if(
-        !(e.target as HTMLElement).closest(".logo-icon") 
-        && !(e.target as HTMLElement).closest(".color-picker")
-      ) {
-        setClicked(false);
-      }
-    };
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
-  }, []);
+  }, [pathname, menuSorted]);
 
   return (
     <div className="flex flex-row items-center justify-center">
-      <div
+      <Linker
         className="logo-icon flex flex-row items-center justify-start gap-2 p-2 m-2 rounded hover:bg-text/15 cursor-pointer z-50 w-10 h-10 relative"
-        onClick={() => setClicked(p => !p)}
+        href="/"
+        disabled={
+          pathname === "/"
+        }
       >
         <svg width="35" height="35" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clipPath="url(#clip0_1115_161)">
@@ -80,23 +79,10 @@ const MainLogo = () => {
             </clipPath>
           </defs>
         </svg>
-        {
-          clicked ? (
-            <TwitterPicker
-              color={localStorage.getItem("color") || "#4054d6"}
-              onChange={(color) => {
-                const colorRgb = color.rgb.r + " " + color.rgb.g + " " + color.rgb.b;
-                localStorage.setItem("color", colorRgb);
-                document.documentElement.style.setProperty("--key-color", colorRgb);
-              }}
-              className="color-picker absolute z-50 top-14 -ml-[0.625rem]"
-            />
-          ) : null
-        }
-      </div>
+      </Linker>
       <p className="font-semibold text-base hidden max-[520px]:flex whitespace-nowrap">
         {
-          menuCopy.map((item, index) => {
+          menuSorted.map((item) => {
             const isCurrentPage = pathname.split("/")[1] !== "teacher" ?
               pathname.split("/")[1] === item.url.split("/")[1] : pathname.split("/")[2] === item.url.split("/")[2];
             return isCurrentPage ? item.showname || item.name : null;

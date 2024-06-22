@@ -2,14 +2,15 @@ import { Id, ToastContent, ToastOptions, TypeOptions, UpdateOptions, Zoom, toast
 
 const defaultOptions: ToastOptions = {
   transition: Zoom,
-  position: "top-right",
-  autoClose: 5000,
-  hideProgressBar: false,
+  position: "top-left",
+  autoClose: 1500,
+  hideProgressBar: true,
   closeOnClick: true,
-  pauseOnHover: true,
+  pauseOnHover: false,
   draggable: true,
   progress: undefined,
   theme: "light",
+  closeButton: false,
 };
 
 const warn = (message: ToastContent, options?: ToastOptions) => {
