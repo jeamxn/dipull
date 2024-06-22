@@ -236,3 +236,79 @@ input, textarea, button, select {
 }
 
 .input-left::-webkit-date-and-time-value{ text-align:left; }
+.Toastify__toast-container{
+  padding-top: 12px !important;
+  padding-right: 12px !important;
+  user-select: none !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  pointer-events: none;
+}
+.Toastify__toast {
+  padding: 18px 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-bottom: 0 !important;
+
+  /* width: 100% !important; */
+  min-width: 320px !important;
+
+  gap: 14px !important;
+  pointer-events: all;
+}
+.Toastify__toast-body {
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-direction: row !important;
+  gap: 14px;
+}
+.Toastify__toast-body > div:last-child{
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.Toastify__toast-icon{
+  margin-inline-end: 0 !important;
+}
+.Toastify__close-button{
+  height: max-content !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+:root {
+  --toastify-toast-bd-radius: 999px !important;
+  --toastify-toast-min-height: 0 !important;
+  --toastify-toast-top: 0 !important;
+  --toastify-toast-bottom: 0 !important;
+  --toastify-toast-right: 0 !important;
+  --toastify-toast-left: 0 !important;
+}
+
+@media only screen and (max-width: 520px) {
+  .Toastify__toast {
+    border-radius: 999px !important;
+    min-width: 0 !important;
+    width: calc(100% - 32px) !important;
+    margin-top: calc(3.5rem + 12px) !important;
+
+    position: absolute !important;
+    top: var(--toastify-toast-top) !important;
+    bottom: var(--toastify-toast-bottom) !important;
+  
+    height: max-content !important;
+  }
+  .Toastify__toast-container {
+    align-items: center !important;
+    padding-top: calc(3.5rem + 12px) !important;
+    padding-right: 0 !important;
+  }
+}

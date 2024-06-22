@@ -84,6 +84,7 @@ const MachineContent: React.FC<MachineContentProps> = ({ params, initialData, in
     setLoading(true);
     try {
       await instance.delete(`/api/machine/${params.type}`);
+      await getWasherData();
       setSelectedMachine("");
       setSelectedTime("");
     } catch (e: any) {
