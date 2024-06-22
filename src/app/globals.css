@@ -236,6 +236,7 @@ input, textarea, button, select {
 }
 
 .input-left::-webkit-date-and-time-value{ text-align:left; }
+
 .Toastify__toast-container{
   padding-top: 12px !important;
   padding-right: 12px !important;
@@ -298,7 +299,7 @@ input, textarea, button, select {
     border-radius: 999px !important;
     min-width: 0 !important;
     width: calc(100% - 32px) !important;
-    margin-top: calc(3.5rem + 12px) !important;
+    margin-top: 12px !important;
 
     position: absolute !important;
     top: var(--toastify-toast-top) !important;
@@ -308,7 +309,7 @@ input, textarea, button, select {
   }
   .Toastify__toast-container {
     align-items: center !important;
-    padding-top: calc(3.5rem + 12px) !important;
+    padding-top: 12px !important;
     padding-right: 0 !important;
   }
 }
