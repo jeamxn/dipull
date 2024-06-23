@@ -54,9 +54,11 @@ export const getTopBamboo = async (type: TopBambooType, id: string) => {
           type: "bamboo_comment",
         }),
       ]);
+      const gradeNaN = isNaN(Math.floor(user?.number / 1000));
+      const grade = gradeNaN ? "졸업생 " : `${Math.floor(user?.number / 1000)}학년 `;
       return {
         _id: bamboo._id,
-        user: `${bamboo.grade ? `${Math.floor(user?.number / 1000)}학년 ` : ""}${bamboo.anonymous ? "익명" : user?.name}`,
+        user: `${bamboo.grade ? grade : ""}${bamboo.anonymous ? "익명" : user?.name}`,
         text: bamboo.text,
         timestamp: bamboo.timestamp,
         number: bamboo.number,
