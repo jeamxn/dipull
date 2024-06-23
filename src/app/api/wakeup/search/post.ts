@@ -4,8 +4,8 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import youtubeSearch from "youtube-search";
 
-import {getWakeup} from "@/app/api/wakeup/server";
-import {CustomYoutubeSearchResult, WakeupDB} from "@/app/api/wakeup/utils";
+import { getWakeup } from "@/app/api/wakeup/server";
+import { CustomYoutubeSearchResult, WakeupDB } from "@/app/api/wakeup/utils";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 

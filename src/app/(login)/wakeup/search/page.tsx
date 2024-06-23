@@ -4,7 +4,7 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 
-import {CustomYoutubeSearchResult} from "@/app/api/wakeup/utils";
+import { CustomYoutubeSearchResult } from "@/app/api/wakeup/utils";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
