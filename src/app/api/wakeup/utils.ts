@@ -25,7 +25,7 @@ export type WakeupGET = {
 };
 
 export type CustomYoutubeSearchResult = YouTubeSearchResults & {
-  my: boolean
+  my?: boolean
 }
 
 export const getToday = () => {

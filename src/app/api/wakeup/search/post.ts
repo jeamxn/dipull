@@ -4,6 +4,8 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import youtubeSearch from "youtube-search";
 
+import {getWakeup} from "@/app/api/wakeup/server";
+import {CustomYoutubeSearchResult, WakeupDB} from "@/app/api/wakeup/utils";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
@@ -59,10 +61,15 @@ const POST = async (
     }, {
       upsert: true
     });
-    const search = await youtubeSearch(query, opts);
+
+    const wakeup = (await getWakeup(verified.payload.id, verified.payload.data.gender)).my;
+    const search = (await youtubeSearch(query, opts)).results.map((e: CustomYoutubeSearchResult) => {
+      e.my = wakeup.some((s: WakeupDB) => s.id === e.id);
+      return e;
+    });
     return new NextResponse(JSON.stringify({
       message: "성공적으로 검색되었습니다.",
-      search: search.results,
+      search: search,
     }), {
       headers: new_headers
     });

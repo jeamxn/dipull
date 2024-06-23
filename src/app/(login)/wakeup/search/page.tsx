@@ -3,14 +3,10 @@
 
 import { useRouter } from "next/navigation";
 import React from "react";
-import { YouTubeSearchResults } from "youtube-search";
 
-import {getWakeup} from "@/app/api/wakeup/server";
-import {CustomYoutubeSearchResult, WakeupDB} from "@/app/api/wakeup/utils";
-import {UserData} from "@/app/auth/type";
+import {CustomYoutubeSearchResult} from "@/app/api/wakeup/utils";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
-import {getUserInfo} from "@/utils/server";
 
 const Admin = () => {
   const router = useRouter();
@@ -25,17 +21,12 @@ const Admin = () => {
   const getSearch = async () => {
     setLoading(true);
     try{
-      const userInfo = await getUserInfo();
-      const songList = (await getWakeup(userInfo.id, userInfo.gender)).my;
       const res_search = await instance.post(
         "/api/wakeup/search", {
           query: search
         }
       );
-      setList(res_search.data.search.map((e: CustomYoutubeSearchResult) => {
-        e.my = songList.some((s) => s.id === e.id);
-        return e;
-      }));
+      setList(res_search.data.search);
       console.log(list);
     }
     catch(e: any){
