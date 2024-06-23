@@ -1,6 +1,6 @@
 export const menu = [
   {
-    url: "/teacher/edit",
+    url: "/teacher/stay/status",
     name: "생활관 수정",
   },
   {

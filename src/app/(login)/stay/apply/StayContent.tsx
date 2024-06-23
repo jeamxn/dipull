@@ -12,9 +12,10 @@ import instance from "@/utils/instance";
 import Studyroom from "./studyroom";
 import TableInner from "./tableInner";
 
-const StayContent = ({ init, userInfo }: {
+const StayContent = ({ init, userInfo, onlyView = false }: {
   init: StayGetResponse["data"];
   userInfo: UserInfo;
+  onlyView?: boolean;
 }) => {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
@@ -74,7 +75,11 @@ const StayContent = ({ init, userInfo }: {
   return (
     <>
       <article className="flex flex-col gap-3">
-        <h1 className="text-xl font-semibold">잔류 신청하기</h1>
+        <h1 className="text-xl font-semibold">
+          {
+            onlyView ? "잔류 좌석 현황" : "잔류 신청하기"
+          }
+        </h1>
         <Studyroom
           loading={loading}
           selectedSeat={selectedSeat}
@@ -86,34 +91,40 @@ const StayContent = ({ init, userInfo }: {
           classStay={classStay}
         />
         <div className="p-1" />
-        <section className="flex flex-col items-center justify-center gap-1">
-          {
-            mySelect ? (
-              <p className="text-center text-sm text-text/50 font-medium">
-                {
-                  mySelect === "교실" ? "교실 잔류 신청되었습니다." : `열람실 좌석 ${mySelect}에 잔류 신청되었습니다.`
-                }
-              </p>
-            ) : (
-              <p className="text-center text-sm text-text/50 font-medium">좌석을 선택하지 않으면 교실로 선택됩니다!</p>
-            )
-          }
-        </section>
         {
-          mySelect ? (
-            <button 
-              className="w-full py-2 rounded font-semibold text-[#EF4444] border border-[#EF4444]"
-              onClick={deleteStayData}
-            >
-              잔류 신청 취소하기
-            </button>
-          ) : (
-            <button 
-              className="bg-primary text-white w-full text-base font-semibold rounded h-10"
-              onClick={putStayData}
-            >
-              잔류 신청하기
-            </button>
+          onlyView ? null : (
+            <>
+              <section className="flex flex-col items-center justify-center gap-1">
+                {
+                  mySelect ? (
+                    <p className="text-center text-sm text-text/50 font-medium">
+                      {
+                        mySelect === "교실" ? "교실 잔류 신청되었습니다." : `열람실 좌석 ${mySelect}에 잔류 신청되었습니다.`
+                      }
+                    </p>
+                  ) : (
+                    <p className="text-center text-sm text-text/50 font-medium">좌석을 선택하지 않으면 교실로 선택됩니다!</p>
+                  )
+                }
+              </section>
+              {
+                mySelect ? (
+                  <button 
+                    className="w-full py-2 rounded font-semibold text-[#EF4444] border border-[#EF4444]"
+                    onClick={deleteStayData}
+                  >
+                    잔류 신청 취소하기
+                  </button>
+                ) : (
+                  <button 
+                    className="bg-primary text-white w-full text-base font-semibold rounded h-10"
+                    onClick={putStayData}
+                  >
+                    잔류 신청하기
+                  </button>
+                )
+              }
+            </>
           )
         }
       </article>
