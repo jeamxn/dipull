@@ -38,7 +38,7 @@ const ConfigBox = ({
         className="flex flex-row gap-2 items-center justify-center cursor-pointer"
         onClick={() => {
           setMachineConfig((prev) => {
-            const newConfig = {...prev};
+            const newConfig = { ...prev };
             newConfig[type][machine].push("");
             return newConfig;
           });
