@@ -196,7 +196,7 @@ const TeacherMachinContent = ({
                         <option 
                           key={i} 
                           value={name}
-                          disabled={initialUserInfo.gender !== machine.allow.gender}
+                          disabled={selectedUser.gender !== machine.allow.gender}
                         >
                           {machineToKorean(name, machine)}
                         </option>
