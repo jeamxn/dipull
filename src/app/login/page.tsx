@@ -4,12 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-const words = [
-  "기상송, 세탁/건조, 잔류 신청까지 모두!",
-];
-
 const Login = () => {
-  const [curWords, setCurWords] = React.useState(0);
   const router = useRouter();
   const login = async () => {
     const url = `${process.env.NEXT_PUBLIC_DIMIGOIN_URI}/oauth?client=${process.env.NEXT_PUBLIC_DIMIGOIN_KEY}&redirect=${window.location.origin}/auth`;
@@ -41,7 +36,7 @@ const Login = () => {
               </svg>
               <p className="text-5xl text-primary font-semibold whitespace-nowrap max-[650px]:text-center">Dipull</p>
             </div>
-            <p className="text-2xl text-text/60 font-medium break-words max-[650px]:text-center leading-normal animation-main">{words[curWords]}</p>
+            <p className="text-2xl text-text/60 font-medium break-words max-[650px]:text-center leading-normal animation-main">기상송, 세탁/건조, 잔류 신청까지 모두!</p>
           </div>
           <div className="flex flex-row gap-1 max-[650px]:flex-col items-center justify-center">
             <button
