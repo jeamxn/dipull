@@ -18,7 +18,6 @@
     "react-hooks"
   ],
   "rules": {
-    "object-curly-spacing": ["error", "always"],
     "react/prop-types": "off",
     "react/display-name": "off",
     "object-curly-spacing": ["error", "always"],
