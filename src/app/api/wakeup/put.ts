@@ -56,7 +56,7 @@ const PUT = async (
 
   try {
     const url = "https://www.youtube.com/oembed"; 
-    const params = {"format": "json", "url": `https://www.youtube.com/watch?v=${select.id}`};
+    const params = { "format": "json", "url": `https://www.youtube.com/watch?v=${select.id}` };
     const res = await axios.get(url, {
       params,
     });
