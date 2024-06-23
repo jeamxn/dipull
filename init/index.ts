@@ -1,6 +1,6 @@
 import * as Readline from "readline/promises";
 
-import { Db } from "mongodb";
+import { Db, ObjectId } from "mongodb";
 
 import { connectToDatabase } from "@/utils/db";
 
@@ -29,7 +29,14 @@ const createCollection = async (db: Db, collectionName: string) => {
 const insertData = async (db: Db, collectionName: string, data: any[]) => {
   try {
     const collection = db.collection(collectionName);
-    await collection.insertMany(data);
+    const newData = data.map((d) => {
+      if (!d?._id?.$oid) return d;
+      return {
+        ...d,
+        _id: ObjectId.createFromHexString(d._id.$oid),
+      };
+    });
+    await collection.insertMany(newData);
     console.log(`   ↪ Data inserted into [${collectionName}].`);
   }
   catch {

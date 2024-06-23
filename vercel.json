@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/cron/init",
+      "schedule": "0 0 */7 * *"
+    }
+  ]
+}
