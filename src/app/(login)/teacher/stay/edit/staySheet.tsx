@@ -68,7 +68,7 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
     const worksheetDataFlat = worksheetData.flat();
 
     worksheet.addRows(worksheetDataFlat);
-    worksheet.addRow({grade: `총원 ( ${worksheetDataFlat.length}명 )`});
+    worksheet.addRow({ grade: `총원 ( ${worksheetDataFlat.length}명 )` });
 
     worksheetData.length && worksheet.mergeCells(`A3:A${worksheetDataFlat.length + 2}`);
     worksheet.mergeCells(`A${worksheetDataFlat.length + 3}:C${worksheetDataFlat.length + 3}`);
@@ -90,19 +90,19 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
       border: {
         top: {
           style: "thin",
-          color: {argb: "FFED7D32"},
+          color: { argb: "FFED7D32" },
         },
         left: {
           style: "thin",
-          color: {argb: "FFED7D32"},
+          color: { argb: "FFED7D32" },
         },
         bottom: {
           style: "thin",
-          color: {argb: "FFED7D32"},
+          color: { argb: "FFED7D32" },
         },
         right: {
           style: "thin",
-          color: {argb: "FFED7D32"},
+          color: { argb: "FFED7D32" },
         }
       },
       fill: {
@@ -154,7 +154,7 @@ const downloadSheet = async (data: SheetResponse["data"], grade: number) => {
   const buffer = await workbook.xlsx.writeBuffer();
   const fileType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-  const blob = new Blob([buffer], {type: fileType});
+  const blob = new Blob([buffer], { type: fileType });
   saveAs(blob, `${grade}학년 잔류자 현황.xlsx`);
 };
 

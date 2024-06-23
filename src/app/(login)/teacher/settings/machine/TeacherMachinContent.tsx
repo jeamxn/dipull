@@ -29,7 +29,7 @@ const TeacherMachinContent = ({
   const [isFirst, setIsFirst] = React.useState(true);
 
   const updateMachineConfig = async () => {
-    const newConfig = {...machineConfig};
+    const newConfig = { ...machineConfig };
     newConfig.common.dryer = newConfig.common.dryer.filter(v => v);
     newConfig.common.washer = newConfig.common.washer.filter(v => v);
     newConfig.stay.dryer = newConfig.stay.dryer.filter(v => v);

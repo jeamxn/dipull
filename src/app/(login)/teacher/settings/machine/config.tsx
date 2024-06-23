@@ -38,7 +38,7 @@ const Config = ({
               onClick={() => {
                 setEdit(false);
                 setMachineConfig((prev) => {
-                  const newConfig = {...prev};
+                  const newConfig = { ...prev };
                   newConfig[type][machine] = newConfig[type][machine].map((v) => v === keys ? thisKey : v);
                   return newConfig;
                 });
@@ -69,7 +69,7 @@ const Config = ({
             <h2
               className="text-base text-[#EF4444]/75 cursor-pointer whitespace-nowrap"
               onClick={() => setMachineConfig((prev) => {
-                const newConfig = {...prev};
+                const newConfig = { ...prev };
                 newConfig[type][machine] = newConfig[type][machine].filter((v) => v !== keys);
                 return newConfig;
               })}

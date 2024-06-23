@@ -2,12 +2,14 @@
 
 import React from "react";
 
+import { StayGetResponse } from "@/app/api/stay/utils";
 import { UserInfo, defaultUserData } from "@/app/api/teacher/userinfo/utils";
 
 import Homecoming from "./homecoming";
 import Outing from "./outing";
 import Search from "./search";
 import Stay from "./stay";
+
 
 const Edit = () => {
   const [loading, setLoading] = React.useState(false);

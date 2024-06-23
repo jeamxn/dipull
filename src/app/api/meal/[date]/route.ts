@@ -44,7 +44,7 @@ export const GET = async (
 
   // 급식 데이터 가져오기
   try{
-    const {data}: {data: Meal} = await axios({
+    const { data }: {data: Meal} = await axios({
       method: "GET",
       url: `https://디미고급식.com/api/${params.date}`,
     });
