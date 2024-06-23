@@ -3,6 +3,7 @@
 import { AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
+import Swal from "sweetalert2";
 
 import MachineContent, { MachineContentProps, machineKorean } from "@/app/(login)/machine/[type]/MachineContent";
 import { machineName, machineToKorean } from "@/app/(login)/machine/[type]/utils";
@@ -75,6 +76,22 @@ const TeacherMachinContent = ({
       alert.error(e.response.data.message);
     }
     setLoading(false);
+  };
+  const confirmDelete = async (v: UserInfo) => {
+    Swal.fire({
+      title: `${machineKorean[params.type]}기 신청 취소`,
+      text: `정말 ${machineKorean[params.type]}기 신청을 취소하시겠습니까?`,
+      icon: "warning",
+      showCancelButton: true,
+      cancelButtonText: "닫기",
+      confirmButtonText: "신청 취소",
+      background: "rgb(var(--color-white) / 1)",
+      color: "rgb(var(--color-text) / 1)",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteWasherData(v);
+      }
+    });
   };
   const deleteWasherData = async (v: UserInfo) => {
     setLoading(true);
@@ -160,7 +177,7 @@ const TeacherMachinContent = ({
                   </figure>
                   <button 
                     className="w-full bg-primary text-white font-semibold px-4 py-2 rounded-md text-base"
-                    onClick={() => deleteWasherData(selectedUser)}
+                    onClick={() => confirmDelete(selectedUser)}
                   >
                     취소하기
                   </button>
