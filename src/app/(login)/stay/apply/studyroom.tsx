@@ -353,7 +353,7 @@ const Studyroom = ({
                     canSelectStatic ? "cursor-pointer hover:bg-text/10 py-2 px-4" : "",
                   ].join(" ")}>
                     <div className="w-4 h-4 rounded-sm bg-[#7dbcff]" />
-                    <p className="text-base whitespace-nowrap">{classStayArr}학년 교실</p>
+                    <p className="text-base whitespace-nowrap">{classStayArr.join(", ")}학년 교실</p>
                   </figure>
                 ) : null
               }
