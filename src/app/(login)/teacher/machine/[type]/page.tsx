@@ -7,7 +7,7 @@ import TeacherMachinContent from "./TeacherMachinContent";
 
 const MachinePage = async ({ params }: { params: { type: "washer" | "dryer" } }) => {
   const initialUserInfo = await getUserInfo();
-  const res = await getMachineData(params.type, initialUserInfo.id || "");
+  const res = await getMachineData(params.type, initialUserInfo.id || "", true);
   const initialData = res.defaultData;
   const initialBooking = res.myBookData;
 
