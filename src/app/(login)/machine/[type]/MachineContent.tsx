@@ -12,7 +12,7 @@ import instance from "@/utils/instance";
 import StatusBox from "./statusBox";
 import { machineName, machineToKorean } from "./utils";
 
-const machineKorean = {
+export const machineKorean = {
   "washer": "세탁",
   "dryer": "건조",
 };
@@ -21,20 +21,29 @@ type Params = {
   type: "washer" | "dryer";
 };
 
-interface MachineContentProps {
+export type MachineContentProps = {
   params: Params;
   initialData: { [key: string]: MachineType };
   initialBooking: { booked: boolean; info: MachineDB };
   initialUserInfo: TokenInfo["data"];
-}
+};
 
-const MachineContent: React.FC<MachineContentProps> = ({ params, initialData, initialBooking, initialUserInfo: userInfo }) => {
+const MachineContent: React.FC<MachineContentProps> = ({
+  params,
+  initialData,
+  initialBooking,
+  initialUserInfo: userInfo,
+}) => {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const [data, setData] = React.useState<{ [key: string]: MachineType }>(initialData);
   const [selectedMachine, setSelectedMachine] = React.useState("");
   const [selectedTime, setSelectedTime] = React.useState("");
   const [myBooking, setMyBooking] = React.useState(initialBooking);
+
+  React.useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   const getWasherData = async () => {
     setLoading(true);

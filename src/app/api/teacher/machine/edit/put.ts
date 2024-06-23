@@ -6,8 +6,7 @@ import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { MachineConfig } from "../../machine/[type]/utils";
-
+import { MachineConfig } from "../../../machine/[type]/utils";
 
 const PUT = async (
   req: Request,

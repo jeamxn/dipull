@@ -39,7 +39,7 @@ const TeacherMachinContent = ({
 
     const loading = alert.loading("수정된 세탁 시간을 저장 중 입니다.");
     try{
-      const res = await instance.put("/api/teacher/machine", {
+      const res = await instance.put("/api/teacher/machine/edit", {
         allowAllType,
         allowAllTime,
         data: newConfig,

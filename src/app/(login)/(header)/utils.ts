@@ -17,15 +17,6 @@ export const mainMenu: MenuItem[] = [
     },
   },
   {
-    url: "/machine/washer",
-    name: "세탁",
-    showname: "세탁기 / 건조기",
-    order: {
-      teacher: 1,
-      student: 1,
-    },
-  },
-  {
     url: "/jasup/my",
     name: "자습",
     showname: "자습 위치 설정",
@@ -34,14 +25,18 @@ export const mainMenu: MenuItem[] = [
       student: 4,
     },
   },
-  // {
-  //   url: "/dm",
-  //   name: "DM",
-  //   showname: "다이랙트 메시지"
-  // },
 ];
 
 export const teachersMenu: MenuItem[] = [
+  {
+    url: "/teacher/machine/washer",
+    name: "세탁",
+    showname: "세탁기 / 건조기",
+    order: {
+      teacher: 1,
+      student: 1,
+    },
+  },
   {
     url: "/teacher/wakeup",
     name: "기상",
@@ -68,6 +63,15 @@ export const teachersMenu: MenuItem[] = [
   },
 ];
 export const studentsMenu: MenuItem[] = [
+  {
+    url: "/machine/washer",
+    name: "세탁",
+    showname: "세탁기 / 건조기",
+    order: {
+      teacher: 1,
+      student: 1,
+    },
+  },
   {
     url: "/wakeup/list",
     name: "기상",
