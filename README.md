@@ -105,7 +105,7 @@ bun install
 
 #### 필수 항목
 - `MONGODB_URI` 연결할 MongoDB의 URI
-- `NEXT_PUBLIC_DIMIGOIN_KEY` [디미고인 API 키](https://auth.dimigo.net/)
+- `NEXT_PUBLIC_DIMIGOIN_KEY` [디미고인 API 키](https://auth.dimigo.net/developers/add)
 - `JWT_SECRET` JWT 토큰 생성 시 사용할 시크릿 키
 - `CRON_SECRET` Cron 작업 시 사용할 시크릿 키
 
