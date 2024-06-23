@@ -99,63 +99,63 @@ export const getDefaultValue = async (type: "washer" | "dryer", isStay: boolean)
         grades: isAllWasher ? [1, 2, 3] : [1],
         gender: "female"
       },
-      time: {...defaultTimeData[type]}
+      time: { ...defaultTimeData[type] }
     },
     "W2N": {
       allow: {
         grades: isAllWasher ? [1, 2, 3] : [2],
         gender: "female"
       },
-      time: {...defaultTimeData[type]}
+      time: { ...defaultTimeData[type] }
     },
     "W3N": {
       allow: {
         grades: isAllWasher ? [1, 2, 3] : [3],
         gender: "female"
       },
-      time: {...defaultTimeData[type]}
+      time: { ...defaultTimeData[type] }
     },
     "H2R": {
       allow: {
         grades: isAllWasher ? [1, 2, 3] : [1],
         gender: "male"
       },
-      time: {...defaultTimeData[type]}
+      time: { ...defaultTimeData[type] }
     },
     "H4L": {
       allow: {
         grades: isAllWasher ? [1, 2, 3] : [1],
         gender: "male"
       },
-      time: {...defaultTimeData[type]}
+      time: { ...defaultTimeData[type] }
     },
     "H4R": {
       allow: {
         grades: isAllWasher ? [1, 2, 3] : [2],
         gender: "male"
       },
-      time: {...defaultTimeData[type]}
+      time: { ...defaultTimeData[type] }
     },
     "H5N": {
       allow: {
         grades: isAllWasher ? [1, 2, 3] : [2],
         gender: "male"
       },
-      time: {...defaultTimeData[type]}
+      time: { ...defaultTimeData[type] }
     },
     "H2C": {
       allow: {
         grades: isAllWasher ? [1, 2, 3] : [3],
         gender: "male"
       },
-      time: {...defaultTimeData[type]}
+      time: { ...defaultTimeData[type] }
     },
     "H2L": {
       allow: {
         grades: isAllWasher ? [1, 2, 3] : [3],
         gender: "male"
       },
-      time: {...defaultTimeData[type]}
+      time: { ...defaultTimeData[type] }
     },
   } : {
     "W1N": {
@@ -163,42 +163,42 @@ export const getDefaultValue = async (type: "washer" | "dryer", isStay: boolean)
         grades: isAllWasher ? [1, 2, 3] : [1],
         gender: "female"
       },
-      time: {...defaultTimeData[type]}
+      time: { ...defaultTimeData[type] }
     },
     "W2N": {
       allow: {
         grades: isAllWasher ? [1, 2, 3] : [2],
         gender: "female"
       },
-      time: {...defaultTimeData[type]}
+      time: { ...defaultTimeData[type] }
     },
     "W3N": {
       allow: {
         grades: isAllWasher ? [1, 2, 3] : [3],
         gender: "female"
       },
-      time: {...defaultTimeData[type]}
+      time: { ...defaultTimeData[type] }
     },
     "H2N": {
       allow: {
         grades: isAllWasher ? [1, 2, 3] : [3],
         gender: "male"
       },
-      time: {...defaultTimeData[type]}
+      time: { ...defaultTimeData[type] }
     },
     "H4N": {
       allow: {
         grades: isAllWasher ? [1, 2, 3] : [2],
         gender: "male"
       },
-      time: {...defaultTimeData[type]}
+      time: { ...defaultTimeData[type] }
     },
     "H5N": {
       allow: {
         grades: isAllWasher ? [1, 2, 3] : [1],
         gender: "male"
       },
-      time: {...defaultTimeData[type]}
+      time: { ...defaultTimeData[type] }
     },
   };
 
