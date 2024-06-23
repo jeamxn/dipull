@@ -51,7 +51,7 @@ export const teachersMenu: MenuItem[] = [
     },
   },
   {
-    url: "/teacher/edit",
+    url: "/teacher/stay/status",
     name: "잔류",
     showname: "잔류 / 외출 / 금귀",
     order: {
