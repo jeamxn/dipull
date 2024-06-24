@@ -41,19 +41,6 @@ const PUT = async (
   const client = await connectToDatabase();
   const wakeupCollection = client.db().collection("wakeup");
 
-  const mySelect = await wakeupCollection.find({
-    owner: verified.payload.data.id,
-    date: today.format("YYYY-MM-DD"),
-    gender: verified.payload.data.gender,
-  }).toArray();
-  if(mySelect.length >= 3) return new NextResponse(JSON.stringify({
-    message: "하루에 3곡까지만 추가할 수 있습니다.",
-    ok: false,
-  }), {
-    status: 400,
-    headers: new_headers
-  });
-
   try {
     const url = "https://www.youtube.com/oembed"; 
     const params = { "format": "json", "url": `https://www.youtube.com/watch?v=${select.id}` };
@@ -69,8 +56,8 @@ const PUT = async (
       gender: verified.payload.data.gender,
       week: await getApplyStartDate(),
     };
-    const add = await wakeupCollection.insertOne(putData);
 
+    const add = await wakeupCollection.insertOne(putData);
     const mySelect = await wakeupCollection.find({
       owner: verified.payload.data.id,
       date: today.format("YYYY-MM-DD"),
