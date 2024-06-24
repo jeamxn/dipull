@@ -44,7 +44,10 @@ const Admin = () => {
         }
       );
       router.refresh();
-      setList(list.map(e => { e.my = e.id === select.id; return e; }));
+      setList(list.map(e => ({
+        ...e,
+        my: e.id === select.id,
+      })));
       alert.update(loading, res.data.message, "success");
     }
     catch(e: any){

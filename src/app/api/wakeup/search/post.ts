@@ -63,10 +63,10 @@ const POST = async (
     });
 
     const wakeup = (await getWakeup(verified.payload.id, verified.payload.data.gender)).my;
-    const search = (await youtubeSearch(query, opts)).results.map((e: CustomYoutubeSearchResult) => {
-      e.my = wakeup.some((s: WakeupDB) => s.id === e.id);
-      return e;
-    });
+    const search = (await youtubeSearch(query, opts)).results.map((e: CustomYoutubeSearchResult) => ({
+      ...e,
+      my: wakeup.some((s: WakeupDB) => s.id === e.id)
+    }));
     return new NextResponse(JSON.stringify({
       message: "성공적으로 검색되었습니다.",
       search: search,
