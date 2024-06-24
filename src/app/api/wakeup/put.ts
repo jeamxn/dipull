@@ -30,7 +30,7 @@ const PUT = async (
 
   const json = await req.json();
   const select: YouTubeSearchResults = json.data;
-  if(!select.id) return new NextResponse(JSON.stringify({ 
+  if(!select.id) return new NextResponse(JSON.stringify({
     message: "페이로드 불일치.",
   }), {
     status: 400,
