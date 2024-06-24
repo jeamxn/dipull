@@ -46,7 +46,7 @@ const Admin = () => {
       router.refresh();
       setList(list.map(e => ({
         ...e,
-        my: e.id === select.id,
+        my: e.id === select.id ? true : e.my,
       })));
       alert.update(loading, res.data.message, "success");
     }
