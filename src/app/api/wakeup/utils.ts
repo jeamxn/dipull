@@ -24,6 +24,10 @@ export type WakeupGET = {
   };
 };
 
+export type CustomYoutubeSearchResult = YouTubeSearchResults & {
+  my?: boolean
+}
+
 export const getToday = () => {
   const seoul = moment.tz("Asia/Seoul");
   const today = moment(seoul.format("YYYY-MM-DD"), "YYYY-MM-DD");
