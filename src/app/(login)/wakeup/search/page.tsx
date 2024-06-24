@@ -27,7 +27,6 @@ const Admin = () => {
         }
       );
       setList(res_search.data.search);
-      console.log(list);
     }
     catch(e: any){
       alert.error(e.response.data.message);
