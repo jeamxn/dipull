@@ -4,6 +4,7 @@
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import React from "react";
+import Swal from "sweetalert2";
 
 import { WakeupDB, WakeupGET } from "@/app/api/wakeup/utils";
 import { alert } from "@/utils/alert";
@@ -35,6 +36,24 @@ const TeacherWakeupContent = ({ initailData }: {
       alert.error(e.response.data.message);
     }
     setLoading(false);
+  };
+
+  const checkDelete = async (id: WakeupDB["id"]) => { 
+    Swal.fire({
+      title: "기상송 삭제",
+      text: "기상송을 삭제합니다. 주의하세요.",
+      showCancelButton: true,
+      confirmButtonText: "삭제하기",
+      confirmButtonColor: "#e11d48",
+      cancelButtonText: "취소",
+      icon: "warning",
+      background: "rgb(var(--color-white) / 1)",
+      color: "rgb(var(--color-text) / 1)",
+    }).then(async (res) => {
+      if (res.isConfirmed) {
+        await deleteWakeup(id);
+      }
+    });
   };
 
   const deleteWakeup = async (id: WakeupDB["id"]) => {
@@ -99,7 +118,7 @@ const TeacherWakeupContent = ({ initailData }: {
                     </td>
                     <td 
                       className="text-center px-4 select-none"
-                      onClick={() => deleteWakeup(key)}
+                      onClick={() => checkDelete(key)}
                     >
                       <div className="flex justify-center items-center h-full">
                         <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
