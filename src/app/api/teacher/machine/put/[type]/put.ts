@@ -96,21 +96,26 @@ const PUT = async (
   const timeMoment30 = timeSet.subtract(30, "minutes").format("YYYY-MM-DD HH:mm:ss");
   const timeMoment10 = timeSet.subtract(10, "minutes").format("YYYY-MM-DD HH:mm:ss");
   const notificationCollection = client.db().collection("notification");
+  const machineTypeKorean = params.type === "washer" ? "세탁" : "건조";
   const notification_query = {
     id: id,
-    payload: {
-      title: `${params.type === "washer" ? "세탁" : "건조"}를 해야 해요!`,
-      body: `${machineName(machine)} ${params.type === "washer" ? "세탁" : "건조"}기가 ${time}에 예약되어 있습니다.`,
-    }
   };
   const notification_querys = [
     {
       ...notification_query,
+      payload: {
+        title: `30분 후 ${machineTypeKorean}를 해야 해요!`,
+        body: `${machineName(machine)} ${machineTypeKorean}기가 ${time}에 예약되어 있습니다.`,
+      },
       type: `machine-${params.type}-30`,
       time: timeMoment30,
     },
     {
       ...notification_query,
+      payload: {
+        title: `10분 후 ${machineTypeKorean}를 해야 해요!`,
+        body: `${machineName(machine)} ${machineTypeKorean}기가 ${time}에 예약되어 있습니다.`,
+      },
       type: `machine-${params.type}-10`,
       time: timeMoment10,
     }
