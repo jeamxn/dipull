@@ -1,5 +1,6 @@
 import "moment-timezone";
 import moment from "moment";
+import { ObjectId } from "mongodb";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import xss from "xss";
@@ -65,6 +66,29 @@ const PUT = async (
     grade: grade,
     number: state?.count?.[params.id] || 0,
   });
+
+  const bambooCollection = client.db().collection("bamboo");
+  const _this = await bambooCollection.findOne({
+    _id: ObjectId.createFromHexString(params.id),
+  });
+
+  if (_this) {
+    const notificationCollection = client.db().collection("notification");
+    const userNumber = verified.payload.data.number;
+    const gradeNaN = isNaN(Math.floor(userNumber / 1000));
+    const gradeString = gradeNaN ? "졸업생 " : `${Math.floor(userNumber / 1000)}학년 `;
+    const nameString = `${grade ? gradeString : ""}${anonymous ? "익명" : verified.payload.data.name}`;
+    const notification_query = {
+      id: _this.user,
+      payload: {
+        title: "누군가 댓글을 남겼어요!",
+        body: `[${nameString}] ${xss(textarea)}`,
+      },
+      type: `bamboo_comment_${params.id}`,
+      time: "1999-12-31 23:59:59",
+    };
+    await notificationCollection.insertOne(notification_query);
+  }
 
   if(!insertedId) return new NextResponse(JSON.stringify({
     message: "제보에 실패했습니다.",
