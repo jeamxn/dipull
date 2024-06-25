@@ -107,11 +107,12 @@ export const sendMachineNotification = async (
   };
   const ready = `${machineName(machine)} ${machineTypeKorean}기가 ${time}에 예약되어 있습니다.`;
   const end = `${machineName(machine)} ${machineTypeKorean}기가 ${timeEnd.format("HH시 mm분")}에 종료됩니다.`;
+  const notificationK = machineTypeKorean === "세탁" ? "세탁을" : "건조를";
   const notification_querys = [
     {
       ...notification_query,
       payload: {
-        title: `30분 후 ${machineTypeKorean}를 해야 해요!`,
+        title: `30분 후 ${notificationK} 해야 해요!`,
         body: ready,
       },
       type: `machine-${type}-start-30`,
@@ -120,7 +121,7 @@ export const sendMachineNotification = async (
     {
       ...notification_query,
       payload: {
-        title: `10분 후 ${machineTypeKorean}를 해야 해요!`,
+        title: `10분 후 ${notificationK} 해야 해요!`,
         body: ready,
       },
       type: `machine-${type}-start-10`,

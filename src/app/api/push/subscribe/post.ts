@@ -33,9 +33,18 @@ const POST = async (
 
   const client = await connectToDatabase();
   const statesCollection = client.db().collection("subscriptions");
-  await statesCollection.insertOne({
+
+  await statesCollection.updateOne({
     id: verified.payload.id,
-    subscription: subscription,
+    userAgent: req.headers.get("user-agent") || "",
+  }, {
+    $set: {
+      id: verified.payload.id,
+      subscription: subscription,
+      userAgent: req.headers.get("user-agent") || "",
+    }
+  }, {
+    upsert: true,
   });
 
   return new NextResponse(JSON.stringify({
