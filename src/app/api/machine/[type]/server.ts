@@ -93,12 +93,12 @@ export const sendMachineNotification = async (
   const client = await connectToDatabase();
   const timeString = time.replace("오전", "am").replace("오후", "pm").replace("* ", "");
   const timeSet = moment(timeString, "a hh시 mm분");
-  const timeMoment30 = timeSet.subtract(30, "minutes").format("YYYY-MM-DD HH:mm:ss");
-  const timeMoment10 = timeSet.subtract(10, "minutes").format("YYYY-MM-DD HH:mm:ss");
+  const timeMoment30 = timeSet.clone().subtract(30, "minutes").format("YYYY-MM-DD HH:mm:ss");
+  const timeMoment10 = timeSet.clone().subtract(10, "minutes").format("YYYY-MM-DD HH:mm:ss");
 
   const timeEnd = timeSet.add(type === "dryer" ? 2 : 1, "hours");
-  const timeEndMoment10 = timeEnd.subtract(10, "minutes").format("YYYY-MM-DD HH:mm:ss");
-  const timeEndMoment5 = timeEnd.subtract(5, "minutes").format("YYYY-MM-DD HH:mm:ss");
+  const timeEndMoment10 = timeEnd.clone().subtract(10, "minutes").format("YYYY-MM-DD HH:mm:ss");
+  const timeEndMoment5 = timeEnd.clone().subtract(5, "minutes").format("YYYY-MM-DD HH:mm:ss");
 
   const notificationCollection = client.db().collection("notification");
   const machineTypeKorean = type === "washer" ? "세탁" : "건조";
