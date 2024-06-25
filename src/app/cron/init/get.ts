@@ -126,7 +126,7 @@ const GET = async (
     {
       "id": "",
       "payload": {
-        "title": "오늘 최종 신청이 마감되어요!",
+        "title": "오늘 신청이 최종 마감되어요!",
         "body": "잊지 말고 오늘 안으로 잔류, 외출 및 금요 귀가를 신청해주세요!"
       },
       "type": "all-students-stay",
