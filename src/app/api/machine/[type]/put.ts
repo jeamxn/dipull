@@ -96,8 +96,10 @@ const PUT = async (
   };
   const put = await machineCollection.insertOne(put_query);
 
-  const timeMoment30 = moment(time.replace("오전", "am").replace("오후", "pm"), "a hh시 mm분").subtract(30, "minutes").format("YYYY-MM-DD HH:mm:ss");
-  const timeMoment10 = moment(time.replace("오전", "am").replace("오후", "pm"), "a hh시 mm분").subtract(10, "minutes").format("YYYY-MM-DD HH:mm:ss");
+  const timeString = time.replace("오전", "am").replace("오후", "pm").replace("* ", "");
+  const timeSet = moment(timeString, "a hh시 mm분");
+  const timeMoment30 = timeSet.subtract(30, "minutes").format("YYYY-MM-DD HH:mm:ss");
+  const timeMoment10 = timeSet.subtract(10, "minutes").format("YYYY-MM-DD HH:mm:ss");
   const notificationCollection = client.db().collection("notification");
   const notification_query = {
     id: verified.payload.data.id,
