@@ -3,9 +3,10 @@ import "moment-timezone";
 
 import moment from "moment";
 
+import { machineName } from "@/app/(login)/machine/[type]/utils";
 import { connectToDatabase } from "@/utils/db";
 
-import { MachineDB, getApplyStartTime, getDefaultValue } from "./utils";
+import { MachineDB, Type, getApplyStartTime, getDefaultValue } from "./utils";
 
 type Data = {
   booked: boolean;
@@ -81,4 +82,88 @@ export const getMachineData = async (type: "washer" | "dryer", userId: string, s
   } = (currentTime.isSameOrAfter(applyStartDate) || showAll) && myBook ? fullData : nullData;
   
   return { defaultData, myBookData };
+};
+
+export const sendMachineNotification = async (
+  type: Type,
+  machine: string,
+  time: string,
+  id: string,
+) => {
+  const client = await connectToDatabase();
+  const timeString = time.replace("오전", "am").replace("오후", "pm").replace("* ", "");
+  const timeSet = moment(timeString, "a hh시 mm분");
+  const timeMoment30 = timeSet.subtract(30, "minutes").format("YYYY-MM-DD HH:mm:ss");
+  const timeMoment10 = timeSet.subtract(10, "minutes").format("YYYY-MM-DD HH:mm:ss");
+
+  const timeEnd = timeSet.add(type === "dryer" ? 2 : 1, "hours");
+  const timeEndMoment10 = timeEnd.subtract(10, "minutes").format("YYYY-MM-DD HH:mm:ss");
+  const timeEndMoment5 = timeEnd.subtract(5, "minutes").format("YYYY-MM-DD HH:mm:ss");
+
+  const notificationCollection = client.db().collection("notification");
+  const machineTypeKorean = type === "washer" ? "세탁" : "건조";
+  const notification_query = {
+    id: id,
+  };
+  const ready = `${machineName(machine)} ${machineTypeKorean}기가 ${time}에 예약되어 있습니다.`;
+  const end = `${machineName(machine)} ${machineTypeKorean}기가 ${timeEnd.format("HH시 mm분")}에 종료됩니다.`;
+  const notification_querys = [
+    {
+      ...notification_query,
+      payload: {
+        title: `30분 후 ${machineTypeKorean}를 해야 해요!`,
+        body: ready,
+      },
+      type: `machine-${type}-start-30`,
+      time: timeMoment30,
+    },
+    {
+      ...notification_query,
+      payload: {
+        title: `10분 후 ${machineTypeKorean}를 해야 해요!`,
+        body: ready,
+      },
+      type: `machine-${type}-start-10`,
+      time: timeMoment10,
+    },
+    {
+      ...notification_query,
+      payload: {
+        title: `10분 후 ${machineTypeKorean}기를 빼야 해요!.`,
+        body: end,
+      },
+      type: `machine-${type}-end-10`,
+      time: timeEndMoment10,
+    },
+    {
+      ...notification_query,
+      payload: {
+        title: `5분 후 ${machineTypeKorean}기를 빼야 해요!.`,
+        body: end,
+      },
+      type: `machine-${type}-end-5`,
+      time: timeEndMoment5,
+    }
+  ];
+  await notificationCollection.insertMany(notification_querys);
+};
+
+export const deleteMachineNotification = async (
+  id: string,
+  type: Type
+) => { 
+  const client = await connectToDatabase();
+  const notificationCollection = client.db().collection("notification");
+  const notification_query = {
+    id: id,
+    type: {
+      $in: [
+        `machine-${type}-start-10`,
+        `machine-${type}-start-30`,
+        `machine-${type}-end-5`,
+        `machine-${type}-end-10`
+      ]
+    }
+  };
+  await notificationCollection.deleteMany(notification_query);
 };

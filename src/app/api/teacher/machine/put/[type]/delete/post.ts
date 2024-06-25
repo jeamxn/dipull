@@ -3,6 +3,7 @@ import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { deleteMachineNotification } from "@/app/api/machine/[type]/server";
 import { Params, getApplyEndTime, getApplyStartTime } from "@/app/api/machine/[type]/utils";
 import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
@@ -50,14 +51,7 @@ const POST = async (
   const query = { type: params.type, date: moment().tz("Asia/Seoul").format("YYYY-MM-DD"), owner: id };
   const result = await machineCollection.deleteOne(query);
 
-  const notificationCollection = client.db().collection("notification");
-  const notification_query = {
-    id: id,
-    type: {
-      $in: [`machine-${params.type}-10`, `machine-${params.type}-30`]
-    }
-  };
-  await notificationCollection.deleteMany(notification_query);
+  await deleteMachineNotification(id, params.type);
 
   if(!result.acknowledged) return new NextResponse(JSON.stringify({
     success: false,
