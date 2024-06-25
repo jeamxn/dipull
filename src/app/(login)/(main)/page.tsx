@@ -27,7 +27,7 @@ const Home = async () => {
                 <h1 className="text-xl font-semibold">알림 기능 추가</h1>
                 <div className="flex flex-col gap-1">
                   <p className="text-base text-primary">세탁기, 건조기 사용 전후로 알림을 전송합니다.</p>
-                  <p className="text-base text-primary">잔류 신청 마감일 알림을 전송합니다.</p>
+                  <p className="text-base text-primary">잔류 신청 마감 알림을 전송합니다.</p>
                   <p className="text-base text-primary">메뉴의 종모양을 클릭하여 알림 권한을 허용해주세요!</p>
                   <p className="text-base text-primary">핸드폰 설정에서 사용하는 브라우저의 알림 또한 허용해주세요.</p>
                 </div>
