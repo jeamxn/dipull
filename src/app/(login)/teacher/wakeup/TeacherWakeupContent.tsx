@@ -93,7 +93,7 @@ const TeacherWakeupContent = ({ initailData }: {
     setLoading(false);
   };
 
-  const playWakeup = async (v: any, key:any, _gender:string) => {
+  const playWakeup = async (v: any, key: WakeupDB["id"], _gender:string) => {
     setLoading(true);
     const loading = alert.loading("기상송으로 선정 중입니다.");
     try {
@@ -105,15 +105,17 @@ const TeacherWakeupContent = ({ initailData }: {
         gender: _gender,
         owner: ""
       };
-
+      
       const res = await instance.post(
         "/api/teacher/wakeup/play", {
           putData
         }
       );
+      
+      deleteWakeup(key);
+
       await getWakeup();
       alert.update(loading, res.data.message, "success");
-      //alert.update(loading, id, "success");
     }
     catch(e: any){
       alert.update(loading, e.response.data.message, "error");

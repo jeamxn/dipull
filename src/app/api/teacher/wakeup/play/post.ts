@@ -39,7 +39,6 @@ const POST = async (
   });
 
   const data = await req.json();
-  console.log(data);
   if(isEmpty(data)) return new NextResponse(JSON.stringify({
     message: "잘못된 요청입니다.",
   }), {
