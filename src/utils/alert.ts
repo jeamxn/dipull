@@ -107,7 +107,7 @@ const nofitication = ({
         toast[toToastify.toastifyType](message, { ...defaultOptions, ...toToastify.options });
       }
     }
-    else alert.warn("알림이 거부되어 있습니다.");
+    else alert.warn("알림이 거부되어 있습니다. 디바이스 또는 브라우저 설정에서 변경해주세요.");
     return false;
   }
   else if (window.Notification.permission === "default") {
@@ -122,7 +122,7 @@ const nofitication = ({
             toast[toToastify.toastifyType](message, { ...defaultOptions, ...toToastify.options });
           }
         }
-        else alert.warn("알림을 거부하셨습니다.");
+        else alert.warn("알림을 거부하셨습니다. 디바이스 또는 브라우저 설정에서 변경해주세요.");
         return false;
       }
       else if(permission === "granted") {

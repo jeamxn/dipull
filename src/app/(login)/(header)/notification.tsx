@@ -47,27 +47,20 @@ const Notification = () => {
   }, []);
 
   React.useEffect(() => {
-    let timer: NodeJS.Timeout;
     if(isClicked) {
       alert.nofitication({
         message: "알림을 허용했습니다.",
         options: {
           body: "알림을 허용했습니다.",
         },
-        onGranted: false,
-        noError: true,
+        onGranted: true,
+        noError: false,
       });
       setIsBlock(true);
-    } else {
-      // timer = setTimeout(() => {
-      //   setIsBlock(false);
-      // }, 300);
     }
-    return () => clearTimeout(timer);
   }, [isClicked]);
 
   React.useEffect(() => {
-    //다른 곳 눌렀을 때 isClicked를 false로 만들어야 함
     const handleClick = (e: MouseEvent) => {
       if(
         !(e.target as HTMLElement).closest(".notification-icon") 
