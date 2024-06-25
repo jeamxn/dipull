@@ -3,7 +3,6 @@ import moment from "moment";
 import { NextResponse } from "next/server";
 
 import { sendPushNotification } from "@/app/api/push/send/server";
-import { getApplyStartDate } from "@/app/api/stay/utils";
 import { connectToDatabase } from "@/utils/db";
 
 const GET = async (
@@ -25,6 +24,7 @@ const GET = async (
 
   const client = await connectToDatabase();
   const notificationCollection = client.db().collection("notification");
+  const usersCollection = client.db().collection("users");
   const now = moment().tz("Asia/Seoul").format("YYYY-MM-DD HH:mm:ss");
   const notifications = await notificationCollection.aggregate([
     {
@@ -38,13 +38,20 @@ const GET = async (
         data: {
           id: "$id",
           payload: "$payload",
+          filter: "$filter",
         }
       }
     }
   ]).toArray();
 
-  const sendAndDelete = async (notification: any) => { 
-    await sendPushNotification(notification.data.id, notification.data.payload);
+  const sendAndDelete = async (notification: any) => {
+    if (notification.data.filter) {
+      const users = (await usersCollection.find(notification.data.filter).toArray()).map(user => user.id);
+      await sendPushNotification(users, notification.data.payload);
+    }
+    else {
+      await sendPushNotification(notification.data.id, notification.data.payload);
+    }
     await notificationCollection.deleteOne({ _id: notification._id });
   };
   const notification_promise = notifications.map(async notification => sendAndDelete(notification));
