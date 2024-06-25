@@ -14,7 +14,9 @@ const sendPushTry = async (subscription: any, payload: NotificationPayload) => {
     await webpush.sendNotification(subscription.subscription, JSON.stringify(payload));
   }
   catch (e) {
-    console.error(e);
+    const client = await connectToDatabase();
+    const statesCollection = client.db().collection("subscriptions");
+    await statesCollection.deleteOne({ _id: subscription._id });
   }
 };
 
