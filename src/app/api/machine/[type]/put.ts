@@ -3,6 +3,7 @@ import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
+import { machineName } from "@/app/(login)/machine/[type]/utils";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
@@ -94,6 +95,31 @@ const PUT = async (
     type: params.type,
   };
   const put = await machineCollection.insertOne(put_query);
+
+  const timeMoment30 = moment(time.replace("오전", "am").replace("오후", "pm"), "a hh시 mm분").subtract(30, "minutes").format("YYYY-MM-DD HH:mm:ss");
+  const timeMoment10 = moment(time.replace("오전", "am").replace("오후", "pm"), "a hh시 mm분").subtract(10, "minutes").format("YYYY-MM-DD HH:mm:ss");
+  const notificationCollection = client.db().collection("notification");
+  const notification_query = {
+    id: verified.payload.data.id,
+    payload: {
+      title: `${params.type === "washer" ? "세탁" : "건조"}를 해야 해요!`,
+      body: `${machineName(machine)} ${params.type === "washer" ? "세탁" : "건조"}기가 ${time}에 예약되어 있습니다.`,
+    }
+  };
+  const notification_querys = [
+    {
+      ...notification_query,
+      type: `machine-${params.type}-30`,
+      time: timeMoment30,
+    },
+    {
+      ...notification_query,
+      type: `machine-${params.type}-10`,
+      time: timeMoment10,
+    }
+  ];
+  await notificationCollection.insertMany(notification_querys);
+
 
   if(!put.acknowledged) return new NextResponse(JSON.stringify({
     success: false,
