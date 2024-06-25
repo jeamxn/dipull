@@ -130,7 +130,7 @@ export const sendMachineNotification = async (
     {
       ...notification_query,
       payload: {
-        title: `10분 후 ${machineTypeKorean}기를 빼야 해요!`,
+        title: `10분 후 ${machineTypeKorean}물을 꺼내야 해요!`,
         body: end,
       },
       type: `machine-${type}-end-10`,
@@ -139,7 +139,7 @@ export const sendMachineNotification = async (
     {
       ...notification_query,
       payload: {
-        title: `5분 후 ${machineTypeKorean}기를 빼야 해요!`,
+        title: `5분 후 ${machineTypeKorean}물을 꺼내야 해요!`,
         body: end,
       },
       type: `machine-${type}-end-5`,
