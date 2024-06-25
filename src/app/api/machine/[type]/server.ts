@@ -91,8 +91,9 @@ export const sendMachineNotification = async (
   id: string,
 ) => {
   const client = await connectToDatabase();
+  const today = moment().tz("Asia/Seoul").format("YYYY-MM-DD");
   const timeString = time.replace("오전", "am").replace("오후", "pm").replace("* ", "");
-  const timeSet = moment(timeString, "a hh시 mm분");
+  const timeSet = moment(`${today} ${timeString}`, "YYYY-MM-DD a hh시 mm분");
   const timeMoment30 = timeSet.clone().subtract(30, "minutes").format("YYYY-MM-DD HH:mm:ss");
   const timeMoment10 = timeSet.clone().subtract(10, "minutes").format("YYYY-MM-DD HH:mm:ss");
 
