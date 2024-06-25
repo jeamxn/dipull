@@ -2,8 +2,9 @@ import "moment-timezone";
 import moment from "moment";
 import { NextResponse } from "next/server";
 
-import { getApplyStartDate } from "@/app/api/stay/utils";
+import { getApplyEndDate, getApplyStartDate } from "@/app/api/stay/utils";
 import { connectToDatabase } from "@/utils/db";
+import { getStates } from "@/utils/getStates";
 
 const GET = async (
   req: Request
@@ -38,6 +39,7 @@ const GET = async (
   const requestCollection = db.collection("request");
   const stayCollection = db.collection("stay");
   const wakeupCollection = db.collection("wakeup");
+  const notificationCollection = db.collection("notification");
 
   const deleteArr = [
     homecomingCollection.deleteMany({
@@ -90,6 +92,50 @@ const GET = async (
   ];
 
   await Promise.all(deleteArr);
+
+  const applyend = await getApplyEndDate();
+
+  const states = await getStates("stay");
+  const applyStartDateMoment = moment(await getApplyStartDate());
+  const addDate = states?.grade3Add === undefined ? 1 : states.grade3Add;
+  const addOneFromStartDate = applyStartDateMoment.add(addDate, "day").format("YYYY-MM-DD");
+
+  await notificationCollection.deleteMany({
+    "type": {
+      $in: ["3rd-grade-students-stay", "all-students-stay"]
+    }
+  });
+
+  await notificationCollection.insertMany([
+    {
+      "id": "",
+      "payload": {
+        "title": "오늘 3학년 신청이 마감되어요!",
+        "body": "잊지 말고 오늘 안으로 잔류, 외출 및 금요 귀가를 신청해주세요!"
+      },
+      "type": "3rd-grade-students-stay",
+      "filter": {
+        "type": "student",
+        "number": {
+          $gte: 3000,
+          $lt: 4000
+        }
+      },
+      "time": `${addOneFromStartDate} 22:30:00`
+    },
+    {
+      "id": "",
+      "payload": {
+        "title": "오늘 최종 신청이 마감되어요!",
+        "body": "잊지 말고 오늘 안으로 잔류, 외출 및 금요 귀가를 신청해주세요!"
+      },
+      "type": "all-students-stay",
+      "filter": {
+        "type": "student"
+      },
+      "time": `${applyend} 22:30:00`
+    }
+  ]);
 
   return new NextResponse(JSON.stringify({
     success: true,
