@@ -9,7 +9,10 @@ type VapidKeys = {
   privateKey: string;
 };
 
-const vapidKeys: VapidKeys = webpush.generateVAPIDKeys();
+const vapidKeys: VapidKeys = {
+  publicKey: process.env.VAPID_PUBLIC_KEY || "",
+  privateKey: process.env.VAPID_PRIVATE_KEY || "",
+};
 
 webpush.setVapidDetails(
   "mailto:admin@chicken-moo.com",

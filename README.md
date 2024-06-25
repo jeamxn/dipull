@@ -108,6 +108,8 @@ bun install
 - `NEXT_PUBLIC_DIMIGOIN_KEY` [디미고인 API 키](https://auth.dimigo.net/developers/add)
 - `JWT_SECRET` JWT 토큰 생성 시 사용할 시크릿 키
 - `CRON_SECRET` Cron 작업 시 사용할 시크릿 키
+- `VAPID_PUBLIC_KEY` Push 알림 시 사용할 VAPID 퍼블릭 키
+- `VAPID_PRIVATE_KEY` Push 알림 시 사용할 VAPID 프라이빗 키
 
 #### 기본 값 유지
 - `NEXT_PUBLIC_DIMIGOIN_URI` 디미고인 API URI
