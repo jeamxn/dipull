@@ -20,8 +20,10 @@ export const getApplyEndTime = async () => {
   return moment("22:30", "HH:mm").format("HH:mm");
 };
 
+export type Type = "washer" | "dryer";
+
 export type Params = {
-  type: "washer" | "dryer";
+  type: Type;
 };
 
 export type Machine = {
@@ -43,7 +45,7 @@ export type MachineDB = {
   time: string;
   date: string;
   owner: UserDB["id"];
-  type: "washer" | "dryer";
+  type: Type;
 }
 
 export type MachineConfig = {

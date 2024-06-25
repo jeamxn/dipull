@@ -8,6 +8,7 @@ import { TokenInfo, UserData } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
+import { deleteMachineNotification } from "./server";
 import { Params, getApplyEndTime, getApplyStartTime } from "./utils";
 
 const DELETE = async (
@@ -47,14 +48,7 @@ const DELETE = async (
   const query = { type: params.type, date: moment().tz("Asia/Seoul").format("YYYY-MM-DD"), owner: verified.userId };
   const result = await machineCollection.deleteOne(query);
 
-  const notificationCollection = client.db().collection("notification");
-  const notification_query = {
-    id: verified.payload.data.id,
-    type: {
-      $in: [`machine-${params.type}-10`, `machine-${params.type}-30`]
-    }
-  };
-  await notificationCollection.deleteMany(notification_query);
+  await deleteMachineNotification(verified.payload.id, params.type);
 
   if(!result.acknowledged) return new NextResponse(JSON.stringify({
     success: false,
