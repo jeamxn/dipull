@@ -108,7 +108,6 @@ const GET = async (
 
   await notificationCollection.insertMany([
     {
-      "id": "",
       "payload": {
         "title": "오늘 3학년 신청이 마감되어요!",
         "body": "잊지 말고 오늘 안으로 잔류, 외출 및 금요 귀가를 신청해주세요!"
@@ -124,7 +123,6 @@ const GET = async (
       "time": `${addOneFromStartDate} 22:30:00`
     },
     {
-      "id": "",
       "payload": {
         "title": "오늘 신청이 최종 마감되어요!",
         "body": "잊지 말고 오늘 안으로 잔류, 외출 및 금요 귀가를 신청해주세요!"
