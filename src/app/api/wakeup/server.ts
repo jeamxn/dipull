@@ -60,8 +60,6 @@ export const getPlayedWakeup = async (id: string, gender: string) => {
   };
   const data = await played_wakeupCollection.find(query).toArray() as unknown as WakeupDB[];
 
-  console.log(data);
-
   const allObj: WakeupGET = {};
   const myObj: WakeupDB[] = [];
   
