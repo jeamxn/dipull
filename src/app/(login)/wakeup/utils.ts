@@ -11,4 +11,8 @@ export const menu = [
     url: "/wakeup/my",
     name: "내 신청",
   },
+  {
+    url: "/wakeup/played",
+    name: "선정된 신청"
+  },
 ];
