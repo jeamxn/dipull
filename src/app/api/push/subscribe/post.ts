@@ -33,13 +33,9 @@ const POST = async (
 
   const client = await connectToDatabase();
   const statesCollection = client.db().collection("subscriptions");
-  await statesCollection.updateOne({ id: verified.payload.id }, {
-    $set: {
-      id: verified.payload.id,
-      subscription: subscription,
-    }
-  }, {
-    upsert: true
+  await statesCollection.insertOne({
+    id: verified.payload.id,
+    subscription: subscription,
   });
 
   return new NextResponse(JSON.stringify({
