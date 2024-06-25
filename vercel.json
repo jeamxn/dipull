@@ -3,6 +3,10 @@
     {
       "path": "/cron/init",
       "schedule": "0 0 */7 * *"
+    },
+    {
+      "path": "/cron/notification",
+      "schedule": "* * * * *"
     }
   ]
 }

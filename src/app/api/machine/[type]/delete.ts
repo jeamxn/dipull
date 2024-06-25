@@ -47,6 +47,15 @@ const DELETE = async (
   const query = { type: params.type, date: moment().tz("Asia/Seoul").format("YYYY-MM-DD"), owner: verified.userId };
   const result = await machineCollection.deleteOne(query);
 
+  const notificationCollection = client.db().collection("notification");
+  const notification_query = {
+    id: verified.payload.data.id,
+    type: {
+      $in: [`machine-${params.type}-10`, `machine-${params.type}-30`]
+    }
+  };
+  await notificationCollection.deleteMany(notification_query);
+
   if(!result.acknowledged) return new NextResponse(JSON.stringify({
     success: false,
     message: "예약된 시간이 없습니다.",
