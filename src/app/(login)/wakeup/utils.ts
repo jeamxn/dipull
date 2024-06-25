@@ -13,6 +13,6 @@ export const menu = [
   },
   {
     url: "/wakeup/played",
-    name: "선정된 신청"
+    name: "지난 신청"
   },
 ];

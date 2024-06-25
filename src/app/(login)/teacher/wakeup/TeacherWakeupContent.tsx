@@ -57,7 +57,7 @@ const TeacherWakeupContent = ({ initailData }: {
     });
   };
 
-  const checkPlay = async(v: any, key:any) => { 
+  const checkPlay = async(v: any, key:any, _gender: any) => { 
     Swal.fire({
       title: "기상송 선정",
       text: "기상송으로 선정합니다. 주의하세요.",
@@ -70,7 +70,7 @@ const TeacherWakeupContent = ({ initailData }: {
       color: "rgb(var(--color-text) / 1)",
     }).then(async (res) => {
       if (res.isConfirmed) {
-        await playWakeup(v, key);
+        await playWakeup(v, key, _gender);
       }
     });
   };
@@ -93,7 +93,7 @@ const TeacherWakeupContent = ({ initailData }: {
     setLoading(false);
   };
 
-  const playWakeup = async (v: any, key:any, gender:string) => {
+  const playWakeup = async (v: any, key:any, _gender:string) => {
     setLoading(true);
     const loading = alert.loading("기상송으로 선정 중입니다.");
     try {
@@ -102,7 +102,7 @@ const TeacherWakeupContent = ({ initailData }: {
         id: key,
         date: getToday().format("YYYY-MM-DD"),
         week: await getApplyStartDate(),
-        gender: "male",
+        gender: _gender,
         owner: ""
       };
 

@@ -49,8 +49,6 @@ const POST = async (
   
   const plyaed_wakeupCollection = client.db().collection("played_wakeup");
   
-  //const find = plyaed_wakeupCollection.findOne(query);
-  console.log(data);
   const add = await plyaed_wakeupCollection.insertOne(data.putData);
 
   if(!add) return new NextResponse(JSON.stringify({

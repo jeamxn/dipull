@@ -41,24 +41,6 @@ const ListContent = ({ initailData }: {
     setLoading(false);
   };
 
-  const putWakeup = async (select: any) => {
-    setLoading(true);
-    const loading = alert.loading("기상송 신청 중 입니다.");
-    try{
-      const res = await instance.put(
-        "/api/wakeup", {
-          data: select
-        }
-      );
-      await getWakeup();
-      alert.update(loading, res.data.message, "success");
-    }
-    catch(e: any){
-      alert.update(loading, e.response.data.message, "error");
-    }
-    setLoading(false);
-  };
-
   const sunday = week.clone().day(0);
   const saturday = week.clone().day(6).add(1, "day");
 
@@ -66,7 +48,7 @@ const ListContent = ({ initailData }: {
     <article className="flex flex-col gap-3">
       <section className="flex flex-col gap-1">
         <div className="flex flex-row items-center">
-          <h1 className="text-xl font-semibold">재생된 기상곡 목록</h1>
+          <h1 className="text-xl font-semibold">지난 기상곡 목록</h1>
           <div className={[
             "hover:font-semibold cursor-pointer transition-all h-7 w-7 flex items-center justify-center",
             loading ? "rotation" : "",
@@ -106,7 +88,7 @@ const ListContent = ({ initailData }: {
                           alt={v.title}
                           className="max-w-[160px] object-cover rounded aspect-video cursor-pointer"
                         />
-                        <p className="text-left cursor-pointer">[{v.count}표] {v.title}</p>
+                        <p className="text-left cursor-pointer">{v.title}</p>
                       </div>
                     </td>
                   </tr>
