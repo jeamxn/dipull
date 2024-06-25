@@ -8,7 +8,6 @@ import { getPlayedWakeup } from "../server";
 const GET = async (
   req: Request,
 ) => {
-  console.log("A:DFKLJAF:KJ");
   // 헤더 설정
   const new_headers = new Headers();
   new_headers.append("Content-Type", "application/json; charset=utf-8");
@@ -22,11 +21,6 @@ const GET = async (
     status: 401,
     headers: new_headers
   });
-
-  console.log("@@@@");
-  console.log("!!!" + JSON.stringify({
-    data: await getPlayedWakeup(verified.payload.id, verified.payload.data.gender),
-  }));
 
   return new NextResponse(JSON.stringify({
     data: await getPlayedWakeup(verified.payload.id, verified.payload.data.gender),

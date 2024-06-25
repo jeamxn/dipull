@@ -30,7 +30,7 @@ const TeacherWakeupContent = ({ initailData }: {
       const res = await instance.get("/api/wakeup");
       setWakeup(res.data.data.all);
       setWeek(moment(res.data.data.week, "YYYY-MM-DD"));
-      setGender(res.data.data.gender); // gender 안불러와지는거 수정하기
+      setGender(res.data.data.gender);
       router.refresh();
     }
     catch(e: any){
@@ -97,7 +97,6 @@ const TeacherWakeupContent = ({ initailData }: {
     setLoading(true);
     const loading = alert.loading("기상송으로 선정 중입니다.");
     try {
-      console.log(gender);
       const putData: WakeupData = {
         title: v.title,
         id: key,
