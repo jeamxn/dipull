@@ -39,6 +39,7 @@ const GET = async (
           id: "$id",
           payload: "$payload",
           filter: "$filter",
+          type: "$type"
         }
       }
     }
@@ -47,10 +48,10 @@ const GET = async (
   const sendAndDelete = async (notification: any) => {
     if (notification.data.filter) {
       const users = (await usersCollection.find(notification.data.filter).toArray()).map(user => user.id);
-      await sendPushNotification(users, notification.data.payload);
+      await sendPushNotification(users, notification.data.payload, notification.data.type);
     }
     else {
-      await sendPushNotification(notification.data.id, notification.data.payload);
+      await sendPushNotification(notification.data.id, notification.data.payload, notification.data.type);
     }
     await notificationCollection.deleteOne({ _id: notification._id });
   };

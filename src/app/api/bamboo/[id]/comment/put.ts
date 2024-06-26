@@ -84,7 +84,7 @@ const PUT = async (
         title: "누군가 댓글을 남겼어요!",
         body: `[${nameString}] ${xss(textarea)}`,
       },
-      type: `bamboo_comment_${params.id}`,
+      type: "bamboo-comment",
       time: "1999-12-31 23:59:59",
     };
     await notificationCollection.insertOne(notification_query);

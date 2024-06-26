@@ -54,7 +54,7 @@ const Timetable = ({
           <option value={99}>학반을 선택해주세요.</option>
           {
             new Array(3).fill(0).map((_, i) => (
-              <optgroup key={(i + 1) * 10} label={`${i + 1}학년`}>
+              <optgroup key={`grade-${i + 1}`} label={`${i + 1}학년`}>
                 {
                   new Array(6).fill(0).map((_, j) => (
                     <option key={(i + 1) * 10 + j + 1} value={(i + 1) * 10 + j + 1}>{i + 1}학년 {j + 1}반</option>
@@ -82,11 +82,11 @@ const Timetable = ({
             {
               timetable.length ? timetable.sort((a, b) => a[0].period - b[0].period).map((e) => {
                 return (
-                  <tr key={e[0].weekday} className="border-t border-text/10">
+                  <tr key={`weekday-${e[0].period}`} className="border-t border-text/10">
                     <td className="py-3 text-text/60 text-sm font-normal border-r border-text/10 text-center">{e[0].period}</td>
                     {
                       e.sort((a, b) => a.period - b.period).map((time, i) => (
-                        <td key={i} className={[
+                        <td key={`period-${e[0].weekday}-${i}`} className={[
                           "px-1 py-3 whitespace-pre-line",
                           time.changed ? "bg-text/5 dark:bg-text/10" : "",
                         ].join(" ")}>

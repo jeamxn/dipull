@@ -5,7 +5,7 @@ self.addEventListener("push", function (event) {
   const options = {
     body: data.body,
     icon: "/public/icon.png",
-    badge: "/public/icon.png"
+    badge: "/public/icon.png",
   };
 
   event.waitUntil(

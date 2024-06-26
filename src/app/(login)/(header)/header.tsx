@@ -11,11 +11,12 @@ import MainLogo from "./mainLogo";
 import Menu from "./menu";
 import MobileMenu from "./MobileMenu";
 import Notification from "./notification";
-
 const Header = ({
-  userInfo
+  userInfo,
+  notificationInit,
 }: {
-  userInfo: UserData
+  userInfo: UserData,
+  notificationInit: string[],
 }) => {
   const isHeader = useRecoilValue(isHeaderAtom);
 
@@ -32,7 +33,7 @@ const Header = ({
           <Menu userInfo={userInfo} />
         </div>
         <div className="flex flex-row items-center relative">
-          <Notification />
+          <Notification init={notificationInit} />
           <MobileMenu userInfo={userInfo} />
         </div>
         <Loading />
