@@ -34,7 +34,7 @@ const POST = async (
     upsert: true,
   });
 
-  if (notification.modifiedCount === 0) return new NextResponse(JSON.stringify({
+  if (!notification.modifiedCount && !notification.upsertedCount) return new NextResponse(JSON.stringify({
     message: "알림 설정 변경 실패",
   }), {
     status: 400,
