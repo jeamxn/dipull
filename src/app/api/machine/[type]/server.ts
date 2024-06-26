@@ -59,11 +59,7 @@ export const getMachineData = async (type: "washer" | "dryer", userId: string, s
   }
 
   const myBookQuery = { type: type, date: moment().tz("Asia/Seoul").format("YYYY-MM-DD"), owner: userId };
-  const myBookQ = await machineCollection.findOne(myBookQuery) as unknown as MachineDB || null;
-  const myBook = {
-    ...myBookQ,
-    _id: undefined,
-  };
+  const myBook = await machineCollection.findOne(myBookQuery) as unknown as MachineDB || null;
 
   const fullData: Data = {
     booked: true,
