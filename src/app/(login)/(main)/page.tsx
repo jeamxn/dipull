@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import React from "react";
 
 import { getIwannagohome } from "@/app/api/iwannagohome/server";
+import { getTimetable } from "@/app/api/timetable/[grade]/[class]/server";
 import { defaultUserData } from "@/app/auth/type";
 import Insider from "@/provider/insider";
 import { verify } from "@/utils/jwt";
@@ -9,6 +10,7 @@ import { verify } from "@/utils/jwt";
 import HosilInfo from "./hosilInfo";
 import Iwannagohome from "./iwannagohome";
 import Luck from "./luck";
+import Timetable from "./timetable";
 
 const Home = async () => {
   const accessToken = cookies().get("accessToken")?.value || "";
@@ -16,6 +18,8 @@ const Home = async () => {
   const userInfo = verified.payload?.data || defaultUserData;
 
   const iwannagoHomeInit = await getIwannagohome(userInfo.id);
+  const gradeClass = Math.floor(userInfo.number / 100);
+  const timetalbeInit = await getTimetable(Math.floor(gradeClass / 10), gradeClass % 10);
 
   return (
     <>
@@ -40,6 +44,10 @@ const Home = async () => {
             <HosilInfo />
           ) : null
         } */}
+        <Timetable
+          init={timetalbeInit}
+          userInfo={userInfo}
+        />
         <Luck />
         <Iwannagohome
           init={{
