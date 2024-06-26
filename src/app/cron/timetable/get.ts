@@ -81,7 +81,7 @@ const GET = async (
         const timeString = timeArr.join(" | ");
         const payLoad = {
           "payload": {
-            "title": "[오늘의 시간표] 오늘 하루도 힘차게 보내요!",
+            "title": "오늘 하루도 힘차게 보내요!",
             "body": timeString
           },
           "type": "timetable",
