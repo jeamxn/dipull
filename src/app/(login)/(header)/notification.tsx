@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
@@ -10,8 +9,10 @@ import instance from "@/utils/instance";
 import NotificationIcon from "./notificationIcon";
 
 const Notification = () => {
-  const [isRead, setIsRead] = React.useState(true);
+  const router = useRouter();
   const pathname = usePathname();
+  const [isRead, setIsRead] = React.useState(true);
+  const isSettingPage = pathname === "/settings/notification";
 
   React.useEffect(() => {
     async function setupPushNotifications() {
@@ -44,15 +45,19 @@ const Notification = () => {
   }, []);
 
   return (
-    <>
-      <Linker
-        className="px-3 py-2 my-2 text-sm rounded hover:bg-text/15 cursor-pointer notification-icon"
-        href="/settings/notification"
-        onClick={() => setIsRead(true)}
-      >
-        <NotificationIcon isClicked={pathname === "/settings/notification"} isRead={isRead} />
-      </Linker>
-    </>
+    <Linker
+      className="px-3 py-2 my-2 text-sm rounded hover:bg-text/15 cursor-pointer notification-icon"
+      href="/settings/notification"
+      onClick={() => {
+        if (isSettingPage) {
+          router.back();
+        }
+        setIsRead(true);
+      }}
+      disabled={isSettingPage}
+    >
+      <NotificationIcon isClicked={isSettingPage} isRead={isRead} />
+    </Linker>
   );
 };
 
