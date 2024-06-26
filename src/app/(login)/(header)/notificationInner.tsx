@@ -125,7 +125,7 @@ const NotificationInner = ({
       <div 
         className={[
           "mt-safe bg-white absolute top-[3.6rem] right-0 z-50 notification w-[100vw] max-w-96 border border-text/10 rounded flex-col transition-opacity duration-300 overflow-y-auto h-[36rem] shadow-xl",
-          "max-[520px]:rounded-none max-[520px]:top-[3.3rem] max-[520px]:max-w-[100vw] max-[520px]:fixed max-[520px]:h-[calc(100vh-3.3rem)] max-[520px]:bg-background",
+          "max-[520px]:rounded-none max-[520px]:top-[3.3rem] max-[520px]:max-w-[100vw] max-[520px]:fixed max-[520px]:h-[calc(100vh - 3.3rem - env(safe-area-inset-top))] max-[520px]:bg-background",
           "p-4 flex flex-col gap-4",
           isBlock ? "flex" : "hidden",
           isClicked ? "opacity-100" : "opacity-0",
