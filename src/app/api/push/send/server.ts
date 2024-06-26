@@ -20,15 +20,35 @@ const sendPushTry = async (subscription: any, payload: NotificationPayload) => {
   }
 };
 
-export const sendPushNotification = async (filter: string[] | string, payload: NotificationPayload) => { 
+export const sendPushNotification = async (
+  filter: string[] | string,
+  payload: NotificationPayload,
+  type: string,
+) => { 
   const client = await connectToDatabase();
-  const statesCollection = client.db().collection("subscriptions");
+  const subscriptionsCollection = client.db().collection("subscriptions");
+  const notificationCollection = client.db().collection("notification_settings");
   const list = Array.isArray(filter) ? filter : [filter];
-  const subscriptions = await statesCollection.find({
-    id: { $in: list }
+  const settings = (await notificationCollection.aggregate([
+    {
+      $match: {
+        user: { $in: list },
+        reject: {
+          $not: {
+            $in: [type]
+          }
+        }
+      }
+    },
+    {
+      $project: {
+        user: "$user",
+      }
+    }
+  ]).toArray()).map(setting => setting.user);
+  const subscriptions = await subscriptionsCollection.find({
+    id: { $in: settings }
   }).toArray();
-
   const notifications = subscriptions.map(subscription => sendPushTry(subscription, payload));
-
   await Promise.all(notifications);
 };

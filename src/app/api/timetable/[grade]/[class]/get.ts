@@ -26,16 +26,6 @@ const GET = async (
   // 헤더 설정
   const new_headers = new Headers();
   new_headers.append("Content-Type", "application/json; charset=utf-8");
-  
-  // Authorization 헤더 확인
-  const authorization = headers().get("authorization");
-  const verified = await verify(authorization?.split(" ")[1] || "");
-  if(!verified.ok || !verified.payload?.id) return new NextResponse(JSON.stringify({
-    message: "로그인이 필요합니다.",
-  }), {
-    status: 401,
-    headers: new_headers
-  });
 
   if(!params.grade || !params.class) return new NextResponse(JSON.stringify({
     message: "학년과 반을 입력해주세요.",

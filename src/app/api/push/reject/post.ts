@@ -1,11 +1,8 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
-
-import { NotificationPayload, sendPushNotification } from "./server";
 
 const POST = async (
   req: Request
@@ -13,6 +10,7 @@ const POST = async (
   const new_headers = new Headers();
   new_headers.append("Content-Type", "application/json; charset=utf-8");
 
+  // Authorization 헤더 확인
   const authorization = headers().get("authorization");
   const verified = await verify(authorization?.split(" ")[1] || "");
   if(!verified.ok || !verified.payload?.id) return new NextResponse(JSON.stringify({
@@ -22,28 +20,29 @@ const POST = async (
     headers: new_headers
   });
 
+  const { reject } = await req.json();
+
   const client = await connectToDatabase();
-  const userCollection = client.db().collection("users");
-  const selectMember = await userCollection.findOne({ id: verified.payload.data.id }) as unknown as UserDB;
-  if(selectMember.type !== "teacher") return new NextResponse(JSON.stringify({
-    message: "교사만 접근 가능합니다.",
+  const notificationCollection = client.db().collection("notification_settings");
+  const notification = await notificationCollection.updateOne({
+    user: verified.payload.id,
+  }, {
+    $set: {
+      reject
+    }
+  }, {
+    upsert: true,
+  });
+
+  if (notification.modifiedCount === 0) return new NextResponse(JSON.stringify({
+    message: "알림 설정 변경 실패",
   }), {
-    status: 403,
+    status: 400,
     headers: new_headers
   });
-  
-  const {
-    filter,
-    payload
-  }: {
-    filter: string | string[],
-    payload: NotificationPayload
-  } = await req.json();
-
-  await sendPushNotification(filter, payload, "teacher-send");
 
   return new NextResponse(JSON.stringify({
-    message: "알림 전송 완료"
+    message: "알림 설정 변경 성공",
   }), {
     status: 200,
     headers: new_headers

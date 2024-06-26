@@ -2,6 +2,8 @@ import React from "react";
 
 import { getUserAndVerify } from "@/utils/server";
 
+import { getReject } from "../api/push/reject/server";
+
 import Footer from "./(header)/footer";
 import Header from "./(header)/header";
 import User from "./(header)/user";
@@ -13,6 +15,7 @@ const LoginedLayout = async ({
   children: React.ReactNode;
 }>) => {
   const { verified, userInfo } = await getUserAndVerify();
+  const notificationInit = await getReject(userInfo.id);
 
   return (
     <>
@@ -25,7 +28,7 @@ const LoginedLayout = async ({
       {
         verified.ok ? (
           <>
-            <Header userInfo={userInfo} />
+            <Header userInfo={userInfo} notificationInit={notificationInit} />
             <User payload={userInfo} />
           </>
         ) : null
