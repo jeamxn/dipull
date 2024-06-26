@@ -313,3 +313,11 @@ input, textarea, button, select {
     padding-right: 0 !important;
   }
 }
+
+.container_table table thead { float:left; }
+.container_table table thead tr, 
+.container_table table thead tr th { display:block; }
+
+.container_table table tbody { display:block; oveflow-x:hidden; white-space:nowrap; }
+.container_table table tbody tr { display:inline-block; }
+.container_table table tbody tr td { display:block;}

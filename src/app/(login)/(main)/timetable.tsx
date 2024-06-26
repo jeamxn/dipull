@@ -1,39 +1,41 @@
+"use client";
+
 import { AxiosResponse } from "axios";
-import * as jose from "jose";
+import { useRouter } from "next/navigation";
 import React from "react";
 
-import { TimetableResponse } from "@/app/api/timetable/[grade]/[class]/route";
-import { TokenInfo } from "@/app/auth/type";
+import { UserInfo } from "@/app/api/teacher/userinfo/utils";
+import { TimetableResponse } from "@/app/api/timetable/[grade]/[class]/get";
 import instance from "@/utils/instance";
 
-const Timetable = () => {
+const Timetable = ({
+  init,
+  userInfo,
+}: {
+  init: TimetableResponse["data"];
+  userInfo: UserInfo;
+  }) => {
+  const router = useRouter();
   const [loading, setLoading] = React.useState(false);
-  const [gradeClass, setGradeClass] = React.useState(0);
-  const [timetable, setTimetable] = React.useState<TimetableResponse["data"]>({});
+  const [gradeClass, setGradeClass] = React.useState(Math.floor(userInfo.number / 100));
+  const [timetable, setTimetable] = React.useState<TimetableResponse["data"]>(init);
 
-  React.useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken")!;
-    const decrypt = jose.decodeJwt(accessToken) as TokenInfo;
-    setGradeClass(Math.floor(decrypt.data.number / 100));
-  }, []);
-
-  const getTimetable = async () => {
+  const getTimetable = async (gc: string) => {
     setLoading(true);
-    try{
-      const res: AxiosResponse<TimetableResponse> = await instance.get(`/api/timetable/${Math.floor(gradeClass / 10)}/${gradeClass % 10}`);
+    try {
+      const grade = gc[0];
+      const _class = gc[1];
+      setGradeClass(Number(gc));
+      const res: AxiosResponse<TimetableResponse> = await instance.get(`/api/timetable/${grade}/${_class}`);
       setTimetable(res.data.data);
+      router.refresh();
     }
     catch(e: any){
       console.error(e.response.data.message);
-      setTimetable({});
+      setTimetable([]);
     }
     setLoading(false);
   };
-  
-  React.useEffect(() => {
-    if(gradeClass === 0) return;
-    getTimetable();
-  }, [gradeClass]);
 
   return (
     <article className="flex flex-col gap-3">
@@ -41,7 +43,7 @@ const Timetable = () => {
           시간표
         <select 
           value={gradeClass}
-          onChange={(e) => setGradeClass(Number(e.target.value))}
+          onChange={(e) => getTimetable(e.target.value)}
           className="bg-transparent text-base font-normal"
         >
           {
@@ -72,23 +74,28 @@ const Timetable = () => {
               <th className="px-2 py-2 text-primary text-sm font-semibold">금</th>
             </tr>
             {
-              Object.keys(timetable).length ? Object.keys(timetable).map((period, index) => (
-                <tr 
-                  key={index}
-                  className={[
-                    Number(period) % 2 === 1 ? "bg-text/[.035]" : "",
-                  ].join(" ")}
-                >
-                  <td className="py-3 text-text/60 text-sm font-normal border-r border-text/10 text-center">{period}</td>
-                  {
-                    ["월", "화", "수", "목", "금"].map((day, i) => (
-                      <td key={i} className="px-1 py-3 whitespace-pre-line">
-                        <p className="text-text/60 text-sm font-normal text-center whitespace-break-spaces break-all">{timetable[Number(period)][day as "월" | "화" | "수" | "목" | "금"]}</p>
-                      </td>
-                    ))
-                  }
-                </tr>
-              )) : (
+              timetable.length ? timetable.sort((a, b) => a[0].period - b[0].period).map((e) => {
+                return (
+                  <tr key={e[0].weekday} className="border-t border-text/10">
+                    <td className="py-3 text-text/60 text-sm font-normal border-r border-text/10 text-center">{e[0].period}</td>
+                    {
+                      e.sort((a, b) => a.period - b.period).map((time, i) => (
+                        <td key={i} className={[
+                          "px-1 py-3 whitespace-pre-line",
+                          time.changed ? "bg-text/5 dark:bg-text/10" : "",
+                        ].join(" ")}>
+                          <p className="text-text/60 text-sm font-normal text-center whitespace-break-spaces break-all">
+                            <span className="flex flex-col gap-1 items-center justify-center">
+                              <span className="text-text">{time.subject}</span>
+                              <span className="text-text/60"> {time.subject && `${time.teacher}□`}</span>
+                            </span>
+                          </p>
+                        </td>
+                      ))
+                    }
+                  </tr>
+                );
+              }) : (
                 <tr>
                   <td colSpan={6} className="px-4 py-3 text-text/60 text-sm font-normal text-center border-t border-text/10">시간표가 없습니다.</td>
                 </tr>
