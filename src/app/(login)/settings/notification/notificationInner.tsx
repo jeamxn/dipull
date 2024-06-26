@@ -1,3 +1,5 @@
+"use client";
+
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -8,19 +10,10 @@ import NotificationButton from "./notificationButton";
 
 const NotificationInner = ({
   init,
-  isClicked,
-  setIsClicked,
-  isRead,
-  setIsRead,
 }: {
   init: string[];
-  isClicked: boolean;
-  setIsClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  isRead: boolean;
-  setIsRead: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const router = useRouter();
-  const [isBlock, setIsBlock] = React.useState(false);
   const [notificationPermission, setNotificationPermission] = React.useState<"default" | "denied" | "granted">("default");
   const [rejectList, setRejectList] = React.useState<string[]>(init);
   const [isFirst, setIsFirst] = React.useState(true);
@@ -48,9 +41,8 @@ const NotificationInner = ({
   };
 
   React.useEffect(() => {
-    if (typeof window === "undefined") return;
     setNotificationPermission(window.Notification.permission);
-  }, [window.Notification.permission]);
+  }, []);
 
   const allow = () => {
     window.Notification.requestPermission();
@@ -64,71 +56,11 @@ const NotificationInner = ({
     });
   };
 
-  React.useEffect(() => {
-    async function setupPushNotifications() {
-      if ("serviceWorker" in navigator && "PushManager" in window) {
-        try {
-          const registration = await navigator.serviceWorker.register("/service-worker.js");
-          console.log("Service Worker 등록 성공:", registration.scope);
-          const existingSubscription = await registration.pushManager.getSubscription();
-          if (existingSubscription) {
-            await existingSubscription.unsubscribe();
-            console.log("기존 구독 해제됨");
-          }
-          const response = await instance.get("/api/push/vapid");
-          const { publicKey }: { publicKey: string } = response.data;
-
-          const subscription = await registration.pushManager.subscribe({
-            userVisibleOnly: true,
-            applicationServerKey: publicKey
-          });
-          await instance.post("/api/push/subscribe", subscription);
-          await instance.post("/api/push/subscribe", subscription);
-          console.log("새 구독 완료");
-        } catch (err) {
-          console.error("Push 알림 설정 실패:", err);
-        }
-      }
-    }
-
-    setupPushNotifications();
-  }, []);
-
-  React.useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if(isClicked) {
-      setIsBlock(true);
-    }
-    else {
-      timer = setTimeout(() => {
-        setIsBlock(false);
-      }, 300);
-    }
-    return () => clearTimeout(timer);
-  }, [isClicked]);
-
-  React.useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      if(
-        !(e.target as HTMLElement).closest(".notification-icon") 
-        && !(e.target as HTMLElement).closest(".notification")
-      ) {
-        setIsClicked(false);
-      }
-    };
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
-  }, []);
-
   return (
     <>
       <div 
         className={[
-          "mt-safe bg-white absolute top-[3.6rem] right-0 z-50 notification w-[100vw] max-w-96 border border-text/10 rounded flex-col transition-opacity duration-300 overflow-y-auto h-[36rem] shadow-xl",
-          "max-[520px]:rounded-none max-[520px]:top-[3.3rem] max-[520px]:max-w-[100vw] max-[520px]:fixed max-[520px]:h-[calc(100vh - 3.3rem - env(safe-area-inset-top))] max-[520px]:bg-background",
           "p-4 flex flex-col gap-4",
-          isBlock ? "flex" : "hidden",
-          isClicked ? "opacity-100" : "opacity-0",
         ].join(" ")}
       >
         <div className="flex flex-row items-center gap-1">
@@ -249,6 +181,7 @@ const NotificationInner = ({
             <button className="flex flex-col items-center justify-center" onClick={allow}>
               <p className="text-sm text-primary underline">알림이 거부되어 있습니다.</p>
               <p className="text-sm text-primary underline">디바이스 또는 브라우저 설정에서 허용해주세요.</p>
+              <p className="text-sm text-primary underline">허용 후 새로고침을 해주세요.</p>
             </button>
           )
         }

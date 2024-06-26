@@ -15,7 +15,6 @@ const LoginedLayout = async ({
   children: React.ReactNode;
 }>) => {
   const { verified, userInfo } = await getUserAndVerify();
-  const notificationInit = await getReject(userInfo.id);
 
   return (
     <>
@@ -28,7 +27,7 @@ const LoginedLayout = async ({
       {
         verified.ok ? (
           <>
-            <Header userInfo={userInfo} notificationInit={notificationInit} />
+            <Header userInfo={userInfo} />
             <User payload={userInfo} />
           </>
         ) : null
