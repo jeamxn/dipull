@@ -117,7 +117,6 @@ bun install
 
 #### 해당 기능 사용 시
 - `TEACHERS_CODE` 구글 Sheets API 사용 시 사용할 인증 코드
-- `NEIS_API_KEY` NEIS API 사용 시 사용할 API 키
 - `YOUTUBE_API_KEY` 기상송 검색 시 사용할 Youtube API 키 (GCP 발급)
 - `FIREBASE_*` Firebase 사용 시 사용할 설정
 
