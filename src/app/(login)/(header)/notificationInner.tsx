@@ -195,6 +195,23 @@ const NotificationInner = ({
                 </div>
               </div>
               <div className="flex flex-col gap-1">
+                <h1 className="text-lg font-medium">시간표</h1>
+                <div className="flex flex-row gap-2 bg-white border border-text/10 rounded p-3">
+                  <NotificationButton
+                    rejectList={rejectList}
+                    setRejectList={setRejectList}
+                    type="timetable"
+                    text="오늘의 시간표"
+                  />
+                  <NotificationButton
+                    rejectList={rejectList}
+                    setRejectList={setRejectList}
+                    type="timetable-changed"
+                    text="시간표 변경"
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
                 <h1 className="text-lg font-medium">기타</h1>
                 <div className="flex flex-col gap-2 bg-white border border-text/10 rounded p-3">
                   <div className="flex flex-row gap-2">
@@ -225,12 +242,6 @@ const NotificationInner = ({
                       text="관리자 전송"
                     />
                   </div>
-                  <NotificationButton
-                    rejectList={rejectList}
-                    setRejectList={setRejectList}
-                    type="timetable"
-                    text="시간표 (기능 추가 예정)"
-                  />
                 </div>
               </div>
             </>
