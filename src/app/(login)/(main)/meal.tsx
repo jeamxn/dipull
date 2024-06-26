@@ -92,7 +92,7 @@ const Meal = ({
         <div className="flex flex-row gap-2 max-[520px]:w-max w-full">
           {
             (Object.entries(meal) as [MealKey, string][]).map(([key, value]) => (
-              <div className="snap-center max-[520px]:w-[calc(50vw-20px)] w-full" key={key}>
+              <div className="snap-center max-[520px]:w-[calc(50vw-20px)] w-full min-w-[250px] overflow-hidden" key={key}>
                 <figure 
                   className={[
                     "p-5 bg-white rounded-md border border-text/10 w-full h-full",
@@ -104,7 +104,7 @@ const Meal = ({
                       <p className="text-text/40">로딩 중...</p>
                     ) :
                       value.split("/").length > 1 ? value.split("/").map((v, i) => (
-                        <p key={i}>{v}</p>
+                        <p className="overflow-hidden" key={i}>{v}</p>
                       )) : (
                         <p className="text-text/40">급식 정보가 없습니다.</p>
                       )
