@@ -23,9 +23,14 @@ const Timetable = ({
   const getTimetable = async (gc: string) => {
     setLoading(true);
     try {
+      setGradeClass(Number(gc));
+      if (gc === "99") {
+        setTimetable([]);
+        setLoading(false);
+        return;
+      }
       const grade = gc[0];
       const _class = gc[1];
-      setGradeClass(Number(gc));
       const res: AxiosResponse<TimetableResponse> = await instance.get(`/api/timetable/${grade}/${_class}`);
       setTimetable(res.data.data);
       router.refresh();
@@ -46,12 +51,13 @@ const Timetable = ({
           onChange={(e) => getTimetable(e.target.value)}
           className="bg-transparent text-base font-normal"
         >
+          <option value={99}>학반을 선택해주세요.</option>
           {
             new Array(3).fill(0).map((_, i) => (
-              <optgroup key={i} label={`${i + 1}학년`}>
+              <optgroup key={(i + 1) * 10} label={`${i + 1}학년`}>
                 {
                   new Array(6).fill(0).map((_, j) => (
-                    <option key={j} value={(i + 1) * 10 + j + 1}>{i + 1}학년 {j + 1}반</option>
+                    <option key={(i + 1) * 10 + j + 1} value={(i + 1) * 10 + j + 1}>{i + 1}학년 {j + 1}반</option>
                   ))
                 }
               </optgroup>
