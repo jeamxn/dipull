@@ -93,12 +93,16 @@ const PUT = async (
     ...commonQuery
   }).toArray()).map((item: any) => item.owner) as unknown as string[];
 
+  const machineString = `${machineName(machine)} ${params.type === "washer" ? "세탁" : "건조"}기`;
+
   const notificationCollection = client.db().collection("notification");
   const payLoad = {
     "id": userList,
     "payload": {
       "title": `${Math.floor(verified.payload.data.number / 1000)}학년 ${verified.payload.data.name}님이 죄송하다고 해요.`,
-      "body": `${machineName(machine)} ${params.type === "washer" ? "세탁" : "건조"}기가 ${Number(Math.floor(late))}분 지연되어 총 ${find_updated.late}분 지연되었습니다.`
+      "body": Number(Math.floor(late)) > 0 ?
+        `${machineString}가 ${Number(Math.floor(late))}분 지연되어 총 ${find_updated.late}분 지연되었습니다.`
+        : `${machineString}의 지연이 ${Number(Math.floor(late)) * -1}분 감소하여 총 ${find_updated.late}분 지연되었습니다.`,
     },
     "type": "machine-late",
     "time": "1999-12-31 23:59:59"
