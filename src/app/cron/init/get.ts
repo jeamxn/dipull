@@ -35,6 +35,7 @@ const GET = async (
   const jasupCollection = db.collection("jasup");
   const jasupBookCollection = db.collection("jasup_book");
   const machineCollection = db.collection("machine");
+  const machineLateCollection = db.collection("machine_late");
   const outingCollection = db.collection("outing");
   const requestCollection = db.collection("request");
   const stayCollection = db.collection("stay");
@@ -65,6 +66,11 @@ const GET = async (
       }
     }),
     machineCollection.deleteMany({
+      date: {
+        $lt: applyStartDate
+      }
+    }),
+    machineLateCollection.deleteMany({
       date: {
         $lt: applyStartDate
       }

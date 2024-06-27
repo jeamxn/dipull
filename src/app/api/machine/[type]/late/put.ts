@@ -91,6 +91,12 @@ const PUT = async (
     $inc: {
       late: Number(Math.floor(late)),
     },
+    $push: {
+      log: {
+        user: verified.payload.data.id,
+        late: Number(Math.floor(late)),
+      },
+    }
   }, {
     upsert: true,
   });
