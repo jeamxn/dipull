@@ -92,7 +92,7 @@ const Meal = ({
         <div className="flex flex-row gap-2 max-[520px]:w-max w-full">
           {
             (Object.entries(meal) as [MealKey, string][]).map(([key, value]) => (
-              <div className="snap-center max-[520px]:w-[calc(50vw-20px)] w-full min-w-[250px] overflow-hidden" key={key}>
+              <div className="snap-center max-[520px]:w-[max(calc(50vw-20px),250px)] w-[max(250px,100%)] overflow-hidden" key={key}>
                 <figure 
                   className={[
                     "p-5 bg-white rounded-md border border-text/10 w-full h-full",
