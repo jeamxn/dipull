@@ -126,7 +126,9 @@ const PUT = async (
   const payLoad = {
     "id": userList,
     "payload": {
-      "title": `${Math.floor(verified.payload.data.number / 1000)}학년 ${verified.payload.data.name}님이 죄송하다고 해요.`,
+      "title": Number(Math.floor(late)) > 0 ?
+        `${Math.floor(verified.payload.data.number / 1000)}학년 ${verified.payload.data.name}님이 죄송하다고 해요.` :
+        `${Math.floor(verified.payload.data.number / 1000)}학년 ${verified.payload.data.name}님은 천사에요.`,
       "body": Number(Math.floor(late)) > 0 ?
         `${machineString}가 ${Number(Math.floor(late))}분 지연되어 총 ${find_updated.late}분 지연되었습니다.`
         : `${machineString}의 지연이 ${Number(Math.floor(late)) * -1}분 감소하여 총 ${find_updated.late}분 지연되었습니다.`,
