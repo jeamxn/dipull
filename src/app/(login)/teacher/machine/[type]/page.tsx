@@ -10,6 +10,7 @@ const MachinePage = async ({ params }: { params: { type: "washer" | "dryer" } })
   const res = await getMachineData(params.type, initialUserInfo.id || "", true);
   const initialData = res.defaultData;
   const initialBooking = res.myBookData;
+  const initialLate = res.lateData;
 
   return (
     <TeacherMachinContent
@@ -17,6 +18,7 @@ const MachinePage = async ({ params }: { params: { type: "washer" | "dryer" } })
       initialData={initialData}
       initialBooking={initialBooking}
       initialUserInfo={initialUserInfo}
+      lateData={initialLate}
     />
   );
 };
