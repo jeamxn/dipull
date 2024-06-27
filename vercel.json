@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/cron/init",
-      "schedule": "0 0 */7 * *"
+      "schedule": "0 11 * * 0"
     },
     {
       "path": "/cron/notification",
