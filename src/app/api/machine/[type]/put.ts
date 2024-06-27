@@ -42,6 +42,13 @@ const PUT = async (
   }
 
   const { machine, time } = await req.json();
+  if (!machine || !time) return new NextResponse(JSON.stringify({
+    success: false,
+    message: "빈칸을 모두 채워주세요.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
 
   const isStay = moment().tz("Asia/Seoul").day() === 0 || moment().tz("Asia/Seoul").day() === 6;
   const defaultData = await getDefaultValue(params.type, isStay);

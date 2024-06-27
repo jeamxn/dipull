@@ -139,6 +139,7 @@ const MachineContent: React.FC<MachineContentProps> = ({
       const res = await instance.put(`/api/machine/${params.type}/late`, {
         machine: myBooking.info.machine,
         late: time,
+        time: myBooking.info.time,
       });
       alert.update(load, res.data.message, "success");
       await getWasherData();
