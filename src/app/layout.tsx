@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/react";
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata } from "next";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import { headers } from "next/headers";

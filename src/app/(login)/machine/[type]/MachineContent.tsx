@@ -26,6 +26,7 @@ export type MachineContentProps = {
   initialData: { [key: string]: MachineType };
   initialBooking: { booked: boolean; info: MachineDB };
   initialUserInfo: TokenInfo["data"];
+  lateData: { [key: string]: number };
 };
 
 const MachineContent: React.FC<MachineContentProps> = ({
@@ -33,6 +34,7 @@ const MachineContent: React.FC<MachineContentProps> = ({
   initialData,
   initialBooking,
   initialUserInfo: userInfo,
+  lateData,
 }) => {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
@@ -40,6 +42,7 @@ const MachineContent: React.FC<MachineContentProps> = ({
   const [selectedMachine, setSelectedMachine] = React.useState("");
   const [selectedTime, setSelectedTime] = React.useState("");
   const [myBooking, setMyBooking] = React.useState(initialBooking);
+  const [late, setLate] = React.useState(lateData);
 
   React.useEffect(() => {
     setData(initialData);
@@ -51,6 +54,7 @@ const MachineContent: React.FC<MachineContentProps> = ({
       const res = await instance.get(`/api/machine/${params.type}`);
       setData(res.data.data);
       setMyBooking(res.data.myBooking);
+      setLate(res.data.lateData);
       router.refresh();
     } catch (e) {
       console.error(e);
@@ -89,6 +93,61 @@ const MachineContent: React.FC<MachineContentProps> = ({
     });
   };
 
+  const lateBooking = async () => { 
+    // swal select
+    Swal.fire({
+      title: "지연 신청",
+      text: "지연 신청할 시간을 입력해주세요. (분 단위, ex. 30)",
+      icon: "warning",
+      input: "number",
+      showCancelButton: true,
+      cancelButtonText: "닫기",
+      confirmButtonText: "신청하기",
+      background: "rgb(var(--color-white) / 1)",
+      color: "rgb(var(--color-text) / 1)",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        confirmLateBooking(Number(Math.floor(result.value.replace(/d/g, ""))));
+      }
+    });
+  };
+  const confirmLateBooking = async (time: number) => { 
+    Swal.fire({
+      title: "지연 신청 확인",
+      text: `${time}분 지연 신청을 하시겠습니까?`,
+      icon: "warning",
+      showCancelButton: true,
+      cancelButtonText: "닫기",
+      confirmButtonText: "신청하기",
+      background: "rgb(var(--color-white) / 1)",
+      color: "rgb(var(--color-text) / 1)",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        putLateBooking(time);
+      }
+    });
+  };
+  const putLateBooking = async (time: number) => { 
+    setLoading(true);
+    const load = alert.loading("지연 신청 중...");
+    if (!myBooking.booked) {
+      alert.update(load, "지연 신청할 기계가 없습니다.", "error");
+      setLoading(false);
+      return;
+    }
+    try {
+      const res = await instance.put(`/api/machine/${params.type}/late`, {
+        machine: myBooking.info.machine,
+        late: time,
+      });
+      alert.update(load, res.data.message, "success");
+      await getWasherData();
+    } catch (e: any) {
+      alert.update(load, e.response.data.message, "error");
+    }
+    setLoading(false);
+  };
+
   const deleteWasherData = async () => {
     setLoading(true);
     try {
@@ -112,14 +171,29 @@ const MachineContent: React.FC<MachineContentProps> = ({
               <section className="flex flex-col gap-1">
                 <figure className="flex flex-col gap-1 justify-center items-center my-5">
                   <h1 className="text-xl font-semibold">오늘 예약한 {machineKorean[params.type]}기가 있어요.</h1>
-                  <p>{machineName(myBooking.info.machine)} {myBooking.info.time.replace("* ", "")}</p>
+                  <div className="flex flex-row items-center justify-center gap-1">
+                    <p>{machineName(myBooking.info.machine)} {myBooking.info.time.replace("* ", "")}</p>
+                    {
+                      late?.[myBooking.info.machine] ? (
+                        <p className="text-primary font-semibold">({late[myBooking.info.machine]}분 지연 중)</p>
+                      ) : null
+                    }
+                  </div>
                 </figure>
-                <button 
-                  className="w-full bg-primary text-white font-semibold px-4 py-2 rounded-md text-base"
-                  onClick={confirmDelete}
-                >
-                  취소하기
-                </button>
+                <div className="flex flex-row items-center justify-center gap-1">
+                  <button 
+                    className="w-full border border-primary text-primary bg-background font-semibold px-4 py-2 rounded-md text-base"
+                    onClick={lateBooking}
+                  >
+                    지연 신청
+                  </button>
+                  <button 
+                    className="w-full bg-primary text-white border border-primary font-semibold px-4 py-2 rounded-md text-base"
+                    onClick={confirmDelete}
+                  >
+                    취소하기
+                  </button>
+                </div>
               </section>
             ) : (
               <section className="flex flex-col gap-1">
@@ -139,7 +213,7 @@ const MachineContent: React.FC<MachineContentProps> = ({
                           userInfo.gender !== machine.allow.gender
                         }
                       >
-                        {machineToKorean(name, machine)}
+                        {machineToKorean(name, machine)} {late?.[name] ? `(${late?.[name]}분 지연)`: ""}
                       </option>
                     ))}
                   </select>
@@ -201,6 +275,7 @@ const MachineContent: React.FC<MachineContentProps> = ({
                 loading={loading} 
                 userInfo={userInfo}
                 expanded={userInfo.type === "teacher"}
+                late={late?.[name]}
               />
             ))}
         </article>

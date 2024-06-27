@@ -11,12 +11,14 @@ const StatusBox = ({
   loading,
   userInfo,
   expanded,
+  late
 }: {
   name: string;
   machine: Machine;
   loading: boolean;
   userInfo: UserData;
   expanded?: boolean;
+  late?: number;
 }) => {
   const isOurGrade = machine.allow.grades.includes(Math.floor(userInfo.number / 1000)) && machine.allow.gender === userInfo.gender;
   const [clicked, setClicked] = React.useState(isOurGrade || expanded);
@@ -28,7 +30,7 @@ const StatusBox = ({
         loading ? "loading_background" : "",
       ].join(" ")}
     >
-      <p>{machineToKorean(name, machine)}</p>
+      <p>{machineToKorean(name, machine)} {late ? `(${late}분 지연)`: ""}</p>
       {
         clicked && Object.entries(machine.time).map(([key, value], i) => (
           <p key={i} className={[
