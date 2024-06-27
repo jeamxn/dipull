@@ -18,6 +18,7 @@ const TeacherMachinContent = ({
   initialData,
   initialBooking,
   initialUserInfo,
+  lateData,
 }: MachineContentProps) => {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
@@ -198,7 +199,7 @@ const TeacherMachinContent = ({
                           value={name}
                           disabled={selectedUser.gender !== machine.allow.gender}
                         >
-                          {machineToKorean(name, machine)}
+                          {machineToKorean(name, machine)} {lateData?.[name] ? `(${lateData?.[name]}분 지연)`: ""}
                         </option>
                       ))}
                     </select>
@@ -239,6 +240,7 @@ const TeacherMachinContent = ({
         initialData={data}
         initialBooking={initialBooking}
         initialUserInfo={initialUserInfo}
+        lateData={lateData}
       />
     </>
   );
