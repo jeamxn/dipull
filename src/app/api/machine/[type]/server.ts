@@ -16,7 +16,8 @@ type Data = {
 export const getMachineData = async (type: "washer" | "dryer", userId: string, showAll: boolean = false) => {
   const client = await connectToDatabase();
   const machineCollection = client.db().collection("machine");
-  const query = { type: type, date: moment().tz("Asia/Seoul").format("YYYY-MM-DD") };
+  const todayString = moment().tz("Asia/Seoul").format("YYYY-MM-DD");
+  const query = { type: type, date: todayString };
   const aggregationPipeline = [
     {
       $lookup: {
@@ -80,8 +81,18 @@ export const getMachineData = async (type: "washer" | "dryer", userId: string, s
     booked: boolean;
     info: MachineDB;
   } = (currentTime.isSameOrAfter(applyStartDate) || showAll) && myBook ? fullData : nullData;
+
+  const machineLateCollection = client.db().collection("machine_late");
+  const lateQuery = { type: type, date: todayString };
+  const select = await machineLateCollection.find(lateQuery).toArray();
+  const lateData: {
+    [key: string]: number;
+  } = {};
+  for (const item of select) {
+    lateData[item.machine] = item.late;
+  }
   
-  return { defaultData, myBookData };
+  return { defaultData, myBookData, lateData };
 };
 
 export const sendMachineNotification = async (

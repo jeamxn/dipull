@@ -44,12 +44,13 @@ const GET = async (
     headers: new_headers
   });
 
-  const { defaultData, myBookData } = await getMachineData(params.type, verified.payload?.id || "");
+  const { defaultData, myBookData, lateData } = await getMachineData(params.type, verified.payload?.id || "");
 
   return new NextResponse(JSON.stringify({
     message: verified.ok ? "success" : "fail",
     data: defaultData,
     myBooking: myBookData,
+    lateData,
   }), {
     status: 200,
     headers: new_headers

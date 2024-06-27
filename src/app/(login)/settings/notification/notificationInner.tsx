@@ -104,7 +104,7 @@ const NotificationInner = ({
                 </div>
               </div>
               <div className="flex flex-col gap-1">
-                <h1 className="text-lg font-medium">급식 (기능 추가 예정)</h1>
+                <h1 className="text-lg font-medium">급식</h1>
                 <div className="flex flex-row gap-2 bg-white border border-text/10 rounded p-3">
                   <NotificationButton
                     rejectList={rejectList}
@@ -170,8 +170,8 @@ const NotificationInner = ({
                     <NotificationButton
                       rejectList={rejectList}
                       setRejectList={setRejectList}
-                      type="admin-send"
-                      text="관리자 전송"
+                      type="machine-late"
+                      text="세탁 지연"
                     />
                   </div>
                 </div>
