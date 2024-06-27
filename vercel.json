@@ -10,7 +10,7 @@
     },
     {
       "path": "/cron/timetable",
-      "schedule": "0 10 * * *"
+      "schedule": "0 22 * * *"
     }
   ]
 }

@@ -3,6 +3,7 @@ import { Comcigan } from "comcigan";
 import moment from "moment";
 import { NextResponse } from "next/server";
 
+import { getMeal } from "@/app/api/meal/[date]/server";
 import { connectToDatabase } from "@/utils/db";
 
 export type Timetable = {
@@ -98,6 +99,44 @@ const GET = async (
       }
     }
   }
+
+  const meal = await getMeal(today_string);
+  const payLoad = [
+    {
+      "payload": {
+        "title": "아침에는 무엇을 먹을까요?",
+        "body": meal.breakfast
+      },
+      "type": "meal-breakfast",
+      "filter": {
+        "type": "student",
+      },
+      "time": `${today_string} 07:00:00`
+    },
+    {
+      "payload": {
+        "title": "우와!! 곧 점심 시간이에요!",
+        "body": meal.lunch
+      },
+      "type": "meal-lunch",
+      "filter": {
+        "type": "student",
+      },
+      "time": `${today_string} 12:00:00`
+    },
+    {
+      "payload": {
+        "title": "오늘 저녁 어때요?",
+        "body": meal.dinner
+      },
+      "type": "meal-dinner",
+      "filter": {
+        "type": "student",
+      },
+      "time": `${today_string} 18:00:00`
+    }
+  ];
+  await notificationCollection.insertMany(payLoad);
 
   const timetableCollection = client.db().collection("timetable");
   await timetableCollection.deleteMany({});
