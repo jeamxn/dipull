@@ -5,9 +5,10 @@ import { NextResponse } from "next/server";
 
 import { machineName } from "@/app/(login)/machine/[type]/utils";
 import { connectToDatabase } from "@/utils/db";
+import { getStates } from "@/utils/getStates";
 import { verify } from "@/utils/jwt";
 
-import { Params, getApplyEndTime, getApplyStartTime } from "../utils";
+import { MachineConfig, Params, getApplyEndTime, getApplyStartTime } from "../utils";
 
 const PUT = async (
   req: Request,
@@ -41,7 +42,15 @@ const PUT = async (
     });
   }
 
-  const { machine, late } = await req.json();
+  const { machine, late, time } = await req.json();
+  if (!machine || !late) return new NextResponse(JSON.stringify({
+    success: false,
+    message: "빈칸을 모두 채워주세요.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+
   if (!late || isNaN(Number(late))) return new NextResponse(JSON.stringify({
     success: false,
     message: "지연 시간은 숫자로 입력해주세요.",
@@ -89,8 +98,20 @@ const PUT = async (
     ...commonQuery,
   }) || { late: 0 };
 
+  const machineConfig: MachineConfig = await getStates("machine_time");
+  const stayConfig = machineConfig.stay;
+  const commonConfig = machineConfig.common;
+  const isStay = moment().tz("Asia/Seoul").day() === 0 || moment().tz("Asia/Seoul").day() === 6;
+  const isAllTime = isStay || await getStates("machine_all_time");
+  const timeData = isAllTime ? stayConfig[params.type] : commonConfig[params.type];
+  const indexx = timeData.findIndex((item) => item === time);
+  const removePrevious = timeData.slice(0, indexx);
+
   const userList = (await machineCollection.find({
-    ...commonQuery
+    ...commonQuery,
+    time: {
+      $in: removePrevious,
+    },
   }).toArray()).map((item: any) => item.owner) as unknown as string[];
 
   const machineString = `${machineName(machine)} ${params.type === "washer" ? "세탁" : "건조"}기`;
@@ -120,6 +141,7 @@ const PUT = async (
   return new NextResponse(JSON.stringify({
     success: true,
     message: "지연 신청을 완료했습니다.",
+    userList,
   }), {
     status: 200,
     headers: new_headers
