@@ -81,7 +81,7 @@ export const GET = async (req: Request) => {
   const accessTokenCookie = serialize("accessToken", accessToken, {
     path: "/",
     expires: moment().tz("Asia/Seoul").add(1, "days").toDate(),
-    httpOnly: true,
+    // httpOnly: true,
   });
 
   // 헤더 설정

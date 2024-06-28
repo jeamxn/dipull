@@ -69,7 +69,7 @@ export const GET = async (req: Request) => {
   const accessTokenCookie = serialize("accessToken", newAccessToken, {
     path: "/",
     expires: moment().tz("Asia/Seoul").add(1, "days").toDate(),
-    httpOnly: true,
+    // httpOnly: true,
   });
   headers.append("Set-Cookie", accessTokenCookie);
 

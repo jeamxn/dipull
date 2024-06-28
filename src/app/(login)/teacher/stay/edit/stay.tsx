@@ -1,12 +1,11 @@
 import { AxiosResponse } from "axios";
-import * as jose from "jose";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 import Studyroom from "@/app/(login)/stay/apply/studyroom";
 import { ByGradeClassObj, BySeatsObj, StayGetResponse } from "@/app/api/stay/utils";
 import { UserInfo } from "@/app/api/teacher/userinfo/utils";
-import { TokenInfo, defaultUserData } from "@/app/auth/type";
+import { UserData } from "@/app/auth/type";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
@@ -16,11 +15,13 @@ const Stay = ({
   setLoading,
   selectedUser,
   setSelectedUser,
+  userInfo,
 }: {
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   selectedUser: UserInfo;
   setSelectedUser: React.Dispatch<React.SetStateAction<UserInfo>>;
+  userInfo: UserData;
 }) => {
   const router = useRouter();
   const [selectedSeat, setSelectedSeat] = React.useState("@0");
@@ -28,7 +29,6 @@ const Stay = ({
   const [bySeatsObj, setBySeatsObj] = React.useState<BySeatsObj>({});
   const [byGradeClassObj, setByGradeClassObj] = React.useState<ByGradeClassObj>({});
   const [studyroom, setStudyroom] = React.useState<StayGetResponse["data"]["studyroom"]>([]);
-  const [userInfo, setUserInfo] = React.useState(defaultUserData);
   const [classStay, setClassStay] = React.useState<StayGetResponse["data"]["classStay"]>({
     1: false,
     2: false,
@@ -53,9 +53,6 @@ const Stay = ({
     setLoading(false);
   };
   React.useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken")!;
-    const decrypt = jose.decodeJwt(accessToken) as TokenInfo;
-    setUserInfo(decrypt.data);
     getStayData();
   }, [selectedUser]);
 
