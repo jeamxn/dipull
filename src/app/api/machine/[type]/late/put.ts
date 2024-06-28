@@ -111,7 +111,7 @@ const PUT = async (
   const isAllTime = isStay || await getStates("machine_all_time");
   const timeData = isAllTime ? stayConfig[params.type] : commonConfig[params.type];
   const indexx = timeData.findIndex((item) => item === time);
-  const removePrevious = timeData.slice(0, indexx);
+  const removePrevious = timeData.slice(indexx + 1, timeData.length);
 
   const userList = (await machineCollection.find({
     ...commonQuery,
@@ -149,7 +149,6 @@ const PUT = async (
   return new NextResponse(JSON.stringify({
     success: true,
     message: "지연 신청을 완료했습니다.",
-    userList,
   }), {
     status: 200,
     headers: new_headers
