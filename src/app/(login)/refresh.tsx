@@ -22,8 +22,12 @@ const Refresh = ({
       }
       catch (e: any) {
         if(e.response.status === 401) {
-          await instance.get("/auth/logout");
-          router.push("/login");
+          try {
+            await instance.get("/auth/logout");
+          }
+          finally {
+            router.push("/login");
+          }
         }
       }
     }
