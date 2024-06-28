@@ -1,31 +1,14 @@
 "use client";
-import { useRouter } from "next/navigation";
 import React from "react";
 import { useRecoilValue } from "recoil";
 
-import { UserInfo } from "@/app/api/teacher/userinfo/utils";
-import instance from "@/utils/instance";
 import { isFooterAtom } from "@/utils/states";
 
 import Alert from "../(joke)/alert";
 import Fast from "../(joke)/FAST";
 
-const Footer = ({
-  userInfo
-}: {
-  userInfo: UserInfo;
-  }) => {
-  const router = useRouter();
+const Footer = () => {
   const isFooter = useRecoilValue(isFooterAtom);
-
-  const logout = async () => {
-    await instance.get("/auth/logout");
-    router.push("/login");
-  };
-
-  React.useEffect(() => {
-    if (!userInfo.id) logout();
-  }, []);
 
   return isFooter ? (
     <footer className="w-full pt-5 pb-8">

@@ -28,14 +28,6 @@ const Select = ({
   title?: string;
   buttonText?: string;
 }) => {
-  const [userInfo, setUserInfo] = React.useState(defaultUserData);
-
-  React.useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken")!;
-    const decrypt = jose.decodeJwt(accessToken) as TokenInfo;
-    setUserInfo(decrypt.data);
-  }, []);
-
   React.useEffect(() => {
     if(where === "outing")
       setEtc(`${tmpOuting.description}(${tmpOuting.start}~${tmpOuting.end})`);

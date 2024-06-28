@@ -9,6 +9,7 @@ import { getTimetable } from "@/app/api/timetable/[grade]/[class]/server";
 import { defaultUserData } from "@/app/auth/type";
 import Insider from "@/provider/insider";
 import { verify } from "@/utils/jwt";
+import { getUserInfo } from "@/utils/server";
 
 import HosilInfo from "./hosilInfo";
 import Iwannagohome from "./iwannagohome";
@@ -17,10 +18,7 @@ import Meal from "./meal";
 import Timetable from "./timetable";
 
 const Home = async () => {
-  const accessToken = cookies().get("accessToken")?.value || "";
-  const verified = await verify(accessToken|| "");
-  const userInfo = verified.payload?.data || defaultUserData;
-
+  const userInfo = await getUserInfo();
   const iwannagoHomeInit = await getIwannagohome(userInfo.id);
   const gradeClass = Math.floor(userInfo.number / 100);
   const timetalbeInit = await getTimetable(Math.floor(gradeClass / 10), gradeClass % 10);
