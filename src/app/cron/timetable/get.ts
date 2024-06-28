@@ -122,7 +122,7 @@ const GET = async (
       "filter": {
         "type": "student",
       },
-      "time": `${today_string} 12:00:00`
+      "time": `${today_string} 12:54:00`
     },
     {
       "payload": {
@@ -133,7 +133,7 @@ const GET = async (
       "filter": {
         "type": "student",
       },
-      "time": `${today_string} 18:00:00`
+      "time": `${today_string} 18:29:00`
     }
   ];
   await notificationCollection.insertMany(payLoad);
