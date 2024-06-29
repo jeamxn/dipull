@@ -1,15 +1,26 @@
+# .gitpod.yml
+
 image:
   file: .gitpod.Dockerfile
 
 tasks:
   - init: bun install
-    command: bun dev
+    command: |
+      sudo service mongodb start
+      mongo --eval 'db.runCommand({ connectionStatus: 1 })'
+      bun dev
+      sleep 5 && npx mongo-express
 
 vscode:
   extensions:
-    - Prisma.prisma
-    - dbaeumer.vscode-eslint
+    - bradlc.vscode-tailwindcss
     - esbenp.prettier-vscode
+    - christian-kohler.npm-intellisense
+    - dbaeumer.vscode-eslint
+    - github.copilot
+    - github.vscode-pull-request-github
+    - naumovs.color-highlight
+    - PKief.material-icon-theme
 
 ports:
   - port: 3000
@@ -24,19 +35,3 @@ github:
     master: true
     branches: true
     pullRequests: true
-
-services:
-  mongodb:
-    image: mongo
-    ports:
-      - port: 27017
-  mongo-express:
-    image: mongo-express
-    ports:
-      - port: 8081
-    env:
-      ME_CONFIG_MONGODB_SERVER: localhost
-      ME_CONFIG_MONGODB_PORT: 27017
-      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
-
