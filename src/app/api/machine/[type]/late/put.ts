@@ -81,6 +81,18 @@ const PUT = async (
     headers: new_headers
   });
 
+  const todayMoment = moment().tz("Asia/Seoul");
+  const today = todayMoment.format("YYYY-MM-DD");
+  const timeString = time.replace("오전", "am").replace("오후", "pm").replace("* ", "");
+  const timeSet = moment(`${today} ${timeString}`, "YYYY-MM-DD a hh시 mm분");
+  if (todayMoment.isBefore(timeSet)) return new NextResponse(JSON.stringify({
+    success: false,
+    message: "세탁기 예약 시간 후 지연 신청이 가능합니다.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+
   const machineLateCollection = client.db().collection("machine_late");
   const update = await machineLateCollection.updateOne({
     ...commonQuery,
@@ -111,7 +123,8 @@ const PUT = async (
   const isAllTime = isStay || await getStates("machine_all_time");
   const timeData = isAllTime ? stayConfig[params.type] : commonConfig[params.type];
   const indexx = timeData.findIndex((item) => item === time);
-  const removePrevious = timeData.slice(indexx + 1, timeData.length);
+  const isApliedTimeisStay = time.includes("*");
+  const removePrevious = timeData.slice(indexx + 1, timeData.length).filter((item) => isApliedTimeisStay ? item.includes("*") : !item.includes("*"));
 
   const userList = (await machineCollection.find({
     ...commonQuery,

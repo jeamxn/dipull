@@ -54,27 +54,13 @@ const GET = async (
     for (let classroom = 1; classroom <= 6; classroom++) {
       for (let day = 1; day <= 5; day++) {
         const timeArr = [];
+        const changed: string[] = [];
         for (let period = 1; period <= 7; period++) {
           const time = timetable?.[grade]?.[classroom]?.[day]?.[period];
           if (!time) continue;
           if (time.subject) timeArr.push(`${time.subject}(${time.teacher}□)`);
           if (time.changed && day === today_day) {
-            const payLoad1 = {
-              "payload": {
-                "title": "바뀐 시간표가 있어요!",
-                "body": `${period}교시가 ${time.subject}(${time.teacher}□)로 바뀌었어요.`
-              },
-              "type": "timetable-changed",
-              "filter": {
-                "type": "student",
-                "number": {
-                  $gte: grade * 1000 + classroom * 100,
-                  $lt: grade * 1000 + (classroom + 1) * 100
-                }
-              },
-              "time": `${today_string} 07:00:00`
-            };
-            await notificationCollection.insertOne(payLoad1);
+            changed.push(`${period}교시 ${time.subject}(${time.teacher}□)`);
           }
           flat.push(time);
         }
@@ -96,10 +82,29 @@ const GET = async (
           "time": `${today_string} 07:00:00`
         };
         await notificationCollection.insertOne(payLoad);
+        if (changed.length) {
+          const payLoad1 = {
+            "payload": {
+              "title": "바뀐 시간표가 있어요!",
+              "body": `${changed.join(", ")}로 바뀌었어요.`
+            },
+            "type": "timetable-changed",
+            "filter": {
+              "type": "student",
+              "number": {
+                $gte: grade * 1000 + classroom * 100,
+                $lt: grade * 1000 + (classroom + 1) * 100
+              }
+            },
+            "time": `${today_string} 07:00:00`
+          };
+          await notificationCollection.insertOne(payLoad1);
+        }
       }
     }
   }
 
+  const isStay = moment().tz("Asia/Seoul").day() === 0 || moment().tz("Asia/Seoul").day() === 6;
   const meal = await getMeal(today_string);
   const payLoad = [
     {
@@ -111,7 +116,7 @@ const GET = async (
       "filter": {
         "type": "student",
       },
-      "time": `${today_string} 07:00:00`
+      "time": `${today_string} ${isStay ? "07:30:00" : "07:00:00"}`
     },
     {
       "payload": {
@@ -122,7 +127,7 @@ const GET = async (
       "filter": {
         "type": "student",
       },
-      "time": `${today_string} 12:54:00`
+      "time": `${today_string} ${isStay ? "11:59:00" : "12:54:00"}`
     },
     {
       "payload": {
@@ -133,7 +138,7 @@ const GET = async (
       "filter": {
         "type": "student",
       },
-      "time": `${today_string} 18:29:00`
+      "time": `${today_string} ${isStay ? "17:59:00" : "18:29:00"}`
     }
   ];
   await notificationCollection.insertMany(payLoad);
