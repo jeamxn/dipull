@@ -2,22 +2,41 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - name: nextjs
-    init: |
-      npm install -g bun
-      bun install
-      docker compose pull
-    command: |
-      docker compose up -d
-      bun dev
+  - init: bun install
+    command: bun dev
+
+vscode:
+  extensions:
+    - Prisma.prisma
+    - dbaeumer.vscode-eslint
+    - esbenp.prettier-vscode
 
 ports:
-  - name: mognodb
-    port: 27017
+  - port: 3000
+    onOpen: open-preview
+  - port: 27017
     onOpen: ignore
-  - name: mognodb-express
-    port: 8081  
+  - port: 8081
     onOpen: open-browser
-  - name: NEXT.JS
-    port: 3000
-    onOpen: open-browser
+
+github:
+  prebuilds:
+    master: true
+    branches: true
+    pullRequests: true
+
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - port: 27017
+  mongo-express:
+    image: mongo-express
+    ports:
+      - port: 8081
+    env:
+      ME_CONFIG_MONGODB_SERVER: localhost
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+
