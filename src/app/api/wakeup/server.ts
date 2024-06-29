@@ -49,3 +49,13 @@ export const getWakeup = async (id: string, gender: string) => {
     week: await getApplyStartDate(),
   };
 };
+
+export const getSelected = async (gender: string) => {
+  const client = await connectToDatabase();
+  const statesCollection = client.db().collection("states");
+  const data = await statesCollection.findOne({
+    type: "wakeup_selected"
+  });
+
+  return data?.data[gender];
+};
