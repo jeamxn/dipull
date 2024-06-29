@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import axios from "axios";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import React from "react";
