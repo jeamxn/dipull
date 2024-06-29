@@ -32,13 +32,11 @@ const ListContent = ({ initailData }: {
   const getWakeup = async () => {
     setLoading(true);
     try{
-      const res_wakeup = await instance.get("/api/wakeup");
-      const res_selected = await instance.get("/api/wakeup/selected");
-      setWakeup(res_wakeup.data.data.all);
-      setWeek(moment(res_wakeup.data.data.week, "YYYY-MM-DD"));
-      setGender(res_wakeup.data.data.gender);
-      setMy(res_wakeup.data.data.my);
-      setSelected(res_selected.data);
+      const res = await instance.get("/api/wakeup");
+      setWakeup(res.data.data.all);
+      setWeek(moment(res.data.data.week, "YYYY-MM-DD"));
+      setGender(res.data.data.gender);
+      setMy(res.data.data.my);
       router.refresh();
     }
     catch(e: any){
