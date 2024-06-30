@@ -49,7 +49,7 @@ const POST = async (
     params,
   });
 
-  let today = (new Date().getMonth()+1).toString().padStart(2, "0") + new Date().getDate().toString().padStart(2, "0"); // MMDD
+  let today = new Date().getFullYear().toString() + (new Date().getMonth()+1).toString().padStart(2, "0") + new Date().getDate().toString().padStart(2, "0"); // YYYYMMDD
   const statesCollection = client.db().collection("states");
   const data = await statesCollection.findOneAndUpdate({
     type: "wakeup_selected"

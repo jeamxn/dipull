@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import Swal from "sweetalert2";
 
-import { WakeupDB, WakeupGET } from "@/app/api/wakeup/utils";
+import { calcDateDiff } from "@/app/(login)/wakeup/utils";
+import { WakeupDB, WakeupGET, WakeupSelected } from "@/app/api/wakeup/utils";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
@@ -15,6 +16,7 @@ const TeacherWakeupContent = ({ initailData }: {
     all: WakeupGET;
     gender: "male" | "female";
     week: string;
+    selected: WakeupSelected
   };
 }) => {
   const router = useRouter();
@@ -23,6 +25,8 @@ const TeacherWakeupContent = ({ initailData }: {
   const [week, setWeek] = React.useState<moment.Moment>(moment(initailData.week, "YYYY-MM-DD"));
   const [gender, setGender] = React.useState<"male" | "female">(initailData.gender);
   const [link, setLink] = React.useState<string>();
+  const [selected, setSelected] = React.useState<WakeupSelected>(initailData.selected);
+  const [dateDiff, setDateDiff] = React.useState<string>("");
 
   const getWakeup = async () => {
     setLoading(true);
@@ -75,7 +79,7 @@ const TeacherWakeupContent = ({ initailData }: {
       color: "rgb(var(--color-text) / 1)",
     }).then(async (res) => {
       if (res.isConfirmed) {
-        if (await confirmWakeup(id))
+        if (await confirmWakeup(id) && await confirmWakeupUpdate())
           await deleteWakeup(id);
       }
     });
@@ -120,6 +124,23 @@ const TeacherWakeupContent = ({ initailData }: {
     return isSuccess;
   };
 
+  const confirmWakeupUpdate = async () => {
+    setLoading(true);
+    const loading = alert.loading("확정된 기상송 업데이트 중 입니다.");
+    let isSuccess = false;
+    try {
+      const res = await instance.get("/api/wakeup/selected");
+      setSelected(res.data.data);
+      alert.update(loading, res.data.message, "success");
+      isSuccess = true;
+    }
+    catch(e: any){
+      alert.update(loading, e.response.data.message, "error");
+    }
+    setLoading(false);
+    return isSuccess;
+  };
+
   const deleteWakeup = async (id: WakeupDB["id"]) => {
     setLoading(true);
     const loading = alert.loading("기상송 삭제 중 입니다.");
@@ -138,6 +159,9 @@ const TeacherWakeupContent = ({ initailData }: {
     setLoading(false);
   };
 
+  React.useEffect(() => {
+    setDateDiff(calcDateDiff(selected));
+  }, [selected.date]);
 
   const sunday = week.clone().day(0);
   const saturday = week.clone().day(6).add(1, "day");
@@ -174,6 +198,38 @@ const TeacherWakeupContent = ({ initailData }: {
 
         <table className="w-full overflow-auto">
           <tbody className="w-full border-y border-text/10 overflow-auto">
+            <tr className="w-full">
+              <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full"
+                colSpan={2}>{gender === "male" ? "남" : "여"}학생 {dateDiff}의 기상송
+              </th>
+            </tr>
+            {
+              selected.id !== "" ? (
+                <tr className="w-full border-y border-text/10">
+                  <td></td>
+                  <td
+                    className="w-full text-left p-4"
+                    onClick={() => {
+                      const win = window.open(`https://www.youtube.com/watch?v=${selected.id}`, "_blank");
+                      if (win) win.focus();
+                    }}
+                  >
+                    <div className="flex flex-col gap-3">
+                      <img
+                        src={`https://i.ytimg.com/vi/${selected.id}/default.jpg`}
+                        alt={selected.title}
+                        className="max-w-[160px] object-cover rounded aspect-video cursor-pointer"
+                      />
+                      <p className="text-left cursor-pointer">{selected.title}</p>
+                    </div>
+                  </td>
+                </tr>
+              ) : (
+                <tr className="w-full border-y border-text/10">
+                  <td className="text-center px-4 whitespace-nowrap py-2 text-text/50" colSpan={3}>O.O 오늘은 기상송이 안나왔나봐요...!</td>
+                </tr>
+              )
+            }
             <tr className="w-full">
               <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full"
                 colSpan={2}>{gender === "male" ? "남" : "여"}학생 기상송 신청 순위

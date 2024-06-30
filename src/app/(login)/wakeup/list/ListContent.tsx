@@ -5,6 +5,7 @@ import moment from "moment";
 import { useRouter } from "next/navigation";
 import React from "react";
 
+import { calcDateDiff } from "@/app/(login)/wakeup/utils";
 import { WakeupDB, WakeupGET, WakeupSelected } from "@/app/api/wakeup/utils";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
@@ -91,7 +92,7 @@ const ListContent = ({ initailData }: {
           <tbody className="w-full border-y border-text/10 overflow-auto">
             <tr className="w-full">
               <th className="text-centerpx-4 whitespace-nowrap py-2 font-semibold w-full"
-                colSpan={2}>{gender === "male" ? "남" : "여"}학생 오늘의 기상송
+                colSpan={2}>{gender === "male" ? "남" : "여"}학생 {calcDateDiff(selected)}의 기상송
               </th>
             </tr>
             {
