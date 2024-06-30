@@ -30,7 +30,7 @@ const NotificationButton = ({
       }}
     >
       <p className="font-bold leading-tight">{text}</p>
-      <p className="leading-tight">{isAllowed ? "켜짐" : "꺼짐"}</p>
+      <p className="leading-tight">{isAllowed ? "O" : "X"}</p>
     </button>
   );
 };
