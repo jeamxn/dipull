@@ -73,7 +73,7 @@ const ListContent = ({ initailData }: {
           <h1 className="text-xl font-semibold">오늘의 기상송</h1>
         </div>
         <h1
-          className="text-base">{selected?.date.substring(0, 2).startsWith("0") ? selected?.date.substring(0, 2).replace("0", "") : selected?.date.substring(0, 2)}월 {selected?.date.substring(0, 2).startsWith("0") ? selected?.date.substring(2, 4).replace("0", "") : selected?.date.substring(2, 4)}일</h1>
+          className="text-base">{selected?.date.substring(0, 2).startsWith("0") ? selected?.date.substring(0, 2).replace("0", "") : selected?.date.substring(0, 2)}월 {selected?.date.substring(2, 4).startsWith("0") ? selected?.date.substring(2, 4).replace("0", "") : selected?.date.substring(2, 4)}일</h1>
       </section>
       <section className={[
         "flex flex-col gap-4 bg-white rounded border border-text/10 p-5 overflow-auto",
