@@ -59,7 +59,7 @@ const GET = async (
           const time = timetable?.[grade]?.[classroom]?.[day]?.[period];
           if (!time) continue;
           if (time.subject) timeArr.push(`${time.subject}(${time.teacher}□)`);
-          if (time.changed && day === today_day) {
+          if (time.subject && time.changed && day === today_day) {
             changed.push(`${period}교시 ${time.subject}(${time.teacher}□)`);
           }
           flat.push(time);
