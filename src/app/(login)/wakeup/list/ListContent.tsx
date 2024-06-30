@@ -27,8 +27,6 @@ const ListContent = ({ initailData }: {
   const [my, setMy] = React.useState<WakeupDB[]>(initailData.my);
   const [selected, setSelected] = React.useState<WakeupSelected>(initailData.selected);
 
-  console.log(initailData.selected);
-
   const getWakeup = async () => {
     setLoading(true);
     try{
@@ -70,54 +68,6 @@ const ListContent = ({ initailData }: {
     <article className="flex flex-col gap-3">
       <section className="flex flex-col gap-1">
         <div className="flex flex-row items-center">
-          <h1 className="text-xl font-semibold">오늘의 기상송</h1>
-        </div>
-        <h1
-          className="text-base">{selected?.date.substring(0, 2).startsWith("0") ? selected?.date.substring(0, 2).replace("0", "") : selected?.date.substring(0, 2)}월 {selected?.date.substring(2, 4).startsWith("0") ? selected?.date.substring(2, 4).replace("0", "") : selected?.date.substring(2, 4)}일</h1>
-      </section>
-      <section className={[
-        "flex flex-col gap-4 bg-white rounded border border-text/10 p-5 overflow-auto",
-        loading ? "loading_background" : "",
-      ].join(" ")}>
-
-        <table className="w-full overflow-auto">
-          <tbody className="w-full border-y border-text/10 overflow-auto">
-            <tr className="w-full">
-              <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full"
-                colSpan={2}>{gender === "male" ? "남" : "여"}학생 오늘의 기상송
-              </th>
-            </tr>
-            {
-              selected.id !== "" ? (
-                <tr className="w-full border-y border-text/10">
-                  <td
-                    className="w-full text-left p-4 border-x border-text/10"
-                    onClick={() => {
-                      const win = window.open(`https://www.youtube.com/watch?v=${selected.id}`, "_blank");
-                      if (win) win.focus();
-                    }}
-                  >
-                    <div className="flex flex-col gap-3">
-                      <img
-                        src={`https://i.ytimg.com/vi/${selected.id}/default.jpg`}
-                        alt={selected.title}
-                        className="max-w-[160px] object-cover rounded aspect-video cursor-pointer"
-                      />
-                      <p className="text-left cursor-pointer">{selected.title}</p>
-                    </div>
-                  </td>
-                </tr>
-              ) : (
-                <tr className="w-full border-y border-text/10">
-                  <td className="text-center px-4 whitespace-nowrap py-2 text-text/50" colSpan={3}>O.O 오늘은 기상송이 안나왔나봐요...!</td>
-                </tr>
-              )
-            }
-          </tbody>
-        </table>
-      </section>
-      <section className="flex flex-col gap-1">
-        <div className="flex flex-row items-center">
           <h1 className="text-xl font-semibold">기상송 신청 순위</h1>
           <div className={[
             "hover:font-semibold cursor-pointer transition-all h-7 w-7 flex items-center justify-center",
@@ -139,6 +89,38 @@ const ListContent = ({ initailData }: {
 
         <table className="w-full overflow-auto">
           <tbody className="w-full border-y border-text/10 overflow-auto">
+            <tr className="w-full">
+              <th className="text-centerpx-4 whitespace-nowrap py-2 font-semibold w-full"
+                colSpan={2}>{gender === "male" ? "남" : "여"}학생 오늘의 기상송
+              </th>
+            </tr>
+            {
+              selected.id !== "" ? (
+                <tr className="w-full border-y border-text/10">
+                  <td></td>
+                  <td
+                    className="w-full text-left p-4"
+                    onClick={() => {
+                      const win = window.open(`https://www.youtube.com/watch?v=${selected.id}`, "_blank");
+                      if (win) win.focus();
+                    }}
+                  >
+                    <div className="flex flex-col gap-3">
+                      <img
+                        src={`https://i.ytimg.com/vi/${selected.id}/default.jpg`}
+                        alt={selected.title}
+                        className="max-w-[160px] object-cover rounded aspect-video cursor-pointer"
+                      />
+                      <p className="text-left cursor-pointer">{selected.title}</p>
+                    </div>
+                  </td>
+                </tr>
+              ) : (
+                <tr className="w-full border-y border-text/10">
+                  <td className="text-center px-4 whitespace-nowrap py-2 text-text/50" colSpan={3}>O.O 오늘은 기상송이 안나왔나봐요...!</td>
+                </tr>
+              )
+            }
             <tr className="w-full">
               <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full"
                 colSpan={2}>{gender === "male" ? "남" : "여"}학생 기상송 신청 순위
