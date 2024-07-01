@@ -3,7 +3,7 @@
 import { getApplyStartDate } from "@/app/api/stay/utils";
 import { connectToDatabase } from "@/utils/db";
 
-import { WakeupDB, WakeupGET, getToday } from "./utils";
+import { getToday, WakeupDB, WakeupGET, WakeupSelected } from "./utils";
 
 export const getWakeup = async (id: string, gender: string) => {
   const today = getToday();
@@ -50,6 +50,19 @@ export const getWakeup = async (id: string, gender: string) => {
   };
 };
 
+export const calcDateDiff = (selected: WakeupSelected) => {
+  const today = new Date();
+  const day_selected = new Date(`${selected.date.substring(4,6)}/${selected.date.substring(6,8)}/${selected.date.substring(0,4)}`);
+  const diff = (Math.abs(today.getTime() - day_selected.getTime()) / (1000 * 60 * 60 * 24)).toFixed();
+
+  switch (diff) {
+  case "0": return "오늘";
+  case "1": return "어제";
+  case "2": return "그저께";
+  default:  return `${diff}일 전`;
+  }
+};
+
 export const getSelected = async (gender: string) => {
   const client = await connectToDatabase();
   const statesCollection = client.db().collection("states");
@@ -57,5 +70,10 @@ export const getSelected = async (gender: string) => {
     type: "wakeup_selected"
   });
 
-  return data?.data[gender];
+  if (data?.data.date === undefined || data?.data.date === "") return { id: null };
+
+  return {
+    ...data?.data,
+    dateDiff: calcDateDiff(data?.data)
+  };
 };

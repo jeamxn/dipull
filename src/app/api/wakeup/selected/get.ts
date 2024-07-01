@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { getStates } from "@/utils/getStates";
+import { getSelected } from "@/app/api/wakeup/server";
 import { verify } from "@/utils/jwt";
 
 const GET = async (
@@ -22,9 +22,8 @@ const GET = async (
   });
 
 
-  const data = await getStates("wakeup_selected");
   return new NextResponse(JSON.stringify({
-    data: data[verified.payload.data.gender],
+    data: getSelected(verified.payload.data.gender)
   }), {
     status: 200,
     headers: new_headers
