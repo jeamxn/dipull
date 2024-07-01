@@ -23,7 +23,7 @@ const GET = async (
 
 
   return new NextResponse(JSON.stringify({
-    data: getSelected(verified.payload.data.gender)
+    data: await getSelected(verified.payload.data.gender)
   }), {
     status: 200,
     headers: new_headers

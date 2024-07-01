@@ -1,5 +1,7 @@
 "use server";
 
+import moment from "moment/moment";
+
 import { getApplyStartDate } from "@/app/api/stay/utils";
 import { connectToDatabase } from "@/utils/db";
 
@@ -51,14 +53,12 @@ export const getWakeup = async (id: string, gender: string) => {
 };
 
 export const calcDateDiff = (selected: WakeupSelected) => {
-  const today = new Date();
-  const day_selected = new Date(`${selected.date.substring(4,6)}/${selected.date.substring(6,8)}/${selected.date.substring(0,4)}`);
-  const diff = (Math.abs(today.getTime() - day_selected.getTime()) / (1000 * 60 * 60 * 24)).toFixed();
-
+  moment.tz("Asia/Seoul");
+  const diff = moment(selected.date).diff(moment(), "days")*-1;
   switch (diff) {
-  case "0": return "오늘";
-  case "1": return "어제";
-  case "2": return "그저께";
+  case 0: return "오늘";
+  case 1: return "어제";
+  case 2: return "그저께";
   default:  return `${diff}일 전`;
   }
 };
@@ -66,14 +66,14 @@ export const calcDateDiff = (selected: WakeupSelected) => {
 export const getSelected = async (gender: string) => {
   const client = await connectToDatabase();
   const statesCollection = client.db().collection("states");
-  const data = await statesCollection.findOne({
+  const data = (await statesCollection.findOne({
     type: "wakeup_selected"
-  });
+  }))?.data[gender];
 
-  if (data?.data.date === undefined || data?.data.date === "") return { id: null };
+  if (data.date === undefined || data.date === "") return { id: null };
 
   return {
-    ...data?.data,
-    dateDiff: calcDateDiff(data?.data)
+    ...data,
+    dateDiff: calcDateDiff(data)
   };
 };

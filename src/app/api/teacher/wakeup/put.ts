@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -49,12 +50,12 @@ const POST = async (
       params,
     });
 
-    let today = new Date().getFullYear().toString() + (new Date().getMonth()+1).toString().padStart(2, "0") + new Date().getDate().toString().padStart(2, "0"); // YYYYMMDD
+    moment.tz("Asia/Seoul");
     const statesCollection = client.db().collection("states");
     const data = await statesCollection.findOneAndUpdate({
       type: "wakeup_selected"
     }, {
-      $set: { [`data.${verified.payload.data.gender}`]: { title: res.data.title, id: id, date: today } }
+      $set: { [`data.${verified.payload.data.gender}`]: { title: res.data.title, id: id, date: moment().format("YYYY-MM-DD") } }
     });
 
     if(data === null) throw new Error("Error");
