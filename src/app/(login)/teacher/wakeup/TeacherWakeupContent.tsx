@@ -184,9 +184,9 @@ const TeacherWakeupContent = ({ initailData }: {
           className="w-min text-base rounded h-10 bg-text/10 border border-text/10 px-4"
           onClick={() => checkConfirm("")}
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
             <path
-              d="M 20.292969 5.2929688 L 9 16.585938 L 4.7070312 12.292969 L 3.2929688 13.707031 L 9 19.414062 L 21.707031 6.7070312 L 20.292969 5.2929688 z"
+              d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"
               fill="rgb(var(--color-text) / 1)"/>
           </svg>
         </button>
