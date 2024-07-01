@@ -42,35 +42,38 @@ const POST = async (
     status: 400,
     headers: new_headers
   });
+  try {
+    const url = "https://www.youtube.com/oembed";
+    const params = { "format": "json", "url": `https://www.youtube.com/watch?v=${id}` };
+    const res = await axios.get(url, {
+      params,
+    });
 
-  const url = "https://www.youtube.com/oembed";
-  const params = { "format": "json", "url": `https://www.youtube.com/watch?v=${id}` };
-  const res = await axios.get(url, {
-    params,
-  });
+    let today = new Date().getFullYear().toString() + (new Date().getMonth()+1).toString().padStart(2, "0") + new Date().getDate().toString().padStart(2, "0"); // YYYYMMDD
+    const statesCollection = client.db().collection("states");
+    const data = await statesCollection.findOneAndUpdate({
+      type: "wakeup_selected"
+    }, {
+      $set: { [`data.${verified.payload.data.gender}`]: { title: res.data.title, id: id, date: today } }
+    });
 
-  let today = new Date().getFullYear().toString() + (new Date().getMonth()+1).toString().padStart(2, "0") + new Date().getDate().toString().padStart(2, "0"); // YYYYMMDD
-  const statesCollection = client.db().collection("states");
-  const data = await statesCollection.findOneAndUpdate({
-    type: "wakeup_selected"
-  }, {
-    $set: { [`data.${verified.payload.data.gender}`]: { title: res.data.title, id: id, date: today } }
-  });
+    if(data === null) throw new Error("Error");
 
-  if(data === null) return new NextResponse(JSON.stringify({
-    message: "기상송 확정 등록에 실패했습니다.",
-  }), {
-    status: 500,
-    headers: new_headers
-  });
+    return new NextResponse(JSON.stringify({
+      message: "성공적으로 기상송이 확정되었습니다.",
+    }), {
+      status: 200,
+      headers: new_headers
+    });
 
-  return new NextResponse(JSON.stringify({
-    message: "성공적으로 기상송이 확정되었습니다.",
-  }), {
-    status: 200,
-    headers: new_headers
-  });
-
+  } catch (e) {
+    return new NextResponse(JSON.stringify({
+      message: "기상송 확정 등록에 실패했습니다.",
+    }), {
+      status: 500,
+      headers: new_headers
+    });
+  }
 };
 
 export default POST;
