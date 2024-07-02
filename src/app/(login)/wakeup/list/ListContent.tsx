@@ -95,7 +95,7 @@ const ListContent = ({ initailData }: {
               </th>
             </tr>
             {
-              selected.id !== null ? (
+              selected.id ? (
                 <tr className="w-full border-y border-text/10">
                   <td></td>
                   <td
