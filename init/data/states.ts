@@ -90,12 +90,12 @@ const states = [
       "male": {
         "title": "",
         "id": "",
-        "date": "0000"
+        "date": ""
       },
       "female": {
         "title": "",
         "id": "",
-        "date": "0000"
+        "date": ""
       }
     }
   }
