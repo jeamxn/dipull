@@ -84,8 +84,9 @@ const PUT = async (
   const todayMoment = moment().tz("Asia/Seoul");
   const today = todayMoment.format("YYYY-MM-DD");
   const timeString = time.replace("오전", "am").replace("오후", "pm").replace("* ", "");
+  const todayStringToMoment = moment(todayMoment.format("YYYY-MM-DD a hh시 mm분"), "YYYY-MM-DD a hh시 mm분").tz("Asia/Seoul");
   const timeSet = moment(`${today} ${timeString}`, "YYYY-MM-DD a hh시 mm분").tz("Asia/Seoul");
-  if (todayMoment.isBefore(timeSet)) return new NextResponse(JSON.stringify({
+  if (todayStringToMoment.isBefore(timeSet)) return new NextResponse(JSON.stringify({
     success: false,
     message: "세탁기 예약 시간 후 지연 신청이 가능합니다.",
   }), {
