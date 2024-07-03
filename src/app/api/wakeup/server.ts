@@ -70,7 +70,7 @@ export const getSelected = async (gender: string) => {
     type: "wakeup_selected"
   }))?.data[gender];
 
-  if (Object.prototype.hasOwnProperty.call(data, "date") || data.date === undefined || data.date === "") return { id: null };
+  if (data || data.date) return { id: null };
 
   return {
     ...data,
