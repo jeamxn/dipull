@@ -73,7 +73,7 @@ export const getSelected = async (gender: string) => {
   if (!data?.data || !data?.data[gender] || !data?.data[gender].date) return { id: null };
 
   return {
-    ...data?.data,
-    dateDiff: calcDateDiff(data)
+    ...data?.data[gender],
+    dateDiff: calcDateDiff(data?.data[gender])
   };
 };
