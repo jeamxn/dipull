@@ -68,12 +68,12 @@ export const getSelected = async (gender: string) => {
   const statesCollection = client.db().collection("states");
   const data = (await statesCollection.findOne({
     type: "wakeup_selected"
-  }))?.data[gender];
+  }));
 
-  if (!data || !data.date) return { id: null };
+  if (!data?.data || !data?.data[gender] || !data?.data[gender].date) return { id: null };
 
   return {
-    ...data,
+    ...data?.data,
     dateDiff: calcDateDiff(data)
   };
 };
