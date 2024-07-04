@@ -58,7 +58,7 @@ const POST = async (
       $set: { [`data.${verified.payload.data.gender}`]: { title: res.data.title, id: id, date: moment().format("YYYY-MM-DD") } }
     });
 
-    if(data === null) throw new Error("Error");
+    if(data === null) throw "SNE"; // states not exists
 
     return new NextResponse(JSON.stringify({
       message: "성공적으로 기상송이 확정되었습니다.",
@@ -68,8 +68,10 @@ const POST = async (
     });
 
   } catch (e) {
+    let errMsg = "기상송 확정 등록에 실패했습니다.";
+    if (e === "SNE") errMsg += " 'wakeup_selected' state 가 존재하지 않습니다.";
     return new NextResponse(JSON.stringify({
-      message: "기상송 확정 등록에 실패했습니다.",
+      message: errMsg,
     }), {
       status: 500,
       headers: new_headers
