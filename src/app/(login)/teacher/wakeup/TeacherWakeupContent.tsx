@@ -83,7 +83,7 @@ const TeacherWakeupContent = ({ initailData }: {
     });
   };
 
-  const checkDelete = async (id: WakeupDB["id"]) => { 
+  const checkDelete = async (id: WakeupDB["id"]) => {
     Swal.fire({
       title: "기상송 삭제",
       text: "기상송을 삭제합니다. 주의하세요.",
@@ -193,14 +193,13 @@ const TeacherWakeupContent = ({ initailData }: {
         <table className="w-full overflow-auto">
           <tbody className="w-full border-y border-text/10 overflow-auto">
             <tr className="w-full">
-              <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full"
-                colSpan={2}>{gender === "male" ? "남" : "여"}학생 {selected.dateDiff===undefined?"평행세계":selected.dateDiff}의 기상송
+              <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full">
+                {gender === "male" ? "남" : "여"}학생 {selected.dateDiff === undefined ? "평행세계" : selected.dateDiff}의 기상송
               </th>
             </tr>
             {
               selected.id ? (
                 <tr className="w-full border-y border-text/10">
-                  <td></td>
                   <td
                     className="w-full text-left p-4"
                     onClick={() => {
@@ -220,10 +219,16 @@ const TeacherWakeupContent = ({ initailData }: {
                 </tr>
               ) : (
                 <tr className="w-full border-y border-text/10">
-                  <td className="text-center px-4 whitespace-nowrap py-2 text-text/50" colSpan={3}>O.O 오늘은 기상송이 안나왔나봐요...!</td>
+                  <td className="text-center px-4 whitespace-nowrap py-2 text-text/50" colSpan={3}>O.O 오늘은 기상송이
+                  안나왔나봐요...!
+                  </td>
                 </tr>
               )
             }
+          </tbody>
+        </table>
+        <table className="w-full overflow-auto">
+          <tbody className="w-full border-y border-text/10 overflow-auto">
             <tr className="w-full">
               <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full"
                 colSpan={2}>{gender === "male" ? "남" : "여"}학생 기상송 신청 순위
