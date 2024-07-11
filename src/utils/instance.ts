@@ -33,13 +33,17 @@ instance.interceptors.response.use(
       }
       catch (e: any) {
         if(e.response.status === 401) {
-          await axios.get("/auth/logout", {
-            withCredentials: true,
-            headers: {
-              Authorization: `Bearer ${getCookieClient("accessToken")}`
-            }
-          });
-          window.location.href = "/login";
+          try {
+            await axios.get("/auth/logout", {
+              withCredentials: true,
+              headers: {
+                Authorization: `Bearer ${getCookieClient("accessToken")}`
+              }
+            });
+          }
+          finally {
+            window.location.href = "/login";
+          }
         }
       }
     }
