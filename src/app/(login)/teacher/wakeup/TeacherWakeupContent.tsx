@@ -219,8 +219,8 @@ const TeacherWakeupContent = ({ initailData }: {
                 </tr>
               ) : (
                 <tr className="w-full border-y border-text/10">
-                  <td className="text-center px-4 whitespace-nowrap py-2 text-text/50" colSpan={3}>O.O 오늘은 기상송이
-                  안나왔나봐요...!
+                  <td className="text-center px-4 whitespace-nowrap py-2 text-text/50">
+                    O.O 오늘은 기상송이 안나왔나봐요...!
                   </td>
                 </tr>
               )
