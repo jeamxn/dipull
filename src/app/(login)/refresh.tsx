@@ -10,8 +10,10 @@ import { UserData } from "../auth/type";
 
 const Refresh = ({
   userInfo,
+  ok,
 }: {
   userInfo: UserData,
+  ok: boolean
 }) => { 
   const router = useRouter();
   const refresh = async () => { 
@@ -35,7 +37,11 @@ const Refresh = ({
   React.useEffect(() => {
     refresh();
   }, []);
-  return null;
+  return ok ? null : (
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <span className="loader"></span>
+    </main>
+  );
 };
 
 export default Refresh;

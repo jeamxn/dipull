@@ -29,10 +29,10 @@ const LoginedLayout = async ({
         <FireworkFrame />
       </div>
       <Footer />
-      <Refresh userInfo={userInfo} />
+      <Refresh userInfo={userInfo} ok={verified.ok} />
     </>
   ) : (
-    <Refresh userInfo={userInfo} />
+    <Refresh userInfo={userInfo} ok={verified.ok} />
   );
 };
 
