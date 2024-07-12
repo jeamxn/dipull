@@ -83,21 +83,19 @@ const ListContent = ({ initailData }: {
         <h1 className="text-base">{sunday.format("MM월 DD일")} 18시 00분 ~ {saturday.format("MM월 DD일")} 17시 59분</h1>
       </section>
       <section className={[
-        "flex flex-col gap-4 bg-white rounded border border-text/10 p-5 overflow-auto",
+        "flex flex-col gap-2 bg-white rounded border border-text/10 p-5 overflow-auto",
         loading ? "loading_background" : "",
       ].join(" ")}>
-
         <table className="w-full overflow-auto">
           <tbody className="w-full border-y border-text/10 overflow-auto">
             <tr className="w-full">
-              <th className="text-centerpx-4 whitespace-nowrap py-2 font-semibold w-full"
-                colSpan={2}>{gender === "male" ? "남" : "여"}학생 {selected.dateDiff===undefined?"평행세계":selected.dateDiff}의 기상송
+              <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full">
+                {gender === "male" ? "남" : "여"}학생 {selected.dateDiff === undefined ? "평행세계" : selected.dateDiff}의 기상송
               </th>
             </tr>
             {
               selected.id ? (
                 <tr className="w-full border-y border-text/10">
-                  <td></td>
                   <td
                     className="w-full text-left p-4"
                     onClick={() => {
@@ -117,10 +115,16 @@ const ListContent = ({ initailData }: {
                 </tr>
               ) : (
                 <tr className="w-full border-y border-text/10">
-                  <td className="text-center px-4 whitespace-nowrap py-2 text-text/50" colSpan={3}>O.O 오늘은 기상송이 안나왔나봐요...!</td>
+                  <td className="text-center px-4 whitespace-nowrap py-2 text-text/50">
+                    O.O 오늘은 기상송이 안나왔나봐요...!
+                  </td>
                 </tr>
               )
             }
+          </tbody>
+        </table>
+        <table className="w-full overflow-auto">
+          <tbody className="w-full border-y border-text/10 overflow-auto">
             <tr className="w-full">
               <th className="text-center px-4 whitespace-nowrap py-2 font-semibold w-full"
                 colSpan={2}>{gender === "male" ? "남" : "여"}학생 기상송 신청 순위
