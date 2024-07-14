@@ -44,12 +44,9 @@ const MobileMenu = ({
         </div>
       </nav>
       <div className={[
-        "hidden max-[520px]:flex flex-col gap-2 justify-center items-center fixed top-0 left-0 w-full bg-background transition-all overflow-hidden z-40",
+        "backdrop-blur-xl hidden max-[520px]:flex flex-col gap-2 justify-center items-center fixed top-0 left-0 w-full bg-background transition-all overflow-hidden z-40",
         expanded ? "max-h-[100vh] h-[100vh]" : "max-h-0 h-0",
       ].join(" ")}
-      style={{
-        backdropFilter: "blur(24px)"
-      }}
       >
         {
           menuSorted.map((item, index) => {

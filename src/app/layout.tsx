@@ -11,6 +11,7 @@ import RecoilProvider from "@/provider/RecoilProvider";
 import ToastProvider from "@/provider/ToastProvider";
 
 import Darkmode from "./Darkmode";
+import Loading from "./loading";
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const x_origin = headers().get("x-origin") || process.env.NEXT_PUBLIC_DIMIGOIN_URI || "";
@@ -73,13 +74,10 @@ const RootLayout = async ({
       <body>
         <RecoilProvider>
           <ToastProvider>
-            <main
-              style={{
-                minHeight: "calc(100% - 3.5rem)",
-              }}
-            >
+            <main className=" min-h-[calc(100vh-3.5rem)]">
               {children}
             </main>
+            <Loading />
           </ToastProvider>
         </RecoilProvider>
         <Darkmode />
