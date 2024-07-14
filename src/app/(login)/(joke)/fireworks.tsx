@@ -62,14 +62,7 @@ const FireworkFrame = () => {
           move: true,
         },
       }}
-      style={{
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        position: "fixed",
-        background: "rgb(var(--color-background) / 1)"
-      }}
+      className="top-0 left-0 w-full h-full fixed bg-background"
     />
   );
 };

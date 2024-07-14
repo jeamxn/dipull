@@ -69,7 +69,7 @@ const Iwannagohome = ({
       <section 
         className={[
           "rounded overflow-hidden flex flex-row",
-          "bg-gradient-to-r from-[#6466F1] to-[#EC4899]"
+          "bg-gradient-to-r from-[#6466F1] to-[#EC4899]",
         ].join(" ")}
         style={{
           "--tw-gradient-from-position": `${start - 50}%`,
@@ -86,8 +86,6 @@ const Iwannagohome = ({
                   "h-full transition-all px-4 py-3 flex flex-col justify-center select-none cursor-pointe w-full",
                   i === 0 ? "items-start" : "items-end"
                 ].join(" ")}
-                style={{
-                }}
                 onClick={async () => {
                   const loading = alert.loading("투표 중입니다.");
                   try{

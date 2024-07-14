@@ -16,12 +16,7 @@ const LoginedLayout = async ({
   const { verified, userInfo } = await getUserAndVerify();
   return verified.ok ? (
     <>
-      <div 
-        className="w-full h-[100vh] bg-background/50 backdrop-blur-xl fixed left-0 z-50" 
-        style={{
-          bottom: "calc(100vh - calc(env(safe-area-inset-top) * -1))",
-        }}
-      />
+      <div className="w-full h-[100vh] bg-background/50 backdrop-blur-xl fixed left-0 bottom-[calc(100vh-calc(env(safe-area-inset-top)*-1))] z-50" />
       <Header userInfo={userInfo} />
       <User payload={userInfo} />
       {children}

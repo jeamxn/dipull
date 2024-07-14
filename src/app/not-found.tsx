@@ -12,12 +12,7 @@ const Error = ({
   return (
     <>
       <div className="pt-safe-or-0"/>
-      <div
-        className="flex flex-row justify-between flex-wrap gap-10 max-[650px]:gap-0 items-center w-full py-16 px-32 max-[650px]:px-8 max-[650px]:py-8 z-50"
-        style={{
-          height: "calc(100dvh - max(env(safe-area-inset-top), 0px) - max(env(safe-area-inset-bottom), 0px))",
-        }}
-      >
+      <div className="h-[calc(100dvh-max(env(safe-area-inset-top),0px)-max(env(safe-area-inset-bottom),0px))] flex flex-row justify-between flex-wrap gap-10 max-[650px]:gap-0 items-center w-full py-16 px-32 max-[650px]:px-8 max-[650px]:py-8 z-50">
         <div className="flex flex-col gap-6 max-[650px]:items-center max-[650px]:justify-center max-[650px]:w-full">
           <div className="flex flex-col gap-4 w-full max-[650px]:justify-center">
             <div className="flex flex-row gap-3 items-center max-[650px]:justify-center">

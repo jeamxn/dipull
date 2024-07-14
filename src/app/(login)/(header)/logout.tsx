@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 
+import Mover from "@/components/Mover";
 import instance from "@/utils/instance";
 
 const Logout = () => {
@@ -22,7 +23,10 @@ const Logout = () => {
         target="_blank"
       >정보 수정</Link>
       <p className="text-sm text-text/40">·</p>
-      <button onClick={logout} className="text-sm text-text/40 hover:text-primary transition-colors">로그아웃</button>
+      <Mover
+        onClick={logout}
+        className="text-sm text-text/40 hover:text-primary transition-colors"
+      >로그아웃</Mover>
     </div>
   );
 };
