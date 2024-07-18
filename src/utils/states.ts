@@ -1,5 +1,10 @@
 import { atom } from "recoil";
 
+export const darkModeAtom = atom({
+  key: "darkMode",
+  default: false,
+});
+
 export const loadingAtom = atom({
   key: "loading",
   default: false,
