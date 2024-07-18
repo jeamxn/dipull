@@ -1,4 +1,5 @@
 import "moment-timezone";
+import axios from "axios";
 import moment from "moment";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -41,10 +42,26 @@ const PUT = async (
     });
   }
 
-  const { machine, time } = await req.json();
+  const { machine, time, recaptcha } = await req.json();
   if (!machine || !time) return new NextResponse(JSON.stringify({
     success: false,
     message: "빈칸을 모두 채워주세요.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+  if (!recaptcha) return new NextResponse(JSON.stringify({
+    success: false,
+    message: "로봇이 아님을 증명해주세요.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+
+  const recaptchaRes = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptcha}`);
+  if(!recaptchaRes.data.success) return new NextResponse(JSON.stringify({
+    success: false,
+    message: "로봇이 아님을 증명해주세요.",
   }), {
     status: 400,
     headers: new_headers

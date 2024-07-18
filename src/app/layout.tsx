@@ -79,8 +79,8 @@ const RootLayout = async ({
             </main>
             <Loading />
           </ToastProvider>
+          <Darkmode />
         </RecoilProvider>
-        <Darkmode />
         <Analytics />
         <GoogleAnalytics gaId="G-1X4669WKHE" />
       </body>

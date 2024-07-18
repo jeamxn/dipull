@@ -2,12 +2,15 @@
 
 import { useRouter } from "next/navigation";
 import React from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { useRecoilValue } from "recoil";
 import Swal from "sweetalert2";
 
 import { MachineDB, Machine as MachineType } from "@/app/api/machine/[type]/utils";
 import { TokenInfo } from "@/app/auth/type";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
+import { darkModeAtom } from "@/utils/states";
 
 import StatusBox from "./statusBox";
 import { machineName, machineToKorean } from "./utils";
@@ -43,6 +46,8 @@ const MachineContent: React.FC<MachineContentProps> = ({
   const [selectedTime, setSelectedTime] = React.useState("");
   const [myBooking, setMyBooking] = React.useState(initialBooking);
   const [late, setLate] = React.useState(lateData);
+  const [showRecaptcha, setShowRecaptcha] = React.useState(false);
+  const isDarkMode = useRecoilValue(darkModeAtom);
 
   React.useEffect(() => {
     setData(initialData);
@@ -62,12 +67,17 @@ const MachineContent: React.FC<MachineContentProps> = ({
     setLoading(false);
   };
 
-  const putWasherData = async () => {
+  const putWasherData = async (recaptcha: string | null) => {
+    if (!recaptcha) {
+      return alert.error("로봇이 아님을 증명해주세요.");
+    }
+    setShowRecaptcha(false);
     setLoading(true);
     try {
       const res = await instance.put(`/api/machine/${params.type}`, {
         machine: selectedMachine,
         time: selectedTime,
+        recaptcha: recaptcha,
       });
       await getWasherData();
     } catch (e: any) {
@@ -239,13 +249,29 @@ const MachineContent: React.FC<MachineContentProps> = ({
                 <button 
                   className={`w-full bg-primary text-white font-semibold px-4 py-2 rounded-md text-base ${!selectedMachine || !selectedTime ? "opacity-50" : "opacity-100"}`}
                   disabled={!selectedMachine || !selectedTime}
-                  onClick={putWasherData}
+                  onClick={() => setShowRecaptcha(true)}
                 >
                   신청하기
                 </button>
               </section>
             )}
           </section>
+        ) : null
+      }
+      {
+        showRecaptcha ? (
+          <div
+            className="fixed top-0 left-0 w-full h-full flex items-center bg-white/10 justify-center backdrop-blur z-50"
+            onClick={() => {
+              setShowRecaptcha(false);
+            }}
+          >
+            <ReCAPTCHA
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ""}
+              onChange={putWasherData}
+              theme={isDarkMode ? "dark" : "light"}
+            />
+          </div>
         ) : null
       }
       
