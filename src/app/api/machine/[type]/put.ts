@@ -1,6 +1,7 @@
 import "moment-timezone";
 import axios from "axios";
 import moment from "moment";
+import { ObjectId } from "mongodb";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -42,7 +43,7 @@ const PUT = async (
     });
   }
 
-  const { machine, time, recaptcha } = await req.json();
+  const { machine, time, captcha_string, captcha_id } = await req.json();
   if (!machine || !time) return new NextResponse(JSON.stringify({
     success: false,
     message: "빈칸을 모두 채워주세요.",
@@ -50,7 +51,7 @@ const PUT = async (
     status: 400,
     headers: new_headers
   });
-  if (!recaptcha) return new NextResponse(JSON.stringify({
+  if (!captcha_string || !captcha_id) return new NextResponse(JSON.stringify({
     success: false,
     message: "로봇이 아님을 증명해주세요.",
   }), {
@@ -58,14 +59,27 @@ const PUT = async (
     headers: new_headers
   });
 
-  const recaptchaRes = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptcha}`);
-  if(!recaptchaRes.data.success) return new NextResponse(JSON.stringify({
+  const client = await connectToDatabase();
+  const captchaCollection = client.db().collection("captcha");
+  const captcha = await captchaCollection.findOne({ _id: ObjectId.createFromHexString(captcha_id) });
+  if (
+    !captcha
+    || captcha_string !== captcha.number
+  ) return new NextResponse(JSON.stringify({
     success: false,
-    message: "로봇이 아님을 증명해주세요.",
+    message: "올바르지 않은 자동 입력 방지 문자입니다.",
   }), {
     status: 400,
     headers: new_headers
   });
+  if (moment().tz("Asia/Seoul").isAfter(moment(captcha.until))) return new NextResponse(JSON.stringify({
+    success: false,
+    message: "입력 가능한 시간이 지났습니다.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+  await captchaCollection.deleteOne({ _id: ObjectId.createFromHexString(captcha_id) });
 
   const isStay = moment().tz("Asia/Seoul").day() === 0 || moment().tz("Asia/Seoul").day() === 6;
   const defaultData = await getDefaultValue(params.type, isStay);
@@ -88,7 +102,6 @@ const PUT = async (
       headers: new_headers
     });
 
-  const client = await connectToDatabase();
   const machineCollection = client.db().collection("machine");
 
   const isIBookedQuery = { type: params.type, date: moment().tz("Asia/Seoul").format("YYYY-MM-DD"), owner: verified.payload.data.id };

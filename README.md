@@ -119,8 +119,6 @@ bun install
 - `TEACHERS_CODE` 구글 Sheets API 사용 시 사용할 인증 코드
 - `YOUTUBE_API_KEY` 기상송 검색 시 사용할 Youtube API 키 (GCP 발급)
 - `FIREBASE_*` Firebase 사용 시 사용할 설정
-- `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` reCAPTCHA 사용 시 사용할 사이트 키
-- `RECAPTCHA_SECRET_KEY` reCAPTCHA 사용 시 사용할 시크릿 키
 
 
 ### ⑧ DB 초기화

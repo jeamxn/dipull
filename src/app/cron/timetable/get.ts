@@ -127,7 +127,7 @@ const GET = async (
       "filter": {
         "type": "student",
       },
-      "time": `${today_string} ${isStay ? "11:59:00" : "12:54:00"}`
+      "time": `${today_string} ${isStay ? "12:54:00" : "11:59:00"}`
     },
     {
       "payload": {
