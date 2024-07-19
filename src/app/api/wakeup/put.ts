@@ -58,19 +58,18 @@ const PUT = async (
     const res = await axios.get(url, {
       params,
     });
-
+    const week = await getApplyStartDate();
     const putData: WakeupData = {
       title: res.data.title,
       id: select.id,
       owner: verified.payload.data.id,
-      date: today.format("YYYY-MM-DD"),
       gender: verified.payload.data.gender,
-      week: await getApplyStartDate(),
+      week: week,
     };
     const add = await wakeupCollection.insertOne(putData);
     await wakeupAplyCollection.findOneAndUpdate({
       owner: verified.payload.id,
-      date: today.format("YYYY-MM-DD"),
+      date: week,
     }, {
       $inc: {
         available: -1,

@@ -3,12 +3,16 @@
 import moment from "moment";
 
 import { connectToDatabase } from "@/utils/db";
-import "moment-timezone";
 
+import "moment-timezone";
+import { getApplyStartDate } from "../../stay/utils";
+
+import { defaultWakeupAvail } from "./utils";
+[];
 export const getWakeupAvail = async (id: string) => {
   const client = await connectToDatabase();
   const wakeupAplyCollection = client.db().collection("wakeup_aply");
-  const today = moment().tz("Asia/Seoul").format("YYYY-MM-DD");
+  const today = await getApplyStartDate();
   const find = await wakeupAplyCollection.findOne({
     owner: id,
     date: today,
@@ -18,7 +22,7 @@ export const getWakeupAvail = async (id: string) => {
     const newData = {
       owner: id,
       date: today,
-      available: 2,
+      available: defaultWakeupAvail,
     };
     await wakeupAplyCollection.insertOne(newData);
     return newData;
