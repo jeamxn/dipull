@@ -17,6 +17,7 @@ const MyAvailContent = ({
   const router = useRouter();
   const [number, setNumber] = React.useState(0);
   const [loading, setLoading] = React.useState(false);
+  const [bat, setBat] = React.useState(0);
 
   const putWakeup = async (type: "hol" | "jak") => {
     setLoading(true);
@@ -24,7 +25,7 @@ const MyAvailContent = ({
     try{
       const res = await instance.post(
         "/api/wakeup/apply", {
-          type
+          type, bat
         }
       );
       setAvail(res.data.available);
@@ -60,6 +61,16 @@ const MyAvailContent = ({
           <div className="flex flex-row items-center justify-center gap-[0.325rem] w-full">
             <p className="font-light text-sm">나온 숫자</p>
             <p className="font-semibold text-xl">{number}</p>
+          </div>
+          <div className="flex flex-row items-center justify-center gap-1 w-full">
+            {/* <p className="font-semibold text-xl">{number}</p> */}
+            <input
+              type="number"
+              value={bat}
+              onChange={(e) => setBat(parseInt(e.target.value))}
+              className="font-semibold text-xl bg-transparent text-center w-10 border-b border-text/10"
+            />
+            <p className="font-light text-sm">개 배팅</p>
           </div>
         </div>
         <button

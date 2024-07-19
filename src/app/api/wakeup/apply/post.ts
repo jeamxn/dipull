@@ -1,6 +1,5 @@
 import moment from "moment";
 import "moment-timezone";
-import { ObjectId } from "mongodb";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -27,11 +26,26 @@ const POST = async (
     headers: new_headers
   });
 
-  const { type }: {
-    type: "hol" | "jak"
+  const { type, bat }: {
+    type: "hol" | "jak",
+    bat: string,
   } = await req.json();
   const randNum = rand(1, 99);
   const success = type === "hol" ? randNum % 2 === 1 : randNum % 2 === 0;
+  const batInt = parseInt(bat);
+  if(isNaN(batInt)) return new NextResponse(JSON.stringify({
+    message: "올바르지 않은 배팅입니다.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+  const avl1 = await getWakeupAvail(verified.payload.id);
+  if(avl1.available < batInt) return new NextResponse(JSON.stringify({
+    message: "신청권보다 많은 배팅은 할 수 없습니다.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
 
   const client = await connectToDatabase();
   const wakeupAplyCollection = client.db().collection("wakeup_aply");
@@ -40,8 +54,8 @@ const POST = async (
     owner: verified.payload.id,
     date: today,
   }, {
-    $mul: {
-      available: success ? 2 : 0,
+    $inc: {
+      available: batInt * (success ? 1 : -1),
     }
   });
 
