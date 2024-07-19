@@ -65,20 +65,26 @@ const PUT = async (
   if (
     !captcha
     || captcha_string !== captcha.number
-  ) return new NextResponse(JSON.stringify({
-    success: false,
-    message: "올바르지 않은 자동 입력 방지 문자입니다.",
-  }), {
-    status: 400,
-    headers: new_headers
-  });
-  if (moment().tz("Asia/Seoul").isAfter(moment(captcha.until))) return new NextResponse(JSON.stringify({
-    success: false,
-    message: "입력 가능한 시간이 지났습니다.",
-  }), {
-    status: 400,
-    headers: new_headers
-  });
+  ) {
+    await captchaCollection.deleteOne({ _id: ObjectId.createFromHexString(captcha_id) });
+    return new NextResponse(JSON.stringify({
+      success: false,
+      message: "올바르지 않은 자동 입력 방지 문자입니다.",
+    }), {
+      status: 400,
+      headers: new_headers
+    });
+  }
+  if (moment().tz("Asia/Seoul").isAfter(moment(captcha.until))) {
+    await captchaCollection.deleteOne({ _id: ObjectId.createFromHexString(captcha_id) });
+    return new NextResponse(JSON.stringify({
+      success: false,
+      message: "입력 가능한 시간이 지났습니다.",
+    }), {
+      status: 400,
+      headers: new_headers
+    });
+  }
   await captchaCollection.deleteOne({ _id: ObjectId.createFromHexString(captcha_id) });
 
   const isStay = moment().tz("Asia/Seoul").day() === 0 || moment().tz("Asia/Seoul").day() === 6;
