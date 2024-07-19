@@ -11,8 +11,9 @@ export const getWakeup = async (id: string, gender: string) => {
   const today = getToday();
   const client = await connectToDatabase();
   const wakeupCollection = client.db().collection("wakeup");
+  const week = await getApplyStartDate();
   const query = {
-    week: await getApplyStartDate(),
+    week: week,
     gender: gender,
   };
   const data = await wakeupCollection.find(query).toArray() as unknown as WakeupDB[];
@@ -24,17 +25,15 @@ export const getWakeup = async (id: string, gender: string) => {
     if (!allObj[v.id]) {
       allObj[v.id] = {
         title: v.title,
-        date: v.date,
         count: 0,
         week: v.week,
       };
     }
     allObj[v.id].count++;
-    if (v.owner === id && v.date === today.format("YYYY-MM-DD")) {
+    if (v.owner === id && v.week === week) {
       myObj.push({
         title: v.title,
         id: v.id,
-        date: v.date,
         owner: v.owner,
         _id: v._id,
         gender: v.gender,

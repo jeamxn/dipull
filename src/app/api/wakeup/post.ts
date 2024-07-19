@@ -5,6 +5,8 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
+import { getApplyStartDate } from "../stay/utils";
+
 import { getWakeupAvail } from "./apply/server";
 import { getToday } from "./utils";
 
@@ -33,12 +35,12 @@ const POST = async (
     headers: new_headers
   });
   
-  const today = getToday();
+  const week = await getApplyStartDate();
   const client = await connectToDatabase();
   const wakeupCollection = client.db().collection("wakeup");
   const objcet_id = ObjectId.createFromHexString(_id);
   const query = {
-    date: today.format("YYYY-MM-DD"),
+    week: week,
     owner: verified.payload.id,
     _id: objcet_id,
     gender: verified.payload.data.gender,
@@ -47,7 +49,7 @@ const POST = async (
   const wakeupAplyCollection = client.db().collection("wakeup_aply");
   await wakeupAplyCollection.updateOne({
     owner: verified.payload.id,
-    date: today.format("YYYY-MM-DD"),
+    date: week,
   }, {
     $inc: {
       available: 1,
