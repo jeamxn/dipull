@@ -59,6 +59,9 @@ const GET = async (
 
   await Promise.all(notification_promise);
 
+  const captchaCollection = client.db().collection("captcha");
+  await captchaCollection.deleteMany({ until: { $lt: now } });
+
   return new NextResponse(JSON.stringify({
     success: true,
     message: "Success",
