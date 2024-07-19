@@ -44,7 +44,7 @@ const PUT = async (
   const wakeupAplyCollection = client.db().collection("wakeup_aply");
 
   const myAvail = await getWakeupAvail(verified.payload.id);
-  if(!myAvail.available) return new NextResponse(JSON.stringify({
+  if(myAvail.available <= 0) return new NextResponse(JSON.stringify({
     message: "신청 가능한 신청권이 없습니다.",
     ok: false,
   }), {
@@ -77,7 +77,7 @@ const PUT = async (
       }
     });
     const myAvail = await getWakeupAvail(verified.payload.id);
-    if (!(myAvail.available + 1)) {
+    if ((myAvail.available + 1) <= 0) {
       await wakeupCollection.deleteOne({
         _id: add.insertedId,
       });
