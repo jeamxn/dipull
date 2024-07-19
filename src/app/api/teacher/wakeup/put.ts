@@ -7,7 +7,6 @@ import { UserDB } from "@/app/auth/type";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-
 const POST = async (
   req: Request,
 ) => {
@@ -50,12 +49,11 @@ const POST = async (
       params,
     });
 
-    moment.tz("Asia/Seoul");
     const statesCollection = client.db().collection("states");
     const data = await statesCollection.findOneAndUpdate({
       type: "wakeup_selected"
     }, {
-      $set: { [`data.${verified.payload.data.gender}`]: { title: res.data.title, id: id, date: moment().format("YYYY-MM-DD") } }
+      $set: { [`data.${verified.payload.data.gender}`]: { title: res.data.title, id: id, date: moment().tz("Asia/Seoul").format("YYYY-MM-DD") } }
     });
 
     if(data === null) throw "SNE"; // states not exists
