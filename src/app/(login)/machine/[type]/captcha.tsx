@@ -50,21 +50,27 @@ const Captcha = ({
     return () => clearInterval(interval);
   }, [captcha]);
 
+  const go = () => {
+    if (!input) return;
+    if (submit) submit(captcha.id, input);
+    setShowRecaptcha(false);
+  };
+
   return (
     <div
-      className="fixed top-0 left-0 w-full h-full flex flex-col items-center bg-text/20 dark:bg-white/70 justify-center z-50"
+      className="fixed top-0 left-0 w-full h-full flex flex-col items-center bg-text/20 dark:bg-white/70 justify-center z-50 px-4"
     >
       <div className="bg-background px-4 py-5 rounded shadow-xl flex flex-col items-center justify-center gap-2">
-        <p className="text-primary font-bold text-lg">자동 입력 방지 {left === -1 || isNaN(left) ? "" : `(${left}초 남음)`}</p>
+        <p className="text-primary font-bold text-lg text-center">자동 입력 방지 {left === -1 || isNaN(left) ? "" : `(${left}초 남음)`}</p>
         <div className={[
-          "w-80 h-[97px] border border-text/10 rounded bg-white overflow-hidden",
+          "w-full max-w-96 aspect-[10/3] border border-text/10 rounded bg-white overflow-hidden",
           loading ? "loading_background" : "",
         ].join(" ")}>  
           {
             captcha.image ? <img
               src={captcha.image}
               alt="captcha image loading..."
-              className="w-80 h-[97px]"
+              className="w-full h-full"
             /> : null
           }
         </div>
@@ -74,6 +80,7 @@ const Captcha = ({
             value={input}
             onChange={(e) => setInput(e.target.value.toUpperCase())}
             placeholder="자동 입력 방지 문자를 입력해주세요."
+            onKeyDown={(e) => { if (e.key === "Enter") go(); }}
             className={[
               "w-full px-4 py-2 h-11 bg-white border border-text/10 rounded",
               loading ? "loading_background" : "",
@@ -99,11 +106,7 @@ const Captcha = ({
           <button 
             className={`w-full bg-primary text-white font-semibold px-4 py-2 rounded-md text-base ${!input ? "opacity-50" : "opacity-100"}`}
             disabled={!input}
-            onClick={() => {
-              if (!input) return;
-              if (submit) submit(captcha.id, input);
-              setShowRecaptcha(false);
-            }}
+            onClick={go}
           >
             확인
           </button>
