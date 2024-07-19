@@ -8,6 +8,7 @@ import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
 
+import { getWakeupAvail } from "./apply/server";
 import { WakeupData, getToday } from "./utils";
 
 const PUT = async (
@@ -40,14 +41,11 @@ const PUT = async (
   const today = getToday();
   const client = await connectToDatabase();
   const wakeupCollection = client.db().collection("wakeup");
+  const wakeupAplyCollection = client.db().collection("wakeup_aply");
 
-  const mySelect = await wakeupCollection.find({
-    owner: verified.payload.data.id,
-    date: today.format("YYYY-MM-DD"),
-    gender: verified.payload.data.gender,
-  }).toArray();
-  if(mySelect.length >= 3) return new NextResponse(JSON.stringify({
-    message: "하루에 3곡까지만 추가할 수 있습니다.",
+  const myAvail = await getWakeupAvail(verified.payload.id);
+  if(!myAvail.available) return new NextResponse(JSON.stringify({
+    message: "신청 가능한 신청권이 없습니다.",
     ok: false,
   }), {
     status: 400,
@@ -70,18 +68,21 @@ const PUT = async (
       week: await getApplyStartDate(),
     };
     const add = await wakeupCollection.insertOne(putData);
-
-    const mySelect = await wakeupCollection.find({
-      owner: verified.payload.data.id,
+    await wakeupAplyCollection.findOneAndUpdate({
+      owner: verified.payload.id,
       date: today.format("YYYY-MM-DD"),
-      gender: verified.payload.data.gender,
-    }).toArray();
-    if (mySelect.length > 3) {
+    }, {
+      $inc: {
+        available: -1,
+      }
+    });
+    const myAvail = await getWakeupAvail(verified.payload.id);
+    if (!(myAvail.available + 1)) {
       await wakeupCollection.deleteOne({
         _id: add.insertedId,
       });
       return new NextResponse(JSON.stringify({
-        message: "하루에 3곡까지만 추가할 수 있습니다.",
+        message: "신청 가능한 신청권이 없습니다.",
         ok: false,
       }), {
         status: 400,

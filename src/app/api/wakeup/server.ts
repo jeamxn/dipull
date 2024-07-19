@@ -47,7 +47,7 @@ export const getWakeup = async (id: string, gender: string) => {
     all: allObj,
     my: myObj,
     today: today.format("YYYY-MM-DD"),
-    gender: gender,
+    gender: gender as "male" | "female",
     week: await getApplyStartDate(),
   };
 };

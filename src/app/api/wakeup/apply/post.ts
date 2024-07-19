@@ -1,12 +1,14 @@
+import moment from "moment";
+import "moment-timezone";
 import { ObjectId } from "mongodb";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
+import { rand } from "@/utils/random";
 
-import { getWakeupAvail } from "./apply/server";
-import { getToday } from "./utils";
+import { getWakeupAvail } from "./server";
 
 const POST = async (
   req: Request,
@@ -25,47 +27,31 @@ const POST = async (
     headers: new_headers
   });
 
-  const { _id } = await req.json();
-  if(!_id) return new NextResponse(JSON.stringify({
-    message: "잘못된 요청입니다.",
-  }), {
-    status: 400,
-    headers: new_headers
-  });
-  
-  const today = getToday();
+  const { type }: {
+    type: "hol" | "jak"
+  } = await req.json();
+  const randNum = rand(1, 99);
+  const success = type === "hol" ? randNum % 2 === 1 : randNum % 2 === 0;
+
   const client = await connectToDatabase();
-  const wakeupCollection = client.db().collection("wakeup");
-  const objcet_id = ObjectId.createFromHexString(_id);
-  const query = {
-    date: today.format("YYYY-MM-DD"),
-    owner: verified.payload.id,
-    _id: objcet_id,
-    gender: verified.payload.data.gender,
-  };
-  const data = await wakeupCollection.deleteOne(query);
   const wakeupAplyCollection = client.db().collection("wakeup_aply");
+  const today = moment().tz("Asia/Seoul").format("YYYY-MM-DD");
   await wakeupAplyCollection.updateOne({
     owner: verified.payload.id,
-    date: today.format("YYYY-MM-DD"),
+    date: today,
   }, {
-    $inc: {
-      available: 1,
+    $mul: {
+      available: success ? 2 : 0,
     }
   });
-  const myAvail = await getWakeupAvail(verified.payload.id);
 
-  if(data.deletedCount === 0) return new NextResponse(JSON.stringify({
-    message: "삭제에 실패했습니다.",
-    available: myAvail.available,
-  }), {
-    status: 500,
-    headers: new_headers
-  });
+  const avl = await getWakeupAvail(verified.payload.id);
 
   return new NextResponse(JSON.stringify({
-    message: "성공적으로 삭제되었습니다.",
-    available: myAvail.available,
+    success,
+    message: success ? "맞추기에 성공했습니다!" : "맞추기에 실패했습니다.",
+    number: randNum,
+    available: avl.available,
   }), {
     status: 200,
     headers: new_headers

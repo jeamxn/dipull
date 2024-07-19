@@ -41,6 +41,7 @@ const GET = async (
   const stayCollection = db.collection("stay");
   const wakeupCollection = db.collection("wakeup");
   const notificationCollection = db.collection("notification");
+  const wakeupAplyCollection = client.db().collection("wakeup_aply");
 
   const deleteArr = [
     homecomingCollection.deleteMany({
@@ -93,6 +94,11 @@ const GET = async (
     requestCollection.deleteMany({
       last_search: {
         $lt: now
+      }
+    }),
+    wakeupAplyCollection.deleteMany({
+      date: {
+        $lt: applyStartDate
       }
     })
   ];
