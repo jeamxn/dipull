@@ -133,6 +133,11 @@ input, textarea, button, select {
   -moz-border-radius: 0;
   outline: none;
 }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
 .loading_background {
   animation: placeHolderShimmer .75s ease-in-out infinite alternate;
