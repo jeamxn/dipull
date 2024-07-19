@@ -7,6 +7,8 @@ import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 import { rand } from "@/utils/random";
 
+import { getApplyStartDate } from "../../stay/utils";
+
 import { getWakeupAvail } from "./server";
 
 const POST = async (
@@ -49,10 +51,10 @@ const POST = async (
 
   const client = await connectToDatabase();
   const wakeupAplyCollection = client.db().collection("wakeup_aply");
-  const today = moment().tz("Asia/Seoul").format("YYYY-MM-DD");
+  const week = await getApplyStartDate();
   await wakeupAplyCollection.updateOne({
     owner: verified.payload.id,
-    date: today,
+    date: week,
   }, {
     $inc: {
       available: batInt * (success ? 1 : -1),
