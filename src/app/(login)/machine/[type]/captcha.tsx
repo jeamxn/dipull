@@ -55,7 +55,7 @@ const Captcha = ({
       className="fixed top-0 left-0 w-full h-full flex flex-col items-center bg-text/20 dark:bg-white/70 justify-center z-50"
     >
       <div className="bg-background px-4 py-5 rounded shadow-xl flex flex-col items-center justify-center gap-2">
-        <p className="text-primary font-bold text-lg">자동 입력 방지 {left === -1 && !isNaN(left) ? "" : `(${left}초 남음)`}</p>
+        <p className="text-primary font-bold text-lg">자동 입력 방지 {left === -1 || isNaN(left) ? "" : `(${left}초 남음)`}</p>
         <div className={[
           "w-80 h-[97px] border border-text/10 rounded bg-white overflow-hidden",
           loading ? "loading_background" : "",
