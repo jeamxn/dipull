@@ -76,7 +76,7 @@ export const GET = async (req: Request) => {
   const refreshTokenCookie = serialize("refreshToken", refreshToken, {
     path: "/",
     expires: moment().tz("Asia/Seoul").add(30, "days").toDate(),
-    httpOnly: true,
+    // httpOnly: true,
   });
   const accessTokenCookie = serialize("accessToken", accessToken, {
     path: "/",
