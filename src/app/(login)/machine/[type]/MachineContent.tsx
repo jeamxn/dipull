@@ -217,17 +217,15 @@ const MachineContent: React.FC<MachineContentProps> = ({
                   >
                     <option value="">{machineKorean[params.type]}기를 선택해주세요</option>
                     {Object.entries(data).map(([name, machine], i) => (
-                      <option 
-                        key={i} 
-                        value={name}
-                        disabled={
-                          machine.allow.grades.indexOf(Math.floor(userInfo.number / 1000)) === -1 ||
-                          userInfo.gender !== machine.allow.gender
-                        }
-                      >
-                        {machineToKorean(name, machine)} {late?.[name] ? `(${late?.[name]}분 지연)`: ""}
-                      </option>
-                    ))}
+                      machine.allow.grades.indexOf(Math.floor(userInfo.number / 1000)) === -1 ||
+                      userInfo.gender !== machine.allow.gender) ? null : (
+                        <option 
+                          key={i} 
+                          value={name}
+                        >
+                          {machineToKorean(name, machine)} {late?.[name] ? `(${late?.[name]}분 지연)`: ""}
+                        </option>
+                      ))}
                   </select>
                 </figure>
                 <figure className={`w-full bg-white border border-text/10 px-4 py-2 rounded-md text-base ${loading ? "loading_background" : ""}`}>
