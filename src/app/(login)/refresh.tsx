@@ -32,6 +32,7 @@ const Refresh = ({
             await instance.get("/auth/logout");
           }
           finally {
+            document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             router.push("/login");
           }
         }
