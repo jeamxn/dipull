@@ -8,7 +8,11 @@ import { WakeupDB, WakeupGET } from "@/app/api/wakeup/utils";
 import { alert } from "@/utils/alert";
 import instance from "@/utils/instance";
 
-const MyListContent = ({ initailData }: {
+const MyListContent = ({
+  initailData,
+  avail,
+  setAvail,
+}: {
   initailData: {
     all: WakeupGET;
     my: WakeupDB[];
@@ -16,6 +20,8 @@ const MyListContent = ({ initailData }: {
     gender: "male" | "female";
     week: string;
   };
+  avail: number,
+  setAvail: React.Dispatch<React.SetStateAction<number>>,
 }) => {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
@@ -31,6 +37,7 @@ const MyListContent = ({ initailData }: {
         }
       );
       await getWakeup();
+      setAvail(res.data.available);
       router.refresh();
       alert.update(loading, res.data.message, "success");
     }
