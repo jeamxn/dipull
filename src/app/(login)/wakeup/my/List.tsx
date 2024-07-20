@@ -67,8 +67,8 @@ const List = ({
     const loading = alert.loading("꼬라박는 중 입니다...");
     try{
       const res = await instance.get("/api/wakeup/recover");
-      setRanking(res.data);
-      setAvail(defaultWakeupAvail);
+      // setRanking(res.data);
+      // setAvail(defaultWakeupAvail);
       router.refresh();
       alert.update(loading, res.data.message, "success");
     }
