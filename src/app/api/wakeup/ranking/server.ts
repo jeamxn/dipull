@@ -54,7 +54,7 @@ export const getWakeupRanking = async () => {
   const rt: Rank[] = find.map((e) => { 
     const grade = Math.floor(e.number / 1000);
     const classNum = Math.floor(e.number / 100) % 10;
-    const name_split: string[] = e.name.split("");
+    const name_split: string[] = e.name.replace(/ /g, "").split("");
     const new_name = name_split.map((e, i) => { 
       if (i === 0 || i === name_split.length - 1) {
         return e;
