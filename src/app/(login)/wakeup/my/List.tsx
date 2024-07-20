@@ -89,6 +89,10 @@ const List = ({
         }
       );
       setAvail(res.data.avail);
+      setShowGift(false);
+      setSelectedUser(defaultUserData);
+      setInput("");
+      setGive(0);
       router.refresh();
       alert.update(loading, res.data.message, "success");
     }
