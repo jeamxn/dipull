@@ -66,7 +66,7 @@ export const getWakeupRanking = async () => {
     return {
       available: e.available,
       gender: e.gender,
-      name: `${grade}학년 ${classNum}반 ${new_name}`,
+      name: `${grade}학년 ${classNum}반 ${name_split.length > 2 ? new_name : `${name_split[0]}*`}`,
     };
   });
 

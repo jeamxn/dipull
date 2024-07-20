@@ -48,7 +48,7 @@ const List = ({
 
   React.useEffect(() => {
     putWakeup();
-  }, [avail]);
+  }, []);
   
   const putWakeup = async () => {
     setLoading(true);
