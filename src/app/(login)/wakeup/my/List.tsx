@@ -39,7 +39,7 @@ const List = ({
   };
   const gooola = async () => {
     setLoading(true);
-    const loading = alert.loading("꼴아박는 중 입니다...");
+    const loading = alert.loading("꼬라박는 중 입니다...");
     try{
       const res = await instance.get("/api/wakeup/recover");
       setRanking(res.data);
