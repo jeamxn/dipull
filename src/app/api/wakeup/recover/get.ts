@@ -31,7 +31,7 @@ const GET = async (
   const sum = av + my;
   if (sum >= defaultWakeupAvail) {
     return new NextResponse(JSON.stringify({
-      message: "당신은 꼴아박지 않았군요...",
+      message: "당신은 꼬라박지 않았군요...",
     }), {
       status: 400,
       headers: new_headers
@@ -51,7 +51,7 @@ const GET = async (
   });
 
   return new NextResponse(JSON.stringify({
-    message: "성공적으로 꼴아박았습니다. 🥳",
+    message: "성공적으로 꼬라박았습니다. 🥳",
   }), {
     status: 200,
     headers: new_headers
