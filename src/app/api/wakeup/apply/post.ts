@@ -41,6 +41,13 @@ const POST = async (
     status: 400,
     headers: new_headers
   });
+  if (batInt <= 0) return new NextResponse(JSON.stringify({
+    message: "1개 이상의 신청권을 배팅해주세요.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+
   const avl1 = await getWakeupAvail(verified.payload.id);
   if(avl1.available < batInt) return new NextResponse(JSON.stringify({
     message: "신청권보다 많은 배팅은 할 수 없습니다.",
