@@ -123,7 +123,7 @@ const List = ({
               </svg>
             </div>
           </div>
-          <h1 className="text-base text-primary">기본 개수인 {defaultWakeupAvail}개 제외.</h1>
+          <h1 className="text-base text-primary">기본 개수인 {defaultWakeupAvail.toLocaleString()}개 제외.</h1>
         </section>
         <div className="flex flex-row items-center justify-center gap-1">
           <button
@@ -156,7 +156,7 @@ const List = ({
                       }
                       setGive(value);
                     }}
-                    placeholder={`최대 ${avail}개 가능`}
+                    placeholder={`최대 ${avail.toLocaleString()}개 가능`}
                   />
                   <p className="font-semibold">개</p>
                 </div>
@@ -243,7 +243,7 @@ const List = ({
               initailRanking.length ? initailRanking.map((e, i) => (
                 <tr className="w-full border-y border-text/10" key={i}>
                   <td className="text-left py-2 px-4 whitespace-nowrap font-semibold">{i + 1}위</td>
-                  <td className="text-left py-2 px-4 border-x border-text/10 whitespace-nowrap">{e.available}개</td>
+                  <td className="text-left py-2 px-4 border-x border-text/10 whitespace-nowrap">{e.available.toLocaleString()}개</td>
                   <td className="text-left py-2 px-4 border-x border-text/10 whitespace-nowrap">{ e.gender === "male" ? "남" : "여"}학생</td>
                   <td className="text-left py-2 px-4 whitespace-nowrap">{e.name}</td>
                 </tr>
