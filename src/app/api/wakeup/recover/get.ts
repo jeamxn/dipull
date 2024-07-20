@@ -37,25 +37,31 @@ const GET = async (
       headers: new_headers
     });
   }
-  
-  const client = await connectToDatabase();
-  const wakeupAplyCollection = client.db().collection("wakeup_aply");
-  const week = await getApplyStartDate();
-  await wakeupAplyCollection.updateOne({
-    owner: verified.payload.id,
-    date: week,
-  }, {
-    $set: {
-      available: defaultWakeupAvail,
-    }
-  });
-
   return new NextResponse(JSON.stringify({
-    message: "성공적으로 꼬라박았습니다. 🥳",
+    message: "ㅋㅋㅋ 꼬라박으셨군요 🥳",
   }), {
     status: 200,
     headers: new_headers
   });
+  
+  // const client = await connectToDatabase();
+  // const wakeupAplyCollection = client.db().collection("wakeup_aply");
+  // const week = await getApplyStartDate();
+  // await wakeupAplyCollection.updateOne({
+  //   owner: verified.payload.id,
+  //   date: week,
+  // }, {
+  //   $set: {
+  //     available: defaultWakeupAvail,
+  //   }
+  // });
+
+  // return new NextResponse(JSON.stringify({
+  //   message: "성공적으로 꼬라박았습니다. 🥳",
+  // }), {
+  //   status: 200,
+  //   headers: new_headers
+  // });
 };
 
 export default GET;
