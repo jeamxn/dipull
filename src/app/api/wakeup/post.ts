@@ -46,15 +46,6 @@ const POST = async (
     gender: verified.payload.data.gender,
   };
   const data = await wakeupCollection.deleteOne(query);
-  const wakeupAplyCollection = client.db().collection("wakeup_aply");
-  await wakeupAplyCollection.updateOne({
-    owner: verified.payload.id,
-    date: week,
-  }, {
-    $inc: {
-      available: 1,
-    }
-  });
   const myAvail = await getWakeupAvail(verified.payload.id);
 
   if(data.deletedCount === 0) return new NextResponse(JSON.stringify({
