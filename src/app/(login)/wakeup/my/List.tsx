@@ -41,7 +41,7 @@ const List = ({
     <article className="flex flex-col gap-3">
       <section className="flex flex-col gap-1">
         <h1 className="text-xl font-semibold">상위권 순위표</h1>
-        {/* <h1 className="text-base text-primary">홀/짝 맞추면 신청권 2배, 틀리면 0개. 1주일에 기본 신청권 {defaultWakeupAvail}개.</h1> */}
+        <h1 className="text-base text-primary">기본 개수인 {defaultWakeupAvail}개 제외.</h1>
       </section>
       <section className={[
         "flex flex-col gap-4 bg-white rounded border border-text/10 p-5 overflow-auto",
