@@ -3,6 +3,7 @@
 import { connectToDatabase } from "@/utils/db";
 
 import { getApplyStartDate } from "../../stay/utils";
+import { defaultWakeupAvail } from "../apply/utils";
 
 import { Rank } from "./utils";
 
@@ -25,6 +26,9 @@ export const getWakeupRanking = async () => {
     {
       $match: {
         date: week,
+        available: {
+          $ne: defaultWakeupAvail
+        }
       }
     },
     {
