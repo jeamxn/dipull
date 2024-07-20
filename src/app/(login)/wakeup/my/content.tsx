@@ -28,7 +28,7 @@ const Content = ({
   return (
     <>
       <MyAvailContent avail={avail} setAvail={setAvail} />
-      <List avail={avail} ranking={initailRanking} />
+      <List avail={avail} ranking={initailRanking} setAvail={setAvail} />
       <MyListContent initailData={initailData} avail={avail} setAvail={setAvail} />
     </>
   );

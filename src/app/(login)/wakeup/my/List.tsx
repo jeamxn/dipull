@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import React from "react";
-import { useRecoilState } from "recoil";
 
 import { defaultWakeupAvail } from "@/app/api/wakeup/apply/utils";
 import { Rank } from "@/app/api/wakeup/ranking/utils";
@@ -11,9 +10,11 @@ import instance from "@/utils/instance";
 
 const List = ({
   avail,
+  setAvail,
   ranking: initailRanking,
 }: {
     avail: number,
+    setAvail: React.Dispatch<React.SetStateAction<number>>,
     ranking: Rank[],
   }) => { 
   const router = useRouter();
@@ -36,13 +37,34 @@ const List = ({
     }
     setLoading(false);
   };
+  const gooola = async () => {
+    setLoading(true);
+    const loading = alert.loading("꼴아박는 중 입니다...");
+    try{
+      const res = await instance.get("/api/wakeup/recover");
+      setRanking(res.data);
+      setAvail(defaultWakeupAvail);
+      router.refresh();
+      alert.update(loading, res.data.message, "success");
+    }
+    catch (e: any) {
+      alert.update(loading, e.response.data.message, "error");
+    }
+    setLoading(false);
+  };
 
   return (
     <article className="flex flex-col gap-3">
-      <section className="flex flex-col gap-1">
-        <h1 className="text-xl font-semibold">상위권 순위표</h1>
-        <h1 className="text-base text-primary">기본 개수인 {defaultWakeupAvail}개 제외.</h1>
-      </section>
+      <div className="flex flex-row items-center justify-between">
+        <section className="flex flex-col gap-1">
+          <h1 className="text-xl font-semibold">상위권 순위표</h1>
+          <h1 className="text-base text-primary">기본 개수인 {defaultWakeupAvail}개 제외.</h1>
+        </section>
+        <button
+          className="border border-text/10 rounded py-2 px-4 bg-white text-text/50 font-semibold"
+          onClick={gooola}
+        >복구하기</button>
+      </div>
       <section className={[
         "flex flex-col gap-4 bg-white rounded border border-text/10 p-5 overflow-auto",
         loading ? "loading_background" : "",
