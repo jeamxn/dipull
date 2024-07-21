@@ -55,12 +55,12 @@ const POST = async (
   const week = await getApplyStartDate();
   const find = await wakeupAplyCollection.findOne({
     owner: id,
-    date: week,
+    // date: week,
   });
   if (!find) {
     await wakeupAplyCollection.insertOne({
       owner: id,
-      date: week,
+      // date: week,
       available: amountInt + defaultWakeupAvail,
     });
   }
@@ -68,7 +68,7 @@ const POST = async (
   const promises = [
     wakeupAplyCollection.updateOne({
       owner: verified.payload.id,
-      date: week,
+      // date: week,
     }, {
       $inc: {
         available: -1 * amountInt,
@@ -76,7 +76,7 @@ const POST = async (
     }),
     wakeupAplyCollection.updateOne({
       owner: id,
-      date: week,
+      // date: week,
     }, {
       $inc: {
         available: amountInt,
