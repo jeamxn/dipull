@@ -80,6 +80,14 @@ const PUT = async (
       gender: verified.payload.data.gender,
       week: week,
     };
+    await wakeupAplyCollection.findOneAndUpdate({
+      owner: verified.payload.id,
+      // date: week,
+    }, {
+      $inc: {
+        available: -batInt,
+      }
+    });
     const add = await wakeupCollection.updateOne({
       week: week,
       owner: verified.payload.data.id,
@@ -92,16 +100,8 @@ const PUT = async (
     }, {
       upsert: true,
     });
-    await wakeupAplyCollection.findOneAndUpdate({
-      owner: verified.payload.id,
-      // date: week,
-    }, {
-      $inc: {
-        available: -1,
-      }
-    });
     const myAvail = await getWakeupAvail(verified.payload.id);
-    if ((myAvail.available + 1) <= 0) {
+    if ((myAvail.available + batInt) <= 0) {
       await wakeupCollection.updateOne({
         week: week,
         owner: verified.payload.data.id,
