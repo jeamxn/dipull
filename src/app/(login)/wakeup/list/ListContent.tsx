@@ -161,7 +161,7 @@ const ListContent = ({ initailData }: {
                           alt={v.title}
                           className="max-w-[160px] object-cover rounded aspect-video cursor-pointer"
                         />
-                        <p className="text-left cursor-pointer">[{Math.floor(v.count / sum * 10000) / 100}%({v.count})] {v.title}</p>
+                        <p className="text-left cursor-pointer">[{Math.floor(v.count / sum * 10000) / 100}%] {v.title}</p>
                       </div>
                     </td>
                     <td
