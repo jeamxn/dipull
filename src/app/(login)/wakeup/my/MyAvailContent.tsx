@@ -44,7 +44,7 @@ const MyAvailContent = ({
     <article className="flex flex-col gap-3">
       <section className="flex flex-col gap-1">
         <h1 className="text-xl font-semibold">나의 신청 가능 횟수</h1>
-        <h1 className="text-base text-primary">홀/짝 맞추면 신청권 2배, 틀리면 0개. 1주일에 기본 신청권 {defaultWakeupAvail.toLocaleString()}개.</h1>
+        <h1 className="text-base text-primary">홀/짝 맞추면 신청권 2배, 틀리면 0개. 매일 오전 7시에 {defaultWakeupAvail.toLocaleString()}개 지급.</h1>
       </section>
       <div className={[
         "flex flex-row items-center justify-between bg-white border border-text/10 py-4",

@@ -24,14 +24,6 @@ export const getWakeupRanking = async () => {
       $unwind: "$userInfo"
     },
     {
-      $match: {
-        // date: week,
-        available: {
-          $ne: defaultWakeupAvail
-        }
-      }
-    },
-    {
       $sort: {
         available: -1,
         "userInfo.number": 1,
