@@ -63,7 +63,7 @@ const MyListContent = ({
     <article className="flex flex-col gap-3">
       <section className="flex flex-col gap-1">
         <h1 className="text-xl font-semibold">오늘 나의 신청 목록</h1>
-        <h1 className="text-base text-[#e11d48]">문제가 될 수 있는 가사를 포함한 노래, 개인의 취향이 갈리는 노래 등은 선생님의 검토 후 삭제될 수 있습니다.</h1>
+        <h1 className="text-base text-[#e11d48]">삭제한 신청곡의 신청권은 되돌아오지 않아요.</h1>
       </section>
       <section className={[
         "flex flex-col gap-4 bg-white rounded border border-text/10 p-5 overflow-auto",
@@ -92,7 +92,7 @@ const MyListContent = ({
                         alt={v.title}
                         className="max-w-[160px] object-cover rounded aspect-video cursor-pointer"
                       />
-                      <p className="text-left cursor-pointer">{v.title}</p>
+                      <p className="text-left cursor-pointer">[{v.bat}표] {v.title}</p>
                     </div>
                   </td>
                   <td 

@@ -9,7 +9,7 @@ import { verify } from "@/utils/jwt";
 
 
 import { getWakeupAvail } from "./apply/server";
-import { WakeupData, getToday } from "./utils";
+import { WakeupData, WakeupNobat, getToday } from "./utils";
 
 const PUT = async (
   req: Request,
@@ -30,6 +30,21 @@ const PUT = async (
   });
 
   const json = await req.json();
+  const bat = json.bat;
+  if(!bat) return new NextResponse(JSON.stringify({
+    message: "잘못된 요청입니다.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+  const batInt = parseInt(bat);
+  if(isNaN(batInt) || batInt <= 0) return new NextResponse(JSON.stringify({
+    message: "1개 이상 신청 해주세요.",
+  }), {
+    status: 400,
+    headers: new_headers
+  });
+
   const select: YouTubeSearchResults = json.data;
   if(!select.id) return new NextResponse(JSON.stringify({ 
     message: "페이로드 불일치.",
@@ -38,7 +53,6 @@ const PUT = async (
     headers: new_headers
   });
 
-  const today = getToday();
   const client = await connectToDatabase();
   const wakeupCollection = client.db().collection("wakeup");
   const wakeupAplyCollection = client.db().collection("wakeup_aply");
@@ -59,14 +73,25 @@ const PUT = async (
       params,
     });
     const week = await getApplyStartDate();
-    const putData: WakeupData = {
+    const putData: WakeupNobat = {
       title: res.data.title,
       id: select.id,
       owner: verified.payload.data.id,
       gender: verified.payload.data.gender,
       week: week,
     };
-    const add = await wakeupCollection.insertOne(putData);
+    const add = await wakeupCollection.updateOne({
+      week: week,
+      owner: verified.payload.data.id,
+      id: select.id,
+    }, {
+      $set: putData,
+      $inc: {
+        bat: batInt,
+      }
+    }, {
+      upsert: true,
+    });
     await wakeupAplyCollection.findOneAndUpdate({
       owner: verified.payload.id,
       // date: week,
@@ -77,8 +102,15 @@ const PUT = async (
     });
     const myAvail = await getWakeupAvail(verified.payload.id);
     if ((myAvail.available + 1) <= 0) {
-      await wakeupCollection.deleteOne({
-        _id: add.insertedId,
+      await wakeupCollection.updateOne({
+        week: week,
+        owner: verified.payload.data.id,
+        id: select.id,
+      }, {
+        $set: putData,
+        $inc: {
+          bat: -batInt,
+        }
       });
       return new NextResponse(JSON.stringify({
         message: "신청 가능한 신청권이 없습니다.",

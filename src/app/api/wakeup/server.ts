@@ -29,7 +29,7 @@ export const getWakeup = async (id: string, gender: string) => {
         week: v.week,
       };
     }
-    allObj[v.id].count++;
+    allObj[v.id].count += v.bat;
     if (v.owner === id && v.week === week) {
       myObj.push({
         title: v.title,
@@ -38,6 +38,7 @@ export const getWakeup = async (id: string, gender: string) => {
         _id: v._id,
         gender: v.gender,
         week: v.week,
+        bat: v.bat,
       });
     }
   }
