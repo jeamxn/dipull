@@ -2,12 +2,16 @@ import "moment-timezone";
 import moment from "moment";
 import { YouTubeSearchResults } from "youtube-search";
 
-export type WakeupData = {
+export type WakeupNobat = {
   title: YouTubeSearchResults["title"];
   id: YouTubeSearchResults["id"];
   owner: string;
   gender: string;
   week: string;
+}
+
+export type WakeupData = WakeupNobat & {
+  bat: number;
 }
 
 export type WakeupSelected = {

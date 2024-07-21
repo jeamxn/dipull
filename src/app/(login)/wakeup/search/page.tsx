@@ -13,6 +13,7 @@ const Admin = () => {
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const [list, setList] = React.useState<CustomYoutubeSearchResult[]>([]);
+  const [bat, setBat] = React.useState(1);
 
   React.useEffect(() => {
     setList([]);
@@ -40,7 +41,7 @@ const Admin = () => {
     try{
       const res = await instance.put(
         "/api/wakeup", {
-          data: select
+          data: select, bat
         }
       );
       router.refresh();
@@ -85,6 +86,16 @@ const Admin = () => {
               </svg>
             </button>
           </section>
+          <div className="flex flex-row">
+            <p>1번에 </p>
+            <input
+              type="number"
+              value={bat}
+              onChange={(e) => setBat(parseInt(e.target.value))}
+              className="font-semibold text-xl bg-transparent text-center w-10 border-b border-text/10 ml-2"
+            />
+            <p>개 씩 신청</p>
+          </div>
           <table className="w-full overflow-auto">
             <tbody className="w-full border-y border-text/10 overflow-auto">
               <tr className="w-full">
