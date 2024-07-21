@@ -13,6 +13,7 @@ const Content = ({
   myAvail,
   initailData,
   initailRanking,
+  emergency,
 }: {
     myAvail: number;
     initailData: {
@@ -23,12 +24,17 @@ const Content = ({
       week: string;
     };
     initailRanking: Rank[];
+    emergency: boolean;
   }) => { 
   const [avail, setAvail] = React.useState(myAvail);
   return (
     <>
-      <MyAvailContent avail={avail} setAvail={setAvail} />
-      <List avail={avail} ranking={initailRanking} setAvail={setAvail} />
+      <MyAvailContent avail={avail} setAvail={setAvail} emergency={emergency} />
+      {
+        emergency ? null : (
+          <List avail={avail} ranking={initailRanking} setAvail={setAvail} />
+        )
+      }
       <MyListContent initailData={initailData} avail={avail} setAvail={setAvail} />
     </>
   );

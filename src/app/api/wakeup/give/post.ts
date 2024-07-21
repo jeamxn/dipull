@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { connectToDatabase } from "@/utils/db";
+import { getStates } from "@/utils/getStates";
 import { verify } from "@/utils/jwt";
 
 import { getApplyStartDate } from "../../stay/utils";
@@ -22,6 +23,14 @@ const POST = async (
     message: "로그인이 필요합니다.",
   }), {
     status: 401,
+    headers: new_headers
+  });
+
+  const emergency = await getStates("emergency");
+  if (emergency) return new NextResponse(JSON.stringify({
+    message: "긴급 상황이 발생하였습니다.",
+  }), {
+    status: 500,
     headers: new_headers
   });
 
