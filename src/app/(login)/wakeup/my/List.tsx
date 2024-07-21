@@ -123,7 +123,7 @@ const List = ({
               </svg>
             </div>
           </div>
-          <h1 className="text-base text-primary">기본 개수인 {defaultWakeupAvail.toLocaleString()}개 제외.</h1>
+          {/* <h1 className="text-base text-primary">기본 개수인 {defaultWakeupAvail.toLocaleString()}개 제외.</h1> */}
         </section>
         <div className="flex flex-row items-center justify-center gap-1">
           <button
