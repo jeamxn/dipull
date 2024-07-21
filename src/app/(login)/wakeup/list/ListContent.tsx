@@ -26,6 +26,7 @@ const ListContent = ({ initailData }: {
   const [gender, setGender] = React.useState<"male" | "female">(initailData.gender);
   const [my, setMy] = React.useState<WakeupDB[]>(initailData.my);
   const [selected, setSelected] = React.useState<WakeupSelected>(initailData.selected);
+  const sum = Object.values(wakeup).reduce((acc, cur) => acc + cur.count, 0);
 
   const getWakeup = async () => {
     setLoading(true);
@@ -149,7 +150,7 @@ const ListContent = ({ initailData }: {
                           alt={v.title}
                           className="max-w-[160px] object-cover rounded aspect-video cursor-pointer"
                         />
-                        <p className="text-left cursor-pointer">[{v.count}표] {v.title}</p>
+                        <p className="text-left cursor-pointer">[{Math.floor(v.count / sum * 10000) / 100}%] {v.title}</p>
                       </div>
                     </td>
                     <td
