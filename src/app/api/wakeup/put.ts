@@ -58,8 +58,8 @@ const PUT = async (
   const wakeupAplyCollection = client.db().collection("wakeup_aply");
 
   const myAvail = await getWakeupAvail(verified.payload.id);
-  if(myAvail.available <= 0) return new NextResponse(JSON.stringify({
-    message: "신청 가능한 신청권이 없습니다.",
+  if(myAvail.available < batInt) return new NextResponse(JSON.stringify({
+    message: "신청 가능한 신청권이 부족합니다.",
     ok: false,
   }), {
     status: 400,
