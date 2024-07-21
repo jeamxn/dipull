@@ -15,13 +15,13 @@ export const getWakeupAvail = async (id: string) => {
   const today = await getApplyStartDate();
   const find = await wakeupAplyCollection.findOne({
     owner: id,
-    date: today,
+    // date: today,
   });
 
   if (!find) {
     const newData = {
       owner: id,
-      date: today,
+      // date: today,
       available: defaultWakeupAvail,
     };
     await wakeupAplyCollection.insertOne(newData);
@@ -29,7 +29,7 @@ export const getWakeupAvail = async (id: string) => {
   }
   else return {
     owner: find.owner,
-    date: find.date,
+    // date: find.date,
     available: find.available,
   };
 };

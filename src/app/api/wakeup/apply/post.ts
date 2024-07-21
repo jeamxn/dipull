@@ -61,7 +61,7 @@ const POST = async (
   const week = await getApplyStartDate();
   await wakeupAplyCollection.updateOne({
     owner: verified.payload.id,
-    date: week,
+    // date: week,
   }, {
     $inc: {
       available: batInt * (success ? 1 : -1),

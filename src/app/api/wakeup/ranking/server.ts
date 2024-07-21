@@ -25,7 +25,7 @@ export const getWakeupRanking = async () => {
     },
     {
       $match: {
-        date: week,
+        // date: week,
         available: {
           $ne: defaultWakeupAvail
         }

@@ -69,7 +69,7 @@ const PUT = async (
     const add = await wakeupCollection.insertOne(putData);
     await wakeupAplyCollection.findOneAndUpdate({
       owner: verified.payload.id,
-      date: week,
+      // date: week,
     }, {
       $inc: {
         available: -1,

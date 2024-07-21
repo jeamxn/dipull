@@ -96,11 +96,11 @@ const GET = async (
         $lt: now
       }
     }),
-    wakeupAplyCollection.deleteMany({
-      date: {
-        $lt: applyStartDate
+    wakeupAplyCollection.updateMany({}, {
+      $inc: {
+        available: 10
       }
-    })
+    }),
   ];
 
   await Promise.all(deleteArr);
