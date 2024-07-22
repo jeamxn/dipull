@@ -3,7 +3,7 @@
 import React from "react";
 
 import Linker from "@/components/Linker";
-import Select from "@/components/Select";
+import SelectModal from "@/components/SelectModal";
 
 import { MachineType, machineTypeToKorean } from "./utils";
 
@@ -32,7 +32,7 @@ function Home({ params }: { params: { type: MachineType } }) {
 
       <div className="flex flex-col gap-4">
         <p className="text-lg font-semibold px-6">{current_korean}기 신청하기</p>
-        <Select
+        <SelectModal
           label={`${current_korean}기 선택`}
           placeholder={`${current_korean}기를 선택해주세요.`}
           options={[
@@ -42,7 +42,7 @@ function Home({ params }: { params: { type: MachineType } }) {
           value={machine}
           onConfirm={(value) => setMachine(value)}
         />
-        <Select
+        <SelectModal
           label={`${current_korean} 시간 선택`}
           placeholder={`${current_korean} 시간을 선택해주세요.`}
           options={[

@@ -10,7 +10,7 @@ const Navigation = () => {
   const path = usePathname();
   const show = Links.some((link) => link.url.split("/")[1] === path.split("/")[1]);
   const findIndex = Links.findIndex((link) => link.url.split("/")[1] === path.split("/")[1]);
-  const [width, setWidth] = React.useState(0);
+  const [width, setWidth] = React.useState(96);
 
   return show ? (
     <div className="absolute bottom-8 w-full flex flex-row items-center justify-center">

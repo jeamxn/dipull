@@ -85,14 +85,14 @@ export default function RootLayout({
         </main> 
         <RecoilProvider>
           <main className="max-md:hidden flex flex-col border-x border-text/5 dark:border-text/20 w-128 h-full bg-background relative">
-            <div className="overflow-auto pb-36">
+            <div className="overflow-auto pb-36 h-full">
               {children}
             </div>
             <Navigation />
           </main> 
           {/* 모바일 화면 */}
           <main className="max-md:flex hidden flex-col w-full h-full bg-background relative">
-            <div className="overflow-auto pb-36">
+            <div className="overflow-auto pb-36 h-full">
               {children}
             </div>
             <Navigation />
