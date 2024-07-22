@@ -6,6 +6,8 @@ import React from "react";
 import Linker from "@/components/Linker";
 import Select from "@/components/Select";
 
+import Item from "./item";
+
 function Home() {
   const [selected, setSelected] = React.useState<string>("3학년 최재민");
   return (
@@ -41,7 +43,23 @@ function Home() {
         </Linker>
       </div>
 
-      
+      <div className="flex flex-col gap-3 px-6">
+        {
+          Array(20).fill(0).map((_, index) => (
+            <Item
+              key={index}
+              href="/bamboo/1"
+              title="외출갔다 오실때 라면 부탁드릴께요!"
+              name="3학년 최재민"
+              time="1시간 전"
+              like={5}
+              dislike={0}
+              comment={3}
+              isFirst={index === 0}
+            />
+          ))
+        }
+      </div>
     </div>
   );
 }
