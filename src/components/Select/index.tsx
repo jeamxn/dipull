@@ -14,7 +14,7 @@ const Select = ({
     <div className="flex flex-row gap-0 cursor-pointer relative">
       <div
         className={[
-          "absolute -bottom-1 bg-background transition-all cursor-pointer translate-y-full border border-text/10 dark:border-text/20 rounded shadow-md",
+          "absolute z-[1000] -bottom-1 bg-background transition-all cursor-pointer translate-y-full border border-text/10 dark:border-text/20 rounded shadow-md",
           show ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none hidden",
         ].join(" ")}
       >

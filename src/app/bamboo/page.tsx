@@ -23,9 +23,9 @@ function Home() {
           <p className="text-xl font-semibold select-none transition-all">|</p>
           <Select
             options={[
-              "3학년 최재민",
-              "3학년 익명",
-              "익명",
+              "최신순",
+              "하루 인기순",
+              "한 달 인기순",
             ]}
             value={selected}
             setValue={setSelected}
