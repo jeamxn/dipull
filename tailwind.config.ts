@@ -7,6 +7,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      width: {
+        128: "32rem",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -19,7 +22,7 @@ const config: Config = {
         "primary": "rgb(var(--color-primary) / <alpha-value>)",
         "text": "rgb(var(--color-text) / <alpha-value>)",
         "white": "rgb(var(--color-white) / <alpha-value>)",
-      }
+      },
     },
   },
   plugins: [
