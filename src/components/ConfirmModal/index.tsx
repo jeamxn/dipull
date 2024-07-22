@@ -80,6 +80,14 @@ const ConfirmModal = ({
             modal.show ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
           ].join(" ")}
         >
+          <div
+            className="w-full h-full"
+            onClick={() => {
+              dispatch({
+                type: "hide",
+              });
+            }}
+          />
           <div className="w-full flex flex-col items-center justify-center px-6">
             <div className="w-full bg-white rounded-2xl p-6 flex flex-col gap-4">
               <div className="w-full flex flex-col gap-2">
@@ -133,6 +141,14 @@ const ConfirmModal = ({
               }
             </div>
           </div>
+          <div
+            className="w-full h-full"
+            onClick={() => {
+              dispatch({
+                type: "hide",
+              });
+            }}
+          />
         </div>
       </ConfirmModalDispatchContext.Provider>
     </ConfirmModalContext.Provider>
