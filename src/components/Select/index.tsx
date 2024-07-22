@@ -40,7 +40,13 @@ const Select = ({
       >
         {value}
       </p>
-      <div onClick={() => setShow(p => !p)}>
+      <div
+        onClick={() => setShow(p => !p)}
+        className={[
+          "transition-transform",
+          show ? "rotate-180" : "",
+        ].join(" ")}
+      >
         <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
           <mask id="mask0_385_124" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
             <rect y="0.4375" width="24" height="24" fill="#D9D9D9"/>
