@@ -26,7 +26,7 @@ const ConfirmModal = ({
   return (
     <div
       className={[
-        "w-full h-full bg-text/20 absolute top-0 left-0 z-[99] flex flex-col items-center justify-center",
+        "w-full h-full bg-text/20 absolute top-0 left-0 z-[99999] flex flex-col items-center justify-center",
         show ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
       ].join(" ")}
     >

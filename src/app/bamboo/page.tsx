@@ -24,7 +24,9 @@ function Home() {
           <Select
             options={[
               "최신순",
+              "전체 인기순",
               "하루 인기순",
+              "일주일 인기순",
               "한 달 인기순",
             ]}
             value={selected}
