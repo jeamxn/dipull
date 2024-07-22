@@ -9,9 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.5"
+    "tailwindcss-safe-area": "^0.5.1"
   },
   "devDependencies": {
     "typescript": "^5",
