@@ -5,9 +5,9 @@ import { RecoilRoot } from "recoil";
 
 const RecoilProvider = ({ 
   children
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) => {
+}>) => {
   return (
     <RecoilRoot>
       {children}

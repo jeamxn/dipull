@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-import ConfirmModal from "@/components/ConfirmModal";
+import { useConfirmModalDispatch } from "@/components/ConfirmModal";
 import Linker from "@/components/Linker";
 import Mover from "@/components/Mover";
 import Select from "@/components/Select";
@@ -19,7 +19,7 @@ function Home() {
   const router = useRouter();
   const [selected, setSelected] = React.useState<string>("3학년 최재민");
   const [value, setValue] = React.useState<string>("");
-  const [cancelModalShow, setCancelModalShow] = React.useState<boolean>(false);
+  const dispatch = useConfirmModalDispatch();
 
   return (
     <>
@@ -27,7 +27,17 @@ function Home() {
         <div className="flex flex-row items-center justify-between gap-4 px-6">
           <Mover
             onClick={() => {
-              setCancelModalShow(true);
+              // setCancelModalShow(true);
+              dispatch({
+                type: "show",
+                data: {
+                  title: "글 작성을 취소하시겠습니까?",
+                  description: "작성 중인 글은 저장되지 않습니다.",
+                  onConfirm: () => {
+                    router.back();
+                  },
+                }
+              });
             }}
           >
             <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -77,7 +87,7 @@ function Home() {
           />
         </div>
       </div>
-      <ConfirmModal
+      {/* <ConfirmModal
         show={cancelModalShow}
         setShow={setCancelModalShow}
         title="글 작성을 취소하시겠습니까?"
@@ -85,7 +95,7 @@ function Home() {
         onConfirm={() => {
           router.back();
         }}
-      />
+      /> */}
     </>
   );
 }
