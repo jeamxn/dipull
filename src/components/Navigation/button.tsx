@@ -15,7 +15,7 @@ const Button = ({
   setWidth: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   const path = usePathname();
-  const isSame = path === url;
+  const isSame = path.split("/")[1] === url.split("/")[1];
   const ref = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {

@@ -8,8 +8,8 @@ import { Links } from "./links";
 
 const Navigation = () => { 
   const path = usePathname();
-  const show = Links.some((link) => link.url === path);
-  const findIndex = Links.findIndex((link) => link.url === path);
+  const show = Links.some((link) => link.url.split("/")[1] === path.split("/")[1]);
+  const findIndex = Links.findIndex((link) => link.url.split("/")[1] === path.split("/")[1]);
   const [width, setWidth] = React.useState(0);
 
   return show ? (
