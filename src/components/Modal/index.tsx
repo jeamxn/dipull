@@ -9,7 +9,8 @@ const Modal = ({
   confirmButtonText = "확인",
   showCancelButton = false,
   cancelButtonText = "취소",
-  onClick,
+  onConfirm,
+  onCancle,
 }: {
   label?: string;
   show: boolean;
@@ -19,7 +20,8 @@ const Modal = ({
     cancelButtonText?: string;
     showConfirmButton?: boolean;
     showCancelButton?: boolean;
-    onClick?: (...any: any) => any | Promise<(...any: any) => any>;
+    onConfirm?: (...any: any) => any | Promise<(...any: any) => any>;
+    onCancle?: (...any: any) => any | Promise<(...any: any) => any>;
 }) => {
   return (
     <>
@@ -28,7 +30,10 @@ const Modal = ({
           "absolute bottom-0 w-full h-full z-[99] bg-text/20 transition-all cursor-pointer",
           show ? "opacity-100 bg-text pointer-events-auto" : "opacity-0 pointer-events-none",
         ].join(" ")}
-        onClick={() => setShow(false)}
+        onClick={() => {
+          onCancle?.(onclick?.arguments);
+          setShow(false);
+        }}
       />
       <div className={[
         "absolute bottom-0 w-full px-6 z-[100] bg-background border-t rounded-t-3xl pt-6 pb-safe-offset-6 transition-all",
@@ -38,7 +43,6 @@ const Modal = ({
         <div className="flex flex-row items-center justify-center w-full">
           <div
             className="bg-text/15 dark:bg-text/30 w-16 h-1 cursor-pointer"
-            onClick={() => setShow(false)}
           />
         </div>
         {
@@ -58,7 +62,10 @@ const Modal = ({
                 showCancelButton ? (
                   <button
                     className="w-full text-text/80 rounded-lg px-4 py-3 font-medium border border-text/80 dark:border-text/20"
-                    onClick={() => setShow(false)}
+                    onClick={() => {
+                      onCancle?.(onclick?.arguments);
+                      setShow(false);
+                    }}
                   >
                     {cancelButtonText}
                   </button>
@@ -69,7 +76,7 @@ const Modal = ({
                   <button
                     className="w-full bg-text/80 text-white rounded-lg px-4 py-3 font-medium border border-text/80"
                     onClick={() => {
-                      onClick?.(onclick?.arguments);
+                      onConfirm?.(onclick?.arguments);
                       setShow(false);
                     }}
                   >

@@ -40,7 +40,7 @@ function Home({ params }: { params: { type: MachineType } }) {
             "[3학년] 학봉관 2층 왼쪽",
           ]}
           value={machine}
-          onClick={(value) => setMachine(value)}
+          onConfirm={(value) => setMachine(value)}
         />
         <Select
           label={`${current_korean} 시간 선택`}
@@ -53,7 +53,7 @@ function Home({ params }: { params: { type: MachineType } }) {
             "오후 10시 30분",
           ]}
           value={time}
-          onClick={(value) => setTime(value)}
+          onConfirm={(value) => setTime(value)}
         />
       </div>
       

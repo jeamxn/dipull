@@ -9,7 +9,7 @@ const Select = ({
   placeholder,
   options,
   value,
-  onClick,
+  onConfirm,
   showConfirmButton = true,
   confirmButtonText = "확인",
   showCancelButton = false,
@@ -20,7 +20,7 @@ const Select = ({
   placeholder?: string;
   options?: string[];
   value?: string;
-  onClick?: (value?: string) => void;
+  onConfirm?: (value?: string) => void;
   confirmButtonText?: string;
   cancelButtonText?: string;
   showConfirmButton?: boolean;
@@ -68,7 +68,8 @@ const Select = ({
         confirmButtonText={confirmButtonText}
         showCancelButton={showCancelButton}
         cancelButtonText={cancelButtonText}
-        onClick={() => onClick?.(selected)}
+        onConfirm={() => onConfirm?.(selected)}
+        onCancle={() => setShowDetails(false)}
       >
         {
           options?.map((option, index) => (
@@ -78,7 +79,7 @@ const Select = ({
               onClick={() => {
                 setSelected(option);
                 if (autoClose) {
-                  onClick?.(option);
+                  onConfirm?.(option);
                   setShowDetails(false);
                 }
               }}
