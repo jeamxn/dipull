@@ -35,7 +35,7 @@ const Select = ({
         }
       </div>
       <p
-        className="text-xl font-semibold select-none transition-all"
+        className="text-xl font-semibold select-none transition-all whitespace-nowrap"
         onClick={() => setShow(p => !p)}
       >
         {value}

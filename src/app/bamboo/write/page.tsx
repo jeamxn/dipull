@@ -35,7 +35,7 @@ function Home() {
           </svg>
         </Mover>
         <div className="flex flex-row items-center justify-center gap-2">
-          <p className="text-xl font-semibold select-none transition-all">새 글 쓰기</p>
+          <p className="text-xl font-semibold select-none transition-all whitespace-nowrap">새 글 쓰기</p>
           <p className="text-xl font-semibold select-none transition-all">|</p>
           <Select
             options={[

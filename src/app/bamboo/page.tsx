@@ -9,7 +9,7 @@ import Select from "@/components/Select";
 import Item from "./item";
 
 function Home() {
-  const [selected, setSelected] = React.useState<string>("3학년 최재민");
+  const [selected, setSelected] = React.useState<string>("최신순");
   return (
     <div className="py-6 flex flex-col gap-8">
       <div className="flex flex-row items-center justify-between gap-4 px-6">
@@ -19,7 +19,7 @@ function Home() {
             src="https://lh3.googleusercontent.com/a/ACg8ocKyDiVdNK5iuPoyj3TGnsK7daSEj3ciCDPT99KKr_qq10tUvmoC=s96-c"
             alt="profile"
           />
-          <p className="text-xl font-semibold select-none transition-all">대나무 숲</p>
+          <p className="text-xl font-semibold select-none transition-all whitespace-nowrap">대나무 숲</p>
           <p className="text-xl font-semibold select-none transition-all">|</p>
           <Select
             options={[
