@@ -14,15 +14,19 @@ const Navigation = ({
   const path = usePathname();
   const show = Links.some((link) => link.url.split("/")[1] === path.split("/")[1]);
   const findIndex = Links.findIndex((link) => link.url.split("/")[1] === path.split("/")[1]);
+  const depth = path.split("/").length <= 2 + Links[findIndex].innerNavigationDeepth;
   const [width, setWidth] = React.useState(96);
 
   return (
     <>
-      <div className="overflow-auto pb-36 h-full">
+      <div className={[
+        "overflow-auto h-full",
+        show && depth ? "pb-safe-offset-28" : "pb-safe-offset-6",
+      ].join(" ")}>
         {children}
       </div>
       {
-        show && path.split("/").length <= 2 + Links[findIndex].innerNavigationDeepth ? (
+        show && depth ? (
           <div className="absolute bottom-8 w-full flex flex-row items-center justify-center">
             <div
               className={[

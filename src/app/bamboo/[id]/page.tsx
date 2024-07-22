@@ -139,7 +139,7 @@ function Home() {
         </div>
       </div>
       
-      <div className="flex flex-col gap-3 px-6">
+      <div className="flex flex-col gap-5 px-6">
         {
           Array(20).fill(0).map((_, index) => (
             <Comment
