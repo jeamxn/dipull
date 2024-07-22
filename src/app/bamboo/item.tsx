@@ -23,7 +23,7 @@ const Item = ({
 }) => {
   return (
     <>
-      {isFirst ? null : <div className="w-full border border-text/10 dark:border-text/20" />}
+      <div className="w-full border-b border-text/10 dark:border-text/20" />
       <Linker href={href} className="flex flex-col gap-3 py-3">
         <div className="flex flex-col gap-0">
           <p className="text-base font-medium">{title}</p>

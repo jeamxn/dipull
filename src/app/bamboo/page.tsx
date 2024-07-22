@@ -11,7 +11,7 @@ import Item from "./item";
 function Home() {
   const [selected, setSelected] = React.useState<string>("최신순");
   return (
-    <div className="py-6 flex flex-col gap-8">
+    <div className="py-6 flex flex-col gap-6">
       <div className="flex flex-row items-center justify-between gap-4 px-6">
         <div className="flex flex-row items-center justify-start gap-2">
           <img
@@ -57,10 +57,10 @@ function Home() {
               like={5}
               dislike={0}
               comment={3}
-              isFirst={index === 0}
             />
           ))
         }
+        <div className="w-full border-b border-text/10 dark:border-text/20" />
       </div>
     </div>
   );

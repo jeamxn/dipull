@@ -4,12 +4,35 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 
+import { MoreButton, useMoreModalDispatch } from "@/components/MoreModal";
 import Mover from "@/components/Mover";
+
+import Comment from "./comment";
 
 function Home() {
   const router = useRouter();
+  const moreModalDispatch = useMoreModalDispatch();
+
+  const moreButtons: MoreButton[] = [
+    {
+      text: "게시글 수정하기",
+      type: "blue",
+      onClick: () => { },
+    },
+    {
+      text: "게시글 삭제하기",
+      type: "red",
+      onClick: () => { },
+    },
+    {
+      text: "신고하기",
+      type: "red",
+      onClick: () => { },
+    }
+  ];
+
   return (
-    <div className="py-6 flex flex-col gap-8">
+    <div className="py-6 flex flex-col gap-6">
       <div className="flex flex-row items-center justify-between gap-4 px-6">
         <Mover
           onClick={() => router.back()}
@@ -40,6 +63,14 @@ function Home() {
           </button>
           <button
             className="-m-2 p-2"
+            onClick={() => {
+              moreModalDispatch({
+                type: "show",
+                data: {
+                  buttons: moreButtons,
+                }
+              });
+            }}
           >
             <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
               <mask id="mask0_304_981" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
@@ -108,7 +139,16 @@ function Home() {
         </div>
       </div>
       
-
+      <div className="flex flex-col gap-3 px-6">
+        {
+          Array(20).fill(0).map((_, index) => (
+            <Comment
+              key={index}
+              isFirst={index === 0}
+            />
+          ))
+        }
+      </div>
     </div>
   );
 }

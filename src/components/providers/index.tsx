@@ -1,6 +1,7 @@
 import React from "react";
 
 import ConfirmModal from "../ConfirmModal";
+import MoreModal from "../MoreModal";
 import Navigation from "../Navigation";
 
 const Providers = ({ 
@@ -11,7 +12,9 @@ const Providers = ({
   return (
     <Navigation>
       <ConfirmModal>
-        {children}
+        <MoreModal>
+          {children}
+        </MoreModal>
       </ConfirmModal>
     </Navigation>
   );
