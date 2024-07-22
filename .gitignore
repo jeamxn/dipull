@@ -1,9 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 .env
 
-/init/test/
-/init/test.ts
-
 # dependencies
 /node_modules
 /.pnp
