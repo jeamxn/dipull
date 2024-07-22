@@ -1,33 +1,64 @@
+@import url('https://webfontworld.github.io/sunn/SUIT.css');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+* {
+  /* font-family: "Wanted Sans", sans-serif; */
+  font-family: "SUIT", sans-serif;
+  /* letter-spacing: -.02rem; */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: rgb(var(--color-text) / 1);
+  -webkit-tap-highlight-color: transparent;
+  word-break: keep-all;
+  transition: var(--transition-default);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer base {
+  :root{
+    --key-interval: 300ms;
+    --transition-default: color var(--key-interval) ease-in-out, background-color var(--key-interval) ease-in-out, border var(--key-interval) ease-in-out;
+
+    --color-primary-light: 64 84 214;
+    --color-background-light: 250 250 255;
+    --color-text-light: 11 17 54;
+    --color-white-light: 255 255 255;
+
+    --color-primary-dark: 64 84 214;
+    --color-background-dark: 0 0 0;
+    --color-text-dark: 230 230 230;
+    --color-white-dark: 15 15 15;
+
+    --color-primary: var(--color-primary-light);
+    --color-background: var(--color-background-light);
+    --color-text: var(--color-text-light);
+    --color-white: var(--color-white-light);
+
+    @media (prefers-color-scheme: dark) { 
+      --color-primary: var(--color-primary-dark);
+      --color-background: var(--color-background-dark);
+      --color-text: var(--color-text-dark);
+      --color-white: var(--color-white-dark);
+    }
+    @media (prefers-color-scheme: light) { 
+      --color-primary: var(--color-primary-light);
+      --color-background: var(--color-background-light);
+      --color-text: var(--color-text-light);
+      --color-white: var(--color-white-light);
+    }
   }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  :root[color-theme="light"] {
+    --color-primary: var(--color-primary-light);
+    --color-background: var(--color-background-light);
+    --color-text: var(--color-text-light);
+    --color-white: var(--color-white-light);
+  }
+  :root[color-theme="dark"] {
+    --color-primary: var(--color-primary-dark);
+    --color-background: var(--color-background-dark);
+    --color-text: var(--color-text-dark);
+    --color-white: var(--color-white-dark);
   }
 }
