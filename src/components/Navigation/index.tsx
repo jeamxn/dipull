@@ -12,7 +12,7 @@ const Navigation = () => {
   const findIndex = Links.findIndex((link) => link.url.split("/")[1] === path.split("/")[1]);
   const [width, setWidth] = React.useState(96);
 
-  return show ? (
+  return show && path.split("/").length <= 2 + Links[findIndex].innerNavigationDeepth ? (
     <div className="absolute bottom-8 w-full flex flex-row items-center justify-center">
       <div
         className={[
