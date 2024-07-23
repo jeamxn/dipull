@@ -25,7 +25,11 @@ const Button = ({
   }, [ref.current, isSame]);
 
   return (
-    <Linker href={url} className="py-2 flex flex-row items-center justify-center transition-all z-50">
+    <Linker
+      href={url}
+      className="py-2 flex flex-row items-center justify-center transition-all z-50"
+      disabled={isSame}
+    >
       <div
         ref={ref}
         className={[

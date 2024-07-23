@@ -32,12 +32,12 @@ const Loading = ({
   return (
     <div className={[
       "w-full h-[0.125rem]",
-      fixed ? "fixed top-0 z-50" : "absolute bottom-0",
+      fixed ? "absolute top-0 z-[99999]" : "absolute bottom-0",
     ].join (" ")}>
       <div
         className={[
           "h-full rainbow ease-in-out transition-all",
-          loading ? "w-full duration-500" : "w-0 transition-none",
+          loading ? "w-full duration-300" : "w-0 transition-none",
         ].join(" ")}
       />
     </div>

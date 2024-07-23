@@ -70,8 +70,8 @@ export default function RootLayout({
             <Providers>
               {children}
             </Providers>
+            <Loading />
           </main>
-          <Loading />
         </RecoilProvider>
       </body>
     </html>
