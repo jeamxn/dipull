@@ -8,6 +8,7 @@ const Comment = ({
 }: {
   isFirst: boolean;
   }) => {
+  const [myLike, setMyLike] = React.useState<boolean>(false);
   const moreModalDispatch = useMoreModalDispatch();
   const moreButtons: MoreButton[] = [
     {
@@ -26,6 +27,11 @@ const Comment = ({
       onClick: () => { },
     }
   ];
+
+  const emotion = () => { 
+    setMyLike(p => !p);
+  };
+
   return (
     <>
       {
@@ -49,9 +55,15 @@ const Comment = ({
             <div className="font-normal">
               와 제가 사올께요
             </div>
-            <div>
-              <p className="font-medium text-sm text-text/50 dark:text-text/60 select-none cursor-pointer">좋아요 12개</p>
-            </div>
+            <button
+              className="flex flex-row items-center justify-start h-fit -m-2 p-2 w-fit"
+              onClick={emotion}
+            >
+              <p className={[
+                "font-medium text-sm select-none cursor-pointer duration-150",
+                myLike ? "text-blue-700 dark:text-blue-400" : "text-text/50 dark:text-text/60"
+              ].join(" ")}>좋아요 12개</p>
+            </button>
           </div>
         </div>
         <div

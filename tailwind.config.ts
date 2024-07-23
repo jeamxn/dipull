@@ -19,7 +19,6 @@ const config: Config = {
         "inherit": "inherit",
         "transparent": "transparent",
         "background": "rgb(var(--color-background) / <alpha-value>)",
-        "primary": "rgb(var(--color-primary) / <alpha-value>)",
         "text": "rgb(var(--color-text) / <alpha-value>)",
         "white": "rgb(var(--color-white) / <alpha-value>)",
       },

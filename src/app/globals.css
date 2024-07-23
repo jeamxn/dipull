@@ -21,42 +21,35 @@
     --key-interval: 300ms;
     --transition-default: color var(--key-interval) ease-in-out, background-color var(--key-interval) ease-in-out, border var(--key-interval) ease-in-out;
 
-    --color-primary-light: 64 84 214;
     --color-background-light: 250 250 255;
     --color-text-light: 11 17 54;
     --color-white-light: 255 255 255;
 
-    --color-primary-dark: 64 84 214;
     --color-background-dark: 0 0 0;
     --color-text-dark: 250 250 255;
     --color-white-dark: 11 11 23;
 
-    --color-primary: var(--color-primary-light);
     --color-background: var(--color-background-light);
     --color-text: var(--color-text-light);
     --color-white: var(--color-white-light);
 
     @media (prefers-color-scheme: dark) { 
-      --color-primary: var(--color-primary-dark);
       --color-background: var(--color-background-dark);
       --color-text: var(--color-text-dark);
       --color-white: var(--color-white-dark);
     }
     @media (prefers-color-scheme: light) { 
-      --color-primary: var(--color-primary-light);
       --color-background: var(--color-background-light);
       --color-text: var(--color-text-light);
       --color-white: var(--color-white-light);
     }
   }
   :root[color-theme="light"] {
-    --color-primary: var(--color-primary-light);
     --color-background: var(--color-background-light);
     --color-text: var(--color-text-light);
     --color-white: var(--color-white-light);
   }
   :root[color-theme="dark"] {
-    --color-primary: var(--color-primary-dark);
     --color-background: var(--color-background-dark);
     --color-text: var(--color-text-dark);
     --color-white: var(--color-white-dark);

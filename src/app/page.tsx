@@ -77,12 +77,12 @@ export default function Home() {
           <table className="w-full table-fixed border border-text/10 dark:border-text/20 bg-white dark:bg-text/10">
             <tbody className="w-full">
               <tr>
-                <th className="w-8 py-2 text-primary text-sm font-semibold border-r border-text/10 dark:border-text/20">-</th>
-                <th className="px-2 py-2 text-primary text-sm font-semibold">월</th>
-                <th className="px-2 py-2 text-primary text-sm font-semibold">화</th>
-                <th className="px-2 py-2 text-primary text-sm font-semibold">수</th>
-                <th className="px-2 py-2 text-primary text-sm font-semibold">목</th>
-                <th className="px-2 py-2 text-primary text-sm font-semibold">금</th>
+                <th className="w-8 py-2 text-blue-700 dark:text-blue-400 text-sm font-semibold border-r border-text/10 dark:border-text/20">-</th>
+                <th className="px-2 py-2 text-blue-700 dark:text-blue-400 text-sm font-semibold">월</th>
+                <th className="px-2 py-2 text-blue-700 dark:text-blue-400 text-sm font-semibold">화</th>
+                <th className="px-2 py-2 text-blue-700 dark:text-blue-400 text-sm font-semibold">수</th>
+                <th className="px-2 py-2 text-blue-700 dark:text-blue-400 text-sm font-semibold">목</th>
+                <th className="px-2 py-2 text-blue-700 dark:text-blue-400 text-sm font-semibold">금</th>
               </tr>
               
               <tr className="border-t border-text/10 dark:border-text/20">
