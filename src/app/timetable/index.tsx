@@ -5,12 +5,18 @@ import axios from "axios";
 import React from "react";
 
 import * as Select from "@/components/Select";
+import { useUserInfo } from "@/utils/cookies";
 
 import { TimetableResponse } from "./[grade]/[class]/get";
 
 const Timetable = () => {
-  const [grade, setGrade] = React.useState<number>(1);
-  const [class_, setClass] = React.useState<number>(1);
+  const user = useUserInfo();
+  const [grade, setGrade] = React.useState<number>(Math.floor(user.number / 1000));
+  const [class_, setClass] = React.useState<number>(Math.floor(user.number / 100) % 10);
+  React.useEffect(() => { 
+    setGrade(Math.floor(user.number / 1000));
+    setClass(Math.floor(user.number / 100) % 10);
+  }, [user]);
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["timetable", grade, class_],

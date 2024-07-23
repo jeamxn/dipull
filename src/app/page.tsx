@@ -1,12 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import { useRouter } from "next/navigation";
 import React from "react";
+
+import { useUserInfo } from "@/utils/cookies";
 
 import Meal from "./meal";
 import Timetable from "./timetable";
 
 const Home = () => {
+  const user = useUserInfo();
+  const router = useRouter();
+  const login = async () => {
+    const url = `${process.env.NEXT_PUBLIC_DIMIGOIN_URI}/oauth?client=${process.env.NEXT_PUBLIC_DIMIGOIN_KEY}&redirect=${window.location.origin}/auth`;
+    router.push(url);
+  };
+  const logout = async () => { };
+
   return (
     <>
       <div className="w-full h-40 bg-text dark:bg-text-dark px-6 flex flex-col items-start justify-end">
@@ -24,8 +35,13 @@ const Home = () => {
       <div className="flex flex-col gap-6">
         <div className="px-6 flex flex-row justify-between gap-4">
           <div className="flex flex-col gap-1">
-            <button className="flex flex-row gap-1 items-center justify-start w-fit cursor-pointer">
-              <p className="font-semibold text-2xl select-none text-text dark:text-text-dark">최재민</p>
+            <button
+              className="flex flex-row gap-1 items-center justify-start w-fit cursor-pointer"
+              onClick={() => {
+                window.open("https://auth.dimigo.net");
+              }}
+            >
+              <p className="font-semibold text-2xl select-none text-text dark:text-text-dark">{user.name}</p>
               <svg className="w-5 h-5" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <mask id="mask0_913_55" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
                   <rect x="0.664001" y="0.134666" width="24" height="24" fill="#D9D9D9"/>
@@ -35,15 +51,17 @@ const Home = () => {
                 </g>
               </svg>
             </button>
-            <p className="font-semibold text-base text-text/30 dark:text-text-dark/50">3학년 6반 29번</p>
+            <p className="font-semibold text-base text-text/30 dark:text-text-dark/50">
+              {Math.floor(user.number / 1000)}학년 {Math.floor(user.number / 100) % 10}반 {user.number % 100}번
+            </p>
           </div>
           <div className="flex flex-row gap-1">
-            {/* <button
-              className="bg-text text-white rounded-lg px-4 py-2 h-fit"
-            >정보수정</button> */}
             <button
               className="bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-lg px-4 py-2"
-            >로그아웃</button>
+              onClick={user.id ? logout : login}
+            >
+              {user.id ? "로그아웃" : "로그인하기"}
+            </button>
           </div>
         </div>
 

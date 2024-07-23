@@ -7,6 +7,7 @@ import React from "react";
 
 import { useConfirmModalDispatch } from "@/components/ConfirmModal";
 import * as Select from "@/components/Select";
+import { useUserInfo } from "@/utils/cookies";
 
 const MarkdownEditor = dynamic(
   () => import("@uiw/react-markdown-editor").then((mod) => mod.default),
@@ -14,8 +15,13 @@ const MarkdownEditor = dynamic(
 );
 
 function Home() {
+  const user = useUserInfo();
   const router = useRouter();
-  const [selected, setSelected] = React.useState<string>("3학년 최재민");
+  const [grade, setGrade] = React.useState<number>(Math.floor(user.number / 1000));
+  React.useEffect(() => { 
+    setGrade(Math.floor(user.number / 1000));
+  }, [user]);
+  const [selected, setSelected] = React.useState<string>("익명");
   const [value, setValue] = React.useState<string>("");
   const confirmModalDispatch = useConfirmModalDispatch();
 
@@ -51,8 +57,8 @@ function Home() {
           <Select.Title
             label="이름 설정하기"
             options={[
-              "3학년 최재민",
-              "3학년 익명",
+              `${grade}학년 최재민`,
+              `${grade}학년 익명`,
               "익명",
             ]}
             value={selected}

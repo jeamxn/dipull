@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 
+import { Timetable } from "@/utils/db/utils";
+
 import { getTimetable } from "./server";
-import { Timetable } from "./utils";
 
 type Params = {
   grade: string;

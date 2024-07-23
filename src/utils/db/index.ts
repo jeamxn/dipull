@@ -1,6 +1,6 @@
 import { Db, MongoClient } from "mongodb";
 
-import { Timetable } from "@/app/timetable/[grade]/[class]/utils";
+import { Timetable, UserInfo } from "./utils";
 
 const uri = process.env.MONGODB_URI || "";
 const options = {};
@@ -25,6 +25,16 @@ const timetable = async () => {
   return client.collection<Timetable>("timetables");
 };
 
+const users = async () => {
+  const client = await connectToDatabase();
+  return client.collection<UserInfo>("users");
+};
+
+const refresh_tokens = async () => { 
+  const client = await connectToDatabase();
+  return client.collection("refresh_tokens");
+};
+
 export const collections = {
-  timetable
+  timetable, users, refresh_tokens
 };

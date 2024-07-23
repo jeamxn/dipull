@@ -49,7 +49,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
       },
     ],
     manifest: "/manifest.json",
-    metadataBase: new URL(x_origin)
+    metadataBase: new URL(x_origin),
   };
 };
 

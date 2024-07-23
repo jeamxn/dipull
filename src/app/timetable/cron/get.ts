@@ -5,18 +5,7 @@ import { NextResponse } from "next/server";
 
 import { getMeal } from "@/app/meal/[date]/server";
 import { collections } from "@/utils/db";
-
-export type Timetable = {
-  grd: number;
-  cls: number;
-  weekday: number;
-  period: number;
-  teacher: string;
-  subject: string;
-  classroom: string;
-  changed: boolean;
-  code: string;
-};
+import { Timetable } from "@/utils/db/utils";
 
 const GET = async (
   req: Request
