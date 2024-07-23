@@ -39,7 +39,7 @@ const Navigation = ({
             >
               <div className="w-full h-full bg-white rounded-full" />
             </div>
-            <div className="bg-text/80 rounded-full flex flex-row gap-0 items-center justify-center px-2">
+            <div className="bg-text rounded-full flex flex-row gap-0 items-center justify-center px-2">
               {
                 Links.map((link) => (
                   <Button

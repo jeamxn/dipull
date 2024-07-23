@@ -124,7 +124,7 @@ const ConfirmModal = ({
                     {
                       modal.showConfirmButton ? (
                         <button
-                          className="rounded-lg bg-text/80 py-3 px-4 w-full"
+                          className="rounded-lg bg-text py-3 px-4 w-full"
                           onClick={() => {
                             modal.onConfirm?.(onclick?.arguments);
                             dispatch({

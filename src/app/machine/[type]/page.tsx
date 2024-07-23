@@ -70,7 +70,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
         <div className="px-6 w-full">
           <button
             className={[
-              "p-3 bg-text/80 text-white rounded-md font-semibold w-full transition-all",
+              "p-3 bg-text text-white rounded-md font-semibold w-full transition-all",
               machine && time ? "cursor-pointer" : "cursor-not-allowed opacity-50",
             ].join(" ")}
             disabled={!machine || !time}

@@ -61,7 +61,7 @@ const Modal = ({
               {
                 showCancelButton ? (
                   <button
-                    className="w-full text-text/80 rounded-lg px-4 py-3 font-medium border border-text/80 dark:border-text/20"
+                    className="w-full text-text rounded-lg px-4 py-3 font-medium border border-text dark:border-text/20"
                     onClick={() => {
                       onCancle?.(onclick?.arguments);
                       setShow(false);
@@ -74,7 +74,7 @@ const Modal = ({
               {
                 showConfirmButton ? (
                   <button
-                    className="w-full bg-text/80 text-white rounded-lg px-4 py-3 font-medium border border-text/80"
+                    className="w-full bg-text text-white rounded-lg px-4 py-3 font-medium border border-text"
                     onClick={() => {
                       onConfirm?.(onclick?.arguments);
                       setShow(false);

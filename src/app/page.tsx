@@ -4,7 +4,7 @@ import React from "react";
 export default function Home() {
   return (
     <>
-      <div className="w-full h-40 bg-text/80 px-6 flex flex-col items-start justify-end">
+      <div className="w-full h-40 bg-text px-6 flex flex-col items-start justify-end">
         <div
           className="bg-background border-8 border-background rounded-full w-28 h-28 translate-y-1/2 overflow-hidden"
         >
@@ -34,10 +34,10 @@ export default function Home() {
           </div>
           <div className="flex flex-row gap-1">
             {/* <button
-              className="bg-text/80 text-white rounded-lg px-4 py-2 h-fit"
+              className="bg-text text-white rounded-lg px-4 py-2 h-fit"
             >정보수정</button> */}
             <button
-              className="bg-text/80 text-white rounded-lg px-4 py-2"
+              className="bg-text text-white rounded-lg px-4 py-2"
             >로그아웃</button>
           </div>
         </div>
