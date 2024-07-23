@@ -88,7 +88,7 @@ export default function Home() {
               </svg>
             </div>
           </div>
-          <table className="w-full table-fixed bg-white dark:bg-text/15">
+          <table className="w-full table-fixed bg-white dark:bg-text/15 rounded-2xl">
             <tbody className="w-full">
               <tr>
                 <th className="w-8 py-2 text-blue-700 dark:text-blue-400 text-sm font-semibold border-r border-text/10 dark:border-text/20">-</th>
