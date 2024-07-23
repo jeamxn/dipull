@@ -14,7 +14,8 @@ const accessSign = async (data: UserInfo) => {
 
 // access Token 검증
 const accessVerify = async (token: string) => {
-  
+  const { payload } = await jose.jwtVerify<UserInfo>(token, secret);
+  return payload;
 };
 
 // refresh Token 발급

@@ -82,12 +82,6 @@ export const GET = async (req: Request) => {
     });
     console.error(e.message);
     return response;
-    // if (e.code === "ERR_JWT_EXPIRED") {
-    //   return "로그인 가능 시간이 지났습니다.";
-    // }
-    // else {
-    //   return "알 수 없는 오류가 발생했습니다.";
-    // }
   }
   
 };

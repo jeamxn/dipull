@@ -16,7 +16,9 @@ const Home = () => {
     const url = `${process.env.NEXT_PUBLIC_DIMIGOIN_URI}/oauth?client=${process.env.NEXT_PUBLIC_DIMIGOIN_KEY}&redirect=${window.location.origin}/auth`;
     router.push(url);
   };
-  const logout = async () => { };
+  const logout = async () => { 
+    window.location.href = "/auth/logout";
+  };
 
   return (
     <>

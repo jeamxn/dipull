@@ -41,17 +41,17 @@ const confrimModalReducer = (state: MoreModalPropsWithShow, action: MoreModalAct
   switch (action.type) {
   case "show":
     return {
-      ...state,
+      ...initialState,
       ...action.data,
       show: true,
     };
   case "hide":
     return {
-      ...state,
+      ...initialState,
       show: false,
     };
   default:
-    return state;
+    return initialState;
   }
 };
 
