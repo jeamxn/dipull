@@ -1,13 +1,11 @@
 import "moment-timezone";
-import axios from "axios";
-import * as jose from "jose";
 import moment from "moment";
 import { cookies, headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { collections } from "@/utils/db";
-import { defaultUser, UserInfo } from "@/utils/db/utils";
-import { accessSign, accessVerify, refreshSign } from "@/utils/jwt";
+import { defaultUser } from "@/utils/db/utils";
+import { accessVerify } from "@/utils/jwt";
 
 export const GET = async (req: Request) => {
   try {
