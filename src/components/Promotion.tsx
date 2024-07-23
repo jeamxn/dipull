@@ -1,15 +1,21 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
-import Mover from "@/components/Mover";
+import Mover from "./Mover";
 
 const Promotion = ({
-  login,
+  showLogin = false,
 }: {
-  login?: () => void;
-}) => {
+    showLogin?: boolean;
+  }) => {
+  const router = useRouter();
+  const login = async () => {
+    const url = `${process.env.NEXT_PUBLIC_DIMIGOIN_URI}/oauth?client=${process.env.NEXT_PUBLIC_DIMIGOIN_KEY}&redirect=${window.location.origin}/auth`;
+    router.push(url);
+  };
   return (
     <div className="flex flex-col gap-6 items-start justify-center h-full">
       <div className="flex flex-col gap-4">
@@ -33,7 +39,7 @@ const Promotion = ({
       <p className="text-xl text-text/60 font-normal break-words leading-normal animation-main">디풀과 함께 간편한 학교 생활을 즐겨봐요!</p>
       <div className="flex flex-col gap-1 items-start justify-center">
         {
-          login ? (
+          showLogin ? (
             <Mover
               className="bg-white w-min px-8 py-4 rounded-full border border-text/5 cursor-pointer flex flex-row gap-2 items-center justify-center select-none"
               onClick={login}

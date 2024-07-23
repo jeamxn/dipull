@@ -3,11 +3,11 @@ import { headers } from "next/headers";
 import "./globals.css";
 import React from "react";
 
+import Promotion from "@/components/Promotion";
 import Providers from "@/components/providers";
 import RecoilProvider from "@/components/providers/RecoilProvider";
 
 import Loading from "./loading";
-import Promotion from "./login/Promotion";
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const x_origin = headers().get("x-origin") || "";
@@ -62,10 +62,10 @@ export default function RootLayout({
     <html lang="ko" className="w-full h-full overflow-x-hidden flex flex-col bg-background">
       <meta name="viewport" content="initial-scale=1, viewport-fit=cover"/>
       <body className="w-full h-full overflow-x-hidden flex flex-row bg-background justify-around max-md:gap-0 gap-10 py-safe-or-0 px-safe-offset-16 max-md:px-safe-or-0">
-        <aside className="max-md:hidden flex flex-col justify-center">
-          <Promotion />
-        </aside> 
         <RecoilProvider>
+          <aside className="max-md:hidden flex flex-col justify-center">
+            <Promotion showLogin />
+          </aside> 
           <main className="flex flex-col max-md:w-full h-full bg-background relative border-x border-text/5 dark:border-text/20 w-128 max-md:border-x-0">
             <Providers>
               {children}

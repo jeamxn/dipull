@@ -14,7 +14,7 @@ const Navigation = ({
   const path = usePathname();
   const show = Links.some((link) => link.url.split("/")[1] === path.split("/")[1]);
   const findIndex = Links.findIndex((link) => link.url.split("/")[1] === path.split("/")[1]);
-  const depth = path.split("/").length <= 2 + Links[findIndex].innerNavigationDeepth;
+  const depth = path.split("/").length <= 2 + Links[findIndex]?.innerNavigationDeepth;
   const [width, setWidth] = React.useState(96);
 
   return (
