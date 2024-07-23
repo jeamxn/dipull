@@ -88,7 +88,7 @@ const MyListContent = ({
                   >
                     <div className="flex flex-col gap-3">
                       <img 
-                        src={`https://i.ytimg.com/vi/${v.id}/default.jpg`} 
+                        src={`https://i.ytimg.com/vi/${v.id}/sddefault.jpg`} 
                         alt={v.title}
                         className="max-w-[160px] object-cover rounded aspect-video cursor-pointer"
                       />

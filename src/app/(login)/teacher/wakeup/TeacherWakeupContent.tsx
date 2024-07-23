@@ -210,7 +210,7 @@ const TeacherWakeupContent = ({ initailData }: {
                   >
                     <div className="flex flex-col gap-3">
                       <img
-                        src={`https://i.ytimg.com/vi/${selected.id}/default.jpg`}
+                        src={`https://i.ytimg.com/vi/${selected.id}/sddefault.jpg`}
                         alt={selected.title}
                         className="max-w-[160px] object-cover rounded aspect-video cursor-pointer"
                       />
@@ -251,7 +251,7 @@ const TeacherWakeupContent = ({ initailData }: {
                     >
                       <div className="flex flex-col gap-3">
                         <img
-                          src={`https://i.ytimg.com/vi/${key}/default.jpg`}
+                          src={`https://i.ytimg.com/vi/${key}/sddefault.jpg`}
                           alt={v.title}
                           className="max-w-[160px] object-cover rounded aspect-video cursor-pointer"
                         />
