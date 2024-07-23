@@ -56,14 +56,18 @@ export default function Home() {
             <div className="flex flex-row gap-2 w-max">
               {
                 [1, 2, 3].map((e, i) => (
-                  <div className="snap-center max-md:w-[max(calc(50vw-20px),250px)] w-[250px] overflow-hidden" key={i}>
-                    <div 
-                      className={[
-                        "p-4 bg-white dark:bg-text/10 rounded-md border border-text/10 dark:border-text/20 w-full h-full",
-                      ].join(" ")}
-                    >
-                      <p className="text-lg font-medium">아침</p>
-                      <p className="overflow-hidden">sdfasdf</p>
+                  <div
+                    className={[
+                      "snap-center rounded-2xl p-6 bg-white dark:bg-text/15 flex flex-col items-start justify-end gap-2 w-[calc(25rem)] max-md:w-[max(calc(85vw-3rem),250px)] h-max",
+                    ].join(" ")}
+                    key={i}
+                  >
+                    <p className="text-xl font-bold">아침</p>
+                    <div className="flex flex-col gap-0.5">
+                      <div className="flex flex-row gap-1 opacity-30">
+                        <p className="font-semibold">ㅁㅇㄴㄹ</p>
+                        <p>3629 최재민</p>
+                      </div>
                     </div>
                   </div>
                 ))
@@ -74,7 +78,7 @@ export default function Home() {
 
         <div className="flex flex-col gap-3">
           <p className="text-xl font-semibold">시간표</p>
-          <table className="w-full table-fixed border border-text/10 dark:border-text/20 bg-white dark:bg-text/10">
+          <table className="w-full table-fixed bg-white dark:bg-text/10">
             <tbody className="w-full">
               <tr>
                 <th className="w-8 py-2 text-blue-700 dark:text-blue-400 text-sm font-semibold border-r border-text/10 dark:border-text/20">-</th>
