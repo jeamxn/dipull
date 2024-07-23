@@ -34,14 +34,14 @@ const CalButton = ({
     >
       <div className={[
         "w-10 h-10 flex flex-col items-center justify-center rounded-full duration-150",
-        same ? "bg-text" : "bg-transparent",
+        same ? "bg-text dark:bg-text-dark" : "bg-transparent",
       ].join(" ")}>
         <p className={[
           "font-normal duration-150",
-          same ? "text-white" :
+          same ? "text-white dark:bg-white-dark" :
             _this.day() === 0 ? "text-red-600 dark:text-red-300" :
               _this.day() === 6 ? "text-blue-700 dark:text-blue-400" :
-                "text-text",
+                "text-text dark:text-text-dark",
         ].join(" ")}>{date}</p>
       </div>
     </button>

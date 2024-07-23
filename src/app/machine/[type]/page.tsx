@@ -40,19 +40,19 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
           href="/machine/washer"
           className={[
             "text-xl font-semibold select-none cursor-pointer transition-all",
-            params.type === "washer" ? "text-text" : "text-text/30 dark:text-text/60s",
+            params.type === "washer" ? "text-text dark:text-text-dark" : "text-text/30 dark:text-text-dark/60",
           ].join(" ")}>세탁기</Linker>
-        <p className="text-xl font-semibold select-none text-text/30 dark:text-text/60s">·</p>
+        <p className="text-xl font-semibold select-none text-text/30 dark:text-text-dark/60">·</p>
         <Linker
           href="/machine/dryer"
           className={[
             "text-xl font-semibold select-none cursor-pointer transition-all",
-            params.type === "dryer" ? "text-text" : "text-text/30 dark:text-text/60s",
+            params.type === "dryer" ? "text-text dark:text-text-dark" : "text-text/30 dark:text-text-dark/60",
           ].join(" ")}>건조기</Linker>
       </div>
 
       <div className="flex flex-col gap-4">
-        <p className="text-lg font-semibold px-6">{current_korean}기 신청하기</p>
+        <p className="text-lg font-semibold px-6 text-text dark:text-text-dark">{current_korean}기 신청하기</p>
         <Select.Full
           label={`${current_korean}기 선택`}
           placeholder={`${current_korean}기를 선택해주세요.`}
@@ -71,7 +71,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
         <div className="px-6 w-full">
           <button
             className={[
-              "p-3 bg-text text-white rounded-md font-semibold w-full transition-all",
+              "p-3 bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl font-semibold w-full transition-all",
               machine && time ? "cursor-pointer" : "cursor-not-allowed opacity-50",
             ].join(" ")}
             disabled={!machine || !time}
@@ -79,14 +79,14 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
         </div>
       </div>
       <div className="flex flex-col gap-4">
-        <p className="text-lg font-semibold px-6">{current_korean} 신청 현황</p>
+        <p className="text-lg font-semibold px-6 text-text dark:text-text-dark">{current_korean} 신청 현황</p>
         <div className="px-6 overflow-x-auto overflow-y-hidden snap-x snap-mandatory">
           <div className="flex flex-row w-max gap-1.5">
             {
               machines.map((machine, index) => (
                 <div
                   className={[
-                    "snap-center rounded-2xl p-6 bg-white dark:bg-text/15 flex flex-col items-start justify-end gap-2 w-[calc(29rem)] max-md:w-[max(calc(100vw-3rem),250px)] h-max",
+                    "snap-center rounded-2xl p-6 bg-white dark:bg-text-dark/15 flex flex-col items-start justify-end gap-2 w-[calc(29rem)] max-md:w-[max(calc(100vw-3rem),250px)] h-max",
                   ].join(" ")}
                   key={index}
                 >
@@ -94,13 +94,13 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
                     {
                       times.map((time, i) => (
                         <div key={i} className="flex flex-row gap-1 opacity-30">
-                          <p className="font-semibold">{time}</p>
-                          <p>3629 최재민</p>
+                          <p className="font-semibold text-text dark:text-text-dark">{time}</p>
+                          <p className="text-text dark:text-text-dark">3629 최재민</p>
                         </div>
                       ))
                     }
                   </div>
-                  <p className="text-2xl font-bold">[{machine.grade.join(", ")}학년] {machine.name}</p>
+                  <p className="text-2xl font-bold text-text dark:text-text-dark">[{machine.grade.join(", ")}학년] {machine.name}</p>
                 </div>
               ))
             }

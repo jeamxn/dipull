@@ -75,8 +75,8 @@ const Modal = ({
         {children}
         <div
           className={[
-            "absolute bottom-0 w-full h-full z-[99] bg-text/20 transition-all cursor-pointer",
-            modal.show ? "opacity-100 bg-text pointer-events-auto" : "opacity-0 pointer-events-none",
+            "absolute bottom-0 w-full h-full z-[99] bg-text/20 dark:bg-text-dark/25 transition-all cursor-pointer",
+            modal.show ? "opacity-100 bg-text dark:bg-text-dark pointer-events-auto" : "opacity-0 pointer-events-none",
           ].join(" ")}
           onClick={() => {
             modal.onCancle?.(onclick?.arguments);
@@ -85,19 +85,19 @@ const Modal = ({
           }}
         />
         <div className={[
-          "absolute bottom-0 w-full px-6 z-[100] bg-background border-t rounded-t-3xl pt-6 pb-safe-offset-6 transition-all max-h-[80dvh]",
+          "absolute bottom-0 w-full px-6 z-[100] bg-background dark:bg-background-dark border-t rounded-t-3xl pt-6 pb-safe-offset-6 transition-all max-h-[80dvh]",
           // show ? "translate-y-0 l" : "translate-y-full hidden",
           modal.show ? "opacity-100 pointer-events-auto flex flex-col gap-4" : "opacity-0 pointer-events-none hidden",
         ].join(" ")}>
           <div className="flex flex-row items-center justify-center w-full">
             <div
-              className="bg-text/15 dark:bg-text/30 w-16 h-1 cursor-pointer"
+              className="bg-text/15 dark:bg-text-dark/30 w-16 h-1 cursor-pointer"
             />
           </div>
           {
             modal.label ? (
               <div className="w-full flex flex-row items-center justify-center">
-                <p className="font-semibold text-lg">{modal.label}</p>
+                <p className="font-semibold text-lg text-text dark:text-text-dark">{modal.label}</p>
               </div>
             ) : null
           }
@@ -110,7 +110,7 @@ const Modal = ({
                 {
                   modal.showCancelButton ? (
                     <button
-                      className="w-full text-text rounded-lg px-4 py-3 font-medium border border-text dark:border-text/20"
+                      className="w-full text-text dark:text-text-dark rounded-lg px-4 py-3 font-medium border border-text dark:border-text-dark/20"
                       onClick={() => {
                         modal.onCancle?.(onclick?.arguments);
                       // setShow(false);
@@ -123,7 +123,7 @@ const Modal = ({
                 {
                   modal.showConfirmButton ? (
                     <button
-                      className="w-full bg-text text-white rounded-lg px-4 py-3 font-medium border border-text"
+                      className="w-full bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-lg px-4 py-3 font-medium border border-text dark:border-text-dark"
                       onClick={() => {
                         modal.onConfirm?.(onclick?.arguments);
                         // setShow(false);

@@ -68,7 +68,7 @@ const MoreModal = ({
         {children}
         <div
           className={[
-            "w-full h-full bg-text/20 absolute top-0 left-0 z-[99999] flex flex-col items-center justify-center transition-all",
+            "w-full h-full bg-text/20 dark:bg-text-dark/25 absolute top-0 left-0 z-[99999] flex flex-col items-center justify-center transition-all",
             modal.show ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
           ].join(" ")}
           onClick={() => dispatch({ type: "hide" })}
@@ -80,13 +80,13 @@ const MoreModal = ({
           ].join(" ")}
         >
           <div className="w-full flex flex-col items-center justify-center px-6 ">
-            <div className="w-full flex flex-col gap-0 items-center justify-center bg-background rounded-xl">
+            <div className="w-full flex flex-col gap-0 items-center justify-center bg-background dark:bg-background-dark rounded-xl">
               {
                 modal.buttons.map((button, index) => (
                   <React.Fragment key={index}>
                     {
                       index !== 0 ? (
-                        <div className="w-full border-t border-text/10 dark:border-text/20" />
+                        <div className="w-full border-t border-text/10 dark:border-text-dark/20" />
                       ) : null
                     }
                     <div
@@ -108,10 +108,10 @@ const MoreModal = ({
           </div>
           <div className="w-full flex flex-col items-center justify-center px-6">
             <div
-              className="w-full py-4 flex flex-row items-center justify-center bg-background rounded-xl cursor-pointer"
+              className="w-full py-4 flex flex-row items-center justify-center bg-background dark:bg-background-dark rounded-xl cursor-pointer"
               onClick={() => dispatch({ type: "hide" })}
             >
-              <p className="font-medium">닫기</p>
+              <p className="font-medium text-text dark:text-text-dark">닫기</p>
             </div>
           </div>
         </div>

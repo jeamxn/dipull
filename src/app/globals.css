@@ -32,27 +32,6 @@
     --color-background: var(--color-background-light);
     --color-text: var(--color-text-light);
     --color-white: var(--color-white-light);
-
-    @media (prefers-color-scheme: dark) { 
-      --color-background: var(--color-background-dark);
-      --color-text: var(--color-text-dark);
-      --color-white: var(--color-white-dark);
-    }
-    @media (prefers-color-scheme: light) { 
-      --color-background: var(--color-background-light);
-      --color-text: var(--color-text-light);
-      --color-white: var(--color-white-light);
-    }
-  }
-  :root[color-theme="light"] {
-    --color-background: var(--color-background-light);
-    --color-text: var(--color-text-light);
-    --color-white: var(--color-white-light);
-  }
-  :root[color-theme="dark"] {
-    --color-background: var(--color-background-dark);
-    --color-text: var(--color-text-dark);
-    --color-white: var(--color-white-dark);
   }
 }
 

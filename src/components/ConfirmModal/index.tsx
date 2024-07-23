@@ -76,7 +76,7 @@ const ConfirmModal = ({
         {children}
         <div
           className={[
-            "w-full h-full bg-text/20 absolute top-0 left-0 z-[99999] flex flex-col items-center justify-center transition-all",
+            "w-full h-full bg-text-dark/20 absolute top-0 left-0 z-[99999] flex flex-col items-center justify-center transition-all",
             modal.show ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
           ].join(" ")}
         >
@@ -89,16 +89,16 @@ const ConfirmModal = ({
             }}
           />
           <div className="w-full flex flex-col items-center justify-center px-6">
-            <div className="w-full bg-white rounded-2xl p-6 flex flex-col gap-4">
+            <div className="w-full bg-white dark:bg-white-dark rounded-2xl p-6 flex flex-col gap-4">
               <div className="w-full flex flex-col gap-2">
                 {
                   modal.title ? (
-                    <p className="text-xl font-semibold">{modal.title}</p>
+                    <p className="text-xl font-semibold text-text dark:text-text-dark">{modal.title}</p>
                   ) : null
                 }
                 {
                   modal.description ? (
-                    <p className="text-lg font-normal text-text/90">{modal.description}</p>
+                    <p className="text-lg font-normal text-text/90 dark:text-text-dark/90">{modal.description}</p>
                   ) : null
                 }
               </div>
@@ -108,7 +108,7 @@ const ConfirmModal = ({
                     {
                       modal.showCancelButton ? (
                         <button
-                          className="rounded-lg bg-text/10 dark:bg-text/20 py-3 px-4 w-full"
+                          className="rounded-lg bg-text/10 dark:bg-text-dark/20 py-3 px-4 w-full"
                           onClick={() => {
                             modal.onCancle?.(onclick?.arguments);
                             // modal.setShow(false);
@@ -117,14 +117,14 @@ const ConfirmModal = ({
                             });
                           }}
                         >
-                          <p className="font-semibold text-lg text-text/60 dark:text-text/65 select-none">{modal.cancelButtonText}</p>
+                          <p className="font-semibold text-lg text-text/60 dark:text-text-dark/65 select-none">{modal.cancelButtonText}</p>
                         </button>
                       ) : null
                     }
                     {
                       modal.showConfirmButton ? (
                         <button
-                          className="rounded-lg bg-text py-3 px-4 w-full"
+                          className="rounded-lg bg-text dark:bg-text-dark py-3 px-4 w-full"
                           onClick={() => {
                             modal.onConfirm?.(onclick?.arguments);
                             dispatch({
@@ -132,7 +132,7 @@ const ConfirmModal = ({
                             });
                           }}
                         >
-                          <p className="font-semibold text-lg text-white select-none">{modal.confirmButtonText}</p>
+                          <p className="font-semibold text-lg text-white dark:text-white-dark select-none">{modal.confirmButtonText}</p>
                         </button>
                       ) : null
                     }
