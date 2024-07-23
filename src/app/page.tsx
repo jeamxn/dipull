@@ -59,7 +59,7 @@ export default function Home() {
                   <div className="snap-center max-md:w-[max(calc(50vw-20px),250px)] w-[250px] overflow-hidden" key={i}>
                     <div 
                       className={[
-                        "p-4 bg-white rounded-md border border-text/10 dark:border-text/20 w-full h-full",
+                        "p-4 bg-white dark:bg-text/10 rounded-md border border-text/10 dark:border-text/20 w-full h-full",
                       ].join(" ")}
                     >
                       <p className="text-lg font-medium">아침</p>
@@ -74,7 +74,7 @@ export default function Home() {
 
         <div className="flex flex-col gap-3">
           <p className="text-xl font-semibold">시간표</p>
-          <table className="w-full table-fixed border border-text/10 dark:border-text/20 bg-white">
+          <table className="w-full table-fixed border border-text/10 dark:border-text/20 bg-white dark:bg-text/10">
             <tbody className="w-full">
               <tr>
                 <th className="w-8 py-2 text-primary text-sm font-semibold border-r border-text/10 dark:border-text/20">-</th>

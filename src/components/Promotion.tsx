@@ -37,11 +37,11 @@ const Promotion = ({
         
       </div>
       <p className="text-xl text-text/60 font-normal break-words leading-normal animation-main">디풀과 함께 간편한 학교 생활을 즐겨봐요!</p>
-      <div className="flex flex-col gap-1 items-start justify-center">
+      <div className="flex flex-col gap-2 items-start justify-center">
         {
           showLogin ? (
             <Mover
-              className="bg-white w-min px-8 py-4 rounded-full border border-text/5 cursor-pointer flex flex-row gap-2 items-center justify-center select-none"
+              className="bg-white dark:bg-text/15 w-min px-8 py-4 rounded-full border border-text/5 dark:border-text/20 cursor-pointer flex flex-row gap-2 items-center justify-center select-none"
               onClick={login}
             >
               <svg width="20" height="20" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,7 +52,7 @@ const Promotion = ({
           ) : null
         }
         <Link
-          className="bg-white w-min px-8 py-4 rounded-full border border-text/5 cursor-pointer flex flex-row gap-2 items-center justify-center select-none"
+          className="bg-white dark:border-text/20 dark:bg-text/15 w-min px-8 py-4 rounded-full border border-text/5 cursor-pointer flex flex-row gap-2 items-center justify-center select-none"
           href="https://github.com/jeamxn/dipull"
           target="_blank"
         >
