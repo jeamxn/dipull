@@ -10,9 +10,9 @@ export type SelectModalProps = {
   options?: string[];
   optionValues?: any[];
   disables?: boolean[];
-  value?: string;
-  onConfirm?: (value?: string) => any | Promise<(value?: string) => any>;
-  onCancle?: (value?: string) => any | Promise<(value?: string) => any>;
+  value?: any;
+  onConfirm?: (value?: any) => any | Promise<(value?: any) => any>;
+  onCancle?: (value?: any) => any | Promise<(value?: any) => any>;
   confirmButtonText?: string;
   cancelButtonText?: string;
   showConfirmButton?: boolean;

@@ -5,6 +5,7 @@ import { SelectModalProps, useSelectModalDispatch } from "../SelectModal";
 const Full = (props: SelectModalProps) => {
   const selectModalDispatch = useSelectModalDispatch();
   const [show, setShow] = React.useState(false);
+  const findOptionIndex = props.optionValues?.findIndex((v) => v === props.value);
   return (
     <div className="flex flex-col gap-2 px-6">
       <p className="font-medium text-base text-text/50">{props.label}</p>
@@ -16,11 +17,19 @@ const Full = (props: SelectModalProps) => {
             type: "show",
             data: {
               ...props,
+              onConfirm: (t) => {
+                props.onConfirm && props.onConfirm(t);
+                setShow(false);
+              },
+              onCancle: (t) => {
+                props.onCancle && props.onCancle(t);
+                setShow(false);
+              },
             },
           });
         }}
       >
-        <p className="font-medium select-none">{props.value || props.placeholder}</p>
+        <p className="font-medium select-none">{props.options?.[findOptionIndex || 0] || props.value || props.placeholder}</p>
         <div
           className={[
             "transition-transform",

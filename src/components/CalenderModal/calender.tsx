@@ -35,7 +35,7 @@ const Calender = ({
   const lineCnt = ((daysInMonth - monthEndDay - 1) - (7 - monthStartDay)) / 7;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 w-full">
       <div className="w-full flex flex-row gap-2 items-center justify-between">
         <button
           className="-m-3 p-3"

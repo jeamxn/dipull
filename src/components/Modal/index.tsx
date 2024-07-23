@@ -85,7 +85,7 @@ const Modal = ({
           }}
         />
         <div className={[
-          "absolute bottom-0 w-full px-6 z-[100] bg-background border-t rounded-t-3xl pt-6 pb-safe-offset-6 transition-all",
+          "absolute bottom-0 w-full px-6 z-[100] bg-background border-t rounded-t-3xl pt-6 pb-safe-offset-6 transition-all max-h-[80dvh]",
           // show ? "translate-y-0 l" : "translate-y-full hidden",
           modal.show ? "opacity-100 pointer-events-auto flex flex-col gap-4" : "opacity-0 pointer-events-none hidden",
         ].join(" ")}>
@@ -101,7 +101,7 @@ const Modal = ({
               </div>
             ) : null
           }
-          <div className="flex flex-col gap-0">
+          <div className="flex flex-col gap-0 overflow-y-auto overflow-x-hidden items-center w-full">
             {modal.inner}
           </div>
           {

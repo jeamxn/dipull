@@ -24,13 +24,15 @@ const Title = (props: SelectModalProps) => {
     setShow(p => !p);
   };
 
+  const findOptionIndex = props.optionValues?.findIndex((v) => v === props.value);
+
   return (
     <div className="flex flex-row gap-0 cursor-pointer relative">
       <p
         className="text-xl font-semibold select-none transition-all whitespace-nowrap"
         onClick={onShowButtonClick}
       >
-        {props.value || props.placeholder}
+        {props.options?.[findOptionIndex || 0] || props.value || props.placeholder}
       </p>
       <div
         onClick={onShowButtonClick}
