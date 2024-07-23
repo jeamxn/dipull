@@ -8,6 +8,7 @@ const SelectModal = ({
   label,
   placeholder,
   options,
+  disables,
   value,
   onConfirm,
   showConfirmButton = true,
@@ -18,7 +19,8 @@ const SelectModal = ({
 }: {
   label?: string;
   placeholder?: string;
-  options?: string[];
+    options?: string[];
+  disables?: boolean[];
   value?: string;
   onConfirm?: (value?: string) => void;
   confirmButtonText?: string;
@@ -75,8 +77,12 @@ const SelectModal = ({
           options?.map((option, index) => (
             <div
               key={index}
-              className="cursor-pointer select-none w-full py-4 flex flex-row gap-2 items-center justify-start transition-all"
+              className={[
+                "select-none w-full py-4 flex flex-row gap-2 items-center justify-start transition-all",
+                disables && disables[index] ? "opacity-25 dark:opacity-40 cursor-not-allowed" : "cursor-pointer",
+              ].join(" ")}
               onClick={() => {
+                if(disables && disables[index]) return;
                 setSelected(option);
                 if (autoClose) {
                   onConfirm?.(option);
