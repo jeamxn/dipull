@@ -67,7 +67,7 @@ const Meal = () => {
               <div key={i} className="h-unset snap-center">
                 <div
                   className={[
-                    "h-full rounded-2xl p-6 bg-white dark:bg-text/15 flex flex-col items-start justify-start gap-2 w-[calc(25rem)] max-md:w-[max(calc(85vw-3rem),250px)]",
+                    "h-full rounded-2xl p-6 bg-white dark:bg-text/15 flex flex-col items-start justify-start gap-2 min-w-64",
                   ].join(" ")}
                 >
                   <p className="text-xl font-bold">
@@ -91,7 +91,7 @@ const Meal = () => {
                       ) : (
                         data?.[type] === "" && (
                           <div className="flex flex-row gap-1 opacity-80">
-                            <p>급식이 없습니다.</p>
+                            <p>급식 정보가 없습니다.</p>
                           </div>
                         )
                       )
