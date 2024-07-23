@@ -20,26 +20,6 @@ const initialState: MoreModalPropsWithShow = {
   show: false,
   buttons: [],
 };
-// const initialState: MoreModalPropsWithShow = {
-//   show: true,
-//   buttons: [
-//     {
-//       text: "답글 수정하기",
-//       type: "blue",
-//       onClick: () => {},
-//     },
-//     {
-//       text: "답글 삭제하기",
-//       type: "red",
-//       onClick: () => {},
-//     },
-//     {
-//       text: "신고하기",
-//       type: "red",
-//       onClick: () => {},
-//     }
-//   ],
-// };
 
 type MoreModalAction = {
   type: "show" | "hide";
