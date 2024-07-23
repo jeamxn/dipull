@@ -1,12 +1,25 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import React from "react";
 
 import * as Select from "@/components/Select";
 
+import { TimetableResponse } from "./[grade]/[class]/get";
+
 const Timetable = () => {
   const [grade, setGrade] = React.useState<number>(1);
   const [class_, setClass] = React.useState<number>(1);
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["timetable", grade, class_],
+    queryFn: async () => {
+      const response = await axios.get<TimetableResponse>(`/timetable/${grade}/${class_}`);
+      return response.data.data;
+    }
+  });
+
   return (
     <div className="px-6 flex flex-col gap-3">
       <div className="flex flex-row items-center justify-start gap-1">
@@ -41,65 +54,45 @@ const Timetable = () => {
             <th className="px-2 py-2 text-blue-700 dark:text-blue-400 text-sm font-semibold">목</th>
             <th className="px-2 py-2 text-blue-700 dark:text-blue-400 text-sm font-semibold">금</th>
           </tr>
-              
-          <tr className="border-t border-text/10 dark:border-text/20">
-            <td className="py-3 text-text/60 text-sm font-normal border-r border-text/10 dark:border-text/20 text-center">1</td>
-            <td className={[
-              "px-1 py-3 whitespace-pre-line",
-              // time.changed ? "bg-text/5 dark:bg-text/10" : "",
-            ].join(" ")}>
-              <p className="text-text/60 text-sm font-normal text-center whitespace-break-spaces break-all">
-                <span className="flex flex-col gap-1 items-center justify-center">
-                  <span className="text-text">DB</span>
-                  <span className="text-text/60"> {"time.subject" && `${"임재"}□`}</span>
-                </span>
-              </p>
-            </td>
-            <td className={[
-              "px-1 py-3 whitespace-pre-line",
-              // time.changed ? "bg-text/5 dark:bg-text/10" : "",
-            ].join(" ")}>
-              <p className="text-text/60 text-sm font-normal text-center whitespace-break-spaces break-all">
-                <span className="flex flex-col gap-1 items-center justify-center">
-                  <span className="text-text">DB</span>
-                  <span className="text-text/60"> {"time.subject" && `${"임재"}□`}</span>
-                </span>
-              </p>
-            </td>
-            <td className={[
-              "px-1 py-3 whitespace-pre-line",
-              // time.changed ? "bg-text/5 dark:bg-text/10" : "",
-            ].join(" ")}>
-              <p className="text-text/60 text-sm font-normal text-center whitespace-break-spaces break-all">
-                <span className="flex flex-col gap-1 items-center justify-center">
-                  <span className="text-text">DB</span>
-                  <span className="text-text/60"> {"time.subject" && `${"임재"}□`}</span>
-                </span>
-              </p>
-            </td>
-            <td className={[
-              "px-1 py-3 whitespace-pre-line",
-              // time.changed ? "bg-text/5 dark:bg-text/10" : "",
-            ].join(" ")}>
-              <p className="text-text/60 text-sm font-normal text-center whitespace-break-spaces break-all">
-                <span className="flex flex-col gap-1 items-center justify-center">
-                  <span className="text-text">DB</span>
-                  <span className="text-text/60"> {"time.subject" && `${"임재"}□`}</span>
-                </span>
-              </p>
-            </td>
-            <td className={[
-              "px-1 py-3 whitespace-pre-line",
-              // time.changed ? "bg-text/5 dark:bg-text/10" : "",
-            ].join(" ")}>
-              <p className="text-text/60 text-sm font-normal text-center whitespace-break-spaces break-all">
-                <span className="flex flex-col gap-1 items-center justify-center">
-                  <span className="text-text">DB</span>
-                  <span className="text-text/60"> {"time.subject" && `${"임재"}□`}</span>
-                </span>
-              </p>
-            </td>
-          </tr>
+
+          {
+            isError ? (
+              (
+                <tr>
+                  <td colSpan={6} className="px-4 py-3 text-text/60 text-sm font-normal text-center border-t border-text/10">오류가 발생했습니다.</td>
+                </tr>
+              )
+            ) : isLoading ? (
+              <tr>
+                <td colSpan={6} className="px-4 py-3 text-text/60 text-sm font-normal text-center border-t border-text/10">로딩 중입니다...</td>
+              </tr>
+            ) : data?.length ? data.sort((a, b) => a[0].period - b[0].period).map((e) => {
+              return (
+                <tr key={`weekday-${e[0].period}`} className="border-t border-text/10">
+                  <td className="py-3 text-text/60 text-sm font-normal border-r border-text/10 text-center">{e[0].period}</td>
+                  {
+                    e.sort((a, b) => a.period - b.period).map((time, i) => (
+                      <td key={`period-${e[0].weekday}-${i}`} className={[
+                        "px-1 py-3 whitespace-pre-line",
+                        time.changed ? "bg-text/5 dark:bg-text/10" : "",
+                      ].join(" ")}>
+                        <p className="text-text/60 text-sm font-normal text-center whitespace-break-spaces break-all">
+                          <span className="flex flex-col gap-1 items-center justify-center">
+                            <span className="text-text">{time.subject}</span>
+                            <span className="text-text/60"> {time.subject && `${time.teacher}□`}</span>
+                          </span>
+                        </p>
+                      </td>
+                    ))
+                  }
+                </tr>
+              );
+            }) : (
+              <tr>
+                <td colSpan={6} className="px-4 py-3 text-text/60 text-sm font-normal text-center border-t border-text/10">시간표가 없습니다.</td>
+              </tr>
+            )
+          }
         </tbody>
       </table>
     </div>
