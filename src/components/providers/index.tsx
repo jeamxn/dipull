@@ -12,13 +12,13 @@ const Providers = ({
 }>) => {
   return (
     <Navigation>
-      <ConfirmModal>
-        <MoreModal>
-          <Modal>
+      <Modal>
+        <ConfirmModal>
+          <MoreModal>
             {children}
-          </Modal>
-        </MoreModal>
-      </ConfirmModal>
+          </MoreModal>
+        </ConfirmModal>
+      </Modal>
     </Navigation>
   );
 };

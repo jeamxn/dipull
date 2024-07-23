@@ -16,8 +16,8 @@ export default function Home() {
         </div>
       </div>
       <div className="h-20" />
-      <div className="px-6 flex flex-col gap-6">
-        <div className="flex flex-row justify-between gap-4">
+      <div className="flex flex-col gap-6">
+        <div className="px-6 flex flex-row justify-between gap-4">
           <div className="flex flex-col gap-1">
             <div className="flex flex-row gap-1 items-center justify-start w-fit cursor-pointer">
               <p className="font-semibold text-2xl">최재민</p>
@@ -43,7 +43,7 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col gap-3">
-          <div className="flex flex-row items-center justify-start gap-1">
+          <div className="px-6 flex flex-row items-center justify-start gap-1">
             <p className="text-xl font-semibold">급식</p>
             <p className="text-xl font-semibold">·</p>
             <div className="cursor-pointer flex flex-row items-center justify-start ">
@@ -53,7 +53,7 @@ export default function Home() {
               </svg>
             </div>
           </div>
-          <div className="overflow-x-auto overflow-y-hidden snap-x snap-mandatory block">
+          <div className="px-6 overflow-x-auto overflow-y-hidden snap-x snap-mandatory block">
             <div className="flex flex-row gap-2 w-max">
               {
                 [1, 2, 3].map((e, i) => (
@@ -77,7 +77,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="px-6 flex flex-col gap-3">
           <div className="flex flex-row items-center justify-start gap-1">
             <p className="text-xl font-semibold">시간표</p>
             <p className="text-xl font-semibold">·</p>

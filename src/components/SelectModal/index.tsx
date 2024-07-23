@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import Modal, { useModalDispatch } from "../Modal";
+import { useModalDispatch } from "../Modal";
 
 const SelectModal = ({
   label,
