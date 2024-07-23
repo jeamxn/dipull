@@ -4,7 +4,7 @@
 import React from "react";
 
 import Linker from "@/components/Linker";
-import Select from "@/components/Select";
+import * as Select from "@/components/Select";
 
 import Item from "./item";
 
@@ -21,7 +21,8 @@ function Home() {
           />
           <p className="text-xl font-semibold select-none transition-all whitespace-nowrap">대나무 숲</p>
           <p className="text-xl font-semibold select-none transition-all">|</p>
-          <Select
+          <Select.Title
+            label="정렬 기준 선택하기"
             options={[
               "최신순",
               "전체 인기순",
@@ -30,7 +31,9 @@ function Home() {
               "한 달 인기순",
             ]}
             value={selected}
-            setValue={setSelected}
+            onConfirm={(t) => {
+              setSelected(t || "최신순");
+            }}
           />
         </div>
         <Linker href="/bamboo/write" className="-m-2 p-2">

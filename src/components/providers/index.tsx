@@ -8,6 +8,7 @@ import ConfirmModal from "../ConfirmModal";
 import Modal from "../Modal";
 import MoreModal from "../MoreModal";
 import Navigation from "../Navigation";
+import SelectModal from "../SelectModal";
 
 const Providers = ({ 
   children
@@ -20,7 +21,9 @@ const Providers = ({
         <ConfirmModal>
           <MoreModal>
             <CalenderModal>
-              {children}
+              <SelectModal>
+                {children}
+              </SelectModal>
             </CalenderModal>
           </MoreModal>
         </ConfirmModal>

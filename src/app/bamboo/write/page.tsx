@@ -8,7 +8,7 @@ import React from "react";
 import { useConfirmModalDispatch } from "@/components/ConfirmModal";
 import Linker from "@/components/Linker";
 import Mover from "@/components/Mover";
-import Select from "@/components/Select";
+import * as Select from "@/components/Select";
 
 const MarkdownEditor = dynamic(
   () => import("@uiw/react-markdown-editor").then((mod) => mod.default),
@@ -50,14 +50,17 @@ function Home() {
         <div className="flex flex-row items-center justify-center gap-2">
           <p className="text-xl font-semibold select-none transition-all whitespace-nowrap">새 글 쓰기</p>
           <p className="text-xl font-semibold select-none transition-all">|</p>
-          <Select
+          <Select.Title
+            label="이름 설정하기"
             options={[
               "3학년 최재민",
               "3학년 익명",
               "익명",
             ]}
             value={selected}
-            setValue={setSelected}
+            onConfirm={(t) => {
+              setSelected(t || "최신순");
+            }}
           />
         </div>
         <Linker href="/bamboo/write" className="-m-2 p-2">
