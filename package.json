@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@uiw/react-markdown-editor": "^6.1.2",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.45",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",

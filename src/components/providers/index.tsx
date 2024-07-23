@@ -1,5 +1,9 @@
+"use client";
+import "moment/locale/ko";
+
 import React from "react";
 
+import CalenderModal from "../CalenderModal";
 import ConfirmModal from "../ConfirmModal";
 import Modal from "../Modal";
 import MoreModal from "../MoreModal";
@@ -15,7 +19,9 @@ const Providers = ({
       <Modal>
         <ConfirmModal>
           <MoreModal>
-            {children}
+            <CalenderModal>
+              {children}
+            </CalenderModal>
           </MoreModal>
         </ConfirmModal>
       </Modal>
