@@ -29,7 +29,7 @@ const Full = (props: SelectModalProps) => {
           });
         }}
       >
-        <p className="font-medium select-none">{props.options?.[findOptionIndex || 0] || props.value || props.placeholder}</p>
+        <p className="font-medium select-none">{(findOptionIndex && props.options?.[findOptionIndex]) || props.value || props.placeholder}</p>
         <div
           className={[
             "transition-transform",
