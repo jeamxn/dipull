@@ -65,7 +65,7 @@ export default function Home() {
                   >
                     <p className="text-xl font-bold">아침</p>
                     <div className="flex flex-col gap-0.5">
-                      <div className="flex flex-row gap-1 opacity-30">
+                      <div className="flex flex-row gap-1 opacity-80">
                         <p className="font-semibold">ㅁㅇㄴㄹ</p>
                         <p>3629 최재민</p>
                       </div>
@@ -88,7 +88,7 @@ export default function Home() {
               </svg>
             </div>
           </div>
-          <table className="w-full table-fixed bg-white dark:bg-text/10">
+          <table className="w-full table-fixed bg-white dark:bg-text/15">
             <tbody className="w-full">
               <tr>
                 <th className="w-8 py-2 text-blue-700 dark:text-blue-400 text-sm font-semibold border-r border-text/10 dark:border-text/20">-</th>
