@@ -76,7 +76,7 @@ const ConfirmModal = ({
         {children}
         <div
           className={[
-            "w-full h-full bg-text-dark/20 absolute top-0 left-0 z-[99999] flex flex-col items-center justify-center transition-all",
+            "w-full h-full bg-text/20 dark:bg-text-dark/20 absolute top-0 left-0 z-[99999] flex flex-col items-center justify-center transition-all",
             modal.show ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
           ].join(" ")}
         >

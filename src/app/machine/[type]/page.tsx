@@ -34,7 +34,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
   ];
 
   return (
-    <div className="py-6 flex flex-col gap-8">
+    <div className="py-6 flex flex-col gap-6">
       <div className="flex flex-row items-center justify-center gap-1 px-6">
         <Linker
           href="/machine/washer"
