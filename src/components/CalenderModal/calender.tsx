@@ -50,7 +50,17 @@ const Calender = ({
             </g>
           </svg>
         </button>
-        <p className="font-semibold text-lg">{current.format("YYYY년 M월")}</p>
+        <div className="flex flex-row gap-1">
+          <p className="font-semibold text-lg">{current.format("YYYY년 M월")}</p>
+          <button
+            onClick={() => {
+              setCurrent(moment());
+              setClicked(moment());
+            }}
+          >
+            <p className="font-semibold text-lg underline underline-offset-1 cursor-pointer">(오늘)</p>
+          </button>
+        </div>
         <button
           className="-m-3 p-3"
           onClick={() => setCurrent(current.clone().add(1, "month"))}
