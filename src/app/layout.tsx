@@ -59,9 +59,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className="w-full h-full overflow-x-hidden flex flex-col bg-background">
+    <html lang="ko" className="overscroll-none w-full h-full overflow-x-hidden flex flex-col bg-background">
       <meta name="viewport" content="initial-scale=1, viewport-fit=cover"/>
-      <body className="w-full h-full overflow-x-hidden flex flex-row bg-background justify-around max-md:gap-0 gap-10 py-safe-or-0 px-safe-offset-16 max-md:px-safe-or-0">
+      <body className="overscroll-none w-full h-full overflow-x-hidden flex flex-row bg-background justify-around max-md:gap-0 gap-10 py-safe-or-0 px-safe-offset-16 max-md:px-safe-or-0">
         <RecoilProvider>
           <aside className="max-md:hidden flex flex-col justify-center">
             <Promotion showLogin />
