@@ -79,7 +79,7 @@ const Timetable = () => {
                         <p className="text-text/60 text-sm font-normal text-center whitespace-break-spaces break-all">
                           <span className="flex flex-col gap-1 items-center justify-center">
                             <span className="text-text">{time.subject}</span>
-                            <span className="text-text/60"> {time.subject && `${time.teacher}□`}</span>
+                            <span className="text-text/60"> {time.subject && `${time.teacher}${["자율", "창체"].includes(time.teacher) ? "" : "□"}`}</span>
                           </span>
                         </p>
                       </td>
