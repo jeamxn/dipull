@@ -35,7 +35,7 @@ const Apply = ({
   const alertModalDispatch = useAlertModalDispatch();
 
   const { refetch, error } = useQuery({
-    queryKey: ["machine_put", { type: params.type }],
+    queryKey: ["machine_put", params.type],
     queryFn: async () => {
       const response = await axios.put<MachineApplyResponse>(`/machine/${params.type}/grant/apply`, {
         machine,
@@ -62,6 +62,12 @@ const Apply = ({
   }, [error]);
 
   const time_disables = React.useMemo(() => { 
+    try {
+      machine_current?.map(e => e);
+    }
+    catch {
+      return [];
+    }
     const mapped = machine_current?.map((m) => {
       if (m.code === machine) {
         return m.time;

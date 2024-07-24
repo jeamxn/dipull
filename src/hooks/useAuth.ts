@@ -12,8 +12,11 @@ const useAuth = () => {
 
   React.useEffect(() => {
     setUser(getUserInfo());
-  }, []); 
+  }, []);
 
+  const refreshUser = () => { 
+    setUser(getUserInfo());
+  };
   const login = () => {
     router.push(`${process.env.NEXT_PUBLIC_DIMIGOIN_URI}/oauth?client=${process.env.NEXT_PUBLIC_DIMIGOIN_KEY}&redirect=${window.location.origin}/auth`);
   };
@@ -33,7 +36,7 @@ const useAuth = () => {
     });
   };
 
-  return { needLogin, login, logout, user };
+  return { needLogin, login, logout, user, refreshUser };
 };
 
 export default useAuth;

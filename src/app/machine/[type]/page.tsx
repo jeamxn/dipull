@@ -7,7 +7,8 @@ import React from "react";
 
 import Linker from "@/components/Linker";
 import { useAuth } from "@/hooks";
-import { Machine_list, Machine_list_Response, MachineJoin } from "@/utils/db/utils";
+import { getUserInfo } from "@/utils/cookies";
+import { Machine_list_Response, MachineJoin } from "@/utils/db/utils";
 
 import Apply from "./apply";
 import MyApply from "./myApply";
@@ -18,20 +19,22 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
   const current_korean = machineTypeToKorean(params.type);
 
   const { data: machines, isLoading: machinesLoading } = useQuery({
-    queryKey: ["machine_list", { type: params.type }],
+    queryKey: ["machine_list", params.type],
     queryFn: async () => {
       const response = await axios.get<Machine_list_Response[]>(`/machine/${params.type}/list`);
       return response.data;
     },
+    initialData: [],
   });
 
   const { data: machine_current, isLoading: machine_currentLoading, refetch: refetchMachineCurrent } = useQuery({
-    queryKey: ["machine_current", { type: params.type }],
+    queryKey: ["machine_current", params.type, user.id],
     queryFn: async () => {
       const response = await axios.get<MachineJoin[]>(`/machine/${params.type}/grant/current`);
       return response.data;
     },
     enabled: Boolean(user.id),
+    initialData: [],
   });
 
   const times = [
@@ -44,7 +47,13 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
 
   const myApply = React.useMemo(() => { 
     if (!user.id) return;
-    return machine_current?.find((m) => m.owner.id === user.id);
+    try {
+      const find = machine_current.find((m) => m.owner.id === user.id);
+      return find;
+    }
+    catch {
+      return undefined;
+    }
   }, [user.id, machine_current]);
 
   return (
@@ -95,7 +104,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
         <div className="px-6 overflow-x-auto overflow-y-hidden snap-x snap-mandatory">
           <div className="flex flex-row w-max gap-1.5">
             {
-              machines && !machine_currentLoading ? machines.length ? machines.map((machine, index) => (
+              !machine_currentLoading ? machines.length ? machines.map((machine, index) => (
                 <div
                   className={[
                     "snap-center rounded-2xl p-6 bg-white dark:bg-text-dark/15 flex flex-col items-start justify-end gap-2 w-[calc(29rem)] max-md:w-[max(calc(100vw-3rem),250px)] h-max",
@@ -105,14 +114,21 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
                   <div className="flex flex-col gap-0.5">
                     {
                       user.id ? times.map((time, i) => {
-                        const this_user = machine_current?.find((item) => item.time === time && item.code === machine.code);
+                        const this_user = () => {
+                          try {
+                            return machine_current?.find((item) => item.time === time && item.code === machine.code);
+                          }
+                          catch {
+                            return undefined;
+                          }
+                        };
                         return (
                           <div key={i} className={[
                             "flex flex-row gap-1",
-                            this_user ? "opacity-90" : "opacity-30",
+                            this_user() ? "opacity-90" : "opacity-30",
                           ].join(" ")}>
                             <p className="font-semibold text-text dark:text-text-dark">{moment(time, "HH:mm").format("a h시 mm분")}</p>
-                            <p className="text-text dark:text-text-dark">{this_user?.owner.number} {this_user?.owner.name}</p>
+                            <p className="text-text dark:text-text-dark">{this_user()?.owner.number} {this_user()?.owner.name}</p>
                           </div>
                         );
                       }) : (

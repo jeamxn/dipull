@@ -38,7 +38,7 @@ const MyApply = ({
   };
 
   const { refetch, error } = useQuery({
-    queryKey: ["machine_put", { type: params.type }],
+    queryKey: ["machine_put", params.type],
     queryFn: async () => {
       const response = await axios.delete<MachineApplyResponse>(`/machine/${params.type}/grant/apply`);
       refetchMachineCurrent();
@@ -50,7 +50,7 @@ const MyApply = ({
   });
   
   React.useEffect(() => {
-    if(!error) return;
+    if (!error) return;
     const axiosError = error as unknown as AxiosError<MachineApplyResponse>;
     alertModalDispatch({
       type: "show",
