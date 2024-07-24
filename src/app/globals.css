@@ -4,13 +4,10 @@
 @tailwind utilities;
 
 * {
-  /* font-family: "Wanted Sans", sans-serif; */
   font-family: "SUIT", sans-serif;
-  /* letter-spacing: -.02rem; */
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: rgb(var(--color-text) / 1);
   -webkit-tap-highlight-color: transparent;
   word-break: keep-all;
   transition: var(--transition-default);
