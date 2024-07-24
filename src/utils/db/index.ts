@@ -1,6 +1,6 @@
 import { Db, MongoClient } from "mongodb";
 
-import { LastRequest, Machine, Machine_list, Timetable, UserInfo, Wakeup } from "./utils";
+import { Bamboo, LastRequest, Machine, Machine_list, Timetable, UserInfo, Wakeup } from "./utils";
 
 const uri = process.env.MONGODB_URI || "";
 const options = {};
@@ -55,6 +55,11 @@ const last_request = async () => {
   return client.collection<LastRequest>("last_request");
 };
 
+const bamboo = async () => { 
+  const client = await connectToDatabase();
+  return client.collection<Bamboo>("bamboo");
+};
+
 export const collections = {
   timetable,
   users,
@@ -63,4 +68,5 @@ export const collections = {
   machine,
   wakeup,
   last_request,
+  bamboo,
 };

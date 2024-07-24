@@ -15,15 +15,31 @@ const MarkdownEditor = dynamic(
 );
 
 function Home() {
-  const { user } = useAuth();
+  const { user, needLogin } = useAuth();
   const router = useRouter();
   const [grade, setGrade] = React.useState<number>(Math.floor(user.number / 1000));
   React.useEffect(() => { 
     setGrade(Math.floor(user.number / 1000));
   }, [user]);
   const [selected, setSelected] = React.useState<string>(JSON.stringify({ grade: true, anonymous: true }));
-  const [value, setValue] = React.useState<string>("");
+  const [title, setTitle] = React.useState<string>("");
+  const [content, setContent] = React.useState<string>("");
   const confirmModalDispatch = useConfirmModalDispatch();
+
+  const data = React.useMemo(() => { 
+    const parsed = JSON.parse(selected);
+    return {
+      title,
+      content,
+      grade: parsed.grade,
+      anonymous: parsed.anonymous,
+    };
+  }, [selected, title, content]);
+
+  const send = () => {
+    if (!user.id) return needLogin();
+    console.log(data);
+  };
 
   return (
     <div className="py-6 flex flex-col gap-8">
@@ -74,7 +90,7 @@ function Home() {
             }}
           />
         </div>
-        <button className="-m-2 p-2">
+        <button className="-m-2 p-2" onClick={send}>
           <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
             <mask id="mask0_313_323" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
               <rect y="0.4375" width="24" height="24" className="fill-text-dark dark:fill-text"/>
@@ -90,11 +106,13 @@ function Home() {
         <input
           type="text"
           placeholder="제목을 입력해주세요."
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           className="w-full px-3 py-2 text-xl font-semibold text-text dark:text-text-dark bg-transparent border-b border-text/10 dark:border-text-dark/20 outline-none placeholder:text-text/20 dark:placeholder:text-text-dark/30"
         />
         <MarkdownEditor
-          value={value}
-          onChange={setValue}
+          value={content}
+          onChange={setContent}
           className="text-text dark:text-text-dark bg-white dark:bg-white-dark border border-text/10 dark:border-text-dark/20 rounded-md min-h-[calc((100vh-200px)*0.7)]"
         />
       </div>
