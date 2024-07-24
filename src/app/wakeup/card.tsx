@@ -46,6 +46,7 @@ const Card = ({
   const [click, setClick] = React.useState<"" | "loading" | "success">("");
 
   const isInclude = React.useMemo(() => {
+    if(!myList) return false;
     return myList?.findIndex((item) => item.video === id) !== -1;
   }, [myList, id]);
 
