@@ -79,7 +79,7 @@ const Machine = () => {
       {
         isLoading ? (
           <div className="w-full px-6 flex flex-row items-center justify-center">
-            <p className="text-text/40 dark:text-text-dark/50">검색 중 입니다...</p>
+            <p className="text-text/40 dark:text-text-dark/50 text-center">검색 중 입니다...</p>
           </div>
         ) : data ? data.map((item) => (
           <Card
