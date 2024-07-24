@@ -51,7 +51,7 @@ const Machine = () => {
           </div>
         ) : (
           <div className="w-full px-4 flex flex-row items-center justify-center">
-            <p className="text-text/40 dark:text-text-dark/50 text-center">기상속 목록을 불러오는 중 입니다...</p>
+            <p className="text-text/40 dark:text-text-dark/50 text-center">기상속 목록을 불러오는 중...</p>
           </div>
         )
       }

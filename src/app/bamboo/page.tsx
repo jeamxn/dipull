@@ -25,7 +25,7 @@ function Home() {
   const router = useRouter();
   const setLoading = useSetRecoilState(loadingAtom);
 
-  const { data, isLoading, isFetched } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ["machine_list", selected, current],
     queryFn: async () => {
       const response = await axios.get<BambooResponse>(`/bamboo/list/${selected}/${current}`);
@@ -93,11 +93,11 @@ function Home() {
 
       <div className="flex flex-col gap-3 px-4">
         {
-          isLoading || !data || !isFetched ? (
+          !data || isFetching ? (
             <>
               <div className="w-full border-b border-text/10 dark:border-text-dark/20" />
               <div className="w-full h-20 flex flex-row items-center justify-center">
-                <p className="text-lg font-semibold text-text dark:text-text-dark">로딩 중...</p>
+                <p className="text-lg font-semibold text-text/40 dark:text-text-dark/50">대나무를 찾는 중...</p>
               </div>
             </>
           ) : data.length ? data.map((_, index) => (

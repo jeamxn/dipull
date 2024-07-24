@@ -15,7 +15,7 @@ const Meal = () => {
   const [date, setDate] = React.useState(moment());
   const [show, setShow] = React.useState<boolean>(false);
 
-  const { data, isLoading } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ["meal", date.format("YYYY-MM-DD")],
     queryFn: async () => {
       const response = await axios.get<MealResponse>(`/meal/${date.format("YYYY-MM-DD")}`);
@@ -84,9 +84,9 @@ const Meal = () => {
                       ))
                     }
                     {
-                      isLoading ? (
+                      isFetching ? (
                         <div className="flex flex-row gap-1 opacity-80">
-                          <p className="text-text dark:text-text-dark">로딩중...</p>
+                          <p className="text-text dark:text-text-dark">급식 데이터를 찾는 중...</p>
                         </div>
                       ) : (
                         data?.[type] === "" && (

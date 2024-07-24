@@ -18,7 +18,7 @@ const Timetable = () => {
     setClass(Math.floor(user.number / 100) % 10);
   }, [user]);
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isFetching, isError } = useQuery({
     queryKey: ["timetable", grade, class_],
     queryFn: async () => {
       const response = await axios.get<TimetableResponse>(`/timetable/${grade}/${class_}`);
@@ -68,9 +68,9 @@ const Timetable = () => {
                   <td colSpan={6} className="px-4 py-3 text-text/60 dark:text-text-dark/65 text-sm font-normal text-center border-t border-text/10 dark:border-text-dark/15">오류가 발생했습니다.</td>
                 </tr>
               )
-            ) : isLoading ? (
+            ) : isFetching ? (
               <tr>
-                <td colSpan={6} className="px-4 py-3 text-text/60 dark:text-text-dark/65 text-sm font-normal text-center border-t border-text/10 dark:border-text-dark/15">로딩 중입니다...</td>
+                <td colSpan={6} className="px-4 py-3 text-text/60 dark:text-text-dark/65 text-sm font-normal text-center border-t border-text/10 dark:border-text-dark/15">시간표를 불러오는 중...</td>
               </tr>
             ) : data?.length ? data.sort((a, b) => a[0].period - b[0].period).map((e) => {
               return (

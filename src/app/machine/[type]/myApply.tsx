@@ -37,7 +37,7 @@ const MyApply = ({
     });
   };
 
-  const { refetch, isLoading } = useQuery({
+  const { refetch, isFetching } = useQuery({
     queryKey: ["machine_put", params.type],
     queryFn: async () => {
       const response = await axios.delete<MachineApplyResponse>(`/machine/${params.type}/grant/apply`);
@@ -68,12 +68,12 @@ const MyApply = ({
         <button
           className={[
             "px-3 py-2.5 bg-text dark:bg-text-dark border border-text dark:border-text-dark text-white dark:text-white-dark rounded-xl font-semibold w-full transition-all",
-            !isLoading ? "cursor-pointer" : "cursor-not-allowed opacity-50",
+            !isFetching ? "cursor-pointer" : "cursor-not-allowed opacity-50",
           ].join(" ")}
           onClick={user.id ? () => refetch() : needLogin}
         >
           {
-            isLoading ? "취소 중..." : "취소하기"
+            isFetching ? "취소 중..." : "취소하기"
           }
         </button>
       </div>

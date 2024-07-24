@@ -20,7 +20,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
   const { user } = useAuth();
   const current_korean = machineTypeToKorean(params.type);
 
-  const { data: machines, isLoading: machinesLoading } = useQuery({
+  const { data: machines, isFetching: machinesLoading } = useQuery({
     queryKey: ["machine_list", params.type],
     queryFn: async () => {
       const response = await axios.get<Machine_list_Response[]>(`/machine/${params.type}/list`);
@@ -29,7 +29,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
     initialData: [],
   });
 
-  const { data: times, isLoading: timesLoading } = useQuery({
+  const { data: times } = useQuery({
     queryKey: ["time_list", params.type],
     queryFn: async () => {
       const response = await axios.get<string[]>(`/machine/${params.type}/time`);
@@ -38,7 +38,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
     initialData: [],
   });
 
-  const { data: machine_current, isLoading: machine_currentLoading, refetch: refetchMachineCurrent } = useQuery({
+  const { data: machine_current, isFetching: machine_currentLoading, refetch: refetchMachineCurrent } = useQuery({
     queryKey: ["machine_current", params.type, user.id],
     queryFn: async () => {
       const response = await axios.get<MachineJoin[]>(`/machine/${params.type}/grant/current`);
@@ -134,7 +134,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
                 <div className={[
                   "flex flex-row gap-1 opacity-30",
                 ].join(" ")}>
-                  <p className="text-text dark:text-text-dark">로딩 중 입니다...</p>
+                  <p className="text-text dark:text-text-dark">{machineTypeToKorean(params.type)} 현황을 불러노는 중...</p>
                 </div>
               </div>
             )

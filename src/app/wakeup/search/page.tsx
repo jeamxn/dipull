@@ -33,7 +33,7 @@ const Machine = () => {
     enabled: Boolean(user.id),
   });
 
-  const { data, refetch, isLoading } = useQuery({
+  const { data, refetch, isFetching } = useQuery({
     queryKey: ["youtube_search", search],
     queryFn: async () => {
       const response = await axios.post<YTSearchResponse>("/wakeup/search/grant/s", {
@@ -74,9 +74,9 @@ const Machine = () => {
         </div>
       </div>
       {
-        isLoading ? (
+        isFetching ? (
           <div className="w-full px-4 flex flex-row items-center justify-center">
-            <p className="text-text/40 dark:text-text-dark/50 text-center">검색 중 입니다...</p>
+            <p className="text-text/40 dark:text-text-dark/50 text-center">Youtube 검색 중...</p>
           </div>
         ) : data ? data.map((item) => (
           <Card
