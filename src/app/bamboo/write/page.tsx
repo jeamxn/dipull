@@ -27,7 +27,7 @@ function Home() {
 
   return (
     <div className="py-6 flex flex-col gap-8">
-      <div className="flex flex-row items-center justify-between gap-4 px-6">
+      <div className="flex flex-row items-center justify-between gap-4 px-4">
         <button
           onClick={() => {
             confirmModalDispatch({
@@ -79,7 +79,7 @@ function Home() {
         </button>
       </div>
 
-      <div className="flex flex-col gap-3 px-6">
+      <div className="flex flex-col gap-3 px-4">
         <input
           type="text"
           placeholder="제목을 입력해주세요."

@@ -81,7 +81,7 @@ const Card = ({
 
   return (
     <div
-      className="px-6 w-full relative"
+      className="px-4 w-full relative"
       onClick={onClick}
     >
       <img
@@ -89,7 +89,7 @@ const Card = ({
         alt="기상송 유튜브 썸네일"
         src={`https://i.ytimg.com/vi/${id}/${imglist[1]}.jpg`}
       />
-      <div className="absolute top-0 left-0 px-6 w-full h-full">
+      <div className="absolute top-0 left-0 px-4 w-full h-full">
         <div className={[
           "bg-text/50 p-4 w-full h-full rounded-2xl flex flex-col justify-end items-start gap-1 max-sm:gap-0 max-md:gap-1 max-lg:gap-0",
           click === "loading" ? "border-8 border-yellow-400" : "",

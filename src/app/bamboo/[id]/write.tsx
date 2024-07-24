@@ -5,7 +5,7 @@ import React from "react";
 const Write = () => { 
   const [comment, setComment] = React.useState("");
   return (
-    <div className="absolute bottom-0 w-full px-6 z-[100] bg-background dark:bg-background-dark border-t rounded-t-3xl pt-3 pb-safe-offset-3 transition-all">
+    <div className="absolute bottom-0 w-full px-4 z-[100] bg-background dark:bg-background-dark border-t rounded-t-3xl pt-3 pb-safe-offset-3 transition-all">
       <div className="w-full flex flex-row items-center justify-between gap-1">
         <input
           type="text"

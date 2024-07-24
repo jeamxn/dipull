@@ -34,7 +34,7 @@ function Home() {
 
   return (
     <div className="py-6 flex flex-col gap-6">
-      <div className="flex flex-row items-center justify-between gap-4 px-6">
+      <div className="flex flex-row items-center justify-between gap-4 px-4">
         <Mover
           onClick={() => router.back()}
           className="-m-2 p-2"
@@ -85,7 +85,7 @@ function Home() {
         </div>
       </div>
 
-      <div className="w-full px-6 flex flex-row items-center justify-start gap-3">
+      <div className="w-full px-4 flex flex-row items-center justify-start gap-3">
         <div>
           <img
             className="w-10 h-10 rounded-full border border-text/10 dark:border-text-dark/20"
@@ -99,12 +99,12 @@ function Home() {
         </div>
       </div>
 
-      <div className="w-full px-6 flex flex-col gap-3">
+      <div className="w-full px-4 flex flex-col gap-3">
         <p className="font-semibold text-xl text-text dark:text-text-dark">외출갔다 오실때 라면 부탁드릴께요!</p>
         <p className="font-normal text-base text-text dark:text-text-dark">라면이 너무 먹고 싶은데 혹시 외출 나가신분중에서 사다주실분 계신가요? 배달비 2000원 드릴게요!</p>
       </div>
 
-      <div className="w-full px-6 flex flex-row gap-3 items-center justify-around border-y border-text/10 dark:border-text-dark/15">
+      <div className="w-full px-4 flex flex-row gap-3 items-center justify-around border-y border-text/10 dark:border-text-dark/15">
         <button
           className="flex flex-row gap-1 items-center justify-center cursor-pointer py-3 w-full"
           onClick={() => {
@@ -166,7 +166,7 @@ function Home() {
         </button>
       </div>
       
-      <div className="flex flex-col gap-5 px-6">
+      <div className="flex flex-col gap-5 px-4">
         {
           Array(20).fill(0).map((_, index) => (
             <Comment

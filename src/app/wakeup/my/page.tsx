@@ -37,15 +37,15 @@ const Machine = () => {
               isMyList
             />
           )) : (
-            <div className="w-full px-6 flex flex-row items-center justify-center">
+            <div className="w-full px-4 flex flex-row items-center justify-center">
               <p className="text-text/40 dark:text-text-dark/50 text-center">신청한 기상송이 없습니다.</p>
             </div>
           ) : (
-            <div className="w-full px-6 flex flex-row items-center justify-center">
+            <div className="w-full px-4 flex flex-row items-center justify-center">
               <p className="text-text/40 dark:text-text-dark/50 text-center">내 신청 목록을 불러오는 중 입니다...</p>
             </div>
           ) : (
-            <div className="w-full px-6 flex flex-col items-center justify-center gap-1">
+            <div className="w-full px-4 flex flex-col items-center justify-center gap-1">
               <p className="text-text/40 dark:text-text-dark/50 text-center">이 페이지는 로그인 후 사용할 수 있어요.</p>
               <button onClick={login} className="-m-3 p-3">
                 <p className="text-text/40 dark:text-text-dark/50 text-center underline">로그인하기</p>

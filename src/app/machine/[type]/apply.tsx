@@ -105,7 +105,7 @@ const Apply = ({
         disables={time_disables}
         disabled={!machine || machine_currentLoading}
       />
-      <div className="px-6 w-full">
+      <div className="px-4 w-full">
         <button
           className={[
             "p-3 bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl font-semibold w-full transition-all",

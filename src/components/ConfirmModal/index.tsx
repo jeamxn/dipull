@@ -88,7 +88,7 @@ const ConfirmModal = ({
               });
             }}
           />
-          <div className="w-full flex flex-col items-center justify-center px-6">
+          <div className="w-full flex flex-col items-center justify-center px-4">
             <div className="w-full bg-background dark:bg-background-dark rounded-2xl p-6 flex flex-col gap-4">
               <div className="w-full flex flex-col gap-2">
                 {

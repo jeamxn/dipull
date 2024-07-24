@@ -25,7 +25,7 @@ const Meal = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="px-6 flex flex-row items-center justify-start gap-1">
+      <div className="px-4 flex flex-row items-center justify-start gap-1">
         <p className="text-xl font-semibold text-text dark:text-text-dark">급식</p>
         <p className="text-xl font-semibold text-text dark:text-text-dark">·</p>
         <button
@@ -60,7 +60,7 @@ const Meal = () => {
           </div>
         </button>
       </div>
-      <div className="px-6 overflow-x-auto overflow-y-hidden snap-x snap-mandatory block">
+      <div className="px-4 overflow-x-auto overflow-y-hidden snap-x snap-mandatory block">
         <div className="flex flex-row gap-2 w-max h-full">
           {
             (["breakfast", "lunch", "dinner"] as MealKey[]).map((type, i) => (

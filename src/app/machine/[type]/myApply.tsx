@@ -50,7 +50,7 @@ const MyApply = ({
   });
   
   return (
-    <div className="w-full px-6 flex flex-col items-center justify-center gap-4">
+    <div className="w-full px-4 flex flex-col items-center justify-center gap-4">
       <div className="py-5 w-full flex flex-col items-center justify-center gap-1">
         <p className="font-semibold text-xl text-text dark:text-text-dark">오늘 예약한 {machineTypeToKorean(params.type)}기가 있어요.</p>
         <div className="flex flex-row gap-1">

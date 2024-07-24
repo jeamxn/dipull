@@ -12,7 +12,7 @@ function Home() {
   const [selected, setSelected] = React.useState<string>("최신순");
   return (
     <div className="py-6 flex flex-col gap-6">
-      <div className="flex flex-row items-center justify-between gap-4 px-6">
+      <div className="flex flex-row items-center justify-between gap-4 px-4">
         <div className="flex flex-row items-center justify-start gap-2">
           <img
             className="w-7 h-7 rounded-full border border-text/10 dark:border-text-dark/20"
@@ -49,7 +49,7 @@ function Home() {
         </Linker>
       </div>
 
-      <div className="flex flex-col gap-3 px-6">
+      <div className="flex flex-col gap-3 px-4">
         {
           Array(20).fill(0).map((_, index) => (
             <Item

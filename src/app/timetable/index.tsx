@@ -27,7 +27,7 @@ const Timetable = () => {
   });
 
   return (
-    <div className="px-6 flex flex-col gap-3">
+    <div className="px-4 flex flex-col gap-3">
       <div className="flex flex-row items-center justify-start gap-1">
         <p className="text-xl font-semibold text-text dark:text-text-dark">시간표</p>
         <p className="text-xl font-semibold text-text dark:text-text-dark">·</p>

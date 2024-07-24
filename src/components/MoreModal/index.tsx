@@ -79,7 +79,7 @@ const MoreModal = ({
             modal.show ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
           ].join(" ")}
         >
-          <div className="w-full flex flex-col items-center justify-center px-6 ">
+          <div className="w-full flex flex-col items-center justify-center px-4 ">
             <div className="w-full flex flex-col gap-0 items-center justify-center bg-background dark:bg-background-dark rounded-xl">
               {
                 modal.buttons.map((button, index) => (
@@ -106,7 +106,7 @@ const MoreModal = ({
               }
             </div>
           </div>
-          <div className="w-full flex flex-col items-center justify-center px-6">
+          <div className="w-full flex flex-col items-center justify-center px-4">
             <div
               className="w-full py-4 flex flex-row items-center justify-center bg-background dark:bg-background-dark rounded-xl cursor-pointer"
               onClick={() => dispatch({ type: "hide" })}

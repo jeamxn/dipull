@@ -12,7 +12,7 @@ const Full = ({
   const [show, setShow] = React.useState(false);
   const findOptionIndex = props.optionValues?.findIndex((v) => v === props.value);
   return (
-    <div className="flex flex-col gap-2 px-6">
+    <div className="flex flex-col gap-2 px-4">
       <p className="font-medium text-base text-text/50 dark:text-text-dark/60">{props.label}</p>
       <button
         className={[

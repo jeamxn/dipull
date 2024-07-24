@@ -61,7 +61,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
 
   return (
     <div className="w-full py-6 flex flex-col gap-6">
-      <div className="flex flex-row items-center justify-center gap-1 px-6 w-full">
+      <div className="flex flex-row items-center justify-center gap-1 px-4 w-full">
         <Linker
           href="/machine/washer"
           className={[
@@ -78,7 +78,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
       </div>
 
       <div className="flex flex-col gap-4">
-        <p className="text-lg font-semibold px-6 text-text dark:text-text-dark">{current_korean}기 신청하기</p>
+        <p className="text-lg font-semibold px-4 text-text dark:text-text-dark">{current_korean}기 신청하기</p>
         {
           myApply?.code ? (
             <MyApply
@@ -103,8 +103,8 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
       </div>
 
       <div className="flex flex-col gap-4">
-        <p className="text-lg font-semibold px-6 text-text dark:text-text-dark">{current_korean} 신청 현황</p>
-        <div className="flex flex-col w-max gap-4 px-6">
+        <p className="text-lg font-semibold px-4 text-text dark:text-text-dark">{current_korean} 신청 현황</p>
+        <div className="flex flex-col w-max gap-4 px-4">
           {
             !machine_currentLoading ? machines.length ? machines.map((machine, index) => (
               <MachineInfo

@@ -48,7 +48,7 @@ const Machine = () => {
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      <div className="flex flex-col gap-3 px-6">
+      <div className="flex flex-col gap-3 px-4">
         <div className="px-3 w-full border-b border-text/10 dark:border-text-dark/20 flex flex-row gap-1 justify-between items-center">
           <input
             type="text"
@@ -75,7 +75,7 @@ const Machine = () => {
       </div>
       {
         isLoading ? (
-          <div className="w-full px-6 flex flex-row items-center justify-center">
+          <div className="w-full px-4 flex flex-row items-center justify-center">
             <p className="text-text/40 dark:text-text-dark/50 text-center">검색 중 입니다...</p>
           </div>
         ) : data ? data.map((item) => (

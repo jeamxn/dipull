@@ -13,7 +13,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="w-full h-40 bg-text dark:bg-text-dark px-6 flex flex-col items-start justify-end">
+      <div className="w-full h-40 bg-text dark:bg-text-dark px-4 flex flex-col items-start justify-end">
         <div
           className="bg-background dark:bg-background-dark border-8 border-background dark:border-background-dark rounded-full w-28 h-28 translate-y-1/2 overflow-hidden"
         >
@@ -26,7 +26,7 @@ const Home = () => {
       </div>
       <div className="h-20" />
       <div className="flex flex-col gap-6">
-        <div className="px-6 flex flex-row justify-between gap-4">
+        <div className="px-4 flex flex-row justify-between gap-4">
           <div className="flex flex-col gap-1">
             <button
               className="flex flex-row gap-1 items-center justify-start w-fit cursor-pointer"

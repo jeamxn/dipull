@@ -85,7 +85,7 @@ const Modal = ({
           }}
         />
         <div className={[
-          "absolute bottom-0 w-full px-6 z-[100] bg-background dark:bg-background-dark border-t rounded-t-3xl pt-6 pb-safe-offset-6 transition-all max-h-[80dvh]",
+          "absolute bottom-0 w-full px-4 z-[100] bg-background dark:bg-background-dark border-t rounded-t-3xl pt-6 pb-safe-offset-6 transition-all max-h-[80dvh]",
           // show ? "translate-y-0 l" : "translate-y-full hidden",
           modal.show ? "opacity-100 pointer-events-auto flex flex-col gap-4" : "opacity-0 pointer-events-none hidden",
         ].join(" ")}>

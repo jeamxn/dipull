@@ -24,7 +24,7 @@ const Menu = () => {
   const path = usePathname();
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-row items-center justify-center gap-1 px-6">
+      <div className="flex flex-row items-center justify-center gap-1 px-4">
         {
           menus.map((menu, index) => (
             <React.Fragment key={index}>
