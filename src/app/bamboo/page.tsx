@@ -32,6 +32,7 @@ function Home() {
             ]}
             value={selected}
             onConfirm={(t) => {
+              console.log(t);
               setSelected(t || "최신순");
             }}
           />
