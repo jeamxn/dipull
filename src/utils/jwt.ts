@@ -27,7 +27,8 @@ const refreshSign = async (data: UserInfo) => {
 };
 
 const refreshVerify = async (token: string) => {
-
+  const { payload } = await jose.jwtVerify<UserInfo>(token, secret);
+  return payload;
 };
 
 export { accessSign, accessVerify, refreshSign, refreshVerify };

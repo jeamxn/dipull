@@ -4,10 +4,10 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import { defaultUser, UserInfo } from "./utils/db/utils";
+import { accessVerify, refreshVerify } from "./utils/jwt";
 
 export const middleware = async (request: Readonly<NextRequest>) => {
   const origin = request.nextUrl.origin;
-  // const refreshToken = cookies().get("refreshToken")?.value || "";
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-url", request.url);
   requestHeaders.set("x-origin", origin);
@@ -34,9 +34,16 @@ export const middleware = async (request: Readonly<NextRequest>) => {
     if(userAgent?.includes("KAKAOTALK")){
       return NextResponse.redirect(`kakaotalk://web/openExternal?url=${encodeURIComponent(request.url)}`);
     }
+
+    const isGrant = request.url.includes("/grant");
+    if (isGrant) {
+      const accessToken = request.cookies.get("access_token")?.value || "";
+      await accessVerify(accessToken);
+    }
+
   }
   catch {
-    return NextResponse.redirect(new URL("/login", origin));
+    return NextResponse.redirect(new URL(`/auth/refresh?url=${request.url}`, origin));
   }
   return response;
 };
