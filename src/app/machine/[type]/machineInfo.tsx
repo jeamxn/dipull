@@ -19,9 +19,13 @@ const MachineInfo = ({
   const [show, setShow] = React.useState(false);
 
   React.useEffect(() => { 
+    const grade = Math.floor(user.number / 1000);
     if (
-      user.gender === machine.gender
-      && machine.allow.includes(Math.floor(user.number / 1000))
+      (
+        user.gender === machine.gender
+      && machine.allow.includes(grade)
+      )
+      || user.type === "teacher"
     )
       setShow(true);
     else
