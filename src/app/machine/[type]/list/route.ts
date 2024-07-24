@@ -34,7 +34,12 @@ export const GET = async (
           gender: "$gender",
           allow: isWeekend ? "$allow.weekend" : "$allow.default",
         }
-      }
+      },
+      {
+        $sort: {
+          code: 1,
+        },
+      },
     ]).toArray();
     const response = NextResponse.json<Machine_list_Response[]>(getAll);
     return response;
