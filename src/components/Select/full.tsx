@@ -2,7 +2,12 @@ import React from "react";
 
 import { SelectModalProps, useSelectModalDispatch } from "../SelectModal";
 
-const Full = (props: SelectModalProps) => {
+const Full = ({
+  disabled,
+  ...props
+}: SelectModalProps & {
+  disabled?: boolean;
+}) => {
   const selectModalDispatch = useSelectModalDispatch();
   const [show, setShow] = React.useState(false);
   const findOptionIndex = props.optionValues?.findIndex((v) => v === props.value);
@@ -10,8 +15,12 @@ const Full = (props: SelectModalProps) => {
     <div className="flex flex-col gap-2 px-6">
       <p className="font-medium text-base text-text/50 dark:text-text-dark/60">{props.label}</p>
       <button
-        className="cursor-pointer w-full rounded-xl bg-text/10 hover:bg-text/20 dark:bg-text-dark/15 dark:hover:bg-text-dark/20 flex flex-row items-center justify-between px-4 py-3"
+        className={[
+          "cursor-pointer w-full rounded-xl bg-text/10 dark:bg-text-dark/15 flex flex-row items-center justify-between px-4 py-3 transition-all",
+          disabled ? "cursor-not-allowed opacity-50" : "hover:bg-text/20 dark:hover:bg-text-dark/20",
+        ].join(" ")}
         onClick={() => {
+          if (disabled) return;
           setShow(true);
           selectModalDispatch({
             type: "show",

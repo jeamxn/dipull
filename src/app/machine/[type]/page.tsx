@@ -67,6 +67,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
           value={time}
           onConfirm={(value) => setTime(value)}
           disables={[true, false]}
+          disabled={!machine}
         />
         <div className="px-6 w-full">
           <button

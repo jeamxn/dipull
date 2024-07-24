@@ -66,7 +66,7 @@ export default function RootLayout({
           <aside className="max-md:hidden flex flex-col justify-center">
             <Promotion showLogin />
           </aside> 
-          <main className="flex flex-col max-md:w-full h-full bg-background dark:bg-background-dark relative border-x border-text/5 dark:border-text-dark/20 w-128 max-md:border-x-0">
+          <main className="flex flex-col max-md:w-full h-full bg-background dark:bg-background-dark relative border-text/5 dark:border-text-dark/20 w-128 max-md:border-x-0">
             <Providers>
               {children}
             </Providers>
