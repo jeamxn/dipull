@@ -34,7 +34,8 @@ const Title = (props: SelectModalProps) => {
       >
         {
           (findOptionIndex !== -1 && props.options?.[findOptionIndex!]) ||
-          props.placeholder
+            props.value ||
+            props.placeholder
         }
       </p>
       <div
