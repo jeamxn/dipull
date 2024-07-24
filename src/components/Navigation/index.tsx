@@ -39,7 +39,7 @@ const Navigation = ({
             >
               <div className="w-full h-full bg-white rounded-full" />
             </div>
-            <div className="bg-text dark:bg-background-dark border-2 border-text dark:border-text-dark rounded-full flex flex-row gap-0 items-center justify-center px-1.5">
+            <div className="bg-text dark:bg-background-dark border-2 border-text dark:border-text-dark/30 rounded-full flex flex-row gap-0 items-center justify-center px-1.5">
               {
                 Links.map((link) => (
                   <Button
