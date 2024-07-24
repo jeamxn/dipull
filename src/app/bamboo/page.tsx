@@ -103,7 +103,7 @@ function Home() {
           ) : data.length ? data.map((_, index) => (
             <Item
               key={index}
-              href={`/bamboo/${_.id}`}
+              href={`/bamboo/grant/${_.id}`}
               title={_.title}
               name={_.user}
               time={_.timestamp}

@@ -28,8 +28,8 @@ export const GET = async (
       throw new Error("Invalid sort value");
     }
 
-    const accessToken = req.cookies.get("access_token")?.value || "";
-    const { id } = await accessVerify(accessToken);
+    // const accessToken = req.cookies.get("access_token")?.value || "";
+    // const { id } = await accessVerify(accessToken);
 
     const sortQuery = {
       recent: {
@@ -195,16 +195,16 @@ export const GET = async (
               $ifNull: ["$comment", []]
             }
           },
-          myGood: {
-            $in: [id, {
-              $ifNull: ["$good", []]
-            }]
-          },
-          myBad: {
-            $in: [id, {
-              $ifNull: ["$bad", []]
-            }]
-          },
+          // myGood: {
+          //   $in: [id, {
+          //     $ifNull: ["$good", []]
+          //   }]
+          // },
+          // myBad: {
+          //   $in: [id, {
+          //     $ifNull: ["$bad", []]
+          //   }]
+          // },
         }
       },
     ]).toArray();

@@ -14,8 +14,8 @@ export type BambooList = {
   goods: number;
   bads: number;
   comments: number;
-  myGood: boolean;
-  myBad: boolean;
+  // myGood: boolean;
+  // myBad: boolean;
 }
 
 export type BambooSort = "recent" | "daily" | "weekly" | "monthly" | "all";
