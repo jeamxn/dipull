@@ -34,8 +34,8 @@ const Apply = ({
   const [machine, setMachine] = React.useState<MachineInfo["code"]>();
   const [time, setTime] = React.useState<MachineInfo["time"]>();
 
-  const { refetch, error } = useQuery({
-    queryKey: ["machine_put", params.type],
+  const { refetch, isLoading } = useQuery({
+    queryKey: ["machine_put", params.type, machine, time],
     queryFn: async () => {
       const response = await axios.put<MachineApplyResponse>(`/machine/${params.type}/grant/apply`, {
         machine,
@@ -109,11 +109,15 @@ const Apply = ({
         <button
           className={[
             "p-3 bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl font-semibold w-full transition-all",
-            machine && time ? "cursor-pointer" : "cursor-not-allowed opacity-50",
+            machine && time && !isLoading ? "cursor-pointer" : "cursor-not-allowed opacity-50",
           ].join(" ")}
           disabled={!machine || !time}
           onClick={user.id ? () => refetch() : needLogin}
-        >신청하기</button>
+        >
+          {
+            isLoading ? "신청 중..." : "신청하기"
+          }
+        </button>
       </div>
     </>
   );
