@@ -1,6 +1,6 @@
 import { Db, MongoClient } from "mongodb";
 
-import { Machine, Machine_list, Timetable, UserInfo, Wakeup } from "./utils";
+import { LastRequest, Machine, Machine_list, Timetable, UserInfo, Wakeup } from "./utils";
 
 const uri = process.env.MONGODB_URI || "";
 const options = {};
@@ -50,6 +50,11 @@ const wakeup = async () => {
   return client.collection<Wakeup>("wakeup");
 };
 
+const last_request = async () => { 
+  const client = await connectToDatabase();
+  return client.collection<LastRequest>("last_request");
+};
+
 export const collections = {
   timetable,
   users,
@@ -57,4 +62,5 @@ export const collections = {
   machine_list,
   machine,
   wakeup,
+  last_request,
 };

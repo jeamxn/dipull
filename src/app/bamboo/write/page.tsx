@@ -21,7 +21,7 @@ function Home() {
   React.useEffect(() => { 
     setGrade(Math.floor(user.number / 1000));
   }, [user]);
-  const [selected, setSelected] = React.useState<string>("익명");
+  const [selected, setSelected] = React.useState<string>(JSON.stringify({ grade: true, anonymous: true }));
   const [value, setValue] = React.useState<string>("");
   const confirmModalDispatch = useConfirmModalDispatch();
 
@@ -59,7 +59,14 @@ function Home() {
             options={[
               `${grade}학년 최재민`,
               `${grade}학년 익명`,
+              "최재민",
               "익명",
+            ]}
+            optionValues={[
+              JSON.stringify({ grade: true, anonymous: false }),
+              JSON.stringify({ grade: true, anonymous: true }),
+              JSON.stringify({ grade: false, anonymous: false }),
+              JSON.stringify({ grade: false, anonymous: true }),
             ]}
             value={selected}
             onConfirm={(t) => {

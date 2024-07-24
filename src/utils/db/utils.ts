@@ -76,3 +76,8 @@ export type Wakeup = {
   video: string;
   title: string;
 }
+
+export type LastRequest = {
+  user: UserInfo["id"];
+  time: string;
+}
