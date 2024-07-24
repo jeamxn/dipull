@@ -35,7 +35,7 @@ const MachineInfo = ({
   return (
     <button
       className={[
-        "snap-center rounded-2xl p-6 bg-white dark:bg-text-dark/15 flex flex-col items-start justify-end gap-2 w-[calc(29rem)] max-md:w-[max(calc(100vw-3rem),250px)] h-max",
+        "snap-center rounded-2xl p-6 bg-white dark:bg-text-dark/15 flex flex-col items-start justify-end gap-2 w-[calc(30rem)] max-md:w-[max(calc(100vw-2rem),250px)] h-max",
       ].join(" ")}
       onClick={() => setShow(p => !p)}
     >
