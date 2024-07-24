@@ -62,6 +62,7 @@ export type MachineJoin = {
   date: Machine["date"];
   time: Machine["time"];
   owner: {
+    id: UserInfo["id"];
     gender: UserInfo["gender"];
     name: UserInfo["name"];
     number: UserInfo["number"];

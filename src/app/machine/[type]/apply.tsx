@@ -15,12 +15,12 @@ const Apply = ({
   machine_currentLoading,
   times,
 }: {
-    params: { type: MachineType },
-    machines: Machine_list[] | undefined,
-    machinesLoading: boolean,
-    machine_current: MachineJoin[] | undefined,
-    machine_currentLoading: boolean,
-    times: MachineInfo["time"][],
+    params: { type: MachineType };
+    machines: Machine_list[] | undefined;
+    machinesLoading: boolean;
+    machine_current: MachineJoin[] | undefined;
+    machine_currentLoading: boolean;
+    times: MachineInfo["time"][];
   }) => {
   const user = useUserInfo();
   const { needLogin } = useAuth();

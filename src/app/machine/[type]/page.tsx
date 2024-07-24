@@ -10,6 +10,7 @@ import { useUserInfo } from "@/hooks";
 import { Machine_list, MachineJoin } from "@/utils/db/utils";
 
 import Apply from "./apply";
+import MyApply from "./myApply";
 import { MachineType, machineTypeToKorean } from "./utils";
 
 const Machine = ({ params }: { params: { type: MachineType } }) => {
@@ -41,6 +42,11 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
     "22:30",
   ];
 
+  const myApply = React.useMemo(() => { 
+    if (!user.id) return;
+    return machine_current?.find((m) => m.owner.id === user.id);
+  }, [user.id, machine_current]);
+
   return (
     <div className="w-full py-6 flex flex-col gap-6">
       <div className="flex flex-row items-center justify-center gap-1 px-6 w-full">
@@ -61,14 +67,25 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
 
       <div className="flex flex-col gap-4">
         <p className="text-lg font-semibold px-6 text-text dark:text-text-dark">{current_korean}기 신청하기</p>
-        <Apply
-          params={params}
-          machines={machines}
-          machinesLoading={machinesLoading}
-          machine_current={machine_current}
-          machine_currentLoading={machine_currentLoading}
-          times={times}
-        />
+        {
+          myApply?.code ? (
+            <MyApply
+              params={params}
+              machines={machines}
+              machinesLoading={machinesLoading}
+              myApply={myApply}
+            />
+          ) : (
+            <Apply
+              params={params}
+              machines={machines}
+              machinesLoading={machinesLoading}
+              machine_current={machine_current}
+              machine_currentLoading={machine_currentLoading}
+              times={times}
+            />
+          )
+        }
       </div>
 
       <div className="flex flex-col gap-4">
