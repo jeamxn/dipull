@@ -1,6 +1,10 @@
+import { useRouter } from "next/navigation";
 import React from "react";
+import { useSetRecoilState } from "recoil";
 
-import Linker from "@/components/Linker";
+import Mover from "@/components/Mover";
+import { useAuth } from "@/hooks";
+import { loadingAtom } from "@/utils/states";
 
 const Item = ({
   href,
@@ -20,12 +24,25 @@ const Item = ({
   dislike: number;
   comment: number;
   isFirst?: boolean;
-}) => {
+  }) => {
+  const setLoading = useSetRecoilState(loadingAtom);
+  const { user, needLogin } = useAuth();
+  const router = useRouter();
   return (
     <>
       <div className="w-full border-b border-text/10 dark:border-text-dark/20" />
-      <Linker href={href} className="flex flex-col gap-3 py-3">
-        <div className="flex flex-col gap-0">
+      <Mover
+        className="flex flex-col gap-3 py-3"
+        onClick={() => {
+          if (!user.id) {
+            setLoading(false);
+            needLogin();
+            return;
+          }
+          router.push(href);
+        }}
+      >
+        <div className="flex flex-col gap-0 items-start">
           <p className="text-base font-medium text-text dark:text-text-dark">{title}</p>
           <p className="text-sm font-normal text-text/50 dark:text-text-dark/60">{name} · {time}</p>
         </div>
@@ -64,7 +81,7 @@ const Item = ({
             <p className="text-sm font-normal text-text/50 dark:text-text-dark/60">{comment}개</p>
           </div>
         </div>
-      </Linker>
+      </Mover>
     </>
   );
 };

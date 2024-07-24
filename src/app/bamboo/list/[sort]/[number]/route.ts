@@ -6,25 +6,106 @@ import { ErrorMessage } from "@/components/providers/utils";
 import { collections } from "@/utils/db";
 import { accessVerify } from "@/utils/jwt";
 
-import { BambooResponse } from "./utils";
+import { BambooList, BambooResponse } from "./utils";
 
 export const GET = async (
   req: NextRequest,
-  { params }: { params: { number: string } }
+  { params }: {
+    params: {
+      number: string,
+      sort: "recent" | "daily" | "weekly" | "monthly" | "all"
+    }
+  }
 ) => {
   try {
-    const { number } = params;
-    const numberNatural = isNaN(parseInt(number)) ? 0 : parseInt(number) > 0 ? parseInt(number) : 0;
+    const { number, sort } = params;
+    const numberNatural = parseInt(number);
+    if (isNaN(numberNatural) || numberNatural < 1) {
+      throw new Error("Invalid number value");
+    }
+
+    if (["recent", "daily", "weekly", "monthly", "all"].indexOf(sort) === -1) { 
+      throw new Error("Invalid sort value");
+    }
 
     const accessToken = req.cookies.get("access_token")?.value || "";
     const { id } = await accessVerify(accessToken);
 
+    const sortQuery = {
+      recent: {
+        _id: -1,
+      },
+      daily: {
+        popularity: -1,
+      },
+      weekly: {
+        popularity: -1,
+      },
+      monthly: {
+        popularity: -1,
+      },
+      all: {
+        popularity: -1,
+      },
+    };
+
+    const today = moment().tz("Asia/Seoul");
+
+    const matchQuery = {
+      recent: {},
+      daily: {
+        timestamp: {
+          $gte: today.clone().subtract(1, "days").format("YYYY-MM-DD HH:mm:ss"),
+        }
+      },
+      weekly: {
+        timestamp: {
+          $gte: today.clone().subtract(7, "days").format("YYYY-MM-DD HH:mm:ss"),
+        }
+      },
+      monthly: {
+        timestamp: {
+          $gte: today.clone().subtract(1, "month").format("YYYY-MM-DD HH:mm:ss"),
+        }
+      },
+      all: {},
+    };
+
     const bamboo = await collections.bamboo();
-    const bamboos = await bamboo.aggregate<BambooResponse>([
+    const bambooCount = await bamboo.countDocuments(matchQuery[sort]);
+    const bamboos = await bamboo.aggregate<BambooList>([
       {
-        $sort: {
-          _id: -1,
-        },
+        $match: matchQuery[sort],
+      },
+      {
+        $project: {
+          id: "$_id",
+          user: "$user",
+          title: "$title",
+          content: "$content",
+          grade: "$grade",
+          anonymous: "$anonymous",
+          good: "$good",
+          bad: "$bad",
+          timestamp: "$timestamp",
+          popularity: {
+            $subtract: [
+              {
+                $size: {
+                  $ifNull: ["$good", []]
+                }
+              },
+              {
+                $size: {
+                  $ifNull: ["$bad", []]
+                }
+              }
+            ]
+          },
+        }
+      },
+      {
+        $sort: sortQuery[sort],
       },
       {
         $skip: 20 * (numberNatural - 1),
@@ -49,6 +130,9 @@ export const GET = async (
       {
         $project: {
           _id: 0,
+          id: {
+            $toString: "$id"
+          },
           user: {
             $concat: [
               {
@@ -94,6 +178,7 @@ export const GET = async (
               }
             ],
           },
+          timestamp: "$timestamp",
           // content: "$content",
           goods: {
             $size: {
@@ -119,7 +204,10 @@ export const GET = async (
       },
     ]).toArray();
     
-    const response = NextResponse.json<BambooResponse[]>(bamboos);
+    const response = NextResponse.json<BambooResponse>({
+      count: bambooCount,
+      list: bamboos,
+    });
     return response;
   }
   catch (e: any) {
@@ -136,5 +224,4 @@ export const GET = async (
     console.error(e.message);
     return response;
   }
-  
 };

@@ -3,11 +3,13 @@
 
 import { useRouter } from "next/navigation";
 import React from "react";
+import { useSetRecoilState } from "recoil";
 
 import Linker from "@/components/Linker";
 import Mover from "@/components/Mover";
 import * as Select from "@/components/Select";
 import { useAuth } from "@/hooks";
+import { loadingAtom } from "@/utils/states";
 
 import Item from "./item";
 
@@ -15,6 +17,7 @@ function Home() {
   const { user, needLogin } = useAuth();
   const [selected, setSelected] = React.useState<string>("최신순");
   const router = useRouter();
+  const setLoading = useSetRecoilState(loadingAtom);
   return (
     <div className="py-6 flex flex-col gap-6">
       <div className="flex flex-row items-center justify-between gap-4 px-4">
@@ -45,7 +48,11 @@ function Home() {
         <Mover
           className="-m-2 p-2"
           onClick={() => {
-            if (!user.id) return needLogin();
+            if (!user.id) {
+              setLoading(false);
+              needLogin();
+              return;
+            }
             router.push("/bamboo/write");
           }}
         >
