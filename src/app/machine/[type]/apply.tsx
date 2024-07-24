@@ -1,10 +1,14 @@
+import { useQuery } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 import moment from "moment";
 import React from "react";
 
+import { useAlertModalDispatch } from "@/components/AlertModal";
 import * as Select from "@/components/Select";
 import { useAuth, useUserInfo } from "@/hooks";
-import { Machine as MachineInfo, Machine_list, MachineJoin } from "@/utils/db/utils";
+import { Machine as MachineInfo, Machine_list, MachineJoin, Machine_list_Response } from "@/utils/db/utils";
 
+import { MachineApplyResponse } from "./grant/apply/utils";
 import { MachineType, machineTypeToKorean } from "./utils";
 
 const Apply = ({
@@ -13,13 +17,15 @@ const Apply = ({
   machinesLoading,
   machine_current,
   machine_currentLoading,
+  refetchMachineCurrent,
   times,
 }: {
     params: { type: MachineType };
-    machines: Machine_list[] | undefined;
+    machines: Machine_list_Response[] | undefined;
     machinesLoading: boolean;
     machine_current: MachineJoin[] | undefined;
     machine_currentLoading: boolean;
+    refetchMachineCurrent: () => void;
     times: MachineInfo["time"][];
   }) => {
   const user = useUserInfo();
@@ -27,6 +33,34 @@ const Apply = ({
   const current_korean = machineTypeToKorean(params.type);
   const [machine, setMachine] = React.useState<MachineInfo["code"]>();
   const [time, setTime] = React.useState<MachineInfo["time"]>();
+  const alertModalDispatch = useAlertModalDispatch();
+
+  const { refetch, error } = useQuery({
+    queryKey: ["machine_put", { type: params.type }],
+    queryFn: async () => {
+      const response = await axios.put<MachineApplyResponse>(`/machine/${params.type}/grant/apply`, {
+        machine,
+        time,
+      });
+      refetchMachineCurrent();
+      return response.data;
+    },
+    refetchOnWindowFocus: false,
+    enabled: false,
+    retry: false,
+  });
+  
+  React.useEffect(() => {
+    if(!error) return;
+    const axiosError = error as unknown as AxiosError<MachineApplyResponse>;
+    alertModalDispatch({
+      type: "show",
+      data: {
+        title: axiosError.response?.data.message || "오류가 발생했습니다.",
+        description: "다시 시도해주세요.",
+      },
+    });
+  }, [error]);
 
   const time_disables = React.useMemo(() => { 
     const mapped = machine_current?.map((m) => {
@@ -54,7 +88,8 @@ const Apply = ({
       <Select.Full
         label={`${current_korean}기 선택`}
         placeholder={`${current_korean}기를 선택해주세요.`}
-        options={machines?.map((m) => m.name)}
+        options={machines?.map((m) => `[${m.allow.join(", ")}학년] ${m.name}`)}
+        disables={machines?.map((m) => !m.allow.includes(Math.floor(user.number / 1000)))}
         optionValues={machines?.map((m) => m.code)}
         value={machine}
         onConfirm={(value) => setMachine(value)}
@@ -77,7 +112,7 @@ const Apply = ({
             machine && time ? "cursor-pointer" : "cursor-not-allowed opacity-50",
           ].join(" ")}
           disabled={!machine || !time}
-          onClick={user.id ? () => { } : needLogin}
+          onClick={user.id ? () => refetch() : needLogin}
         >신청하기</button>
       </div>
     </>

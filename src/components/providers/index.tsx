@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React from "react";
 
+import AlertModal from "../AlertModal";
 import CalenderModal from "../CalenderModal";
 import ConfirmModal from "../ConfirmModal";
 import Modal from "../Modal";
@@ -27,7 +28,9 @@ const Providers = ({
             <MoreModal>
               <CalenderModal>
                 <SelectModal>
-                  {children}
+                  <AlertModal>
+                    {children}
+                  </AlertModal>
                 </SelectModal>
               </CalenderModal>
             </MoreModal>

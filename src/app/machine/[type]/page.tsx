@@ -7,7 +7,7 @@ import React from "react";
 
 import Linker from "@/components/Linker";
 import { useUserInfo } from "@/hooks";
-import { Machine_list, MachineJoin } from "@/utils/db/utils";
+import { Machine_list, Machine_list_Response, MachineJoin } from "@/utils/db/utils";
 
 import Apply from "./apply";
 import MyApply from "./myApply";
@@ -20,12 +20,12 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
   const { data: machines, isLoading: machinesLoading } = useQuery({
     queryKey: ["machine_list", { type: params.type }],
     queryFn: async () => {
-      const response = await axios.get<Machine_list[]>(`/machine/${params.type}/list`);
+      const response = await axios.get<Machine_list_Response[]>(`/machine/${params.type}/list`);
       return response.data;
     },
   });
 
-  const { data: machine_current, isLoading: machine_currentLoading } = useQuery({
+  const { data: machine_current, isLoading: machine_currentLoading, refetch: refetchMachineCurrent } = useQuery({
     queryKey: ["machine_current", { type: params.type }],
     queryFn: async () => {
       const response = await axios.get<MachineJoin[]>(`/machine/${params.type}/grant/current`);
@@ -82,6 +82,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
               machinesLoading={machinesLoading}
               machine_current={machine_current}
               machine_currentLoading={machine_currentLoading}
+              refetchMachineCurrent={refetchMachineCurrent}
               times={times}
             />
           )
@@ -122,7 +123,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
                       )
                     }
                   </div>
-                  <p className="text-2xl font-bold text-text dark:text-text-dark">[{machine.allow.default.join(", ")}학년] {machine.name}</p>
+                  <p className="text-2xl font-bold text-text dark:text-text-dark">[{machine.allow.join(", ")}학년] {machine.name}</p>
                 </div>
               )) : (
                 <div

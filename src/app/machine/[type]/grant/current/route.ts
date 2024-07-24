@@ -12,9 +12,6 @@ export const GET = async (
   { params }: { params: { type: MachineType } }
 ) => {
   try {
-    // const accessToken = req.cookies.get("access_token")?.value || "";
-    // const { id, gender, number } = await accessVerify(accessToken);
-    
     const today = moment().tz("Asia/Seoul").format("YYYY-MM-DD");
 
     const machine = await collections.machine();

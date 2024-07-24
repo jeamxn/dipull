@@ -49,6 +49,14 @@ export type Machine_list = {
   }
 }
 
+export type Machine_list_Response = {
+  type: MachineType;
+  code: string;
+  name: string;
+  gender: UserInfo["gender"];
+  allow: number[];
+}
+
 export type Machine = {
   code: string;
   type: MachineType;
