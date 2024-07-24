@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 import { useUserInfo } from "@/utils/cookies";
+import { login_url } from "@/utils/states";
 
 import Meal from "./meal";
 import Timetable from "./timetable";
@@ -12,11 +13,10 @@ import Timetable from "./timetable";
 const Home = () => {
   const user = useUserInfo();
   const router = useRouter();
-  const login = async () => {
-    const url = `${process.env.NEXT_PUBLIC_DIMIGOIN_URI}/oauth?client=${process.env.NEXT_PUBLIC_DIMIGOIN_KEY}&redirect=${window.location.origin}/auth`;
-    router.push(url);
+  const login = () => {
+    router.push(login_url);
   };
-  const logout = async () => { 
+  const logout = () => { 
     window.location.href = "/auth/logout";
   };
 

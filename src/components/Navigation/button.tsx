@@ -39,13 +39,13 @@ const Button = ({
       >
         <svg className={[
           "w-6 h-6 transition-all",
-          isSame ? "fill-text dark:fill-text-dark" : "fill-white dark:fill-white-dark",
+          isSame ? "fill-text" : "fill-white",
         ].join(" ")} viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
           {icon}
         </svg>
         <p className={[
           "font-semibold text-base",
-          isSame ? "text-text block dark:text-text-dark" : "text-white dark:text-white-dark hidden",
+          isSame ? "text-text block" : "text-white hidden",
         ].join(" ")}>{text}</p>
       </div>
     </Linker>

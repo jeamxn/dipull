@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 import { useUserInfo } from "@/utils/cookies";
+import { login_url } from "@/utils/states";
 
 import Mover from "./Mover";
 
@@ -15,9 +16,8 @@ const Promotion = ({
   }) => {
   const user = useUserInfo();
   const router = useRouter();
-  const login = async () => {
-    const url = `${process.env.NEXT_PUBLIC_DIMIGOIN_URI}/oauth?client=${process.env.NEXT_PUBLIC_DIMIGOIN_KEY}&redirect=${window.location.origin}/auth`;
-    router.push(url);
+  const login = () => {
+    router.push(login_url);
   };
   return (
     <div className="flex flex-col gap-6 items-start justify-center h-full">

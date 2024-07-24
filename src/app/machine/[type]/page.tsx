@@ -1,17 +1,36 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React from "react";
 
+import { useConfirmModalDispatch } from "@/components/ConfirmModal";
 import Linker from "@/components/Linker";
 import * as Select from "@/components/Select";
-import { useSelectModalDispatch } from "@/components/SelectModal";
+import { useUserInfo } from "@/utils/cookies";
+import { login_url } from "@/utils/states";
 
 import { MachineType, machineTypeToKorean } from "./utils";
 
 const Machine = ({ params }: { params: { type: MachineType } }) => {
+  const user = useUserInfo();
+  const router = useRouter();
+  const confirmModalDispatch = useConfirmModalDispatch();
   const current_korean = machineTypeToKorean(params.type);
   const [machine, setMachine] = React.useState<string>();
   const [time, setTime] = React.useState<string>();
+
+  const login = () => {
+    confirmModalDispatch({
+      type: "show",
+      data: {
+        title: "로그인이 필요합니다.",
+        description: "로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?",
+        onConfirm: () => {
+          router.push(login_url);
+        }
+      }
+    });
+  };
 
   const machines = [
     {
@@ -76,6 +95,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
               machine && time ? "cursor-pointer" : "cursor-not-allowed opacity-50",
             ].join(" ")}
             disabled={!machine || !time}
+            onClick={user.id ? () => { } : login}
           >신청하기</button>
         </div>
       </div>

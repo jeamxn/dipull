@@ -3,8 +3,8 @@ import moment from "moment";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import { defaultUser, UserInfo } from "./utils/db/utils";
-import { accessVerify, refreshVerify } from "./utils/jwt";
+import { defaultUser } from "./utils/db/utils";
+import { accessVerify } from "./utils/jwt";
 
 export const middleware = async (request: Readonly<NextRequest>) => {
   const origin = request.nextUrl.origin;
@@ -34,13 +34,11 @@ export const middleware = async (request: Readonly<NextRequest>) => {
     if(userAgent?.includes("KAKAOTALK")){
       return NextResponse.redirect(`kakaotalk://web/openExternal?url=${encodeURIComponent(request.url)}`);
     }
-
     const isGrant = request.url.includes("/grant");
     if (isGrant) {
       const accessToken = request.cookies.get("access_token")?.value || "";
       await accessVerify(accessToken);
     }
-
   }
   catch {
     return NextResponse.redirect(new URL(`/auth/refresh?url=${request.url}`, origin));
