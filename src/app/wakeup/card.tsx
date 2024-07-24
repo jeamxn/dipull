@@ -1,12 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
-import { useQuery } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import axios from "axios";
 import React from "react";
 
-import { useAlertModalDispatch } from "@/components/AlertModal";
 import { useAuth } from "@/hooks";
 
 import { WakeupPutResponse } from "./grant/apply/utils";
+import { WakeupListData } from "./list/get/utlis";
+import { MyWakeupResponseString } from "./my/grant/list/utils";
 
 const imglist = [
   "maxresdefault",
@@ -21,19 +22,32 @@ const imglist = [
 ];
 
 const Card = ({
+  _id,
   id,
   vote,
   title,
   rank,
+  type = "add",
+  parentRefetch,
+  myList,
+  isMyList,
 }: {
+  _id?: string;
   id: string;
   vote?: number;
   title: string;
   rank?: number;
+  type?: "add" | "remove";
+    parentRefetch?: () => any;
+    myList?: MyWakeupResponseString["data"];
+    isMyList?: boolean;
   }) => {
   const { user, needLogin } = useAuth();
   const [click, setClick] = React.useState<"" | "loading" | "success">("");
-  const alertModalDispatch = useAlertModalDispatch();
+
+  const isInclude = React.useMemo(() => {
+    return myList?.findIndex((item) => item.video === id) !== -1;
+  }, [myList, id]);
 
   const onClick = () => {
     if (!user.id) {
@@ -44,13 +58,18 @@ const Card = ({
     refetch();
   };
 
-  const { refetch, error } = useQuery({
-    queryKey: ["wakeup_put", id],
+  const { refetch } = useQuery({
+    queryKey: ["wakeup_put", id, type],
     queryFn: async () => {
-      const response = await axios.put<WakeupPutResponse>("/wakeup/grant/apply", {
-        id
+      const response = await axios<WakeupPutResponse>({
+        method: type === "add" ? "PUT" : "DELETE",
+        url: "/wakeup/grant/apply",
+        data: {
+          id, _id,
+        },
       });
-      setClick("success");
+      setClick("");
+      parentRefetch && parentRefetch();
       return response.data;
     },
     refetchOnWindowFocus: false,
@@ -72,9 +91,8 @@ const Card = ({
       <div className="absolute top-0 left-0 px-6 w-full h-full">
         <div className={[
           "bg-text/50 p-4 w-full h-full rounded-2xl flex flex-col justify-end items-start gap-1 max-sm:gap-0 max-md:gap-1 max-lg:gap-0",
-          click ? "border-8" : "",
-          click === "loading" ? "border-yellow-400" : "",
-          click === "success" ? "border-green-400" : "",
+          click === "loading" ? "border-8 border-yellow-400" : "",
+          isInclude && !isMyList ? "border-8 border-green-400" : "",
         ].join(" ")}>
           {
             rank || vote ? (

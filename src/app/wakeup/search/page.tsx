@@ -8,13 +8,13 @@ import { useAlertModalDispatch } from "@/components/AlertModal";
 import { useAuth } from "@/hooks";
 
 import Card from "../card";
+import { MyWakeupResponseString } from "../my/grant/list/utils";
 
 import { YTSearchResponse } from "./grant/s/utils";
 
 const Machine = () => {
   const { user, needLogin } = useAuth();
   const [search, setSearch] = React.useState("");
-  const alertModalDispatch = useAlertModalDispatch();
 
   const onSearch = () => {
     if (!user.id) {
@@ -23,8 +23,17 @@ const Machine = () => {
     }
     refetch();
   };
+  
+  const { data: myList, refetch: refetchMyList } = useQuery({
+    queryKey: ["wakeup_my_list"],
+    queryFn: async () => {
+      const response = await axios.get<MyWakeupResponseString>("/wakeup/my/grant/list");
+      return response.data.data;
+    },
+    enabled: Boolean(user.id),
+  });
 
-  const { data, refetch, error, isLoading } = useQuery({
+  const { data, refetch, isLoading } = useQuery({
     queryKey: ["youtube_search", search],
     queryFn: async () => {
       const response = await axios.post<YTSearchResponse>("/wakeup/search/grant/s", {
@@ -74,6 +83,10 @@ const Machine = () => {
             key={item.id}
             id={item.id}
             title={item.title}
+            myList={myList}
+            parentRefetch={() => {
+              refetchMyList();
+            }}
           />
         )) : null
       }

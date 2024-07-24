@@ -68,7 +68,6 @@ const PUT = async (
     }, {
       status: 400,
     });
-    console.error(e.message);
     return response;
   }
 };
