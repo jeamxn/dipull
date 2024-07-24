@@ -78,17 +78,7 @@ export const GET = async (
         $match: matchQuery[sort],
       },
       {
-        $project: {
-          id: "$_id",
-          user: "$user",
-          title: "$title",
-          content: "$content",
-          grade: "$grade",
-          anonymous: "$anonymous",
-          good: "$good",
-          bad: "$bad",
-          comment: "$comment",
-          timestamp: "$timestamp",
+        $addFields: {
           popularity: {
             $subtract: [
               {
@@ -139,10 +129,10 @@ export const GET = async (
       },
       {
         $project: {
-          _id: 0,
           id: {
-            $toString: "$id"
+            $toString: "$_id"
           },
+          _id: 0,
           user: {
             $concat: [
               {
