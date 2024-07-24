@@ -1,10 +1,19 @@
 import { useRouter } from "next/navigation";
+import React from "react";
 
 import { useConfirmModalDispatch } from "@/components/ConfirmModal";
+import { getUserInfo } from "@/utils/cookies";
+import { defaultUser } from "@/utils/db/utils";
 
 const useAuth = () => { 
   const router = useRouter();
   const confirmModalDispatch = useConfirmModalDispatch();
+  const [user, setUser] = React.useState(defaultUser);
+
+  React.useEffect(() => {
+    setUser(getUserInfo());
+  }, []); 
+
   const login = () => {
     router.push(`${process.env.NEXT_PUBLIC_DIMIGOIN_URI}/oauth?client=${process.env.NEXT_PUBLIC_DIMIGOIN_KEY}&redirect=${window.location.origin}/auth`);
   };
@@ -24,7 +33,7 @@ const useAuth = () => {
     });
   };
 
-  return { needLogin, login, logout };
+  return { needLogin, login, logout, user };
 };
 
 export default useAuth;

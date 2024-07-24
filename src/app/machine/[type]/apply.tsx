@@ -5,7 +5,7 @@ import React from "react";
 
 import { useAlertModalDispatch } from "@/components/AlertModal";
 import * as Select from "@/components/Select";
-import { useAuth, useUserInfo } from "@/hooks";
+import { useAuth } from "@/hooks";
 import { Machine as MachineInfo, Machine_list, MachineJoin, Machine_list_Response } from "@/utils/db/utils";
 
 import { MachineApplyResponse } from "./grant/apply/utils";
@@ -28,8 +28,7 @@ const Apply = ({
     refetchMachineCurrent: () => void;
     times: MachineInfo["time"][];
   }) => {
-  const user = useUserInfo();
-  const { needLogin } = useAuth();
+  const { needLogin, user } = useAuth();
   const current_korean = machineTypeToKorean(params.type);
   const [machine, setMachine] = React.useState<MachineInfo["code"]>();
   const [time, setTime] = React.useState<MachineInfo["time"]>();

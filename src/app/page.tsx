@@ -3,14 +3,13 @@
 
 import React from "react";
 
-import { useAuth, useUserInfo } from "@/hooks";
+import { useAuth } from "@/hooks";
 
 import Meal from "./meal";
 import Timetable from "./timetable";
 
 const Home = () => {
-  const user = useUserInfo();
-  const { login, logout } = useAuth();
+  const { login, logout, user } = useAuth();
 
   return (
     <>

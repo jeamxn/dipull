@@ -1,6 +1,8 @@
 import moment from "moment";
 import React from "react";
 
+import { useAlertModalDispatch } from "@/components/AlertModal";
+import { useAuth } from "@/hooks";
 import { Machine_list, Machine_list_Response, MachineJoin } from "@/utils/db/utils";
 
 import { MachineType, machineTypeToKorean } from "./utils";
@@ -16,6 +18,19 @@ const MyApply = ({
     machinesLoading: boolean;
     myApply: MachineJoin | undefined;
   }) => {
+  const { needLogin, user } = useAuth();
+  const alertModalDispatch = useAlertModalDispatch();
+
+  const late = () => {
+    alertModalDispatch({
+      type: "show",
+      data: {
+        title: "아직 지원되지 않아요.",
+        description: "빠른 시일 내로 개발할 예정입니다.",
+      },
+    });
+  };
+  
   return (
     <div className="w-full px-6 flex flex-col items-center justify-center gap-4">
       <div className="py-5 w-full flex flex-col items-center justify-center gap-1">
@@ -30,7 +45,7 @@ const MyApply = ({
           className={[
             "px-3 py-2.5 text-text dark:text-text-dark border border-text dark:border-text-dark bg-transparent rounded-xl font-semibold w-full transition-all cursor-pointer",
           ].join(" ")}
-          // onClick={user.id ? () => { } : needLogin}
+          onClick={user.id ? late : needLogin}
         >지연신청</button>
         <button
           className={[

@@ -6,7 +6,7 @@ import moment from "moment";
 import React from "react";
 
 import Linker from "@/components/Linker";
-import { useUserInfo } from "@/hooks";
+import { useAuth } from "@/hooks";
 import { Machine_list, Machine_list_Response, MachineJoin } from "@/utils/db/utils";
 
 import Apply from "./apply";
@@ -14,7 +14,7 @@ import MyApply from "./myApply";
 import { MachineType, machineTypeToKorean } from "./utils";
 
 const Machine = ({ params }: { params: { type: MachineType } }) => {
-  const user = useUserInfo();
+  const { user } = useAuth();
   const current_korean = machineTypeToKorean(params.type);
 
   const { data: machines, isLoading: machinesLoading } = useQuery({

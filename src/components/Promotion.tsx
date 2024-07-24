@@ -3,7 +3,7 @@
 import Link from "next/link";
 import React from "react";
 
-import { useAuth, useUserInfo } from "@/hooks";
+import { useAuth } from "@/hooks";
 
 import Mover from "./Mover";
 
@@ -12,8 +12,7 @@ const Promotion = ({
 }: {
     showLogin?: boolean;
   }) => {
-  const user = useUserInfo();
-  const { login } = useAuth();
+  const { login, user } = useAuth();
 
   return (
     <div className="flex flex-col gap-6 items-start justify-center h-full">

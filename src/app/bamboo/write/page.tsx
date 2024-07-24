@@ -7,7 +7,7 @@ import React from "react";
 
 import { useConfirmModalDispatch } from "@/components/ConfirmModal";
 import * as Select from "@/components/Select";
-import { useUserInfo } from "@/hooks";
+import { useAuth } from "@/hooks";
 
 const MarkdownEditor = dynamic(
   () => import("@uiw/react-markdown-editor").then((mod) => mod.default),
@@ -15,7 +15,7 @@ const MarkdownEditor = dynamic(
 );
 
 function Home() {
-  const user = useUserInfo();
+  const { user } = useAuth();
   const router = useRouter();
   const [grade, setGrade] = React.useState<number>(Math.floor(user.number / 1000));
   React.useEffect(() => { 
