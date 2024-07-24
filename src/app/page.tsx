@@ -1,24 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useRouter } from "next/navigation";
 import React from "react";
 
-import { useUserInfo } from "@/utils/cookies";
-import { login_url } from "@/utils/states";
+import { useAuth, useUserInfo } from "@/hooks";
 
 import Meal from "./meal";
 import Timetable from "./timetable";
 
 const Home = () => {
   const user = useUserInfo();
-  const router = useRouter();
-  const login = () => {
-    router.push(login_url);
-  };
-  const logout = () => { 
-    window.location.href = "/auth/logout";
-  };
+  const { login, logout } = useAuth();
 
   return (
     <>

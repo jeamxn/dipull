@@ -1,11 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React from "react";
 
-import { useUserInfo } from "@/utils/cookies";
-import { login_url } from "@/utils/states";
+import { useAuth, useUserInfo } from "@/hooks";
 
 import Mover from "./Mover";
 
@@ -15,10 +13,8 @@ const Promotion = ({
     showLogin?: boolean;
   }) => {
   const user = useUserInfo();
-  const router = useRouter();
-  const login = () => {
-    router.push(login_url);
-  };
+  const { login } = useAuth();
+
   return (
     <div className="flex flex-col gap-6 items-start justify-center h-full">
       <div className="flex flex-col gap-4">

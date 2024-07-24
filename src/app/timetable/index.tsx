@@ -5,7 +5,7 @@ import axios from "axios";
 import React from "react";
 
 import * as Select from "@/components/Select";
-import { useUserInfo } from "@/utils/cookies";
+import { useUserInfo } from "@/hooks";
 
 import { TimetableResponse } from "./[grade]/[class]/get";
 

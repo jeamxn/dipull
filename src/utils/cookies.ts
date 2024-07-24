@@ -7,11 +7,3 @@ export const getUserInfo = () => {
   const user: UserInfo = JSON.parse(Cookies.get("user") || JSON.stringify(defaultUser));
   return user;
 };
-
-export const useUserInfo = () => { 
-  const [user, setUser] = React.useState(defaultUser);
-  React.useEffect(() => {
-    setUser(getUserInfo());
-  }, []); 
-  return user;
-};

@@ -7,7 +7,7 @@ import React from "react";
 
 import { useConfirmModalDispatch } from "@/components/ConfirmModal";
 import * as Select from "@/components/Select";
-import { useUserInfo } from "@/utils/cookies";
+import { useUserInfo } from "@/hooks";
 
 const MarkdownEditor = dynamic(
   () => import("@uiw/react-markdown-editor").then((mod) => mod.default),
