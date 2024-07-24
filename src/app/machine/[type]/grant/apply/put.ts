@@ -8,6 +8,8 @@ import { accessVerify } from "@/utils/jwt";
 
 import { MachineType, machineTypeToKorean } from "../../utils";
 
+import { MachineApplyResponse } from "./utils";
+
 const PUT = async (
   req: NextRequest,
   { params }: {
@@ -75,16 +77,18 @@ const PUT = async (
       throw new Error("예약에 실패했습니다.");
     }
 
-    const response = NextResponse.json({
+    const response = NextResponse.json<MachineApplyResponse>({
       success: true,
-      message: "예약되었습니다.",
     });
     return response;
   }
   catch (e: any) {
-    const response = NextResponse.json({
+    const response = NextResponse.json<MachineApplyResponse>({
       success: false,
-      message: e.message,
+      error: {
+        title: "기기 예약에 실패했어요.",
+        description: e.message,
+      }
     }, {
       status: 400,
     });

@@ -7,7 +7,7 @@ import React from "react";
 import { useAlertModalDispatch } from "@/components/AlertModal";
 import { useAuth } from "@/hooks";
 
-import Card from "../list/card";
+import Card from "../card";
 
 import { YTSearchResponse } from "./grant/s/utils";
 
@@ -36,18 +36,6 @@ const Machine = () => {
     enabled: false,
     retry: false,
   });
-
-  React.useEffect(() => {
-    if(!error) return;
-    const axiosError = error as unknown as AxiosError<YTSearchResponse>;
-    alertModalDispatch({
-      type: "show",
-      data: {
-        title: axiosError.response?.data.message || "오류가 발생했습니다.",
-        description: "다시 시도해주세요.",
-      },
-    });
-  }, [error]);
 
   return (
     <div className="flex flex-col gap-4 w-full">

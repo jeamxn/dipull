@@ -1,4 +1,7 @@
 export type MachineApplyResponse = {
   success: boolean;
-  message: string;
+  error?: {
+    title?: string;
+    description?: string;
+  }
 }

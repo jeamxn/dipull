@@ -2,6 +2,7 @@ import "moment-timezone";
 import moment from "moment";
 import { NextRequest, NextResponse } from "next/server";
 
+import { ErrorMessage } from "@/components/providers/utils";
 import { checkWeekend } from "@/utils/date";
 
 import { MachineType } from "../utils";
@@ -50,8 +51,13 @@ export const GET = async (
     return response;
   }
   catch (e: any) {
-    const response = NextResponse.json({
-      message: e.message,
+    const response = NextResponse.json<{
+      error: ErrorMessage;
+    }>({
+      error: {
+        title: "시간 조회를 실패했어요.",
+        description: e.message,
+      },
     }, {
       status: 400,
     });

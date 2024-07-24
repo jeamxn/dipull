@@ -49,14 +49,6 @@ export type Machine_list = {
   }
 }
 
-export type Machine_list_Response = {
-  type: MachineType;
-  code: string;
-  name: string;
-  gender: UserInfo["gender"];
-  allow: number[];
-}
-
 export type Machine = {
   code: string;
   type: MachineType;
@@ -75,4 +67,12 @@ export type MachineJoin = {
     name: UserInfo["name"];
     number: UserInfo["number"];
   };
+}
+
+export type Wakeup = {
+  owner: UserInfo["id"];
+  week: string;
+  date: string;
+  video: string;
+  title: string;
 }

@@ -7,6 +7,8 @@ import { accessVerify } from "@/utils/jwt";
 
 import { MachineType, machineTypeToKorean } from "../../utils";
 
+import { MachineApplyResponse } from "./utils";
+
 const DELETE = async (
   req: NextRequest,
   { params }: {
@@ -31,16 +33,18 @@ const DELETE = async (
       throw new Error(`예약된 ${machineTypeToKorean(params.type)}가 없습니다.`);
     }
 
-    const response = NextResponse.json({
+    const response = NextResponse.json<MachineApplyResponse>({
       success: true,
-      message: "예약이 취소되었습니다.",
     });
     return response;
   }
   catch (e: any) {
-    const response = NextResponse.json({
+    const response = NextResponse.json<MachineApplyResponse>({
       success: false,
-      message: e.message,
+      error: {
+        title: "예약 취소를 실패했어요.",
+        description: e.message,
+      },
     }, {
       status: 400,
     });

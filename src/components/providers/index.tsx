@@ -1,8 +1,5 @@
 "use client";
 import "moment/locale/ko";
-
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React from "react";
 
 import AlertModal from "../AlertModal";
@@ -13,7 +10,7 @@ import MoreModal from "../MoreModal";
 import Navigation from "../Navigation";
 import SelectModal from "../SelectModal";
 
-const queryClient = new QueryClient();
+import ReactQueryProvider from "./ReactQueryProvider";
 
 const Providers = ({ 
   children
@@ -21,24 +18,23 @@ const Providers = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Navigation>
-        <Modal>
-          <ConfirmModal>
-            <MoreModal>
-              <CalenderModal>
-                <SelectModal>
-                  <AlertModal>
+    <Navigation>
+      <Modal>
+        <ConfirmModal>
+          <MoreModal>
+            <CalenderModal>
+              <SelectModal>
+                <AlertModal>
+                  <ReactQueryProvider>
                     {children}
-                  </AlertModal>
-                </SelectModal>
-              </CalenderModal>
-            </MoreModal>
-          </ConfirmModal>
-        </Modal>
-      </Navigation>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+                  </ReactQueryProvider>
+                </AlertModal>
+              </SelectModal>
+            </CalenderModal>
+          </MoreModal>
+        </ConfirmModal>
+      </Modal>
+    </Navigation>
   );
 };
 

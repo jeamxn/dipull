@@ -1,5 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
+import { useQuery } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 import React from "react";
+
+import { useAlertModalDispatch } from "@/components/AlertModal";
+import { useAuth } from "@/hooks";
+
+import { WakeupPutResponse } from "./grant/apply/utils";
 
 const imglist = [
   "maxresdefault",
@@ -24,11 +31,38 @@ const Card = ({
   title: string;
   rank?: number;
   }) => {
-  const [click, setClick] = React.useState(false);
+  const { user, needLogin } = useAuth();
+  const [click, setClick] = React.useState<"" | "loading" | "success">("");
+  const alertModalDispatch = useAlertModalDispatch();
+
+  const onClick = () => {
+    if (!user.id) {
+      needLogin();
+      return;
+    }
+    setClick("loading");
+    refetch();
+  };
+
+  const { refetch, error } = useQuery({
+    queryKey: ["wakeup_put", id],
+    queryFn: async () => {
+      const response = await axios.put<WakeupPutResponse>("/wakeup/grant/apply", {
+        id
+      });
+      setClick("success");
+      return response.data;
+    },
+    refetchOnWindowFocus: false,
+    enabled: false,
+    retry: false,
+    retryOnMount: false,
+  });
+
   return (
     <div
       className="px-6 w-full relative"
-      onClick={() => setClick(p => !p)}
+      onClick={onClick}
     >
       <img
         className="w-full h-auto aspect-video object-cover select-none rounded-2xl"
@@ -37,8 +71,10 @@ const Card = ({
       />
       <div className="absolute top-0 left-0 px-6 w-full h-full">
         <div className={[
-          "bg-text/50 border-yellow-400 p-4 w-full h-full rounded-2xl flex flex-col justify-end items-start gap-1 max-sm:gap-0 max-md:gap-1 max-lg:gap-0",
+          "bg-text/50 p-4 w-full h-full rounded-2xl flex flex-col justify-end items-start gap-1 max-sm:gap-0 max-md:gap-1 max-lg:gap-0",
           click ? "border-8" : "",
+          click === "loading" ? "border-yellow-400" : "",
+          click === "success" ? "border-green-400" : "",
         ].join(" ")}>
           {
             rank || vote ? (

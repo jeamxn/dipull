@@ -4,6 +4,8 @@ import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import youtubeSearch from "youtube-search";
 
+import { YTSearchResponse } from "./utils";
+
 const opts: youtubeSearch.YouTubeSearchOptions = {
   maxResults: 5,
   key: process.env.YOUTUBE_API_KEY || "",
@@ -29,17 +31,20 @@ const POST = async (
       title: result.title,
     }));
     
-    const response = NextResponse.json({
+    const response = NextResponse.json<YTSearchResponse>({
       success: true,
-      message: "e.message",
       data: send,
     });
     return response;
   }
   catch (e: any) {
-    const response = NextResponse.json({
+    const response = NextResponse.json<YTSearchResponse>({
       success: false,
-      message: e.message,
+      // message: e.message,
+      error: {
+        title: "영상 검색을 실패했어요.",
+        description: e.message,
+      }
     }, {
       status: 400,
     });

@@ -1,10 +1,6 @@
 import { ErrorMessage } from "@/components/providers/utils";
 
-export type YTSearchResponse = {
+export type WakeupPutResponse = {
   success: boolean;
-  data?: {
-    id: string;
-    title: string;
-  }[]; 
   error?: ErrorMessage;
 }

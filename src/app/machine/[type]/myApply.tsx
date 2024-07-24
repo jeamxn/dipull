@@ -5,11 +5,11 @@ import React from "react";
 
 import { useAlertModalDispatch } from "@/components/AlertModal";
 import { useAuth } from "@/hooks";
-import { Machine_list_Response, MachineJoin } from "@/utils/db/utils";
+import { MachineJoin } from "@/utils/db/utils";
 
 import { MachineApplyResponse } from "./grant/apply/utils";
+import { Machine_list_Response } from "./list/utils";
 import { MachineType, machineTypeToKorean } from "./utils";
-
 
 const MyApply = ({
   params,
@@ -48,18 +48,6 @@ const MyApply = ({
     enabled: false,
     retry: false,
   });
-  
-  React.useEffect(() => {
-    if (!error) return;
-    const axiosError = error as unknown as AxiosError<MachineApplyResponse>;
-    alertModalDispatch({
-      type: "show",
-      data: {
-        title: axiosError.response?.data.message || "오류가 발생했습니다.",
-        description: "다시 시도해주세요.",
-      },
-    });
-  }, [error]);
   
   return (
     <div className="w-full px-6 flex flex-col items-center justify-center gap-4">

@@ -8,9 +8,10 @@ import React from "react";
 import Linker from "@/components/Linker";
 import { useAuth } from "@/hooks";
 import { getUserInfo } from "@/utils/cookies";
-import { Machine_list_Response, MachineJoin } from "@/utils/db/utils";
+import { MachineJoin } from "@/utils/db/utils";
 
 import Apply from "./apply";
+import { Machine_list_Response } from "./list/utils";
 import MyApply from "./myApply";
 import { MachineType, machineTypeToKorean } from "./utils";
 
