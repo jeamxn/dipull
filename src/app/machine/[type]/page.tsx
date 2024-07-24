@@ -74,6 +74,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
               machines={machines}
               machinesLoading={machinesLoading}
               myApply={myApply}
+              refetchMachineCurrent={refetchMachineCurrent}
             />
           ) : (
             <Apply

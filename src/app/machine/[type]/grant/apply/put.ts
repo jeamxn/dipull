@@ -46,6 +46,14 @@ const PUT = async (
     }
 
     const machineDB = await collections.machine();
+    const myMachine = await machineDB.findOne({
+      owner: id,
+      date: today,
+    });
+    if (myMachine) { 
+      throw new Error("이미 예약된 기기가 있습니다.");
+    }
+
     const machineData = await machineDB.findOne({
       code: machine,
       type: params.type,
