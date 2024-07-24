@@ -120,7 +120,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
         <div className="px-6 overflow-x-auto overflow-y-hidden snap-x snap-mandatory">
           <div className="flex flex-row w-max gap-1.5">
             {
-              machines && machines.length && !machine_currentLoading ? machines.map((machine, index) => (
+              machines && !machine_currentLoading ? machines.length ? machines.map((machine, index) => (
                 <div
                   className={[
                     "snap-center rounded-2xl p-6 bg-white dark:bg-text-dark/15 flex flex-col items-start justify-end gap-2 w-[calc(29rem)] max-md:w-[max(calc(100vw-3rem),250px)] h-max",
@@ -152,6 +152,18 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
                   <p className="text-2xl font-bold text-text dark:text-text-dark">[{machine.allow.default.join(", ")}학년] {machine.name}</p>
                 </div>
               )) : (
+                <div
+                  className={[
+                    "snap-center rounded-2xl p-6 bg-white dark:bg-text-dark/15 flex flex-col items-start justify-end gap-2 w-[calc(29rem)] max-md:w-[max(calc(100vw-3rem),250px)] h-max",
+                  ].join(" ")}
+                >
+                  <div className={[
+                    "flex flex-row gap-1 opacity-30",
+                  ].join(" ")}>
+                    <p className="text-text dark:text-text-dark">등록된 {machineTypeToKorean(params.type)}기가 없습니다.</p>
+                  </div>
+                </div>
+              ) : (
                 <div
                   className={[
                     "snap-center rounded-2xl p-6 bg-white dark:bg-text-dark/15 flex flex-col items-start justify-end gap-2 w-[calc(29rem)] max-md:w-[max(calc(100vw-3rem),250px)] h-max",
