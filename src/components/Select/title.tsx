@@ -32,7 +32,10 @@ const Title = (props: SelectModalProps) => {
         className="text-xl font-semibold select-none transition-all whitespace-nowrap text-text dark:text-text-dark"
         onClick={onShowButtonClick}
       >
-        {(findOptionIndex && props.options?.[findOptionIndex]) || (!props.placeholder && !findOptionIndex && props.options?.[0]) || props.value || props.placeholder}
+        {
+          (findOptionIndex !== -1 && props.options?.[findOptionIndex!]) ||
+          props.placeholder
+        }
       </p>
       <div
         onClick={onShowButtonClick}

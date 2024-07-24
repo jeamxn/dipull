@@ -39,7 +39,10 @@ const Full = ({
         }}
       >
         <p className="font-medium select-none text-text dark:text-text-dark">
-          {(findOptionIndex && props.options?.[findOptionIndex]) || (!props.value && !props.placeholder && !findOptionIndex && props.options?.[0]) || props.value || props.placeholder}
+          {
+            (findOptionIndex !== -1 && props.options?.[findOptionIndex!]) ||
+            props.placeholder
+          }
         </p>
         <div
           className={[
