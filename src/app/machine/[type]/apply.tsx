@@ -94,7 +94,14 @@ const Apply = ({
         label={`${current_korean}기 선택`}
         placeholder={`${current_korean}기를 선택해주세요.`}
         options={machines?.map((m) => `[${m.allow.join(", ")}학년] ${m.name}`)}
-        disables={machines?.map((m) => !m.allow.includes(Math.floor(user.number / 1000)))}
+        disables={machines?.map((m) => {
+          const grade = Math.floor(user.number / 1000);
+          if(!m.allow.includes(grade)) {
+            return true;
+          }
+          if (m.gender !== user.gender) return true;
+          return false;
+        })}
         optionValues={machines?.map((m) => m.code)}
         value={machine}
         onConfirm={(value) => setMachine(value)}

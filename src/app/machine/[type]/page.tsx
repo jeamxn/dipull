@@ -27,6 +27,15 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
     initialData: [],
   });
 
+  const { data: times, isLoading: timesLoading } = useQuery({
+    queryKey: ["time_list", params.type],
+    queryFn: async () => {
+      const response = await axios.get<string[]>(`/machine/${params.type}/time`);
+      return response.data;
+    },
+    initialData: [],
+  });
+
   const { data: machine_current, isLoading: machine_currentLoading, refetch: refetchMachineCurrent } = useQuery({
     queryKey: ["machine_current", params.type, user.id],
     queryFn: async () => {
@@ -36,14 +45,6 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
     enabled: Boolean(user.id),
     initialData: [],
   });
-
-  const times = [
-    "18:35",
-    "19:35",
-    "20:30",
-    "21:30",
-    "22:30",
-  ];
 
   const myApply = React.useMemo(() => { 
     if (!user.id) return;
