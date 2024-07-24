@@ -142,7 +142,7 @@ function Home() {
                 <React.Fragment key={index}>
                   {
                     index === 0 ? (
-                      <p className="text-lg font-medium">⋯</p>
+                      <p className="text-lg font-medium text-text dark:text-text-dark">⋯</p>
                     ) : null
                   }
                   <Move
@@ -152,7 +152,7 @@ function Home() {
                   />
                   {
                     index === 4 ? (
-                      <p className="text-lg font-medium">⋯</p>
+                      <p className="text-lg font-medium text-text dark:text-text-dark">⋯</p>
                     ) : null
                   }
                 </React.Fragment>

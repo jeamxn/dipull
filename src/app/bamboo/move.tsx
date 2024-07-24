@@ -21,7 +21,7 @@ const Move = ({
     >
       <p className={[
         "text-sm font-semibold",
-        current === index ? "text-white dark:text-white" : "text-text dark:text-text-dark",
+        current === index ? "text-white dark:text-white-dark" : "text-text dark:text-text-dark",
       ].join(" ")}>{index}</p>
     </button>
   );
