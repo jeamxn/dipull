@@ -6,12 +6,16 @@ export type BambooResponse = {
 }
 
 export type BambooList = {
+  id: Bamboo["id"];
   user: string;
-  title?: Bamboo["title"];
+  title: Bamboo["title"];
   timestamp: Bamboo["timestamp"];
   // content: Bamboo["content"];
   goods: number;
   bads: number;
+  comments: number;
   myGood: boolean;
   myBad: boolean;
 }
+
+export type BambooSort = "recent" | "daily" | "weekly" | "monthly" | "all";

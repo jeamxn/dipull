@@ -1,23 +1,40 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useSetRecoilState } from "recoil";
 
-import Linker from "@/components/Linker";
 import Mover from "@/components/Mover";
 import * as Select from "@/components/Select";
 import { useAuth } from "@/hooks";
 import { loadingAtom } from "@/utils/states";
 
 import Item from "./item";
+import { BambooResponse, BambooSort } from "./list/[sort]/[number]/utils";
+import Move from "./move";
 
 function Home() {
   const { user, needLogin } = useAuth();
-  const [selected, setSelected] = React.useState<string>("최신순");
+  const [selected, setSelected] = React.useState<BambooSort>("recent");
+  const [number, setNumber] = React.useState(0);
+  const [current, setCurrent] = React.useState(1);
+  const maxCurrent = Math.ceil(number / 20);
   const router = useRouter();
   const setLoading = useSetRecoilState(loadingAtom);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["machine_list", selected, current],
+    queryFn: async () => {
+      const response = await axios.get<BambooResponse>(`/bamboo/list/${selected}/${current}`);
+      setNumber(response.data.count);
+      return response.data.list;
+    },
+    initialData: [],
+  });
+
   return (
     <div className="py-6 flex flex-col gap-6">
       <div className="flex flex-row items-center justify-between gap-4 px-4">
@@ -31,6 +48,13 @@ function Home() {
           <p className="text-xl font-semibold select-none transition-all text-text dark:text-text-dark">|</p>
           <Select.Title
             label="정렬 기준 선택하기"
+            optionValues={[
+              "recent",
+              "all",
+              "daily",
+              "weekly",
+              "monthly",
+            ]}
             options={[
               "최신순",
               "전체 인기순",
@@ -40,8 +64,8 @@ function Home() {
             ]}
             value={selected}
             onConfirm={(t) => {
-              console.log(t);
-              setSelected(t || "최신순");
+              setSelected(t);
+              setCurrent(1);
             }}
           />
         </div>
@@ -69,20 +93,82 @@ function Home() {
 
       <div className="flex flex-col gap-3 px-4">
         {
-          Array(20).fill(0).map((_, index) => (
+          isLoading || !data ? (
+            <>
+              <div className="w-full border-b border-text/10 dark:border-text-dark/20" />
+              <div className="w-full h-20 flex flex-row items-center justify-center">
+                <p className="text-lg font-semibold text-text dark:text-text-dark">로딩 중...</p>
+              </div>
+            </>
+          ) : data.length ? data.map((_, index) => (
             <Item
               key={index}
-              href="/bamboo/1"
-              title="외출갔다 오실때 라면 부탁드릴께요!"
-              name="3학년 최재민"
-              time="1시간 전"
-              like={5}
-              dislike={0}
-              comment={3}
+              href={`/bamboo/${_.id}`}
+              title={_.title}
+              name={_.user}
+              time={_.timestamp}
+              like={_.goods}
+              dislike={_.bads}
+              comment={_.comments}
             />
-          ))
+          )) : (
+            <>
+              <div className="w-full border-b border-text/10 dark:border-text-dark/20" />
+              <div className="w-full h-20 flex flex-row items-center justify-center">
+                <p className="text-lg font-semibold text-text dark:text-text-dark">해당 정렬 기준의 대나무가 없습니다.</p>
+              </div>
+            </>
+          )
         }
         <div className="w-full border-b border-text/10 dark:border-text-dark/20" />
+      </div>
+      <div className="w-full overflow-auto">
+        <div className="w-full flex flex-row gap-1 items-center justify-center">
+          <Move
+            index={1}
+            current={current}
+            setCurrent={setCurrent}
+          />
+          {
+            Array(5).fill(0).map((_, index) => {
+              const _this_cur =
+                current < 3 ? 3 :
+                  current > maxCurrent - 2 ? maxCurrent - 2 : current;
+              const _this = _this_cur + index - 2;
+              if (_this < 2 || _this > maxCurrent - 1) {
+                return null;
+              }
+              return (
+                <React.Fragment key={index}>
+                  {
+                    index === 0 ? (
+                      <p className="text-lg font-medium">⋯</p>
+                    ) : null
+                  }
+                  <Move
+                    index={_this}
+                    current={current}
+                    setCurrent={setCurrent}
+                  />
+                  {
+                    index === 4 ? (
+                      <p className="text-lg font-medium">⋯</p>
+                    ) : null
+                  }
+                </React.Fragment>
+              );
+            })
+          }
+          {
+            maxCurrent > 1 ? (
+              <Move
+                index={maxCurrent}
+                current={current}
+                setCurrent={setCurrent}
+              />
+            ) : null
+          }
+        </div>
       </div>
     </div>
   );

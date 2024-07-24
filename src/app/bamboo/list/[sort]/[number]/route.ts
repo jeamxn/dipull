@@ -6,14 +6,14 @@ import { ErrorMessage } from "@/components/providers/utils";
 import { collections } from "@/utils/db";
 import { accessVerify } from "@/utils/jwt";
 
-import { BambooList, BambooResponse } from "./utils";
+import { BambooList, BambooResponse, BambooSort } from "./utils";
 
 export const GET = async (
   req: NextRequest,
   { params }: {
     params: {
       number: string,
-      sort: "recent" | "daily" | "weekly" | "monthly" | "all"
+      sort: BambooSort,
     }
   }
 ) => {
@@ -87,13 +87,23 @@ export const GET = async (
           anonymous: "$anonymous",
           good: "$good",
           bad: "$bad",
+          comment: "$comment",
           timestamp: "$timestamp",
           popularity: {
             $subtract: [
               {
-                $size: {
-                  $ifNull: ["$good", []]
-                }
+                $sum: [
+                  {
+                    $size: {
+                      $ifNull: ["$good", []]
+                    }
+                  },
+                  {
+                    $size: {
+                      $ifNull: ["$comment", []]
+                    }
+                  }
+                ]
               },
               {
                 $size: {
@@ -171,7 +181,7 @@ export const GET = async (
               {
                 $concat: [
                   {
-                    $substrCP: ["$content", 0, 15],
+                    $substrCP: ["$content", 0, 30],
                   },
                   "..."
                 ]
@@ -188,6 +198,11 @@ export const GET = async (
           bads: {
             $size: {
               $ifNull: ["$bad", []]
+            }
+          },
+          comments: {
+            $size: {
+              $ifNull: ["$comment", []]
             }
           },
           myGood: {
