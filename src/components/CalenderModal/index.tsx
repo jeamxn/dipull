@@ -54,7 +54,7 @@ const calenderModalReducer = (state: CalenderModalPropsWithShow, action: Calende
   switch (action.type) {
   case "show":
     return {
-      ...state,
+      ...initialState,
       ...action.data,
       show: true,
     };

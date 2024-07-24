@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { getMeal } from "./server";
 import { Meal } from "./utils";
@@ -14,7 +14,7 @@ export type MealResponse = {
 };
 
 const GET = async (
-  req: Request,
+  req: NextRequest,
   { params }: { params: MealParams }
 ) => {
   // 헤더 설정

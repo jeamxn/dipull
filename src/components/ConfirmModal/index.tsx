@@ -55,7 +55,7 @@ const confrimModalReducer = (state: ConfirmModalPropsWithShow, action: ConfirmMo
     };
   case "hide":
     return {
-      ...initialState,
+      ...state,
       show: false,
     };
   default:

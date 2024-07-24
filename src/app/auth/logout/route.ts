@@ -1,13 +1,13 @@
 import "moment-timezone";
 import moment from "moment";
 import { cookies, headers } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { collections } from "@/utils/db";
 import { defaultUser } from "@/utils/db/utils";
 import { accessVerify } from "@/utils/jwt";
 
-export const GET = async (req: Request) => {
+export const GET = async (req: NextRequest) => {
   const x_origin = headers().get("x-origin") || "";
   const response = NextResponse.redirect(new URL("/", x_origin), {
     status: 302,

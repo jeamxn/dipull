@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { Timetable } from "@/utils/db/utils";
 
@@ -17,7 +17,7 @@ export type TimetableResponse = {
 };
 
 const GET = async (
-  req: Request,
+  req: NextRequest,
   { params }: { params: Params }
 ) => {
   // 헤더 설정

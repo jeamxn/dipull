@@ -1,3 +1,5 @@
+import { MachineType } from "@/app/machine/[type]/utils";
+
 export type Timetable = {
   grd: number;
   cls: number;
@@ -35,3 +37,33 @@ export type Refresh_tokenDB = {
   refresh_token: string;
   expires_in: string;
 };
+
+export type Machine_list = {
+  type: MachineType;
+  code: string;
+  name: string;
+  gender: UserInfo["gender"];
+  allow: {
+    default: number[];
+    weekend: number[];
+  }
+}
+
+export type Machine = {
+  code: string;
+  type: MachineType;
+  owner: UserInfo["id"];
+  date: string;
+  time: string;
+}
+export type MachineJoin = {
+  code: Machine["code"];
+  type: Machine["type"];
+  date: Machine["date"];
+  time: Machine["time"];
+  owner: {
+    gender: UserInfo["gender"];
+    name: UserInfo["name"];
+    number: UserInfo["number"];
+  };
+}

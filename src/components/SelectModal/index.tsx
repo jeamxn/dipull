@@ -67,7 +67,7 @@ const selectModalReducer = (state: SelectModalPropsWithShow, action: SelectModal
     };
   case "hide":
     return {
-      ...initialState,
+      ...state,
       show: false,
     };
   default:

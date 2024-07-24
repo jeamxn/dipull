@@ -1,13 +1,13 @@
 import "moment-timezone";
 import moment from "moment";
 import { cookies, headers } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { collections } from "@/utils/db";
 import { UserInfo } from "@/utils/db/utils";
 import { accessSign, refreshSign, refreshVerify } from "@/utils/jwt";
 
-export const GET = async (req: Request) => {
+export const GET = async (req: NextRequest) => {
   const x_origin = headers().get("x-origin") || "";
   const x_url = headers().get("x-url") || "";
   const redirect_to = decodeURIComponent(x_url.split("/auth/refresh?url=")[1]);

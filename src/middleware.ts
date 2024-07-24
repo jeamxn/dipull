@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import { defaultUser } from "./utils/db/utils";
-import { accessVerify } from "./utils/jwt";
+import { accessVerify, refreshVerify } from "./utils/jwt";
 
 export const middleware = async (request: Readonly<NextRequest>) => {
   const origin = request.nextUrl.origin;
@@ -36,6 +36,13 @@ export const middleware = async (request: Readonly<NextRequest>) => {
     }
     const isGrant = request.url.includes("/grant");
     if (isGrant) {
+      try {
+        const refreshToken = request.cookies.get("refresh_token")?.value || "";
+        await refreshVerify(refreshToken);
+      }
+      catch {
+        return NextResponse.redirect(new URL("/auth/logout", origin));
+      }
       const accessToken = request.cookies.get("access_token")?.value || "";
       await accessVerify(accessToken);
     }

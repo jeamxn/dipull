@@ -1,14 +1,14 @@
 import "moment-timezone";
 import { Comcigan } from "comcigan";
 import moment from "moment";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { getMeal } from "@/app/meal/[date]/server";
 import { collections } from "@/utils/db";
 import { Timetable } from "@/utils/db/utils";
 
 const GET = async (
-  req: Request
+  req: NextRequest
 ) => {
   const new_headers = new Headers();
   new_headers.append("Content-Type", "application/json; charset=utf-8");

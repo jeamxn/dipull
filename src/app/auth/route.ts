@@ -3,13 +3,13 @@ import axios from "axios";
 import * as jose from "jose";
 import moment from "moment";
 import { headers } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { collections } from "@/utils/db";
 import { UserInfo } from "@/utils/db/utils";
 import { accessSign, refreshSign } from "@/utils/jwt";
 
-export const GET = async (req: Request) => {
+export const GET = async (req: NextRequest) => {
   try {
     const x_origin = headers().get("x-origin") || "";
     const response = NextResponse.redirect(new URL("/", x_origin), {

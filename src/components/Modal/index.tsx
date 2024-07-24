@@ -55,7 +55,7 @@ const modalReducer = (state: ModalPropsWithShow, action: ModalAction) => {
     };
   case "hide":
     return {
-      ...initialState,
+      ...state,
       show: false,
     };
   default:
