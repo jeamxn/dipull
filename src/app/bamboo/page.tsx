@@ -14,7 +14,7 @@ import { loadingAtom } from "@/utils/states";
 
 import Item from "./item";
 import { BambooResponse, BambooSort } from "./list/[sort]/[number]/utils";
-import Move from "./move";
+import { sortOptions, sortOptionValues } from "./sort";
 import Target from "./target";
 
 function Home() {
@@ -22,7 +22,7 @@ function Home() {
   const [selected, setSelected] = React.useState<BambooSort>("recent");
   const [number, setNumber] = React.useState(0);
   const [current, setCurrent] = React.useState(1);
-  const maxCurrent = Math.ceil(number / 20);
+  const maxCurrent = React.useMemo(() => Math.ceil(number / 20), [number]);
   const router = useRouter();
   const setLoading = useSetRecoilState(loadingAtom);
 
@@ -49,20 +49,8 @@ function Home() {
           <p className="text-xl font-semibold select-none transition-all text-text dark:text-text-dark">|</p>
           <Select.Title
             label="정렬 기준 선택하기"
-            optionValues={[
-              "recent",
-              "all",
-              "monthly",
-              "weekly",
-              "daily",
-            ]}
-            options={[
-              "최신순",
-              "전체 인기순",
-              "한 달 인기순",
-              "일주일 인기순",
-              "하루 인기순",
-            ]}
+            optionValues={sortOptionValues}
+            options={sortOptions}
             value={selected}
             onConfirm={(t) => {
               setSelected(t);

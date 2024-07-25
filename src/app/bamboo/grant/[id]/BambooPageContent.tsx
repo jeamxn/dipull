@@ -11,6 +11,11 @@ import React from "react";
 import { useAlertModalDispatch } from "@/components/AlertModal";
 import { MoreButton, useMoreModalDispatch } from "@/components/MoreModal";
 import Mover from "@/components/Mover";
+import * as Select from "@/components/Select";
+
+import { BambooSort } from "../../list/[sort]/[number]/utils";
+import { sortOptions, sortOptionValues } from "../../sort";
+import Target from "../../target";
 
 import Comment from "./comment";
 import { BambooReact, BambooRead } from "./utils";
@@ -24,6 +29,10 @@ const BambooPageContent = ({
   const moreModalDispatch = useMoreModalDispatch();
   const alertModalDispatch = useAlertModalDispatch();
   const [myEmotion, setMyEmotion] = React.useState<"good" | "bad" | "" | "initGood" | "initBad" | "init">("init");
+  const [number, setNumber] = React.useState(0);
+  const [current, setCurrent] = React.useState(1);
+  const [selected, setSelected] = React.useState<BambooSort>("recent");
+  const maxCurrent = React.useMemo(() => Math.ceil(number / 20), [number]);
 
   const { refetch: deleteBamboo, isError } = useQuery({
     queryKey: ["bamboo_delete", bamboo.id],
@@ -271,6 +280,21 @@ const BambooPageContent = ({
           <p className="text-base select-none font-normal text-text/50 dark:text-text-dark/60">{11}개</p>
         </button>
       </div>
+
+      <div className="flex flex-row items-center justify-start gap-2 px-4">
+        <p className="text-xl font-semibold select-none transition-all whitespace-nowrap text-text dark:text-text-dark">댓글</p>
+        <p className="text-xl font-semibold select-none transition-all text-text dark:text-text-dark">|</p>
+        <Select.Title
+          label="정렬 기준 선택하기"
+          optionValues={sortOptionValues}
+          options={sortOptions}
+          value={selected}
+          onConfirm={(t) => {
+            setSelected(t);
+            setCurrent(1);
+          }}
+        />
+      </div>
       
       <div className="flex flex-col gap-5 px-4">
         {
@@ -282,6 +306,13 @@ const BambooPageContent = ({
           ))
         }
       </div>
+
+      <Target
+        current={current}
+        setCurrent={setCurrent}
+        maxCurrent={maxCurrent}
+      />
+
     </div>
   );
 };
