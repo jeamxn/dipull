@@ -8,8 +8,7 @@ import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
 
-import { getWakeupAvail } from "./apply/server";
-import { WakeupData, WakeupNobat, getToday } from "./utils";
+import { WakeupData, getToday } from "./utils";
 
 const PUT = async (
   req: Request,
@@ -17,7 +16,7 @@ const PUT = async (
   // 헤더 설정
   const new_headers = new Headers();
   new_headers.append("Content-Type", "application/json; charset=utf-8");
-  
+
   // Authorization 헤더 확인
   const authorization = headers().get("authorization");
   const accessToken = authorization?.split(" ")[1] || "";
@@ -30,36 +29,25 @@ const PUT = async (
   });
 
   const json = await req.json();
-  const bat = json.bat;
-  if(!bat) return new NextResponse(JSON.stringify({
-    message: "잘못된 요청입니다.",
-  }), {
-    status: 400,
-    headers: new_headers
-  });
-  const batInt = parseInt(bat);
-  if(isNaN(batInt) || batInt <= 0) return new NextResponse(JSON.stringify({
-    message: "1개 이상 신청 해주세요.",
-  }), {
-    status: 400,
-    headers: new_headers
-  });
-
   const select: YouTubeSearchResults = json.data;
-  if(!select.id) return new NextResponse(JSON.stringify({ 
+  if(!select.id) return new NextResponse(JSON.stringify({
     message: "페이로드 불일치.",
   }), {
     status: 400,
     headers: new_headers
   });
 
+  const today = getToday();
   const client = await connectToDatabase();
   const wakeupCollection = client.db().collection("wakeup");
-  const wakeupAplyCollection = client.db().collection("wakeup_aply");
 
-  const myAvail = await getWakeupAvail(verified.payload.id);
-  if(myAvail.available < batInt) return new NextResponse(JSON.stringify({
-    message: "신청 가능한 신청권이 부족합니다.",
+  const mySelect = await wakeupCollection.find({
+    owner: verified.payload.data.id,
+    date: today.format("YYYY-MM-DD"),
+    gender: verified.payload.data.gender,
+  }).toArray();
+  if(mySelect.length >= 3) return new NextResponse(JSON.stringify({
+    message: "하루에 3곡까지만 추가할 수 있습니다.",
     ok: false,
   }), {
     status: 400,
@@ -67,53 +55,33 @@ const PUT = async (
   });
 
   try {
-    const url = "https://www.youtube.com/oembed"; 
+    const url = "https://www.youtube.com/oembed";
     const params = { "format": "json", "url": `https://www.youtube.com/watch?v=${select.id}` };
     const res = await axios.get(url, {
       params,
     });
-    const week = await getApplyStartDate();
-    const putData: WakeupNobat = {
+
+    const putData: WakeupData = {
       title: res.data.title,
       id: select.id,
       owner: verified.payload.data.id,
+      date: today.format("YYYY-MM-DD"),
       gender: verified.payload.data.gender,
-      week: week,
+      week: await getApplyStartDate(),
     };
-    await wakeupAplyCollection.findOneAndUpdate({
-      owner: verified.payload.id,
-      // date: week,
-    }, {
-      $inc: {
-        available: -batInt,
-      }
-    });
-    const add = await wakeupCollection.updateOne({
-      week: week,
+    const add = await wakeupCollection.insertOne(putData);
+
+    const mySelect = await wakeupCollection.find({
       owner: verified.payload.data.id,
-      id: select.id,
-    }, {
-      $set: putData,
-      $inc: {
-        bat: batInt,
-      }
-    }, {
-      upsert: true,
-    });
-    const myAvail = await getWakeupAvail(verified.payload.id);
-    if ((myAvail.available + batInt) <= 0) {
-      await wakeupCollection.updateOne({
-        week: week,
-        owner: verified.payload.data.id,
-        id: select.id,
-      }, {
-        $set: putData,
-        $inc: {
-          bat: -batInt,
-        }
+      date: today.format("YYYY-MM-DD"),
+      gender: verified.payload.data.gender,
+    }).toArray();
+    if (mySelect.length > 3) {
+      await wakeupCollection.deleteOne({
+        _id: add.insertedId,
       });
       return new NextResponse(JSON.stringify({
-        message: "신청 가능한 신청권이 없습니다.",
+        message: "하루에 3곡까지만 추가할 수 있습니다.",
         ok: false,
       }), {
         status: 400,

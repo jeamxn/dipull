@@ -26,8 +26,6 @@ const ListContent = ({ initailData }: {
   const [gender, setGender] = React.useState<"male" | "female">(initailData.gender);
   const [my, setMy] = React.useState<WakeupDB[]>(initailData.my);
   const [selected, setSelected] = React.useState<WakeupSelected>(initailData.selected);
-  const sum = Object.values(wakeup).reduce((acc, cur) => acc + cur.count, 0);
-  const [bat, setBat] = React.useState(1);
 
   const getWakeup = async () => {
     setLoading(true);
@@ -51,7 +49,7 @@ const ListContent = ({ initailData }: {
     try{
       const res = await instance.put(
         "/api/wakeup", {
-          data: select, bat
+          data: select
         }
       );
       await getWakeup();
@@ -125,16 +123,6 @@ const ListContent = ({ initailData }: {
             }
           </tbody>
         </table>
-        <div className="flex flex-row">
-          <p>1번에 </p>
-          <input
-            type="number"
-            value={bat}
-            onChange={(e) => setBat(parseInt(e.target.value))}
-            className="font-semibold text-xl bg-transparent text-center w-10 border-b border-text/10 ml-2"
-          />
-          <p>개 씩 신청</p>
-        </div>
         <table className="w-full overflow-auto">
           <tbody className="w-full border-y border-text/10 overflow-auto">
             <tr className="w-full">
@@ -161,7 +149,7 @@ const ListContent = ({ initailData }: {
                           alt={v.title}
                           className="max-w-[160px] object-cover rounded aspect-video cursor-pointer"
                         />
-                        <p className="text-left cursor-pointer">[{Math.floor(v.count / sum * 10000) / 100}%] {v.title}</p>
+                        <p className="text-left cursor-pointer">[{v.count}표] {v.title}</p>
                       </div>
                     </td>
                     <td

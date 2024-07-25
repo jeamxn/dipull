@@ -5,9 +5,6 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/utils/db";
 import { verify } from "@/utils/jwt";
 
-import { getApplyStartDate } from "../stay/utils";
-
-import { getWakeupAvail } from "./apply/server";
 import { getToday } from "./utils";
 
 const POST = async (
@@ -16,7 +13,7 @@ const POST = async (
   // 헤더 설정
   const new_headers = new Headers();
   new_headers.append("Content-Type", "application/json; charset=utf-8");
-  
+
   // Authorization 헤더 확인
   const authorization = headers().get("authorization");
   const verified = await verify(authorization?.split(" ")[1] || "");
@@ -34,23 +31,21 @@ const POST = async (
     status: 400,
     headers: new_headers
   });
-  
-  const week = await getApplyStartDate();
+
+  const today = getToday();
   const client = await connectToDatabase();
   const wakeupCollection = client.db().collection("wakeup");
   const objcet_id = ObjectId.createFromHexString(_id);
   const query = {
-    week: week,
+    date: today.format("YYYY-MM-DD"),
     owner: verified.payload.id,
     _id: objcet_id,
     gender: verified.payload.data.gender,
   };
   const data = await wakeupCollection.deleteOne(query);
-  const myAvail = await getWakeupAvail(verified.payload.id);
 
   if(data.deletedCount === 0) return new NextResponse(JSON.stringify({
     message: "삭제에 실패했습니다.",
-    available: myAvail.available,
   }), {
     status: 500,
     headers: new_headers
@@ -58,12 +53,11 @@ const POST = async (
 
   return new NextResponse(JSON.stringify({
     message: "성공적으로 삭제되었습니다.",
-    available: myAvail.available,
   }), {
     status: 200,
     headers: new_headers
   });
-  
+
 };
 
 export default POST;

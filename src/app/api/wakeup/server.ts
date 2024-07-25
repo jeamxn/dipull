@@ -26,19 +26,20 @@ export const getWakeup = async (id: string, gender: string) => {
       allObj[v.id] = {
         title: v.title,
         count: 0,
+        date: v.date,
         week: v.week,
       };
     }
-    allObj[v.id].count += (v?.bat || 1);
+    allObj[v.id].count++;
     if (v.owner === id && v.week === week) {
       myObj.push({
         title: v.title,
         id: v.id,
         owner: v.owner,
         _id: v._id,
+        date: v.date,
         gender: v.gender,
         week: v.week,
-        bat: v?.bat || 1,
       });
     }
   }
