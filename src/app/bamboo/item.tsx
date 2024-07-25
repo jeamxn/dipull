@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useSetRecoilState } from "recoil";
@@ -44,7 +45,7 @@ const Item = ({
       >
         <div className="flex flex-col gap-1 items-start w-full overflow-hidden">
           <p className="text-base font-medium text-text dark:text-text-dark text-left whitespace-nowrap text-ellipsis w-full">{title}</p>
-          <p className="text-sm font-normal text-text/50 dark:text-text-dark/60">{name} · {time}</p>
+          <p className="text-sm font-normal text-text/50 dark:text-text-dark/60">{name} · {moment(time).fromNow()}</p>
         </div>
         <div className="flex flex-row gap-3 items-center justify-start">
           <div className="flex flex-row gap-1 items-center justify-start">

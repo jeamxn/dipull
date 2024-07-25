@@ -2,6 +2,7 @@
 "use client";
 
 import MarkdownPreview from "@uiw/react-markdown-preview";
+import moment from "moment";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -101,7 +102,11 @@ const BambooPageContent = ({
         </div>
         <div className="flex flex-col">
           <p className="font-semibold text-sm text-text dark:text-text-dark">{bamboo.user}</p>
-          <p className="font-normal text-sm text-text/50 dark:text-text-dark/60">{bamboo.timestamp}</p>
+          <p className="font-normal text-sm text-text/50 dark:text-text-dark/60">
+            {moment(bamboo.timestamp).fromNow()}
+            {" · "}
+            {bamboo.timestamp}
+          </p>
         </div>
       </div>
 

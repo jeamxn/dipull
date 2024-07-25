@@ -1,6 +1,5 @@
 import { ObjectId } from "mongodb";
 import { headers } from "next/headers";
-import { NextRequest } from "next/server";
 import React from "react";
 
 import { collections } from "@/utils/db";
@@ -23,7 +22,6 @@ const Bamboo = async ({
 ) => {
   const authorization = headers().get("cookie");
   const accessToken = authorization?.split("access_token=")[1]?.split(";")[0] || "";
-  // const accessToken = req.cookies.get("access_token")?.value || "";
   const { id } = await accessVerify(accessToken);
   const bambooDB = await collections.bamboo();
   const bamboos = await bambooDB.aggregate<BambooRead>([
