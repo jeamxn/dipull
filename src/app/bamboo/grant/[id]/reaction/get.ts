@@ -9,13 +9,13 @@ import { collections } from "@/utils/db";
 import { Bamboo } from "@/utils/db/utils";
 import { accessVerify } from "@/utils/jwt";
 
-import { BambooReact } from "../utils";
+import { BambooReact, BambooRead } from "../utils";
 
 const GET = async (
   req: NextRequest,
   { params }: {
     params: {
-      id: Bamboo["id"];
+      id: BambooRead["id"];
     }
   }
 ) => {

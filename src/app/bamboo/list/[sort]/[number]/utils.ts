@@ -1,3 +1,4 @@
+import { BambooRead } from "@/app/bamboo/grant/[id]/utils";
 import { Bamboo } from "@/utils/db/utils";
 
 export type BambooResponse = {
@@ -6,7 +7,7 @@ export type BambooResponse = {
 }
 
 export type BambooList = {
-  id: Bamboo["id"];
+  id: BambooRead["id"];
   user: string;
   title: Bamboo["title"];
   timestamp: Bamboo["timestamp"];

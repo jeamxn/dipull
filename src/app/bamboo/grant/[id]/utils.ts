@@ -4,7 +4,7 @@ import { Bamboo } from "@/utils/db/utils";
 import { BambooList } from "../../list/[sort]/[number]/utils";
 
 export type BambooRead = {
-  id: Bamboo["id"];
+  id: string;
   user: BambooList["user"];
   profile_image: string;
   title: Bamboo["title"];

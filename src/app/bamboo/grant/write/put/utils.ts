@@ -1,4 +1,4 @@
-export type MachineApplyResponse = {
+export type BambooWriteResponse = {
   success: boolean;
   error?: {
     title?: string;

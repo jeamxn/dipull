@@ -14,7 +14,7 @@ const Bamboo = async ({
 }:
   {
     params: {
-      id: BambooType["id"] 
+      id: BambooRead["id"];
     }
   }
 ) => {

@@ -7,13 +7,13 @@ import { collections } from "@/utils/db";
 import { Bamboo } from "@/utils/db/utils";
 import { accessVerify } from "@/utils/jwt";
 
-import { BambooReactResponse } from "../utils";
+import { BambooReactResponse, BambooRead } from "../utils";
 
 const POST = async (
   req: NextRequest,
   { params }: {
     params: {
-      id: Bamboo["id"];
+      id: BambooRead["id"];
     }
   }
 ) => {

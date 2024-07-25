@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -9,18 +11,17 @@ import { useConfirmModalDispatch } from "@/components/ConfirmModal";
 import * as Select from "@/components/Select";
 import { useAuth } from "@/hooks";
 
+import { BambooWriteResponse } from "./put/utils";
+
 const MarkdownEditor = dynamic(
   () => import("@uiw/react-markdown-editor").then((mod) => mod.default),
   { ssr: false }
 );
 
 function Home() {
-  const { user, needLogin } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
-  const [grade, setGrade] = React.useState<number>(Math.floor(user.number / 1000));
-  React.useEffect(() => { 
-    setGrade(Math.floor(user.number / 1000));
-  }, [user]);
+  const grade = React.useMemo(() => Math.floor(user.number / 1000), [user]);
   const [selected, setSelected] = React.useState<string>(JSON.stringify({ grade: true, anonymous: true }));
   const [title, setTitle] = React.useState<string>("");
   const [content, setContent] = React.useState<string>("");
@@ -37,9 +38,30 @@ function Home() {
   }, [selected, title, content]);
 
   const send = () => {
-    if (!user.id) return needLogin();
     console.log(data);
+    refetch();
   };
+
+  const { refetch, isFetched } = useQuery({
+    queryKey: ["bamboo_reaction", data.title, data.content, data.grade, data.anonymous],
+    queryFn: async () => {
+      const response = await axios.post<BambooWriteResponse>("/bamboo/grant/write/put", {
+        title: data.title,
+        content: data.content,
+        grade: data.grade,
+        anonymous: data.anonymous,
+      });
+      return response.data;
+    },
+    refetchOnWindowFocus: false,
+    enabled: false,
+    retry: false,
+  });
+
+  React.useEffect(() => { 
+    if (!isFetched) return;
+    router.push("/bamboo");
+  }, [isFetched]);
 
   return (
     <div className="py-6 flex flex-col gap-8">

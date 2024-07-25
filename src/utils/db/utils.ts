@@ -83,7 +83,6 @@ export type LastRequest = {
 }
 
 export type Bamboo = {
-  id: string;
   user: UserInfo["id"];
   title: string;
   content: string;
@@ -91,6 +90,5 @@ export type Bamboo = {
   anonymous: boolean;
   good: string[];
   bad: string[];
-  comments: string[];
   timestamp: string;
 };
