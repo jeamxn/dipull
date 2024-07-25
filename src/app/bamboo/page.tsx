@@ -18,7 +18,7 @@ import { sortOptions, sortOptionValues } from "./sort";
 import Target from "./target";
 
 function Home() {
-  const { user, needLogin } = useAuth();
+  const { user, needLogin, onlyStudent } = useAuth();
   const [selected, setSelected] = React.useState<BambooSort>("recent");
   const [number, setNumber] = React.useState(0);
   const [current, setCurrent] = React.useState(1);
@@ -64,6 +64,11 @@ function Home() {
             if (!user.id) {
               setLoading(false);
               needLogin();
+              return;
+            }
+            if (user.type !== "student") {
+              setLoading(false);
+              onlyStudent();
               return;
             }
             router.push("/bamboo/student/write");

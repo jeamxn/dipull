@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 
+import { useAlertModalDispatch } from "@/components/AlertModal";
 import { useConfirmModalDispatch } from "@/components/ConfirmModal";
 import { getUserInfo } from "@/utils/cookies";
 import { defaultUser } from "@/utils/db/utils";
@@ -8,6 +9,7 @@ import { defaultUser } from "@/utils/db/utils";
 const useAuth = () => { 
   const router = useRouter();
   const confirmModalDispatch = useConfirmModalDispatch();
+  const alertModalDispatch = useAlertModalDispatch();
   const [user, setUser] = React.useState(defaultUser);
 
   React.useEffect(() => {
@@ -23,6 +25,15 @@ const useAuth = () => {
   const logout = () => { 
     window.location.href = "/auth/logout";
   };
+  const onlyStudent = () => {
+    alertModalDispatch({
+      type: "show",
+      data: {
+        title: "학생 전용 서비스입니다.",
+        description: "학생 전용 서비스입니다. 학생 계정으로 로그인해주세요.",
+      }
+    });
+  };
   const needLogin = () => {
     confirmModalDispatch({
       type: "show",
@@ -36,7 +47,7 @@ const useAuth = () => {
     });
   };
 
-  return { needLogin, login, logout, user, refreshUser };
+  return { needLogin, login, logout, user, refreshUser, onlyStudent };
 };
 
 export default useAuth;

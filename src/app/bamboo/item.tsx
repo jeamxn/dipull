@@ -27,7 +27,7 @@ const Item = ({
   isFirst?: boolean;
   }) => {
   const setLoading = useSetRecoilState(loadingAtom);
-  const { user, needLogin } = useAuth();
+  const { user, needLogin, onlyStudent } = useAuth();
   const router = useRouter();
   return (
     <>
@@ -38,6 +38,11 @@ const Item = ({
           if (!user.id) {
             setLoading(false);
             needLogin();
+            return;
+          }
+          if (user.type !== "student") {
+            setLoading(false);
+            onlyStudent();
             return;
           }
           router.push(href);
