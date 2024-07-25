@@ -83,6 +83,7 @@ const ConfirmModal = ({
           <div
             className="w-full h-full"
             onClick={() => {
+              modal.onCancle?.();
               dispatch({
                 type: "hide",
               });
@@ -144,6 +145,7 @@ const ConfirmModal = ({
           <div
             className="w-full h-full"
             onClick={() => {
+              modal.onCancle?.();
               dispatch({
                 type: "hide",
               });
