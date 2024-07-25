@@ -10,7 +10,7 @@ import Studyroom from "./studyroom";
 import { initailOuting, OutingInfo, OutingType } from "./utils";
 
 const Stay = () => {
-  const { user, needLogin, onlyStudent } = useAuth();
+  const { user, needLogin, onlyStudent, login } = useAuth();
   const modalDispatch = useModalDispatch();
 
   const [modalSelect, setModalSelect] = React.useState("");
@@ -90,7 +90,6 @@ const Stay = () => {
     <div className="flex flex-col gap-8 w-full">
       <div className="flex flex-col gap-4 w-full">
         <p className="px-4 text-xl font-semibold transition-all whitespace-nowrap text-text dark:text-text-dark">좌석 선택</p>
-      
         <div className="flex flex-row items-center justify-between px-4 gap-2">
           <div className="flex flex-col gap-1">
             <p className="text-base font-normal transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">내가 선택한 좌석</p>
@@ -160,7 +159,7 @@ const Stay = () => {
                         </button>
                       )) : (
                         <p className="text-lg font-medium transition-all whitespace-nowrap text-text dark:text-text-dark">
-                          없음
+                              없음
                         </p>
                       )
                     }
