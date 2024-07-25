@@ -66,7 +66,7 @@ function Home() {
               needLogin();
               return;
             }
-            router.push("/bamboo/grant/write");
+            router.push("/bamboo/student/write");
           }}
         >
           <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -87,7 +87,7 @@ function Home() {
           ) : data.length ? data.map((_, index) => (
             <Item
               key={index}
-              href={`/bamboo/grant/${_.id}`}
+              href={`/bamboo/student/${_.id}`}
               title={_.title}
               name={_.user}
               time={_.timestamp}

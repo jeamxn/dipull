@@ -1,7 +1,7 @@
 import "moment-timezone";
 import moment from "moment";
 
-import { BambooRead } from "@/app/bamboo/grant/[id]/utils";
+import { BambooRead } from "@/app/bamboo/student/[id]/utils";
 import { Bamboo } from "@/utils/db/utils";
 
 export type BambooResponse = {

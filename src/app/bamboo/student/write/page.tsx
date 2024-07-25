@@ -46,7 +46,7 @@ function Home() {
   const { refetch, isFetched, isError } = useQuery({
     queryKey: ["bamboo_put", data.title, data.content, data.grade, data.anonymous],
     queryFn: async () => {
-      const response = await axios.post<BambooWriteResponse>("/bamboo/grant/write/put", {
+      const response = await axios.post<BambooWriteResponse>("/bamboo/student/write/put", {
         title: data.title,
         content: data.content,
         grade: data.grade,

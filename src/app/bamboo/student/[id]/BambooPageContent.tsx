@@ -52,7 +52,7 @@ const BambooPageContent = ({
   const { refetch: commentRefetch, isFetched: isCommentFetched, isError: commentIsError, isFetching: isFetchingCommentPut } = useQuery({
     queryKey: ["bamboo_put", comment_data.text, comment_data.grade, comment_data.anonymous],
     queryFn: async () => {
-      const response = await axios.post<BambooCommentWriteResponse>(`/bamboo/grant/${bamboo.id}/comment/put`, {
+      const response = await axios.post<BambooCommentWriteResponse>(`/bamboo/student/${bamboo.id}/comment/put`, {
         text: comment_data.text,
         grade: comment_data.grade,
         anonymous: comment_data.anonymous,
@@ -77,7 +77,7 @@ const BambooPageContent = ({
   const { data, isFetching: isCommentFetching, refetch } = useQuery({
     queryKey: ["bamboo_comment_list", selected, current],
     queryFn: async () => {
-      const response = await axios.get<BambooCommentResponse>(`/bamboo/grant/${bamboo.id}/comment/${selected}/${current}`);
+      const response = await axios.get<BambooCommentResponse>(`/bamboo/student/${bamboo.id}/comment/${selected}/${current}`);
       setNumber(response.data.count);
       return response.data.list;
     },
@@ -87,7 +87,7 @@ const BambooPageContent = ({
   const { refetch: deleteBamboo, isError } = useQuery({
     queryKey: ["bamboo_delete", bamboo.id],
     queryFn: async () => {
-      const response = await axios.delete<BambooDeleteResponse>(`/bamboo/grant/${bamboo.id}/delete`);
+      const response = await axios.delete<BambooDeleteResponse>(`/bamboo/student/${bamboo.id}/delete`);
       return response.data;
     },
     refetchOnWindowFocus: false,
@@ -143,7 +143,7 @@ const BambooPageContent = ({
   const { data: reaction, refetch: fetchReaction, isFetching: isReactionLoading } = useQuery({
     queryKey: ["bamboo_reaction_get", bamboo.id],
     queryFn: async () => {
-      const response = await axios.get<BambooReact>(`/bamboo/grant/${bamboo.id}/reaction`);
+      const response = await axios.get<BambooReact>(`/bamboo/student/${bamboo.id}/reaction`);
       if (response.data.myGood) setMyEmotion("initGood");
       else if (response.data.myBad) setMyEmotion("initBad");
       else setMyEmotion("init");
@@ -154,7 +154,7 @@ const BambooPageContent = ({
   const { isFetching } = useQuery({
     queryKey: ["bamboo_reaction", bamboo.id, myEmotion],
     queryFn: async () => {
-      const response = await axios.post<BambooReactResponse>(`/bamboo/grant/${bamboo.id}/reaction`, {
+      const response = await axios.post<BambooReactResponse>(`/bamboo/student/${bamboo.id}/reaction`, {
         type: myEmotion,
       });
       // await fetchReaction();

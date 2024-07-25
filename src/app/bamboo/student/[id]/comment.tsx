@@ -32,7 +32,7 @@ const Comment = ({
   const { refetch: deleteBambooComment, isError } = useQuery({
     queryKey: ["bamboo_comment_delete", bamboo.id, bambooComment.id],
     queryFn: async () => {
-      const response = await axios.delete<BambooCommentDeleteResponse>(`/bamboo/grant/${bamboo.id}/comment/details/${bambooComment.id}/delete`);
+      const response = await axios.delete<BambooCommentDeleteResponse>(`/bamboo/student/${bamboo.id}/comment/details/${bambooComment.id}/delete`);
       return response.data;
     },
     refetchOnWindowFocus: false,
@@ -49,7 +49,7 @@ const Comment = ({
   const { isFetching, data } = useQuery({
     queryKey: ["bamboo_comment_reaction", bamboo.id, emotion, bambooComment.goods, bambooComment.bads, bambooComment.myBad, bambooComment.myGood],
     queryFn: async () => {
-      const response = await axios.post<BambooCommentReactResponse>(`/bamboo/grant/${bamboo.id}/comment/details/${bambooComment.id}/reaction`, {
+      const response = await axios.post<BambooCommentReactResponse>(`/bamboo/student/${bamboo.id}/comment/details/${bambooComment.id}/reaction`, {
         type: emotion,
       });
       return response.data.data;

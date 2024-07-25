@@ -35,10 +35,19 @@ export const middleware = async (request: Readonly<NextRequest>) => {
       return NextResponse.redirect(`kakaotalk://web/openExternal?url=${encodeURIComponent(request.url)}`);
     }
     const isGrant = request.url.includes("/grant");
-    if (isGrant) {
+    const isStudent = request.url.includes("/student");
+    const isTeacher = request.url.includes("/teacher");
+    if (isGrant || isStudent || isTeacher) {
       try {
         const refreshToken = request.cookies.get("refresh_token")?.value || "";
-        await refreshVerify(refreshToken);
+        const refresh = await refreshVerify(refreshToken);
+
+        if (refresh.type !== "student" && isStudent) {
+          return NextResponse.redirect(new URL("/", origin));
+        }
+        if (refresh.type !== "teacher" && isTeacher) {
+          return NextResponse.redirect(new URL("/", origin));
+        }
       }
       catch {
         return NextResponse.redirect(new URL("/auth/logout", origin));
