@@ -6,7 +6,7 @@ import { ErrorMessage } from "@/components/providers/utils";
 import { collections } from "@/utils/db";
 import { accessVerify } from "@/utils/jwt";
 
-import { BambooList, BambooResponse, BambooSort } from "./utils";
+import { badsProject, BambooList, BambooResponse, BambooSort, goodsProject, titleProject, userProject } from "./utils";
 
 export const GET = async (
   req: NextRequest,
@@ -133,63 +133,12 @@ export const GET = async (
             $toString: "$_id"
           },
           _id: 0,
-          user: {
-            $concat: [
-              {
-                $cond: {
-                  if: { $eq: ["$grade", true] },
-                  then: {
-                    $concat: [
-                      {
-                        $toString: {
-                          $trunc: {
-                            $divide: [{
-                              $ifNull: ["$userInfo.number", 0]
-                            }, 1000]
-                          },
-                        }
-                      },
-                      "학년 "]
-                  },
-                  else: ""
-                }
-              },
-              {
-                $cond: {
-                  if: { $eq: ["$anonymous", false] },
-                  then: {
-                    $ifNull: ["$userInfo.name", "익명"]
-                  },
-                  else: "익명"
-                }
-              }
-            ]
-          },
-          title: {
-            $ifNull: [
-              "$title",
-              {
-                $concat: [
-                  {
-                    $substrCP: ["$content", 0, 30],
-                  },
-                  "..."
-                ]
-              }
-            ],
-          },
+          user: userProject,
+          title: titleProject,
           timestamp: "$timestamp",
           // content: "$content",
-          goods: {
-            $size: {
-              $ifNull: ["$good", []]
-            }
-          },
-          bads: {
-            $size: {
-              $ifNull: ["$bad", []]
-            }
-          },
+          goods: goodsProject,
+          bads: badsProject,
           comments: {
             $size: {
               $ifNull: ["$comment", []]

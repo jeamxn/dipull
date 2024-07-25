@@ -13,6 +13,10 @@
   transition: var(--transition-default);
 }
 
+.wmde-markdown {
+  background: transparent !important;
+}
+
 @layer base {
   :root{
     --key-interval: 300ms;
