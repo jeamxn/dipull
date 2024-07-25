@@ -9,7 +9,7 @@ const Comment = ({
 }: {
   isFirst: boolean;
   }) => {
-  const [myLike, setMyLike] = React.useState<boolean>(false);
+  const [emotion, setEmotion] = React.useState<"good" | "bad" | "" | "initGood" | "initBad" | "init">("init");
   const moreModalDispatch = useMoreModalDispatch();
   const alertModalDispatch = useAlertModalDispatch();
   const moreButtons: MoreButton[] = [
@@ -27,10 +27,6 @@ const Comment = ({
       },
     }
   ];
-
-  const emotion = () => { 
-    setMyLike(p => !p);
-  };
 
   return (
     <>
@@ -55,15 +51,33 @@ const Comment = ({
             <div className="font-normal text-text dark:text-text-dark">
               와 제가 사올께요
             </div>
-            <button
-              className="flex flex-row items-center justify-start h-fit -m-2 p-2 w-fit"
-              onClick={emotion}
-            >
+            <div className="flex flex-row items-center justify-start gap-1">
+              <button
+                className="flex flex-row items-center justify-start h-fit -m-2 p-2 w-fit"
+                onClick={() => {
+                  setEmotion("good");
+                }}
+              >
+                <p className={[
+                  "font-medium text-sm select-none cursor-pointer duration-150",
+                  emotion === "good" || emotion === "initGood" ? "text-blue-700 dark:text-blue-400" : "text-text/50 dark:text-text-dark/60"
+                ].join(" ")}>좋아요 12개</p>
+              </button>
               <p className={[
-                "font-medium text-sm select-none cursor-pointer duration-150",
-                myLike ? "text-blue-700 dark:text-blue-400" : "text-text/50 dark:text-text-dark/60"
-              ].join(" ")}>좋아요 12개</p>
-            </button>
+                "font-medium text-sm select-none cursor-pointer duration-150 text-text/50 dark:text-text-dark/60"
+              ].join(" ")}>·</p>
+              <button
+                className="flex flex-row items-center justify-start h-fit -m-2 p-2 w-fit"
+                onClick={() => {
+                  setEmotion("bad");
+                }}
+              >
+                <p className={[
+                  "font-medium text-sm select-none cursor-pointer duration-150",
+                  emotion === "bad" || emotion === "initBad" ? "text-blue-700 dark:text-blue-400" : "text-text/50 dark:text-text-dark/60"
+                ].join(" ")}>싫어요 12개</p>
+              </button>
+            </div>
           </div>
         </div>
         <div
