@@ -36,7 +36,7 @@ const BambooPageContent = ({
   const maxCurrent = React.useMemo(() => Math.ceil(number / 20), [number]);
 
   const { data, isFetching: isCommentFetching } = useQuery({
-    queryKey: ["bamboo_list", selected, current],
+    queryKey: ["bamboo_comment_list", selected, current],
     queryFn: async () => {
       const response = await axios.get<BambooCommentResponse>(`/bamboo/grant/${bamboo.id}/comment/${selected}/${current}`);
       setNumber(response.data.count);
@@ -288,7 +288,11 @@ const BambooPageContent = ({
           <svg className="w-5 h-5" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path className="fill-text/50 dark:fill-text-dark/60" d="M2.36099 7.53817C2.23802 7.53817 2.12974 7.49137 2.03618 7.39776C1.9426 7.30415 1.89581 7.19534 1.89581 7.07133C1.89581 6.94731 1.9426 6.83856 2.03618 6.74509C2.12974 6.65161 2.23802 6.60487 2.36099 6.60487H11.6389C11.7619 6.60487 11.8702 6.65167 11.9638 6.74527C12.0573 6.83889 12.1041 6.9477 12.1041 7.07171C12.1041 7.19572 12.0573 7.30447 11.9638 7.39795C11.8702 7.49143 11.7619 7.53817 11.6389 7.53817H2.36099ZM2.36018 10.3584C2.23774 10.3584 2.12974 10.3116 2.03618 10.2179C1.9426 10.1243 1.89581 10.0155 1.89581 9.89151C1.89581 9.76749 1.9426 9.65875 2.03618 9.56527C2.12974 9.47179 2.23774 9.42505 2.36018 9.42505H8.13975C8.26219 9.42505 8.37019 9.47186 8.46377 9.56547C8.55733 9.65908 8.60412 9.76789 8.60412 9.89191C8.60412 10.0159 8.55733 10.1247 8.46377 10.2181C8.37019 10.3116 8.26219 10.3584 8.13975 10.3584H2.36018ZM2.36099 4.71799C2.23802 4.71799 2.12974 4.67118 2.03618 4.57756C1.9426 4.48396 1.89581 4.37515 1.89581 4.25113C1.89581 4.12712 1.9426 4.01838 2.03618 3.9249C2.12974 3.83141 2.23802 3.78467 2.36099 3.78467H11.6389C11.7619 3.78467 11.8702 3.83148 11.9638 3.92509C12.0573 4.01871 12.1041 4.12752 12.1041 4.25152C12.1041 4.37554 12.0573 4.48429 11.9638 4.57777C11.8702 4.67125 11.7619 4.71799 11.6389 4.71799H2.36099Z" />
           </svg>
-          <p className="text-base select-none font-normal text-text/50 dark:text-text-dark/60">{number}개</p>
+          <p className="text-base select-none font-normal text-text/50 dark:text-text-dark/60">
+            {
+              isCommentFetching ? "..." : number
+            }개
+          </p>
         </button>
       </div>
 
