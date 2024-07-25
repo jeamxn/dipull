@@ -87,7 +87,7 @@ const Stay = () => {
     onCancle: () => {
       setModalOuting(initailOuting);
     },
-  }), [modalOuting]);
+  }), [...Object.values(modalOuting)]);
   const showOuting = () => { 
     modalDispatch({
       type: "show",
