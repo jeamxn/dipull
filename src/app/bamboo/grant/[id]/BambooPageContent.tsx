@@ -25,12 +25,47 @@ const BambooPageContent = ({
   const alertModalDispatch = useAlertModalDispatch();
   const [myEmotion, setMyEmotion] = React.useState<"good" | "bad" | "" | "initGood" | "initBad" | "init">("init");
 
+  const { refetch: deleteBamboo, isError } = useQuery({
+    queryKey: ["bamboo_delete", bamboo.id],
+    queryFn: async () => {
+      const response = await axios.delete<BambooReact>(`/bamboo/grant/${bamboo.id}/delete`);
+      return response.data;
+    },
+    refetchOnWindowFocus: false,
+    enabled: false,
+    retry: false,
+  });
+
+  const myMoreButtons: MoreButton[] = bamboo.isWriter ? [
+    {
+      text: "게시글 삭제하기",
+      type: "red",
+      onClick: async () => {
+        await deleteBamboo();
+        if (!isError) {
+          alertModalDispatch({
+            type: "show",
+            data: {
+              title: "게시글이 삭제되었습니다.",
+              description: "게시글이 성공적으로 삭제되었습니다.",
+              onAlert: () => { router.replace("/bamboo"); },
+              onCancle: () => {
+                router.replace("/bamboo");
+              },
+            }
+          });
+        }
+      },
+    },
+  ] : [];
+
   const moreButtons: MoreButton[] = [
     {
       text: "공유하기",
       type: "blue",
       onClick: () => {handleShareClick();},
     },
+    ...myMoreButtons,
     {
       text: "신고하기",
       type: "red",
@@ -47,7 +82,7 @@ const BambooPageContent = ({
   ];
 
   const { data: reaction, refetch: fetchReaction, isFetching: isReactionLoading } = useQuery({
-    queryKey: ["bamboo_reaction", bamboo.id],
+    queryKey: ["bamboo_reaction_get", bamboo.id],
     queryFn: async () => {
       const response = await axios.get<BambooReact>(`/bamboo/grant/${bamboo.id}/reaction`);
       if (response.data.myGood) setMyEmotion("initGood");

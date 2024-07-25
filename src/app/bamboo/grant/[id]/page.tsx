@@ -1,8 +1,10 @@
 import { ObjectId } from "mongodb";
+import { headers } from "next/headers";
 import React from "react";
 
 import { collections } from "@/utils/db";
 import { Bamboo as BambooType } from "@/utils/db/utils";
+import { accessVerify } from "@/utils/jwt";
 
 import { titleProject, userProject } from "../../list/[sort]/[number]/utils";
 
@@ -18,6 +20,9 @@ const Bamboo = async ({
     }
   }
 ) => {
+  const authorization = headers().get("cookie");
+  const accessToken = authorization?.split("access_token=")[1].split(";")[0] || "";
+  const { id } = await accessVerify(accessToken);
   const bambooDB = await collections.bamboo();
   const bamboos = await bambooDB.aggregate<BambooRead>([
     {
@@ -46,6 +51,13 @@ const Bamboo = async ({
         },
         _id: 0,
         user: userProject,
+        isWriter: {
+          $cond: {
+            if: { $eq: ["$user", id] },
+            then: true,
+            else: false
+          }
+        },
         profile_image: {
           $cond: {
             if: { $eq: ["$anonymous", false] },

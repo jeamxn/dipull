@@ -10,6 +10,7 @@ export type BambooRead = {
   title: Bamboo["title"];
   timestamp: Bamboo["timestamp"];
   content: Bamboo["content"];
+  isWriter: boolean;
 };
 
 export type BambooReact = {
