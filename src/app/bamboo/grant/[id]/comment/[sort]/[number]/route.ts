@@ -109,6 +109,16 @@ export const GET = async (
           text: "$text",
           goods: goodsProject,
           bads: badsProject,
+          myGood: {
+            $in: [id, {
+              $ifNull: ["$good", []]
+            }]
+          },
+          myBad: {
+            $in: [id, {
+              $ifNull: ["$bad", []]
+            }]
+          },
           isWriter: isWriterProject(id),
           profile_image: profile_imageProject,
         }

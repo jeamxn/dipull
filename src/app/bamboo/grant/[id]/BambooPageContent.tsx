@@ -22,7 +22,7 @@ import Comment from "./comment";
 import { BambooCommentResponse } from "./comment/[sort]/[number]/utils";
 import { BambooCommentWriteResponse } from "./comment/put/utils";
 import { BambooDeleteResponse } from "./delete/utils";
-import { BambooReact, BambooRead } from "./utils";
+import { BambooReact, BambooReactResponse, BambooRead } from "./utils";
 
 const BambooPageContent = ({
   bamboo
@@ -154,7 +154,7 @@ const BambooPageContent = ({
   const { isFetching } = useQuery({
     queryKey: ["bamboo_reaction", bamboo.id, myEmotion],
     queryFn: async () => {
-      const response = await axios.post<BambooReact>(`/bamboo/grant/${bamboo.id}/reaction`, {
+      const response = await axios.post<BambooReactResponse>(`/bamboo/grant/${bamboo.id}/reaction`, {
         type: myEmotion,
       });
       // await fetchReaction();

@@ -10,7 +10,7 @@ import { MoreButton, useMoreModalDispatch } from "@/components/MoreModal";
 
 import { BambooCommentList } from "./comment/[sort]/[number]/utils";
 import { BambooCommentDeleteResponse } from "./comment/details/[comment]/delete/utils";
-import { BambooCommentReact } from "./comment/details/[comment]/reaction/utils";
+import { BambooCommentReact, BambooCommentReactResponse } from "./comment/details/[comment]/reaction/utils";
 import { BambooRead } from "./utils";
 
 const Comment = ({
@@ -24,14 +24,13 @@ const Comment = ({
     bamboo: BambooRead;
     commentRefetch: () => Promise<any>;
   }) => {
-  const router = useRouter();
   const [emotion, setEmotion] = React.useState<"good" | "bad" | "" | "initGood" | "initBad" | "init">("init");
   const [onTimeClick, setOnTimeClick] = React.useState(false);
   const moreModalDispatch = useMoreModalDispatch();
   const alertModalDispatch = useAlertModalDispatch();
 
   const { refetch: deleteBambooComment, isError } = useQuery({
-    queryKey: ["bamboo_delete", bamboo.id, bambooComment.id],
+    queryKey: ["bamboo_comment_delete", bamboo.id, bambooComment.id],
     queryFn: async () => {
       const response = await axios.delete<BambooCommentDeleteResponse>(`/bamboo/grant/${bamboo.id}/comment/details/${bambooComment.id}/delete`);
       return response.data;
@@ -41,17 +40,29 @@ const Comment = ({
     retry: false,
   });
 
-  const { isFetching } = useQuery({
-    queryKey: ["bamboo_reaction", bamboo.id, emotion],
+  React.useEffect(() => {
+    if (bambooComment.myGood) setEmotion("initGood");
+    else if (bambooComment.myBad) setEmotion("initBad");
+    else setEmotion("init");
+  }, [bambooComment]);
+
+  const { isFetching, data } = useQuery({
+    queryKey: ["bamboo_comment_reaction", bamboo.id, emotion, bambooComment.goods, bambooComment.bads, bambooComment.myBad, bambooComment.myGood],
     queryFn: async () => {
-      const response = await axios.post<BambooCommentReact>(`/bamboo/grant/${bamboo.id}/comment/details/${bambooComment.id}/reaction`, {
+      const response = await axios.post<BambooCommentReactResponse>(`/bamboo/grant/${bamboo.id}/comment/details/${bambooComment.id}/reaction`, {
         type: emotion,
       });
-      return response.data;
+      return response.data.data;
     },
     refetchOnWindowFocus: false,
     enabled: emotion === "initGood" || emotion === "initBad" || emotion === "init" ? false : true,
     retry: false,
+    initialData: {
+      goods: bambooComment.goods,
+      bads: bambooComment.bads,
+      myGood: bambooComment.myGood,
+      myBad: bambooComment.myBad,
+    }
   });
 
   const myMoreButtons: MoreButton[] = bambooComment.isWriter ? [
@@ -147,7 +158,7 @@ const Comment = ({
                   emotion === "good" || emotion === "initGood" ?
                     isFetching ? "fill-green-700 dark:fill-green-400" : "text-blue-700 dark:text-blue-400" : "text-text/50 dark:text-text-dark/60"
                 ].join(" ")}>
-                  {bambooComment.goods + (emotion === "good" ? 1 : 0)}개
+                  {(data || bambooComment).goods + (!data && emotion === "good" ? 1 : 0)}개
                 </p>
               </button>
               <p className={[
@@ -172,7 +183,7 @@ const Comment = ({
                   emotion === "bad" || emotion === "initBad" ?
                     isFetching ? "fill-green-700 dark:fill-green-400" : "text-blue-700 dark:text-blue-400" : "text-text/50 dark:text-text-dark/60"
                 ].join(" ")}>
-                  {bambooComment.bads + (emotion === "bad" ? 1 : 0)}개
+                  {(data || bambooComment).bads + (!data && emotion === "bad" ? 1 : 0)}개
                 </p>
               </button>
             </div>

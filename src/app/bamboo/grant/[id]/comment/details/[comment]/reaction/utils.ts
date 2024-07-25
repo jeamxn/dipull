@@ -4,6 +4,7 @@ import { BambooCommentList } from "../../../[sort]/[number]/utils";
 
 export type BambooCommentReactResponse = {
   success: boolean;
+  data?: BambooCommentReact;
   error?: ErrorMessage;
 };
 

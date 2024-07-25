@@ -14,4 +14,6 @@ export type BambooCommentList = {
   bads: number;
   isWriter: boolean;
   profile_image: string;
+  myGood: boolean;
+  myBad: boolean;
 }
