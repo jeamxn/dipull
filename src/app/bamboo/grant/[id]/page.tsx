@@ -73,9 +73,7 @@ const Bamboo = async ({
     }
   ]).toArray();
   const bamboo = bamboos[0];
-  return (
-    <BambooPageContent bamboo={bamboo} />
-  );
+  return <BambooPageContent bamboo={bamboo} />;
 };
 
 export default Bamboo;

@@ -12,6 +12,7 @@ import * as Select from "@/components/Select";
 import { useAuth } from "@/hooks";
 
 import { BambooWriteResponse } from "./put/utils";
+import SetName from "./setName";
 
 const MarkdownEditor = dynamic(
   () => import("@uiw/react-markdown-editor").then((mod) => mod.default),
@@ -90,25 +91,7 @@ function Home() {
         <div className="flex flex-row items-center justify-center gap-2">
           <p className="text-xl font-semibold select-none transition-all whitespace-nowrap text-text dark:text-text-dark">새 글 쓰기</p>
           <p className="text-xl font-semibold select-none transition-all text-text dark:text-text-dark">|</p>
-          <Select.Title
-            label="이름 설정하기"
-            options={[
-              `${grade}학년 최재민`,
-              `${grade}학년 익명`,
-              "최재민",
-              "익명",
-            ]}
-            optionValues={[
-              JSON.stringify({ grade: true, anonymous: false }),
-              JSON.stringify({ grade: true, anonymous: true }),
-              JSON.stringify({ grade: false, anonymous: false }),
-              JSON.stringify({ grade: false, anonymous: true }),
-            ]}
-            value={selected}
-            onConfirm={(t) => {
-              setSelected(t || "최신순");
-            }}
-          />
+          <SetName selected={selected} setSelected={setSelected} />
         </div>
         <button className="-m-2 p-2" onClick={send}>
           <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
