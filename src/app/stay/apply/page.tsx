@@ -126,7 +126,7 @@ const Stay = () => {
             onChange={(e) => setReason(e.target.value)}
             className={[
               "w-full px-4 py-3 border border-text/20 dark:border-text-dark/30 rounded-xl outline-none text-text dark:text-text-dark",
-              select ? "cursor-not-allowed bg-text/10 dark:bg-text-dark/20" : "cursor-pointer bg-transparent",
+              select ? "cursor-not-allowed bg-text/10 dark:bg-text-dark/20" : "bg-transparent",
             ].join(" ")}
             placeholder="좌석 미선택 사유를 입력해주세요."
             disabled={select ? true : false}
