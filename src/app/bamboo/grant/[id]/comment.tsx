@@ -10,6 +10,7 @@ const Comment = ({
   isFirst: boolean;
   }) => {
   const [emotion, setEmotion] = React.useState<"good" | "bad" | "" | "initGood" | "initBad" | "init">("init");
+  const [onTimeClick, setOnTimeClick] = React.useState(false);
   const moreModalDispatch = useMoreModalDispatch();
   const alertModalDispatch = useAlertModalDispatch();
   const moreButtons: MoreButton[] = [
@@ -46,7 +47,15 @@ const Comment = ({
             <div className="flex flex-row items-center justify-start gap-0.5">
               <p className="font-semibold text-sm text-text dark:text-text-dark">최재민</p>
               <p className="font-medium text-sm text-text/30 dark:text-text-dark/40">·</p>
-              <p className="font-medium text-sm text-text/30 dark:text-text-dark/40">15분 전</p>
+              <button onClick={() => setOnTimeClick(p => !p)} className="flex flex-row items-center justify-start">
+                {
+                  onTimeClick ? (
+                    <p className="font-normal text-sm text-text/30 dark:text-text-dark/40">2024-07-25 12:07:03</p>
+                  ): (
+                    <p className="font-normal text-sm text-text/30 dark:text-text-dark/40">15분 전</p>
+                  )
+                }
+              </button>
             </div>
             <div className="font-normal text-text dark:text-text-dark">
               와 제가 사올께요
