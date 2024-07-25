@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 
+import { useAlertModalDispatch } from "@/components/AlertModal";
 import { MoreButton, useMoreModalDispatch } from "@/components/MoreModal";
 
 const Comment = ({
@@ -10,21 +11,20 @@ const Comment = ({
   }) => {
   const [myLike, setMyLike] = React.useState<boolean>(false);
   const moreModalDispatch = useMoreModalDispatch();
+  const alertModalDispatch = useAlertModalDispatch();
   const moreButtons: MoreButton[] = [
-    {
-      text: "답글 수정하기",
-      type: "blue",
-      onClick: () => { },
-    },
-    {
-      text: "답글 삭제하기",
-      type: "red",
-      onClick: () => { },
-    },
     {
       text: "신고하기",
       type: "red",
-      onClick: () => { },
+      onClick: () => { 
+        alertModalDispatch({
+          type: "show",
+          data: {
+            title: "아직 지원되지 않아요.",
+            description: "빠른 시일 내로 개발할 예정입니다.",
+          },
+        });
+      },
     }
   ];
 

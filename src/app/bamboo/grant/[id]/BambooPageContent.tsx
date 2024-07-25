@@ -8,6 +8,7 @@ import moment from "moment";
 import { useRouter } from "next/navigation";
 import React from "react";
 
+import { useAlertModalDispatch } from "@/components/AlertModal";
 import { MoreButton, useMoreModalDispatch } from "@/components/MoreModal";
 import Mover from "@/components/Mover";
 
@@ -18,26 +19,30 @@ const BambooPageContent = ({
   bamboo
 }: {
     bamboo: BambooRead;
-}) => {
+  }) => {
   const router = useRouter();
   const moreModalDispatch = useMoreModalDispatch();
+  const alertModalDispatch = useAlertModalDispatch();
   const [myEmotion, setMyEmotion] = React.useState<"good" | "bad" | "" | "initGood" | "initBad" | "init">("init");
 
   const moreButtons: MoreButton[] = [
     {
-      text: "게시글 수정하기",
+      text: "공유하기",
       type: "blue",
-      onClick: () => { },
-    },
-    {
-      text: "게시글 삭제하기",
-      type: "red",
-      onClick: () => { },
+      onClick: () => {handleShareClick();},
     },
     {
       text: "신고하기",
       type: "red",
-      onClick: () => { },
+      onClick: () => { 
+        alertModalDispatch({
+          type: "show",
+          data: {
+            title: "아직 지원되지 않아요.",
+            description: "빠른 시일 내로 개발할 예정입니다.",
+          },
+        });
+      },
     }
   ];
 
@@ -66,6 +71,34 @@ const BambooPageContent = ({
     retry: false,
   });
 
+  const handleShareClick = React.useCallback(async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          url: window.location.href,
+        });
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        alertModalDispatch({
+          type: "show",
+          data: {
+            title: "링크가 복사되었습니다.",
+            description: "다른 곳에 공유하려면 붙여넣기(Ctrl+V)를 사용하세요.",
+          }
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      alertModalDispatch({
+        type: "show",
+        data: {
+          title: "오잉?",
+          description: "공유 중 오류가 발생했습니다. 다시 시도해주세요!",
+        }
+      });
+    }
+  }, []);
+
   return (
     <div className="py-6 flex flex-col gap-6">
       <div className="flex flex-row items-center justify-between gap-4 px-4">
@@ -86,6 +119,7 @@ const BambooPageContent = ({
         <div className="flex flex-row items-center justify-end gap-4">
           <button
             className="-m-2 p-2"
+            onClick={handleShareClick}
           >
             <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
               <mask id="mask0_304_974" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="25">
