@@ -7,8 +7,8 @@ export type OutingInfo = {
 
 export const initailOuting: OutingInfo = {
   day: "saturday",
-  start: "",
-  end: "",
+  start: "10:20",
+  end: "14:00",
   reason: "",
 };
 
