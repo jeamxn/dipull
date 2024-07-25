@@ -5,7 +5,7 @@ import Menu from "@/components/Navigation/menu";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "잔류 신청 :: 디풀",
+    title: "주말 신청 :: 디풀",
   };
 }
 
@@ -15,12 +15,8 @@ const menus = [
     name: "잔류",
   },
   {
-    url: "/stay/outing",
-    name: "외출",
-  },
-  {
     url: "/stay/homecoming",
-    name: "금귀",
+    name: "금요귀가",
   }
 ];
 

@@ -44,9 +44,9 @@ const Home = () => {
               {Math.floor(user.number / 1000)}학년 {Math.floor(user.number / 100) % 10}반 {user.number % 100}번
             </p>
           </div>
-          <div className="flex flex-row gap-1">
+          <div className="">
             <Mover
-              className="bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl px-4 py-2"
+              className="bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl px-6 py-3"
               onClick={user.id ? logout : login}
             >
               {user.id ? "로그아웃" : "로그인하기"}
