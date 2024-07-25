@@ -3,6 +3,7 @@
 
 import React from "react";
 
+import Mover from "@/components/Mover";
 import { useAuth } from "@/hooks";
 
 import Meal from "./meal";
@@ -44,12 +45,12 @@ const Home = () => {
             </p>
           </div>
           <div className="flex flex-row gap-1">
-            <button
+            <Mover
               className="bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl px-4 py-2"
               onClick={user.id ? logout : login}
             >
               {user.id ? "로그아웃" : "로그인하기"}
-            </button>
+            </Mover>
           </div>
         </div>
 
