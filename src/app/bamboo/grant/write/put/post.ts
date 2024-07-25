@@ -54,7 +54,7 @@ const POST = async (
     const response = NextResponse.json<BambooWriteResponse>({
       success: false,
       error: {
-        title: "공감을 하는 중 오류가 발생했습니다.",
+        title: "대나무를 등록하는 중 오류가 발생했습니다.",
         description: e.message,
       }
     }, {

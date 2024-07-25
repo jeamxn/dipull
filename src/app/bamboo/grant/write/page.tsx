@@ -42,7 +42,7 @@ function Home() {
     refetch();
   };
 
-  const { refetch, isFetched } = useQuery({
+  const { refetch, isFetched, isError } = useQuery({
     queryKey: ["bamboo_reaction", data.title, data.content, data.grade, data.anonymous],
     queryFn: async () => {
       const response = await axios.post<BambooWriteResponse>("/bamboo/grant/write/put", {
@@ -59,7 +59,7 @@ function Home() {
   });
 
   React.useEffect(() => { 
-    if (!isFetched) return;
+    if (!isFetched || isError) return;
     setTitle("");
     setContent("");
     setSelected(JSON.stringify({ grade: true, anonymous: true }));
