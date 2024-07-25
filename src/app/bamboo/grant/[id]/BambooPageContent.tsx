@@ -21,6 +21,7 @@ import SetName from "../write/setName";
 import Comment from "./comment";
 import { BambooCommentResponse } from "./comment/[sort]/[number]/utils";
 import { BambooCommentWriteResponse } from "./comment/put/utils";
+import { BambooDeleteResponse } from "./delete/utils";
 import { BambooReact, BambooRead } from "./utils";
 
 const BambooPageContent = ({
@@ -86,7 +87,7 @@ const BambooPageContent = ({
   const { refetch: deleteBamboo, isError } = useQuery({
     queryKey: ["bamboo_delete", bamboo.id],
     queryFn: async () => {
-      const response = await axios.delete<BambooReact>(`/bamboo/grant/${bamboo.id}/delete`);
+      const response = await axios.delete<BambooDeleteResponse>(`/bamboo/grant/${bamboo.id}/delete`);
       return response.data;
     },
     refetchOnWindowFocus: false,
@@ -363,7 +364,7 @@ const BambooPageContent = ({
           {
             !data || isCommentFetching ? (
               <div className="w-full h-10 flex flex-row items-center justify-center">
-                <p className="text-lg font-semibold text-text/40 dark:text-text-dark/50">대나무 가지를 찾는 중...</p>
+                <p className="text-lg font-semibold text-text/40 dark:text-text-dark/50">대나무 댓글을 찾는 중...</p>
               </div>
             ) : data.length ?
               data.map((_, index) => (
@@ -371,10 +372,12 @@ const BambooPageContent = ({
                   key={index}
                   isFirst={index === 0}
                   bambooComment={_}
+                  bamboo={bamboo}
+                  commentRefetch={refetch}
                 />
               )) : (
                 <div className="w-full h-10 flex flex-row items-center justify-center">
-                  <p className="text-lg font-semibold text-text dark:text-text-dark">해당 정렬 기준의 대나무 가지가 없습니다.</p>
+                  <p className="text-lg font-semibold text-text dark:text-text-dark">해당 정렬 기준의 댓글이 없습니다.</p>
                 </div>
               )
           }

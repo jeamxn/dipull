@@ -45,7 +45,7 @@ const POST = async (
       bad: [],
     });
     if (!insert.insertedId) {
-      throw new Error("대나무 가지 등록에 실패했습니다.");
+      throw new Error("댓글 등록에 실패했습니다.");
     }
     const response = NextResponse.json<BambooCommentWriteResponse>({
       success: true,
@@ -56,7 +56,7 @@ const POST = async (
     const response = NextResponse.json<BambooCommentWriteResponse>({
       success: false,
       error: {
-        title: "대나무 가지를 등록하는 중 오류가 발생했습니다.",
+        title: "댓글을 등록하는 중 오류가 발생했습니다.",
         description: e.message,
       }
     }, {

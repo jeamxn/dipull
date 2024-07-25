@@ -1,43 +1,66 @@
 /* eslint-disable @next/next/no-img-element */
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import moment from "moment";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 import { useAlertModalDispatch } from "@/components/AlertModal";
 import { MoreButton, useMoreModalDispatch } from "@/components/MoreModal";
 
 import { BambooCommentList } from "./comment/[sort]/[number]/utils";
+import { BambooCommentDeleteResponse } from "./comment/details/[comment]/delete/utils";
+import { BambooRead } from "./utils";
 
 const Comment = ({
   isFirst,
   bambooComment,
+  bamboo,
+  commentRefetch,
 }: {
     isFirst: boolean;
     bambooComment: BambooCommentList;
+    bamboo: BambooRead;
+    commentRefetch: () => Promise<any>;
   }) => {
+  const router = useRouter();
   const [emotion, setEmotion] = React.useState<"good" | "bad" | "" | "initGood" | "initBad" | "init">("init");
   const [onTimeClick, setOnTimeClick] = React.useState(false);
   const moreModalDispatch = useMoreModalDispatch();
   const alertModalDispatch = useAlertModalDispatch();
+
+  const { refetch: deleteBambooComment, isError } = useQuery({
+    queryKey: ["bamboo_delete", bamboo.id, bambooComment.id],
+    queryFn: async () => {
+      const response = await axios.delete<BambooCommentDeleteResponse>(`/bamboo/grant/${bamboo.id}/comment/details/${bambooComment.id}/delete`);
+      return response.data;
+    },
+    refetchOnWindowFocus: false,
+    enabled: false,
+    retry: false,
+  });
 
   const myMoreButtons: MoreButton[] = bambooComment.isWriter ? [
     {
       text: "댓글 삭제하기",
       type: "red",
       onClick: async () => {
-        // await deleteBamboo();
-        // if (!isError) {
-        //   alertModalDispatch({
-        //     type: "show",
-        //     data: {
-        //       title: "게시글이 삭제되었습니다.",
-        //       description: "게시글이 성공적으로 삭제되었습니다.",
-        //       onAlert: () => { router.replace("/bamboo"); },
-        //       onCancle: () => {
-        //         router.replace("/bamboo");
-        //       },
-        //     }
-        //   });
-        // }
+        await deleteBambooComment();
+        if (!isError) {
+          alertModalDispatch({
+            type: "show",
+            data: {
+              title: "댓글이 삭제되었습니다.",
+              description: "댓글이 성공적으로 삭제되었습니다.",
+              onAlert: () => { 
+                commentRefetch();
+              },
+              onCancle: () => {
+                commentRefetch();
+              },
+            }
+          });
+        }
       },
     },
   ] : [];
