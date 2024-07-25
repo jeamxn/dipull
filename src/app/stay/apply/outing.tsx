@@ -10,7 +10,7 @@ const Outing = ({
     setSelect: React.Dispatch<React.SetStateAction<OutingInfo>>;
 }) => { 
   return (
-    <div className="w-full flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-4 overflow-hidden">
       <div className="p-1.5 rounded-xl w-full flex flex-row gap-2 relative border border-text/20 dark:border-text-dark/30">
         <div className={[
           "absolute left-0 top-0 bottom-0 flex flex-row items-center justify-center w-full rounded-xl pointer-events-none p-1.5 transition-all duration-100",
