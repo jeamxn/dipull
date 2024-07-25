@@ -99,6 +99,8 @@ const Stay = () => {
             </p>
           </div>
           <button className="bg-text dark:bg-text-dark px-6 py-3 rounded-xl" onClick={() => {
+            if (!user.id) return needLogin();
+            if(user.type !== "student") return onlyStudent();
             if(select) return setSelect("");
             showStudyroom();
           }}>
