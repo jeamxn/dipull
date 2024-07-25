@@ -60,6 +60,9 @@ function Home() {
 
   React.useEffect(() => { 
     if (!isFetched) return;
+    setTitle("");
+    setContent("");
+    setSelected(JSON.stringify({ grade: true, anonymous: true }));
     router.push("/bamboo");
   }, [isFetched]);
 

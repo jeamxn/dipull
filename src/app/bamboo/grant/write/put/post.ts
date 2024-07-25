@@ -17,6 +17,12 @@ const POST = async (
     if (typeof title !== "string" || typeof content !== "string" || typeof grade !== "boolean" || typeof anonymous !== "boolean") {
       throw new Error("Invalid body value");
     }
+    if (title.length < 1 || title.length > 30) { 
+      throw new Error("제목은 1자 이상 30자 이하여야 합니다.");
+    }
+    if (content.length < 1 || content.length > 5000) {
+      throw new Error("내용은 1자 이상 5,000자 이하여야 합니다");
+    }
     const xss_title = xss(title);
     const xss_content = xss(content);
 
