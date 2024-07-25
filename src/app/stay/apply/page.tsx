@@ -2,6 +2,7 @@
 
 import React from "react";
 
+import { useAlertModalDispatch } from "@/components/AlertModal";
 import { ModalProps, useModalDispatch } from "@/components/Modal";
 import { useAuth } from "@/hooks";
 
@@ -10,8 +11,9 @@ import Studyroom from "./studyroom";
 import { initailOuting, OutingInfo, OutingType } from "./utils";
 
 const Stay = () => {
-  const { user, needLogin, onlyStudent, login } = useAuth();
+  const { user, needLogin, onlyStudent } = useAuth();
   const modalDispatch = useModalDispatch();
+  const alertModalDispatch = useAlertModalDispatch();
 
   const [modalSelect, setModalSelect] = React.useState("");
   const [modalOuting, setModalOuting] = React.useState<OutingInfo>(initailOuting);
@@ -60,6 +62,27 @@ const Stay = () => {
     confirmButtonText: "추가",
     inner: <Outing select={modalOuting} setSelect={setModalOuting} />,
     onConfirm: () => {
+      if (
+        !modalOuting.reason || !modalOuting.start || !modalOuting.end || !modalOuting.day
+      ) {
+        return alertModalDispatch({
+          type: "show",
+          data: {
+            title: "어라라?",
+            description: "모든 정보를 입력해주세요.",
+          }
+        });
+      }
+      if (modalOuting.start >= modalOuting.end) {
+        return alertModalDispatch({
+          type: "show",
+          data: {
+            title: "어라라?",
+            description: "외출 시작 시간이 종료 시간보다 빠를 수 없어요.",
+          }
+        });
+      }
+
       setOuting(p => ({
         ...p,
         [modalOuting.day]: [

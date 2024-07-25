@@ -5,7 +5,7 @@ import React from "react";
 import { useAuth } from "@/hooks";
 
 const Stay = () => {
-  const { user, needLogin, onlyStudent, login } = useAuth();
+  const { user, needLogin, onlyStudent } = useAuth();
   const [reason, setReason] = React.useState("");
 
   return (
