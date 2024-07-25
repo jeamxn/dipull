@@ -77,6 +77,7 @@ const AlertModal = ({
           <div
             className="w-full h-full"
             onClick={() => {
+              modal.onCancle?.();
               dispatch({
                 type: "hide",
               });
@@ -114,6 +115,7 @@ const AlertModal = ({
           <div
             className="w-full h-full"
             onClick={() => {
+              modal.onCancle?.();
               dispatch({
                 type: "hide",
               });
