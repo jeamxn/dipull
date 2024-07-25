@@ -39,7 +39,7 @@ const POST = async (
         }
       });
       if (update.modifiedCount === 0) {
-        throw new Error("Failed to update good");
+        throw new Error("반응 할 게시물을 찾을 수 없습니다.");
       }
     }
     else if (type === "bad") {
@@ -54,7 +54,7 @@ const POST = async (
         }
       });
       if (update.modifiedCount === 0) {
-        throw new Error("Failed to update bad");
+        throw new Error("반응 할 게시물을 찾을 수 없습니다.");
       }
     }
     else if (type === "") { 
@@ -67,7 +67,7 @@ const POST = async (
         }
       });
       if (update.modifiedCount === 0) {
-        throw new Error("Failed to update remove");
+        throw new Error("반응 할 게시물을 찾을 수 없습니다.");
       }
     }
 
