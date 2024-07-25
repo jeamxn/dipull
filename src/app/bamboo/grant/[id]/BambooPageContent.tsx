@@ -98,7 +98,7 @@ const BambooPageContent = ({
       const response = await axios.post<BambooReact>(`/bamboo/grant/${bamboo.id}/reaction`, {
         type: myEmotion,
       });
-      await fetchReaction();
+      // await fetchReaction();
       return response.data;
     },
     refetchOnWindowFocus: false,
@@ -233,7 +233,7 @@ const BambooPageContent = ({
               isFetching ? "text-green-700 dark:text-green-400" : "text-blue-700 dark:text-blue-400" : "text-text/50 dark:text-text-dark/60"
           ].join(" ")}>
             {
-              reaction ? reaction.goods : "..."
+              reaction ? reaction.goods + (myEmotion === "good" ? 1 : 0) : "..."
             }개
           </p>
         </button>
@@ -258,7 +258,7 @@ const BambooPageContent = ({
               isFetching ? "text-green-700 dark:text-green-400" : "text-blue-700 dark:text-blue-400" : "text-text/50 dark:text-text-dark/60"
           ].join(" ")}>
             {
-              reaction ? reaction.bads : "..."
+              reaction ? reaction.bads + (myEmotion === "bad" ? 1 : 0) : "..."
             }개
           </p>
         </button>

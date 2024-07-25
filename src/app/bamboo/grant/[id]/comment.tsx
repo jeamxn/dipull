@@ -77,7 +77,9 @@ const Comment = ({
                 <p className={[
                   "font-medium text-sm select-none cursor-pointer duration-150",
                   emotion === "good" || emotion === "initGood" ? "text-blue-700 dark:text-blue-400" : "text-text/50 dark:text-text-dark/60"
-                ].join(" ")}>12개</p>
+                ].join(" ")}>
+                  {12 + (emotion === "good" ? 1 : 0)}개
+                </p>
               </button>
               <p className={[
                 "font-medium text-sm select-none cursor-pointer duration-150 text-text/50 dark:text-text-dark/60"
@@ -98,7 +100,9 @@ const Comment = ({
                 <p className={[
                   "font-medium text-sm select-none cursor-pointer duration-150",
                   emotion === "bad" || emotion === "initBad" ? "text-blue-700 dark:text-blue-400" : "text-text/50 dark:text-text-dark/60"
-                ].join(" ")}>12개</p>
+                ].join(" ")}>
+                  {12 + (emotion === "bad" ? 1 : 0)}개
+                </p>
               </button>
             </div>
           </div>
