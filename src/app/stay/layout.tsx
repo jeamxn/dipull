@@ -5,22 +5,22 @@ import Menu from "@/components/Navigation/menu";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "기상송 신청 :: 디풀",
+    title: "잔류 신청 :: 디풀",
   };
 }
 
 const menus = [
   {
-    url: "/wakeup/list",
-    name: "목록",
+    url: "/stay/apply",
+    name: "잔류",
   },
   {
-    url: "/wakeup/search",
-    name: "검색하기",
+    url: "/stay/outing",
+    name: "외출",
   },
   {
-    url: "/wakeup/my",
-    name: "내 신청",
+    url: "/stay/homecoming",
+    name: "금귀",
   }
 ];
 

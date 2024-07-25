@@ -2,6 +2,8 @@ import { Metadata, ResolvingMetadata } from "next";
 import { redirect } from "next/navigation";
 import React from "react";
 
+import Menu from "@/components/Navigation/menu";
+
 import { MachineType, machineTypeToKorean } from "./utils";
 
 type Props = {
@@ -19,6 +21,17 @@ export async function generateMetadata(
   };
 }
 
+const menus = [
+  {
+    name: "세탁기",
+    url: "/machine/washer",
+  },
+  {
+    name: "건조기",
+    url: "/machine/dryer",
+  },
+];
+
 const Layout = ({
   children,
   params
@@ -27,7 +40,12 @@ const Layout = ({
   params: Props["params"];
 }>) => {
   if (!machineTypeToKorean(params.type)) return redirect("/machine/washer");
-  return children;
+  return (
+    <div className="py-6 flex flex-col gap-6">
+      <Menu menus={menus} />
+      {children}
+    </div>
+  );
 };
 
 export default Layout;

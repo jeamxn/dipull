@@ -6,6 +6,7 @@ import moment from "moment";
 import React from "react";
 
 import Linker from "@/components/Linker";
+import Menu from "@/components/Navigation/menu";
 import { useAuth } from "@/hooks";
 import { getUserInfo } from "@/utils/cookies";
 import { MachineJoin } from "@/utils/db/utils";
@@ -60,23 +61,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
   }, [user.id, machine_current]);
 
   return (
-    <div className="w-full py-6 flex flex-col gap-6">
-      <div className="flex flex-row items-center justify-center gap-1 px-4 w-full">
-        <Linker
-          href="/machine/washer"
-          className={[
-            "text-xl font-semibold select-none cursor-pointer transition-all",
-            params.type === "washer" ? "text-text dark:text-text-dark" : "text-text/30 dark:text-text-dark/60",
-          ].join(" ")}>세탁기</Linker>
-        <p className="text-xl font-semibold select-none text-text/30 dark:text-text-dark/60">·</p>
-        <Linker
-          href="/machine/dryer"
-          className={[
-            "text-xl font-semibold select-none cursor-pointer transition-all",
-            params.type === "dryer" ? "text-text dark:text-text-dark" : "text-text/30 dark:text-text-dark/60",
-          ].join(" ")}>건조기</Linker>
-      </div>
-
+    <>
       <div className="flex flex-col gap-4">
         <p className="text-lg font-semibold px-4 text-text dark:text-text-dark">{current_korean}기 신청하기</p>
         {
@@ -142,7 +127,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
         </div>
       </div>
       
-    </div>
+    </>
   );
 };
 
