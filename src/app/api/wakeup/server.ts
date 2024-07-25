@@ -26,6 +26,7 @@ export const getWakeup = async (id: string, gender: string) => {
       allObj[v.id] = {
         title: v.title,
         count: 0,
+        date: v.date,
         week: v.week,
       };
     }
@@ -36,6 +37,7 @@ export const getWakeup = async (id: string, gender: string) => {
         id: v.id,
         owner: v.owner,
         _id: v._id,
+        date: v.date,
         gender: v.gender,
         week: v.week,
       });

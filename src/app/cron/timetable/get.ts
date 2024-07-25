@@ -4,7 +4,6 @@ import moment from "moment";
 import { NextResponse } from "next/server";
 
 import { getMeal } from "@/app/api/meal/[date]/server";
-import { defaultWakeupAvail } from "@/app/api/wakeup/apply/utils";
 import { connectToDatabase } from "@/utils/db";
 
 export type Timetable = {
@@ -37,12 +36,6 @@ const GET = async (
   }
 
   const client = await connectToDatabase();
-  const wakeupAplyCollection = client.db().collection("wakeup_aply");
-  await wakeupAplyCollection.updateMany({}, {
-    $inc: {
-      available: defaultWakeupAvail
-    }
-  });
     
   const today = moment().tz("Asia/Seoul");
   const today_day = today.day();
