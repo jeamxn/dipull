@@ -90,7 +90,7 @@ function Home() {
         {
           !data || isFetching ? (
             <>
-              <div className="w-full border-b border-text/10 dark:border-text-dark/30" />
+              <div className="w-full border-b border-text/10 dark:border-text-dark/20" />
               <div className="w-full h-20 flex flex-row items-center justify-center">
                 <p className="text-lg font-semibold text-text/40 dark:text-text-dark/50">대나무를 찾는 중...</p>
               </div>
@@ -108,14 +108,14 @@ function Home() {
             />
           )) : (
             <>
-              <div className="w-full border-b border-text/10 dark:border-text-dark/30" />
+              <div className="w-full border-b border-text/10 dark:border-text-dark/20" />
               <div className="w-full h-20 flex flex-row items-center justify-center">
                 <p className="text-lg font-semibold text-text dark:text-text-dark">해당 정렬 기준의 대나무가 없습니다.</p>
               </div>
             </>
           )
         }
-        <div className="w-full border-b border-text/10 dark:border-text-dark/30" />
+        <div className="w-full border-b border-text/10 dark:border-text-dark/20" />
       </div>
       <div className="w-full overflow-auto">
         <div className="w-full flex flex-row gap-1 items-center justify-center">

@@ -31,7 +31,7 @@ const Item = ({
   const router = useRouter();
   return (
     <>
-      <div className="w-full border-b border-text/10 dark:border-text-dark/30" />
+      <div className="w-full border-b border-text/10 dark:border-text-dark/20" />
       <Mover
         className="flex flex-col gap-3 py-3"
         onClick={() => {

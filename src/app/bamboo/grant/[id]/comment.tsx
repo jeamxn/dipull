@@ -32,7 +32,7 @@ const Comment = ({
     <>
       {
         isFirst ? null : (
-          <div className="w-full border-b border-text/10 dark:border-text-dark/30" />
+          <div className="w-full border-b border-text/10 dark:border-text-dark/20" />
         )
       }
       <div className="flex flex-row items-start justify-between">
