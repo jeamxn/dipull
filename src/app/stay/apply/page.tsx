@@ -7,25 +7,7 @@ import { useAuth } from "@/hooks";
 
 import Outing from "./outing";
 import Studyroom from "./studyroom";
-
-export type OutingInfo = {
-  day: "saturday" | "sunday";
-  start: string;
-  end: string;
-  reason: string;
-};
-
-export const initailOuting: OutingInfo = {
-  day: "saturday",
-  start: "",
-  end: "",
-  reason: "",
-};
-
-type OutingType = {
-  saturday: OutingInfo[];
-  sunday: OutingInfo[];
-};
+import { initailOuting, OutingInfo, OutingType } from "./utils";
 
 const Stay = () => {
   const { user, needLogin, onlyStudent } = useAuth();

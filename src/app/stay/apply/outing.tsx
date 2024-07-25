@@ -1,6 +1,6 @@
 import React from "react";
 
-import { OutingInfo } from "./page";
+import { OutingInfo } from "./utils";
 
 const Outing = ({
   select,
