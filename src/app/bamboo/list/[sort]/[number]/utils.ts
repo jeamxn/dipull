@@ -1,3 +1,6 @@
+import "moment-timezone";
+import moment from "moment";
+
 import { BambooRead } from "@/app/bamboo/grant/[id]/utils";
 import { Bamboo } from "@/utils/db/utils";
 
@@ -78,4 +81,66 @@ export const badsProject = {
   }
 };
 
-export type BambooSort = "recent" | "daily" | "weekly" | "monthly" | "all";
+export const profile_imageProject = {
+  $cond: {
+    if: { $eq: ["$anonymous", false] },
+    then: {
+      $ifNull: ["$userInfo.profile_image", "/public/icons/icon-192-maskable.png"]
+    },
+    else: "/public/icons/icon-192-maskable.png"
+  }
+};
+
+export const isWriterProject = (id: string) => ({
+  $cond: {
+    if: { $eq: ["$user", id] },
+    then: true,
+    else: false
+  }
+});
+
+export const sortQuery = {
+  recent: {
+    _id: -1,
+  },
+  oldest: {
+    _id: 1,
+  },
+  daily: {
+    popularity: -1,
+  },
+  weekly: {
+    popularity: -1,
+  },
+  monthly: {
+    popularity: -1,
+  },
+  all: {
+    popularity: -1,
+  },
+};
+
+const today = moment().tz("Asia/Seoul");
+
+export const matchQuery = {
+  recent: {},
+  oldest: {},
+  daily: {
+    timestamp: {
+      $gte: today.clone().subtract(1, "days").format("YYYY-MM-DD HH:mm:ss"),
+    }
+  },
+  weekly: {
+    timestamp: {
+      $gte: today.clone().subtract(7, "days").format("YYYY-MM-DD HH:mm:ss"),
+    }
+  },
+  monthly: {
+    timestamp: {
+      $gte: today.clone().subtract(1, "month").format("YYYY-MM-DD HH:mm:ss"),
+    }
+  },
+  all: {},
+};
+
+export type BambooSort = "recent" | "daily" | "weekly" | "monthly" | "all" | "oldest";

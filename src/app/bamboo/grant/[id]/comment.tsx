@@ -1,13 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
+import moment from "moment";
 import React from "react";
 
 import { useAlertModalDispatch } from "@/components/AlertModal";
 import { MoreButton, useMoreModalDispatch } from "@/components/MoreModal";
 
+import { BambooCommentList } from "./comment/[sort]/[number]/utils";
+
 const Comment = ({
   isFirst,
+  bambooComment,
 }: {
-  isFirst: boolean;
+    isFirst: boolean;
+    bambooComment: BambooCommentList;
   }) => {
   const [emotion, setEmotion] = React.useState<"good" | "bad" | "" | "initGood" | "initBad" | "init">("init");
   const [onTimeClick, setOnTimeClick] = React.useState(false);
@@ -40,25 +45,25 @@ const Comment = ({
         <div className="flex flex-row items-start justify-start gap-3">
           <img
             className="w-10 h-10 rounded-full border border-text/10 dark:border-text-dark/20"
-            src="https://lh3.googleusercontent.com/a/ACg8ocKyDiVdNK5iuPoyj3TGnsK7daSEj3ciCDPT99KKr_qq10tUvmoC=s96-c"
+            src={bambooComment.profile_image}
             alt="profile"
           />
           <div className="flex flex-col gap-1">
             <div className="flex flex-row items-center justify-start gap-0.5">
-              <p className="font-semibold text-sm text-text dark:text-text-dark">최재민</p>
+              <p className="font-semibold text-sm text-text dark:text-text-dark">{bambooComment.user}</p>
               <p className="font-medium text-sm text-text/30 dark:text-text-dark/40">·</p>
               <button onClick={() => setOnTimeClick(p => !p)} className="flex flex-row items-center justify-start">
                 {
                   onTimeClick ? (
-                    <p className="font-normal text-sm text-text/30 dark:text-text-dark/40">2024-07-25 12:07:03</p>
+                    <p className="font-normal text-sm text-text/30 dark:text-text-dark/40">{bambooComment.timestamp}</p>
                   ): (
-                    <p className="font-normal text-sm text-text/30 dark:text-text-dark/40">15분 전</p>
+                    <p className="font-normal text-sm text-text/30 dark:text-text-dark/40">{moment(bambooComment.timestamp).fromNow()}</p>
                   )
                 }
               </button>
             </div>
             <div className="font-normal text-text dark:text-text-dark">
-              와 제가 사올께요
+              {bambooComment.text}
             </div>
             <div className="flex flex-row items-center justify-start gap-1">
               <button
@@ -78,7 +83,7 @@ const Comment = ({
                   "font-medium text-sm select-none cursor-pointer duration-150",
                   emotion === "good" || emotion === "initGood" ? "text-blue-700 dark:text-blue-400" : "text-text/50 dark:text-text-dark/60"
                 ].join(" ")}>
-                  {12 + (emotion === "good" ? 1 : 0)}개
+                  {bambooComment.goods + (emotion === "good" ? 1 : 0)}개
                 </p>
               </button>
               <p className={[
@@ -101,7 +106,7 @@ const Comment = ({
                   "font-medium text-sm select-none cursor-pointer duration-150",
                   emotion === "bad" || emotion === "initBad" ? "text-blue-700 dark:text-blue-400" : "text-text/50 dark:text-text-dark/60"
                 ].join(" ")}>
-                  {12 + (emotion === "bad" ? 1 : 0)}개
+                  {bambooComment.bads + (emotion === "bad" ? 1 : 0)}개
                 </p>
               </button>
             </div>

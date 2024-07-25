@@ -92,3 +92,14 @@ export type Bamboo = {
   bad: string[];
   timestamp: string;
 };
+
+export type BambooComment = {
+  document: string;
+  user: UserInfo["id"];
+  text: string;
+  grade: boolean;
+  anonymous: boolean;
+  good: string[];
+  bad: string[];
+  timestamp: string;
+};

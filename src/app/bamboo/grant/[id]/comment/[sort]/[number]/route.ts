@@ -2,19 +2,23 @@ import "moment-timezone";
 import moment from "moment";
 import { NextRequest, NextResponse } from "next/server";
 
+import { badsProject, BambooSort, goodsProject, isWriterProject, matchQuery, profile_imageProject, sortQuery, userProject } from "@/app/bamboo/list/[sort]/[number]/utils";
 import { sortOptionValues } from "@/app/bamboo/sort";
 import { ErrorMessage } from "@/components/providers/utils";
 import { collections } from "@/utils/db";
 import { accessVerify } from "@/utils/jwt";
 
-import { badsProject, BambooList, BambooResponse, BambooSort, goodsProject, matchQuery, sortQuery, titleProject, userProject } from "./utils";
+import { BambooRead } from "../../../utils";
+
+import { BambooCommentList, BambooCommentResponse } from "./utils";
 
 export const GET = async (
   req: NextRequest,
   { params }: {
     params: {
-      number: string,
-      sort: BambooSort,
+      id: BambooRead["id"];
+      number: string;
+      sort: BambooSort;
     }
   }
 ) => {
@@ -29,15 +33,20 @@ export const GET = async (
       throw new Error("Invalid sort value");
     }
 
-    // const accessToken = req.cookies.get("access_token")?.value || "";
-    // const { id } = await accessVerify(accessToken);
+    const accessToken = req.cookies.get("access_token")?.value || "";
+    const { id } = await accessVerify(accessToken);
 
-
-    const bamboo = await collections.bamboo();
-    const bambooCount = await bamboo.countDocuments(matchQuery[sort]);
-    const bamboos = await bamboo.aggregate<BambooList>([
+    const bambooComment = await collections.bamboo_comment();
+    const bambooCommentCount = await bambooComment.countDocuments({
+      document: params.id,
+      ...matchQuery[sort],
+    });
+    const bambooComments = await bambooComment.aggregate<BambooCommentList>([
       {
-        $match: matchQuery[sort],
+        $match: {
+          document: params.id,
+          ...matchQuery[sort],
+        },
       },
       {
         $addFields: {
@@ -96,33 +105,19 @@ export const GET = async (
           },
           _id: 0,
           user: userProject,
-          title: titleProject,
           timestamp: "$timestamp",
-          // content: "$content",
+          text: "$text",
           goods: goodsProject,
           bads: badsProject,
-          comments: {
-            $size: {
-              $ifNull: ["$comment", []]
-            }
-          },
-          // myGood: {
-          //   $in: [id, {
-          //     $ifNull: ["$good", []]
-          //   }]
-          // },
-          // myBad: {
-          //   $in: [id, {
-          //     $ifNull: ["$bad", []]
-          //   }]
-          // },
+          isWriter: isWriterProject(id),
+          profile_image: profile_imageProject,
         }
       },
     ]).toArray();
     
-    const response = NextResponse.json<BambooResponse>({
-      count: bambooCount,
-      list: bamboos,
+    const response = NextResponse.json<BambooCommentResponse>({
+      count: bambooCommentCount,
+      list: bambooComments,
     });
     return response;
   }

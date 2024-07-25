@@ -4,10 +4,9 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 import { collections } from "@/utils/db";
-import { Bamboo as BambooType } from "@/utils/db/utils";
 import { accessVerify } from "@/utils/jwt";
 
-import { titleProject, userProject } from "../../list/[sort]/[number]/utils";
+import { isWriterProject, profile_imageProject, titleProject, userProject } from "../../list/[sort]/[number]/utils";
 
 import BambooPageContent from "./BambooPageContent";
 import { BambooRead } from "./utils";
@@ -65,22 +64,8 @@ const Bamboo = async ({
         },
         _id: 0,
         user: userProject,
-        isWriter: {
-          $cond: {
-            if: { $eq: ["$user", id] },
-            then: true,
-            else: false
-          }
-        },
-        profile_image: {
-          $cond: {
-            if: { $eq: ["$anonymous", false] },
-            then: {
-              $ifNull: ["$userInfo.profile_image", "/public/icons/icon-192-maskable.png"]
-            },
-            else: "/public/icons/icon-192-maskable.png"
-          }
-        },
+        isWriter: isWriterProject(id),
+        profile_image: profile_imageProject,
         title: titleProject,
         timestamp: "$timestamp",
         content: "$content",

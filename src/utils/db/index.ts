@@ -1,6 +1,6 @@
 import { Db, MongoClient } from "mongodb";
 
-import { Bamboo, LastRequest, Machine, Machine_list, Timetable, UserInfo, Wakeup } from "./utils";
+import { Bamboo, BambooComment, LastRequest, Machine, Machine_list, Timetable, UserInfo, Wakeup } from "./utils";
 
 const uri = process.env.MONGODB_URI || "";
 const options = {};
@@ -60,6 +60,11 @@ const bamboo = async () => {
   return client.collection<Bamboo>("bamboo");
 };
 
+const bamboo_comment = async () => { 
+  const client = await connectToDatabase();
+  return client.collection<BambooComment>("bamboo_comment");
+};
+
 export const collections = {
   timetable,
   users,
@@ -69,4 +74,5 @@ export const collections = {
   wakeup,
   last_request,
   bamboo,
+  bamboo_comment,
 };
