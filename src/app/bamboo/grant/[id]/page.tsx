@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import React from "react";
 
 import { collections } from "@/utils/db";
@@ -24,6 +25,19 @@ const Bamboo = async ({
   const accessToken = authorization?.split("access_token=")[1].split(";")[0] || "";
   const { id } = await accessVerify(accessToken);
   const bambooDB = await collections.bamboo();
+
+  try {
+    const find = await bambooDB.countDocuments({
+      _id: ObjectId.createFromHexString(params.id)
+    });
+    if (find < 1) {
+      throw new Error("Bamboo not found");
+    }
+  }
+  catch {
+    return redirect("/bamboo");
+  }
+
   const bamboos = await bambooDB.aggregate<BambooRead>([
     {
       $match: {
