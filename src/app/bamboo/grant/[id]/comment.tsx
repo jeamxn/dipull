@@ -18,7 +18,32 @@ const Comment = ({
   const [onTimeClick, setOnTimeClick] = React.useState(false);
   const moreModalDispatch = useMoreModalDispatch();
   const alertModalDispatch = useAlertModalDispatch();
+
+  const myMoreButtons: MoreButton[] = bambooComment.isWriter ? [
+    {
+      text: "댓글 삭제하기",
+      type: "red",
+      onClick: async () => {
+        // await deleteBamboo();
+        // if (!isError) {
+        //   alertModalDispatch({
+        //     type: "show",
+        //     data: {
+        //       title: "게시글이 삭제되었습니다.",
+        //       description: "게시글이 성공적으로 삭제되었습니다.",
+        //       onAlert: () => { router.replace("/bamboo"); },
+        //       onCancle: () => {
+        //         router.replace("/bamboo");
+        //       },
+        //     }
+        //   });
+        // }
+      },
+    },
+  ] : [];
+
   const moreButtons: MoreButton[] = [
+    ...myMoreButtons,
     {
       text: "신고하기",
       type: "red",

@@ -5,7 +5,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { sortOptionValues } from "@/app/bamboo/sort";
 import { ErrorMessage } from "@/components/providers/utils";
 import { collections } from "@/utils/db";
-import { accessVerify } from "@/utils/jwt";
 
 import { badsProject, BambooList, BambooResponse, BambooSort, goodsProject, matchQuery, sortQuery, titleProject, userProject } from "./utils";
 
@@ -29,15 +28,27 @@ export const GET = async (
       throw new Error("Invalid sort value");
     }
 
-    // const accessToken = req.cookies.get("access_token")?.value || "";
-    // const { id } = await accessVerify(accessToken);
-
-
     const bamboo = await collections.bamboo();
     const bambooCount = await bamboo.countDocuments(matchQuery[sort]);
     const bamboos = await bamboo.aggregate<BambooList>([
       {
         $match: matchQuery[sort],
+      },
+      {
+        $lookup: {
+          from: "bamboo_comment",
+          let: { bambooId: { $toString: "$_id" } }, // localField의 ObjectId를 문자열로 변환
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$document", "$$bambooId"]
+                }
+              }
+            }
+          ],
+          as: "comments_list"
+        }
       },
       {
         $addFields: {
@@ -64,6 +75,9 @@ export const GET = async (
               }
             ]
           },
+          comments: {
+            $size: "$comments_list"
+          }
         }
       },
       {
@@ -98,24 +112,9 @@ export const GET = async (
           user: userProject,
           title: titleProject,
           timestamp: "$timestamp",
-          // content: "$content",
           goods: goodsProject,
           bads: badsProject,
-          comments: {
-            $size: {
-              $ifNull: ["$comment", []]
-            }
-          },
-          // myGood: {
-          //   $in: [id, {
-          //     $ifNull: ["$good", []]
-          //   }]
-          // },
-          // myBad: {
-          //   $in: [id, {
-          //     $ifNull: ["$bad", []]
-          //   }]
-          // },
+          comments: "$comments",
         }
       },
     ]).toArray();
