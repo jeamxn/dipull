@@ -211,7 +211,7 @@ const BambooPageContent = ({
         />
       </div>
 
-      <div className="w-full px-4 flex flex-row gap-3 items-center justify-around border-y border-text/10 dark:border-text-dark/15">
+      <div className="w-full px-4 flex flex-row gap-3 items-center justify-around border-y border-text/10 dark:border-text-dark/30">
         <button
           className="flex flex-row gap-1 items-center justify-center cursor-pointer py-3 w-full"
           onClick={() => {

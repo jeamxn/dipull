@@ -12,7 +12,7 @@ const Move = ({
   return (
     <button
       className={[
-        "w-8 h-8 flex items-center justify-center rounded-full border border-text/10 dark:border-text-dark/20",
+        "w-8 h-8 flex items-center justify-center rounded-full border border-text/10 dark:border-text-dark/25",
         current === index ? "bg-text dark:bg-text-dark" : "",
       ].join(" ")}
       onClick={() => {
