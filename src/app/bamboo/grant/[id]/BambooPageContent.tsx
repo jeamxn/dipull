@@ -95,7 +95,7 @@ const BambooPageContent = ({
         <div>
           <img
             className="w-10 h-10 rounded-full border border-text/10 dark:border-text-dark/20"
-            src="/public/icons/icon-192-maskable.png"
+            src={bamboo.profile_image || "/public/icons/icon-192-maskable.png"}
             alt="profile"
           />
         </div>

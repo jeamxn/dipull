@@ -52,6 +52,15 @@ const Bamboo = async ({
           $toString: "$_id"
         },
         user: userProject,
+        profile_image: {
+          $cond: {
+            if: { $eq: ["$anonymous", false] },
+            then: {
+              $ifNull: ["$userInfo.profile_image", "/public/icons/icon-192-maskable.png"]
+            },
+            else: "/public/icons/icon-192-maskable.png"
+          }
+        },
         title: titleProject,
         timestamp: "$timestamp",
         content: "$content",

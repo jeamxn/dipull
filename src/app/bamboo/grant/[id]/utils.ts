@@ -5,6 +5,7 @@ import { BambooList } from "../../list/[sort]/[number]/utils";
 export type BambooRead = {
   id: Bamboo["id"];
   user: BambooList["user"];
+  profile_image: string;
   title: Bamboo["title"];
   timestamp: Bamboo["timestamp"];
   content: Bamboo["content"];
