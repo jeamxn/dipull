@@ -22,7 +22,7 @@ const initialState: MoreModalPropsWithShow = {
 };
 
 type MoreModalAction = {
-  type: "show" | "hide";
+  type: "show" | "hide" | "update";
   data?: MoreModalProps;
 };
 
@@ -49,6 +49,11 @@ const confrimModalReducer = (state: MoreModalPropsWithShow, action: MoreModalAct
     return {
       ...state,
       show: false,
+    };
+  case "update":
+    return {
+      ...state,
+      ...action.data,
     };
   default:
     return initialState;

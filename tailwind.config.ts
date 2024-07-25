@@ -7,7 +7,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      lineHeight: {
+        4.5: "1.125rem",
+      },
       width: {
+        18: "4.5rem",
         128: "32rem",
       },
       height: {

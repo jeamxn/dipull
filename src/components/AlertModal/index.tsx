@@ -24,7 +24,7 @@ const initialState: AlertModalPropsWithShow = {
 };
 
 type AlertModalAction = {
-  type: "show" | "hide";
+  type: "show" | "hide" | "update";
   data?: AlertModalProps;
 };
 
@@ -51,6 +51,11 @@ const confrimModalReducer = (state: AlertModalPropsWithShow, action: AlertModalA
     return {
       ...state,
       show: false,
+    };
+  case "update": 
+    return {
+      ...state,
+      ...action.data,
     };
   default:
     return initialState;

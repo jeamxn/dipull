@@ -30,7 +30,7 @@ const initialState: ConfirmModalPropsWithShow = {
 };
 
 type ConfirmModalAction = {
-  type: "show" | "hide";
+  type: "show" | "hide" | "update";
   data?: ConfirmModalProps;
 };
 
@@ -57,6 +57,11 @@ const confrimModalReducer = (state: ConfirmModalPropsWithShow, action: ConfirmMo
     return {
       ...state,
       show: false,
+    };
+  case "update":
+    return {
+      ...state,
+      ...action.data,
     };
   default:
     return initialState;

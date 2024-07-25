@@ -35,7 +35,7 @@ const initialState: CalenderModalPropsWithShow = {
 };
 
 type CalenderModalAction = {
-  type: "show" | "hide";
+  type: "show" | "hide" | "update";
   data?: CalenderModalProps;
 };
 
@@ -62,6 +62,11 @@ const calenderModalReducer = (state: CalenderModalPropsWithShow, action: Calende
     return {
       ...state,
       show: false,
+    };
+  case "update":
+    return {
+      ...state,
+      ...action.data,
     };
   default:
     return state;
@@ -99,12 +104,14 @@ const CalenderModal = ({
           dispatch({ type: "hide" });
         },
         inner: (
-          <Calender
-            show={calenderModal.show}
-            value={calenderModal.value}
-            seleted={selected}
-            setSelected={setSelected}
-          />
+          <div className="w-full flex flex-row items-start justify-center overflow-y-auto overflow-x-hidden">
+            <Calender
+              show={calenderModal.show}
+              value={calenderModal.value}
+              seleted={selected}
+              setSelected={setSelected}
+            />
+          </div>
         )
       },
     });

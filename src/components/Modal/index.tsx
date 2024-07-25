@@ -2,7 +2,7 @@
 
 import React from "react";
 
-type ModalProps = {
+export type ModalProps = {
   label?: string;
   inner?: React.ReactNode;
   confirmButtonText?: string;
@@ -30,7 +30,7 @@ const initialState: ModalPropsWithShow = {
 };
 
 type ModalAction = {
-  type: "show" | "hide";
+  type: "show" | "hide" | "update";
   data?: ModalProps;
 };
 
@@ -57,6 +57,11 @@ const modalReducer = (state: ModalPropsWithShow, action: ModalAction) => {
     return {
       ...state,
       show: false,
+    };
+  case "update":
+    return {
+      ...state,
+      ...action.data,
     };
   default:
     return initialState;
@@ -85,7 +90,7 @@ const Modal = ({
           }}
         />
         <div className={[
-          "absolute bottom-0 w-full px-4 z-[100] bg-background dark:bg-background-dark border-t rounded-t-3xl pt-6 pb-safe-offset-6 transition-all max-h-[80dvh]",
+          "absolute bottom-0 w-full px-4 z-[100] bg-background dark:bg-background-dark border-t rounded-t-3xl pt-6 pb-safe-offset-6 transition-all max-h-[90dvh]",
           // show ? "translate-y-0 l" : "translate-y-full hidden",
           modal.show ? "opacity-100 pointer-events-auto flex flex-col gap-4" : "opacity-0 pointer-events-none hidden",
         ].join(" ")}>
@@ -101,7 +106,7 @@ const Modal = ({
               </div>
             ) : null
           }
-          <div className="flex flex-col gap-0 overflow-y-auto overflow-x-hidden items-center w-full">
+          <div className="flex flex-col gap-0 overflow-auto items-start w-full">
             {modal.inner}
           </div>
           {
@@ -113,7 +118,8 @@ const Modal = ({
                       className="w-full text-text dark:text-text-dark rounded-lg px-4 py-3 font-medium border border-text dark:border-text-dark/20"
                       onClick={() => {
                         modal.onCancle?.(onclick?.arguments);
-                      // setShow(false);
+                        // setShow(false);
+                        dispatch({ type: "hide" });
                       }}
                     >
                       {modal.cancelButtonText}

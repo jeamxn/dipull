@@ -42,7 +42,7 @@ const initialState: SelectModalPropsWithShow = {
 };
 
 type SelectModalAction = {
-  type: "show" | "hide";
+  type: "show" | "hide" | "update";
   data?: SelectModalProps;
 };
 
@@ -69,6 +69,11 @@ const selectModalReducer = (state: SelectModalPropsWithShow, action: SelectModal
     return {
       ...state,
       show: false,
+    };
+  case "update":
+    return {
+      ...state,
+      ...action.data,
     };
   default:
     return initialState;
