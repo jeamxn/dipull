@@ -49,7 +49,10 @@ const Studyroom = ({
                           select === _this ? "bg-text dark:bg-text-dark border-transparent" :
                             canClick ? "bg-text/10 dark:bg-text-dark/20 border-transparent" : "bg-transparent border-text/20 dark:border-text-dark/30",
                         ].join(" ")}
-                        onClick={() => setSelect(_this)}
+                        onClick={() => {
+                          if (select === _this) return setSelect("");
+                          setSelect(_this);
+                        }}
                         disabled={!canClick}
                       >
                         <p

@@ -41,19 +41,22 @@ const Stay = () => {
   });
   const [reason, setReason] = React.useState("");
 
-  const selectDispatchData: ModalProps = React.useMemo(() => ({
-    label: "좌석 선택",
-    showCancelButton: true,
-    confirmButtonText: `${modalSelect || select} 선택`,
-    inner: <Studyroom select={modalSelect || select} setSelect={setModalSelect} />,
-    onConfirm: () => { 
-      setSelect(modalSelect);
-      setModalSelect("");
-    },
-    onCancle: () => {
-      setModalSelect("");
-    },
-  }), [modalSelect, select]);
+  const selectDispatchData: ModalProps = React.useMemo(() => {
+    const selected = modalSelect;
+    return {
+      label: "좌석 선택",
+      showCancelButton: true,
+      confirmButtonText: `${selected ? `${selected} ` : "미"}선택`,
+      inner: <Studyroom select={selected} setSelect={setModalSelect} />,
+      onConfirm: () => {
+        setSelect(modalSelect);
+        setModalSelect("");
+      },
+      onCancle: () => {
+        setModalSelect("");
+      },
+    };
+  }, [modalSelect, select]);
 
   const showStudyroom = () => {
     modalDispatch({
@@ -113,8 +116,13 @@ const Stay = () => {
               {select ? select : "미선택"}
             </p>
           </div>
-          <button className="bg-text dark:bg-text-dark px-6 py-3 rounded-xl" onClick={showStudyroom}>
-            <p className="text-white dark:text-white-dark">선택하기</p>
+          <button className="bg-text dark:bg-text-dark px-6 py-3 rounded-xl" onClick={() => {
+            if(select) return setSelect("");
+            showStudyroom();
+          }}>
+            <p className="text-white dark:text-white-dark">
+              {select ? "선택 취소" : "선택하기"}
+            </p>
           </button>
         </div>
 
