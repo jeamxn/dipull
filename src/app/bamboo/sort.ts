@@ -10,10 +10,10 @@ export const sortOptionValues: BambooSort[] = [
 ];
 
 export const sortOptions = [
-  "최신순",
-  "오래된순",
-  "전체 인기순",
-  "한 달 인기순",
-  "일주일 인기순",
-  "하루 인기순",
+  "최신 순",
+  "오래된 순",
+  "전체 인기 순",
+  "한 달 인기 순",
+  "일주일 인기 순",
+  "하루 인기 순",
 ];
