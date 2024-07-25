@@ -20,6 +20,7 @@ import SetName from "../write/setName";
 
 import Comment from "./comment";
 import { BambooCommentResponse } from "./comment/[sort]/[number]/utils";
+import { BambooCommentWriteResponse } from "./comment/put/utils";
 import { BambooReact, BambooRead } from "./utils";
 
 const BambooPageContent = ({
@@ -38,7 +39,41 @@ const BambooPageContent = ({
   const [selected_type, setSelected_type] = React.useState<string>(JSON.stringify({ grade: true, anonymous: true }));
   const [comment, setComment] = React.useState("");
 
-  const { data, isFetching: isCommentFetching } = useQuery({
+  const comment_data = React.useMemo(() => { 
+    const parsed = JSON.parse(selected_type);
+    return {
+      text: comment,
+      grade: parsed.grade,
+      anonymous: parsed.anonymous,
+    };
+  }, [selected, comment]);
+
+  const { refetch: commentRefetch, isFetched: isCommentFetched, isError: commentIsError, isFetching: isFetchingCommentPut } = useQuery({
+    queryKey: ["bamboo_put", comment_data.text, comment_data.grade, comment_data.anonymous],
+    queryFn: async () => {
+      const response = await axios.post<BambooCommentWriteResponse>(`/bamboo/grant/${bamboo.id}/comment/put`, {
+        text: comment_data.text,
+        grade: comment_data.grade,
+        anonymous: comment_data.anonymous,
+      });
+      return response.data;
+    },
+    refetchOnWindowFocus: false,
+    enabled: false,
+    retry: false,
+  });
+  const send = () => {
+    console.log(comment_data);
+    commentRefetch();
+  };
+  React.useEffect(() => { 
+    if (!isCommentFetched || commentIsError) return;
+    setComment("");
+    setSelected_type(JSON.stringify({ grade: true, anonymous: true }));
+    refetch();
+  }, [isCommentFetched]);
+
+  const { data, isFetching: isCommentFetching, refetch } = useQuery({
     queryKey: ["bamboo_comment_list", selected, current],
     queryFn: async () => {
       const response = await axios.get<BambooCommentResponse>(`/bamboo/grant/${bamboo.id}/comment/${selected}/${current}`);
@@ -361,22 +396,36 @@ const BambooPageContent = ({
             <div className="scale-75 w-fit -mr-1">
               <SetName selected={selected_type} setSelected={setSelected_type} />
             </div>
-            <input
-              type="text"
-              className="w-full bg-transparent outline-none py-3 text-text dark:text-text-dark"
-              placeholder="댓글을 입력해주세요."
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-            />
+            {
+              isFetchingCommentPut ? (
+                <p className="w-full py-3 text-text/30 dark:text-text-dark/50 select-none">댓글을 등록하는 중...</p>
+              ): (
+                <input
+                  type="text"
+                  className="w-full bg-transparent outline-none py-3 text-text dark:text-text-dark"
+                  placeholder="댓글을 입력해주세요."
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") send();
+                  }}
+                />
+              )
+            }
+            
           </div>
-          <div className="cursor-pointer flex flex-row items-center justify-end gap-1">
+          <button
+            className="cursor-pointer flex flex-row items-center justify-end gap-1"
+            onClick={send}
+            disabled={isFetchingCommentPut || !comment}
+          >
             <p className="font-medium select-none text-text dark:text-text-dark">전송</p>
             <div className="-m-2 p-2">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path className="fill-text dark:fill-text-dark" d="M2.91675 14.8494V5.15074C2.91675 4.86294 3.03321 4.64382 3.26612 4.49339C3.49903 4.34294 3.74829 4.32496 4.01391 4.43943L15.5192 9.25968C15.8429 9.39846 16.0048 9.64576 16.0048 10.0016C16.0048 10.3574 15.8429 10.6037 15.5192 10.7404L4.01391 15.5607C3.74829 15.6752 3.49903 15.6572 3.26612 15.5067C3.03321 15.3563 2.91675 15.1372 2.91675 14.8494ZM4.25006 14.0417L13.8126 10.0001L4.25006 5.95839V8.88949L8.76925 10.0001L4.25006 11.1106V14.0417Z" />
               </svg>
             </div>
-          </div>
+          </button>
         </div>
       </div>
     </>
