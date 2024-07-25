@@ -136,7 +136,7 @@ function Home() {
               return (
                 <React.Fragment key={index}>
                   {
-                    index === 0 ? (
+                    index === 0 && _this > 2 ? (
                       <p className="text-lg font-medium text-text dark:text-text-dark">⋯</p>
                     ) : null
                   }
@@ -146,7 +146,7 @@ function Home() {
                     setCurrent={setCurrent}
                   />
                   {
-                    index === 4 ? (
+                    index === 4 && _this < maxCurrent - 1 ? (
                       <p className="text-lg font-medium text-text dark:text-text-dark">⋯</p>
                     ) : null
                   }
