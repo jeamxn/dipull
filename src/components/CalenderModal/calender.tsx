@@ -74,8 +74,8 @@ const Calender = ({
                 <div className="w-full flex flex-row items-center justify-center" key={index}>
                   <p className={[
                     "font-semibold",
-                    index % 7 === 0 ? "text-red-600 dark:text-red-300" : "",
-                    index % 7 === 6 ? "text-blue-700 dark:text-blue-400" : "",
+                    index % 7 === 0 ? "text-red-600 dark:text-red-300" :
+                      index % 7 === 6 ? "text-blue-700 dark:text-blue-400" : "text-text dark:text-text-dark",
                   ].join(" ")}>
                     {moment().day(index).format("dd")}
                   </p>
