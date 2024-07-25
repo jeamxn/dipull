@@ -95,23 +95,41 @@ const Outing = ({
 
       <div className="flex flex-col gap-2">
         <p className="text-base font-normal transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">외출 사유</p>
-        <input
-          type="text"
-          value={select.reason}
-          onChange={(e) => {
+        <div className="flex flex-row items-center justify-center gap-2">
+          <input
+            type="text"
+            value={select.reason}
+            onChange={(e) => {
             // setReason(e.target.value)
-            setSelect({
-              ...select,
-              reason: e.target.value,
-            });
-          }}
-          className={[
-            "w-full px-4 py-3 border border-text/20 dark:border-text-dark/30 rounded-xl outline-none text-text dark:text-text-dark cursor-pointer bg-transparent",
-          ].join(" ")}
-          placeholder="외출 사유를 입력해주세요."
-        />
+              setSelect({
+                ...select,
+                reason: e.target.value,
+              });
+            }}
+            className={[
+              "w-full px-4 py-3 border border-text/20 dark:border-text-dark/30 rounded-xl outline-none text-text dark:text-text-dark cursor-pointer bg-transparent",
+            ].join(" ")}
+            placeholder="외출 사유를 입력해주세요."
+          />
+          {
+            select.day === "sunday" ? (
+              <button
+                className="rounded-xl px-6 py-3 bg-text dark:bg-text-dark border border-text dark:border-text-dark text-white dark:text-white-dark"
+                onClick={() => {
+                  setSelect({
+                    day: "sunday",
+                    start: "10:20",
+                    end: "14:00",
+                    reason: "자기계발외출",
+                  });
+                }}
+              >
+            자기계발외출
+              </button>
+            ) : null
+          }
+        </div>
       </div>
-
       <div />
     </div>
   );
