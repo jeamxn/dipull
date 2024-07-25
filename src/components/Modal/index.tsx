@@ -115,7 +115,7 @@ const Modal = ({
                 {
                   modal.showCancelButton ? (
                     <button
-                      className="w-full text-text dark:text-text-dark rounded-lg px-4 py-3 font-medium border border-text dark:border-text-dark/20"
+                      className="w-full text-text dark:text-text-dark rounded-xl px-4 py-3 font-medium border border-text dark:border-text-dark/20"
                       onClick={() => {
                         modal.onCancle?.(onclick?.arguments);
                         // setShow(false);
@@ -129,7 +129,7 @@ const Modal = ({
                 {
                   modal.showConfirmButton ? (
                     <button
-                      className="w-full bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-lg px-4 py-3 font-medium border border-text dark:border-text-dark"
+                      className="w-full bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl px-4 py-3 font-medium border border-text dark:border-text-dark"
                       onClick={() => {
                         modal.onConfirm?.(onclick?.arguments);
                         // setShow(false);
