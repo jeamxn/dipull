@@ -26,7 +26,7 @@ function Home() {
   const setLoading = useSetRecoilState(loadingAtom);
 
   const { data, isFetching } = useQuery({
-    queryKey: ["machine_list", selected, current],
+    queryKey: ["bamboo_list", selected, current],
     queryFn: async () => {
       const response = await axios.get<BambooResponse>(`/bamboo/list/${selected}/${current}`);
       setNumber(response.data.count);

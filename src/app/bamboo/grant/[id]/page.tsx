@@ -1,12 +1,10 @@
 import { ObjectId } from "mongodb";
-import { headers } from "next/headers";
 import React from "react";
 
 import { collections } from "@/utils/db";
 import { Bamboo as BambooType } from "@/utils/db/utils";
-import { accessVerify } from "@/utils/jwt";
 
-import { badsProject, goodsProject, titleProject, userProject } from "../../list/[sort]/[number]/utils";
+import { titleProject, userProject } from "../../list/[sort]/[number]/utils";
 
 import BambooPageContent from "./BambooPageContent";
 import { BambooRead } from "./utils";
@@ -20,14 +18,11 @@ const Bamboo = async ({
     }
   }
 ) => {
-  const authorization = headers().get("cookie");
-  const accessToken = authorization?.split("access_token=")[1]?.split(";")[0] || "";
-  const { id } = await accessVerify(accessToken);
   const bambooDB = await collections.bamboo();
   const bamboos = await bambooDB.aggregate<BambooRead>([
     {
       $match: {
-        _id: new ObjectId(params.id)
+        _id: ObjectId.createFromHexString(params.id)
       }
     },
     {
@@ -49,6 +44,7 @@ const Bamboo = async ({
         id: {
           $toString: "$_id"
         },
+        _id: 0,
         user: userProject,
         profile_image: {
           $cond: {
@@ -62,18 +58,6 @@ const Bamboo = async ({
         title: titleProject,
         timestamp: "$timestamp",
         content: "$content",
-        goods: goodsProject,
-        bads: badsProject,
-        myGood: {
-          $in: [id, {
-            $ifNull: ["$good", []]
-          }]
-        },
-        myBad: {
-          $in: [id, {
-            $ifNull: ["$bad", []]
-          }]
-        },
       }
     }
   ]).toArray();
