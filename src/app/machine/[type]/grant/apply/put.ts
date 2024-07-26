@@ -27,7 +27,7 @@ const PUT = async (
 
     const machineAvailable = await isMachineApplyAvailable();
     if (!machineAvailable) {
-      throw new Error(machineApplyEndMessage());
+      throw new Error(await machineApplyEndMessage());
     }
 
     const today = moment().tz("Asia/Seoul").format("YYYY-MM-DD");

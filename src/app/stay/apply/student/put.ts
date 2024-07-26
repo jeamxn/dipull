@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import xss from "xss";
 
 
-import { getWeekStart, isApplyEnd, stayApplyErrorMessage } from "@/utils/date";
+import { getWeekStart, isApplyAvail, stayApplyErrorMessage } from "@/utils/date";
 import { collections } from "@/utils/db";
 import { Stay } from "@/utils/db/utils";
 import { accessVerify } from "@/utils/jwt";
@@ -26,8 +26,9 @@ const PUT = async (
 
     const accessToken = req.cookies.get("access_token")?.value || "";
     const { id, number, gender } = await accessVerify(accessToken);
-    if (await isApplyEnd(number)) {
-      throw new Error(stayApplyErrorMessage(number));
+    const applyStart = await isApplyAvail(number);
+    if (!applyStart) {
+      throw new Error(await stayApplyErrorMessage(number));
     }
 
     const week = await getWeekStart();

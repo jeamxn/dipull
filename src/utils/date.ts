@@ -12,34 +12,44 @@ export const getWeekStart = async (): Promise<string> => {
   return m.startOf("week").format("YYYY-MM-DD");
 };
 
-const stayApplyTimes: {
+const stayApplyTimes = async (): Promise<{
   [key: string]: { day: number; hour: number };
-} = {
-  1: { day: 2, hour: 23 },
-  2: { day: 2, hour: 23 },
-  3: { day: 1, hour: 23 },
+}> => {
+  return {
+    1: { day: 2, hour: 23 },
+    2: { day: 2, hour: 23 },
+    3: { day: 1, hour: 23 },
+  } as {
+    [key: string]: { day: number; hour: number };
+  };
 };
 
 const dayKorean = ["일", "월", "화", "수", "목", "금", "토"];
 
-export const stayApplyErrorMessage = (number: number): string => { 
+export const stayApplyErrorMessage = async (number: number) => { 
   const grade = Math.floor(number / 1000);
-  const until = stayApplyTimes[grade];
+  const avil = await stayApplyTimes();
+  const until = avil[grade];
   const korean_day = dayKorean[until.day];
   return `신청 가능한 기간이 아닙니다.\n${grade}학년은 ${korean_day}요일 ${until.hour}시까지만 신청 가능합니다.`;
 };
 
-export const isApplyEnd = async (number: number): Promise<boolean> => {
+export const isApplyAvail = async (number: number): Promise<boolean> => {
   const grade = Math.floor(number / 1000);
   const m = moment().tz("Asia/Seoul");
-  if (
-    (m.day() === stayApplyTimes[String(grade)].day && m.hour() >= stayApplyTimes[String(grade)].hour)
-      || m.day() > stayApplyTimes[String(grade)].day
-  ) return true;
+  const avil = await stayApplyTimes();
+
+  const week = moment(await getWeekStart(), "YYYY-MM-DD");
+  const end = week.clone().set({
+    day: avil[String(grade)].day,
+    hour: avil[String(grade)].hour,
+  });
+
+  if(m.isBetween(week, end)) return true;
   return false;
 };
 
-const machineApplyAvailableTime = {
+const machineApplyAvailableTime = async () => ({
   start: {
     hour: 8,
     minute: 0,
@@ -48,18 +58,19 @@ const machineApplyAvailableTime = {
     hour: 23,
     minute: 0,
   },
-};
+});
 
 export const isMachineApplyAvailable = async () => { 
   const m = moment().tz("Asia/Seoul");
   const current = m.clone();
+  const avil = await machineApplyAvailableTime();
   const machineStartTime = m.clone().set({
-    hour: machineApplyAvailableTime.start.hour,
-    minute: machineApplyAvailableTime.start.minute,
+    hour: avil.start.hour,
+    minute: avil.start.minute,
   });
   const machineEndTime = m.clone().set({
-    hour: machineApplyAvailableTime.end.hour,
-    minute: machineApplyAvailableTime.end.minute,
+    hour: avil.end.hour,
+    minute: avil.end.minute,
   });
   const isAvail = (
     current.isBetween(machineStartTime, machineEndTime)
@@ -72,15 +83,16 @@ export const isMachineApplyAvailable = async () => {
   return isAvail;
 };
 
-export const machineApplyEndMessage = (): string => {
+export const machineApplyEndMessage = async () => {
   const m = moment().tz("Asia/Seoul");
+  const avil = await machineApplyAvailableTime();
   const machineStartTime = m.clone().set({
-    hour: machineApplyAvailableTime.start.hour,
-    minute: machineApplyAvailableTime.start.minute,
+    hour: avil.start.hour,
+    minute: avil.start.minute,
   });
   const machineEndTime = m.clone().set({
-    hour: machineApplyAvailableTime.end.hour,
-    minute: machineApplyAvailableTime.end.minute,
+    hour: avil.end.hour,
+    minute: avil.end.minute,
   });
   return `기기 예약 가능 시간이 아닙니다.\n${machineStartTime.format("HH시 mm분")}부터 ${machineEndTime.format("HH시 mm분")}까지만 예약 가능합니다.`;
 };

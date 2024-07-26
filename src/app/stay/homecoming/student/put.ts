@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import xss from "xss";
 
 
-import { getWeekStart, isApplyEnd, stayApplyErrorMessage } from "@/utils/date";
+import { getWeekStart, isApplyAvail, stayApplyErrorMessage } from "@/utils/date";
 import { collections } from "@/utils/db";
 import { accessVerify } from "@/utils/jwt";
 
@@ -33,8 +33,9 @@ const PUT = async (
     if (number < 3000) {
       throw new Error("3학년만 금요귀가 신청을 할 수 있습니다.");
     }
-    if (await isApplyEnd(number)) {
-      throw new Error(stayApplyErrorMessage(number));
+    const applyStart = await isApplyAvail(number);
+    if (!applyStart) {
+      throw new Error(await stayApplyErrorMessage(number));
     }
 
     const week = await getWeekStart();
