@@ -59,7 +59,7 @@ const Stay = () => {
                 <button
                   key={_}
                   className={[
-                    "w-full rounded-lg px-6 py-2 bg-transparent z-50",
+                    "w-full rounded-lg py-2 bg-transparent z-50",
                     disabled ? "cursor-not-allowed opacity-50" : "",
                   ].join(" ")}
                   onClick={() => {

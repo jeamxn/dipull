@@ -74,17 +74,33 @@ const Stay = () => {
 
         <div className="flex flex-col gap-2 px-4">
           <p className="text-base font-normal transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">좌석 미선택 사유</p>
-          <input
-            type="text"
-            value={reason}
-            onChange={(e) => setReason(e.target.value)}
-            className={[
-              "w-full px-4 py-3 border border-text/20 dark:border-text-dark/30 rounded-xl outline-none text-text dark:text-text-dark",
-              select || disabled ? "cursor-not-allowed bg-text/10 dark:bg-text-dark/20" : "bg-transparent",
-            ].join(" ")}
-            placeholder="좌석 미선택 사유를 입력해주세요."
-            disabled={Boolean(select) || disabled}
-          />
+          <div className="flex flex-row items-center justify-between gap-2">
+            <input
+              type="text"
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              className={[
+                "w-full px-4 py-3 border border-text/20 dark:border-text-dark/30 rounded-xl outline-none text-text dark:text-text-dark",
+                select || disabled ? "cursor-not-allowed bg-text/10 dark:bg-text-dark/20" : "bg-transparent",
+              ].join(" ")}
+              placeholder="좌석 미선택 사유를 입력해주세요."
+              disabled={Boolean(select) || disabled}
+            />
+            <button
+              className="bg-text dark:bg-text-dark px-6 py-3 rounded-xl"
+              onClick={() => {
+                if (!user.id) return needLogin();
+                if (user.type !== "student") return onlyStudent();
+                setReason("교실 잔류");
+              }}
+              disabled={Boolean(select) || disabled}
+            >
+              <p className="text-white dark:text-white-dark">
+              교실잔류
+              </p>
+            </button>
+          </div>
+          
         </div>
       </div>
 

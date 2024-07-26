@@ -51,8 +51,6 @@ const Outing = ({
             type="time"
             value={select.start}
             onChange={(e) => {
-              if (select.end && e.target.value > select.end) return;
-              // setStart(e.target.value)
               setSelect({
                 ...select,
                 start: e.target.value,
@@ -67,8 +65,6 @@ const Outing = ({
             type="time"
             value={select.end}
             onChange={(e) => {
-              if (e.target.value < select.start) return;
-              // setEnd(e.target.value);
               setSelect({
                 ...select,
                 end: e.target.value,
