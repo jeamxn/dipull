@@ -1,10 +1,11 @@
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import React from "react";
 
 import Menu from "@/components/Navigation/menu";
+import { getServerUser } from "@/utils/server";
 
-import { MachineType, machineTypeToKorean } from "./utils";
+import { machine_menus, machine_teacher_menus, MachineType, machineTypeToKorean } from "./utils";
 
 type Props = {
   params: { 
@@ -21,18 +22,7 @@ export async function generateMetadata(
   };
 }
 
-const menus = [
-  {
-    name: "세탁기",
-    url: "/machine/washer",
-  },
-  {
-    name: "건조기",
-    url: "/machine/dryer",
-  },
-];
-
-const Layout = ({
+const Layout = async ({
   children,
   params
 }: Readonly<{
@@ -40,9 +30,13 @@ const Layout = ({
   params: Props["params"];
 }>) => {
   if (!machineTypeToKorean(params.type)) return redirect("/machine/washer");
+
+  const { type } = await getServerUser();
+  const newMenus = type === "teacher" ? [...machine_menus, ...machine_teacher_menus] : machine_menus;
+
   return (
     <div className="py-6 flex flex-col gap-6">
-      <Menu menus={menus} />
+      <Menu menus={newMenus} />
       {children}
     </div>
   );

@@ -3,8 +3,10 @@
 import { usePathname } from "next/navigation";
 import React from "react";
 
+import { useAuth } from "@/hooks";
+
 import Button from "./button";
-import { Links } from "./links";
+import { DeafultLinks, TeacherLinks } from "./links";
 
 const Navigation = ({ 
   children
@@ -12,9 +14,11 @@ const Navigation = ({
   children: React.ReactNode;
 }>) => { 
   const path = usePathname();
-  const show = Links.some((link) => link.url.split("/")[1] === path.split("/")[1]);
-  const findIndex = Links.findIndex((link) => link.url.split("/")[1] === path.split("/")[1]);
-  const depth = path.split("/").length <= 2 + Links[findIndex]?.innerNavigationDeepth;
+  const { user } = useAuth();
+  const links = user.type === "teacher" ? TeacherLinks : DeafultLinks;
+  const show = links.some((link) => link.url.split("/")[1] === path.split("/")[1]);
+  const findIndex = links.findIndex((link) => link.url.split("/")[1] === path.split("/")[1]);
+  const depth = path.split("/").length <= 2 + links[findIndex]?.innerNavigationDeepth;
   const [width, setWidth] = React.useState(96);
 
   return (
@@ -41,7 +45,7 @@ const Navigation = ({
             </div>
             <div className="bg-text dark:bg-background-dark border-2 border-text dark:border-text-dark/30 rounded-full flex flex-row gap-0 items-center justify-center px-1.5">
               {
-                Links.map((link) => (
+                links.map((link) => (
                   <Button
                     key={link.url}
                     icon={link.icon}

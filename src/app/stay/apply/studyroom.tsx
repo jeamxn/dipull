@@ -78,7 +78,7 @@ const Studyroom = ({
           </div>
         </div>
         <button className="flex flex-row items-center justify-start gap-2" onClick={handleSaveAsImage}>
-          <p className="text-text/50 dark:text-text-dark/60 underline">현황 저장하기</p>
+          <p className="text-text/50 dark:text-text-dark/60 underline">열람실 현황 저장하기</p>
         </button>
       </div>
       <div className="flex flex-col items-start justify-start gap-2 bg-background dark:bg-background-dark" ref={ref}>

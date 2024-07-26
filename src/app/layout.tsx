@@ -6,8 +6,7 @@ import React from "react";
 import Promotion from "@/components/Promotion";
 import Providers from "@/components/providers";
 import RecoilProvider from "@/components/providers/RecoilProvider";
-import { defaultUser, UserInfo } from "@/utils/db/utils";
-import { accessVerify } from "@/utils/jwt";
+import { getServerUser } from "@/utils/server";
 
 import Loading from "./loading";
 
@@ -60,15 +59,7 @@ const RootLayout = async ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  let user: UserInfo = defaultUser;
-  try {
-    const authorization = headers().get("cookie");
-    const accessToken = authorization?.split("refresh_token=")[1].split(";")[0] || "";
-    const { id, email, gender, name, number, type, profile_image } = await accessVerify(accessToken);
-    user = { id, email, gender, name, number, type, profile_image };
-  } catch {
-    user = defaultUser;
-  }
+  const user = await getServerUser();
   return (
     <html lang="ko" className="overscroll-none w-full h-full overflow-x-hidden flex flex-col bg-background dark:bg-background-dark">
       <meta name="viewport" content="initial-scale=1, viewport-fit=cover"/>

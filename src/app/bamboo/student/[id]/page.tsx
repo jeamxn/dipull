@@ -5,6 +5,7 @@ import React from "react";
 
 import { collections } from "@/utils/db";
 import { accessVerify } from "@/utils/jwt";
+import { getServerUser } from "@/utils/server";
 
 import { isWriterProject, profile_imageProject, titleProject, userProject } from "../../list/[sort]/[number]/utils";
 
@@ -20,9 +21,7 @@ const Bamboo = async ({
     }
   }
 ) => {
-  const authorization = headers().get("cookie");
-  const accessToken = authorization?.split("access_token=")[1].split(";")[0] || "";
-  const { id } = await accessVerify(accessToken);
+  const { id } = await getServerUser();
   const bambooDB = await collections.bamboo();
 
   try {
