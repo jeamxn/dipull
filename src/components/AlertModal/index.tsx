@@ -96,11 +96,15 @@ const AlertModal = ({
                     <p className="text-xl font-semibold text-text dark:text-text-dark">{modal.title}</p>
                   ) : null
                 }
-                {
-                  modal.description ? (
-                    <p className="text-lg font-normal text-text/90 dark:text-text-dark/90">{modal.description}</p>
-                  ) : null
-                }
+                <div className="w-full flex flex-col gap-0">
+                  {
+                    modal.description?.split("\n").length ? modal.description?.split("\n").map((e, i) => {
+                      return (
+                        <p key={i} className="text-lg font-normal text-text/90 dark:text-text-dark/90">{e}</p>
+                      );
+                    }) : null
+                  }
+                </div>
               </div>
               <div className="w-full flex flex-row gap-2 items-center justify-end">
                 <button
