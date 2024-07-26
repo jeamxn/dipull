@@ -5,8 +5,9 @@ import React from "react";
 
 import { useAlertModalDispatch } from "@/components/AlertModal";
 import * as Select from "@/components/Select";
+import SelectUser from "@/components/SelectUser";
 import { useAuth } from "@/hooks";
-import { Machine as MachineInfo, Machine_list, MachineJoin } from "@/utils/db/utils";
+import { Machine as MachineInfo, Machine_list, MachineJoin, UserInfo, defaultUser } from "@/utils/db/utils";
 
 import { MachineApplyResponse } from "./grant/apply/utils";
 import { Machine_list_Response } from "./list/utils";
@@ -20,7 +21,11 @@ const Apply = ({
   machine_currentLoading,
   refetchMachineCurrent,
   times,
+  selected,
+  setSelected,
 }: {
+    selected: UserInfo;
+    setSelected: React.Dispatch<React.SetStateAction<UserInfo>>;
     params: { type: MachineType };
     machines: Machine_list_Response[] | undefined;
     machinesLoading: boolean;
@@ -30,6 +35,7 @@ const Apply = ({
     times: MachineInfo["time"][];
   }) => {
   const { needLogin, user } = useAuth();
+
   const current_korean = machineTypeToKorean(params.type);
   const [machine, setMachine] = React.useState<MachineInfo["code"]>();
   const [time, setTime] = React.useState<MachineInfo["time"]>();
@@ -78,16 +84,21 @@ const Apply = ({
 
   return (
     <>
+      {
+        user.type === "teacher" ? (
+          <SelectUser select={selected} setSelect={setSelected} />
+        ) : null
+      }
       <Select.Full
         label={`${current_korean}기 선택`}
         placeholder={`${current_korean}기를 선택해주세요.`}
         options={machines?.map((m) => `[${m.allow.join(", ")}학년] ${m.name}`)}
         disables={machines?.map((m) => {
-          const grade = Math.floor(user.number / 1000);
-          if(!m.allow.includes(grade)) {
+          const grade = Math.floor(selected.number / 1000);
+          if(!m.allow.includes(grade) && selected.id === user.id) {
             return true;
           }
-          if (m.gender !== user.gender) return true;
+          if (m.gender !== selected.gender) return true;
           return false;
         })}
         optionValues={machines?.map((m) => m.code)}

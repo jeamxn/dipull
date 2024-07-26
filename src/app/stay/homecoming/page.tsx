@@ -58,7 +58,7 @@ const Stay = () => {
   }, [isFetchingPut, data?.reason, isFetching]);
 
   return (
-    <div className="flex flex-col gap-8 w-full">
+    <div className="flex flex-col gap-8 w-full overflow-hidden">
       <div className="flex flex-col gap-4 w-full">
         <p className="px-4 text-xl font-semibold transition-all whitespace-nowrap text-text dark:text-text-dark">금요귀가 신청</p>
 

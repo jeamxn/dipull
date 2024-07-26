@@ -4,13 +4,13 @@ import React from "react";
 import { useAlertModalDispatch } from "@/components/AlertModal";
 import { useConfirmModalDispatch } from "@/components/ConfirmModal";
 import { getUserInfo } from "@/utils/cookies";
-import { defaultUser } from "@/utils/db/utils";
+import { defaultUser, UserInfo } from "@/utils/db/utils";
 
 const useAuth = () => { 
   const router = useRouter();
   const confirmModalDispatch = useConfirmModalDispatch();
   const alertModalDispatch = useAlertModalDispatch();
-  const [user, setUser] = React.useState(defaultUser);
+  const [user, setUser] = React.useState<UserInfo>(defaultUser);
 
   React.useEffect(() => {
     setUser(getUserInfo());
@@ -34,6 +34,15 @@ const useAuth = () => {
       }
     });
   };
+  const onlyTeacher = () => { 
+    alertModalDispatch({
+      type: "show",
+      data: {
+        title: "교사 전용 서비스입니다.",
+        description: "교사 전용 서비스입니다. 교사 계정으로 로그인해주세요.",
+      }
+    });
+  };
   const needLogin = () => {
     confirmModalDispatch({
       type: "show",
@@ -47,7 +56,7 @@ const useAuth = () => {
     });
   };
 
-  return { needLogin, login, logout, user, refreshUser, onlyStudent };
+  return { needLogin, login, logout, user, refreshUser, onlyStudent, onlyTeacher };
 };
 
 export default useAuth;

@@ -5,7 +5,7 @@ import React from "react";
 
 import { useAlertModalDispatch } from "@/components/AlertModal";
 import { useAuth } from "@/hooks";
-import { MachineJoin } from "@/utils/db/utils";
+import { MachineJoin, UserInfo } from "@/utils/db/utils";
 
 import { MachineApplyResponse } from "./grant/apply/utils";
 import { Machine_list_Response } from "./list/utils";
@@ -17,12 +17,16 @@ const MyApply = ({
   machinesLoading,
   myApply,
   refetchMachineCurrent,
+  selected,
+  setSelected,
 }: {
     params: { type: MachineType };
     machines: Machine_list_Response[] | undefined;
     machinesLoading: boolean;
     myApply: MachineJoin | undefined;
     refetchMachineCurrent: () => void;
+    selected: UserInfo;
+    setSelected: React.Dispatch<React.SetStateAction<UserInfo>>;
   }) => {
   const { needLogin, user } = useAuth();
   const alertModalDispatch = useAlertModalDispatch();

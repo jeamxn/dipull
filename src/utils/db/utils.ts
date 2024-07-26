@@ -24,7 +24,7 @@ export type UserInfo = {
   profile_image: string;
 };
 
-export const defaultUser = {
+export const defaultUser: UserInfo = {
   id: "",
   email: "",
   gender: "male",

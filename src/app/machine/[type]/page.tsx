@@ -9,7 +9,7 @@ import Linker from "@/components/Linker";
 import Menu from "@/components/Navigation/menu";
 import { useAuth } from "@/hooks";
 import { getUserInfo } from "@/utils/cookies";
-import { MachineJoin } from "@/utils/db/utils";
+import { defaultUser, MachineJoin, UserInfo } from "@/utils/db/utils";
 
 import Apply from "./apply";
 import { Machine_list_Response } from "./list/utils";
@@ -19,6 +19,11 @@ import { MachineType, machineTypeToKorean } from "./utils";
 
 const Machine = ({ params }: { params: { type: MachineType } }) => {
   const { user } = useAuth();
+  const [selected, setSelected] = React.useState<UserInfo>(defaultUser);
+  React.useEffect(() => {
+    setSelected(user);
+  }, [user]);
+
   const current_korean = machineTypeToKorean(params.type);
 
   const { data: machines, isFetching: machinesLoading } = useQuery({
@@ -50,15 +55,15 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
   });
 
   const myApply = React.useMemo(() => { 
-    if (!user.id) return;
+    if (!selected.id) return;
     try {
-      const find = machine_current.find((m) => m.owner.id === user.id);
+      const find = machine_current.find((m) => m.owner.id === selected.id);
       return find;
     }
     catch {
       return undefined;
     }
-  }, [user.id, machine_current]);
+  }, [selected.id, machine_current]);
 
   return (
     <>
@@ -72,6 +77,8 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
               machinesLoading={machinesLoading}
               myApply={myApply}
               refetchMachineCurrent={refetchMachineCurrent}
+              selected={selected}
+              setSelected={setSelected}
             />
           ) : (
             <Apply
@@ -82,6 +89,8 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
               machine_currentLoading={machine_currentLoading}
               refetchMachineCurrent={refetchMachineCurrent}
               times={times}
+              selected={selected}
+              setSelected={setSelected}
             />
           )
         }
