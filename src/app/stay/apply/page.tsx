@@ -1,11 +1,15 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import React from "react";
 
 import { ModalProps, useModalDispatch } from "@/components/Modal";
 import { useAuth } from "@/hooks";
 
+import { StayResponse } from "./student/utils";
 import Studyroom from "./studyroom";
+
 
 const Stay = () => {
   const { user, needLogin, onlyStudent } = useAuth();
@@ -48,7 +52,57 @@ const Stay = () => {
     });
   }, [selectDispatchData]);
 
-  const disabled = React.useMemo(() => false, []);
+  const { data, refetch } = useQuery({
+    queryKey: ["homecoming_get", user.id],
+    queryFn: async () => {
+      const response = await axios.get<StayResponse>("/stay/apply/student");
+      if (response.data.myStay) { 
+        if (response.data.seat?.onSeat) {
+          setSelect(response.data.seat.num);
+        }
+        else if(!response.data.seat?.onSeat) {
+          setReason(response.data.seat?.reason || "");
+        }
+      }
+      else {
+        setSelect("");
+        setReason("");
+      }
+      return response.data;
+    },
+    enabled: Boolean(user.id && user.type === "student"),
+  });
+
+  const { refetch: refetchDelete, isFetching: isFetchingDelete } = useQuery({
+    queryKey: ["homecoming_put", reason, select],
+    queryFn: async () => {
+      const response = await axios.delete<StayResponse>("/stay/apply/student");
+      await refetch();
+      return response.data;
+    },
+    refetchOnWindowFocus: false,
+    enabled: false,
+    retry: false,
+  });
+
+  const { refetch: refetchPut, isFetching: isFetchingPut } = useQuery({
+    queryKey: ["stay_put", reason, select],
+    queryFn: async () => {
+      const response = await axios.put<StayResponse>("/stay/apply/student", {
+        reason,
+        seat: select,
+      });
+      await refetch();
+      return response.data;
+    },
+    refetchOnWindowFocus: false,
+    enabled: false,
+    retry: false,
+  });
+
+  const disabled = React.useMemo(() => {
+    return Boolean(isFetchingPut || data?.myStay);
+  }, [isFetchingPut, data?.myStay]);
 
   return (
     <div className="flex flex-col gap-8 w-full">
@@ -105,19 +159,35 @@ const Stay = () => {
       </div>
 
       <div className="w-full px-4">
-        <button
-          className={[
-            "p-3 bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl font-semibold w-full transition-all",
-            !(select || reason) || disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer",
-          ].join(" ")}
-          disabled={!(select || reason) || disabled}
-          onClick={!user.id ? needLogin : user.type === "student" ? () => {} : onlyStudent}
-        >
-          신청하기
-          {/* {
-          isFetching ? "신청 중..." : "신청하기"
-        } */}
-        </button>
+        {
+          data?.myStay ? (
+            <button
+              className={[
+                "p-3 bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl font-semibold w-full transition-all",
+                isFetchingDelete ? "cursor-not-allowed opacity-50" : "cursor-pointer",
+              ].join(" ")}
+              disabled={isFetchingDelete}
+              onClick={!user.id ? needLogin : user.type === "student" ? () => refetchDelete() : onlyStudent}
+            >
+              {
+                isFetchingDelete ? "취소 중..." : "취소하기"
+              }
+            </button>
+          ): (
+            <button
+              className={[
+                "p-3 bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl font-semibold w-full transition-all",
+                !(select || reason) || disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer",
+              ].join(" ")}
+              disabled={!(select || reason) || disabled}
+              onClick={!user.id ? needLogin : user.type === "student" ? () => refetchPut() : onlyStudent}
+            >
+              {
+                isFetchingPut ? "신청 중..." : "신청하기"
+              }
+            </button>
+          )
+        }
       </div>
     </div>
   );

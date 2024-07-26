@@ -110,4 +110,16 @@ export type Homecoming = {
   id: UserInfo["id"];
   reason: string;
   time: Times;
-}
+};
+
+export type Stay = {
+  week: string;
+  id: UserInfo["id"];
+  seat: {
+    onSeat: true;
+    num: string;
+  } | {
+    onSeat: false;
+    reason: string;
+  }
+};
