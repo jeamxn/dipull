@@ -113,8 +113,7 @@ const SelectModal = ({
           selectModal.onCancle?.(selected);
           dispatch({ type: "hide" });
         },
-        inner: selectModal.options?.map((option, index) => {
-          // console.log("o", option, "s", selected, "c", selected === (option));
+        inner: selectModal.options?.length ? selectModal.options?.map((option, index) => {
           return (
             <div
               key={index}
@@ -144,7 +143,11 @@ const SelectModal = ({
               <p className="text-text dark:text-text-dark">{option}</p>
             </div>
           );
-        })
+        }) : (
+          <div className="p-4 flex flex-row gap-1 items-center justify-center w-full">
+            <p className="text-text/30 dark:text-text-dark/40">선택 가능한 옵션이 없습니다.</p>
+          </div>
+        ),
       },
     });
   }, [selected, ...Object.values(selectModal)]);
