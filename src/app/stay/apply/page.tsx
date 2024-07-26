@@ -111,7 +111,7 @@ const Stay = () => {
         <p className="px-4 text-xl font-semibold transition-all whitespace-nowrap text-text dark:text-text-dark">좌석 선택</p>
         <div className="flex flex-row items-center justify-between px-4 gap-2">
           <div className="flex flex-col gap-1">
-            <p className="text-base font-normal transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">내가 선택한 좌석</p>
+            <p className="text-base font-medium transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">내가 선택한 좌석</p>
             <p className="text-xl font-semibold transition-all whitespace-nowrap text-text dark:text-text-dark">
               {isFetching ? "잔류 정보를 불러오는 중..." : select ? select : "미선택"}
             </p>
@@ -130,7 +130,7 @@ const Stay = () => {
         </div>
 
         <div className="flex flex-col gap-2 px-4">
-          <p className="text-base font-normal transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">좌석 미선택 사유</p>
+          <p className="text-base font-medium transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">좌석 미선택 사유</p>
           <div className="flex flex-row items-center justify-between gap-2">
             <input
               type="text"

@@ -139,7 +139,7 @@ const Stay = () => {
             {
               Object.entries(outing).map(([day, outs]) => (
                 <div key={day} className="flex flex-col items-start justify-start gap-1">
-                  <p className="text-base font-normal transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">
+                  <p className="text-base font-medium transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">
                     {koreanWeekends[day as Weekend]}요일
                   </p>
                   <div className="flex flex-col items-start justify-start gap-0">
@@ -192,7 +192,7 @@ const Stay = () => {
         {
           weekends.map((day) => (
             <div className="flex flex-col gap-2" key={day}>
-              <p className="text-base font-normal transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">
+              <p className="text-base font-medium transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">
                 {koreanWeekends[day]}요일
               </p>
               <div className={[

@@ -63,7 +63,7 @@ const Stay = () => {
         <p className="px-4 text-xl font-semibold transition-all whitespace-nowrap text-text dark:text-text-dark">금요귀가 신청</p>
 
         <div className="flex flex-col gap-2 px-4">
-          <p className="text-base font-normal transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">금요귀가 사유</p>
+          <p className="text-base font-medium transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">금요귀가 사유</p>
           <input
             type="text"
             value={reason}
@@ -78,7 +78,7 @@ const Stay = () => {
         </div>
 
         <div className="flex flex-col gap-2 px-4">
-          <p className="text-base font-normal transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">귀가 시간 선택</p>
+          <p className="text-base font-medium transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">귀가 시간 선택</p>
           <div className={[
             "p-1.5 rounded-xl w-full flex flex-row gap-2 relative border border-text/20 dark:border-text-dark/30",
             disabled ? "cursor-not-allowed bg-text/10 dark:bg-text-dark/20" : "bg-transparent",
