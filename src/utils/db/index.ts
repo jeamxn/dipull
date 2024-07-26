@@ -1,6 +1,6 @@
 import { Db, MongoClient } from "mongodb";
 
-import { Bamboo, BambooComment, LastRequest, Machine, Machine_list, Timetable, UserInfo, Wakeup } from "./utils";
+import { Bamboo, BambooComment, Homecoming, LastRequest, Machine, Machine_list, Refresh_tokenDB, Timetable, UserInfo, Wakeup } from "./utils";
 
 const uri = process.env.MONGODB_URI || "";
 const options = {};
@@ -32,7 +32,7 @@ const users = async () => {
 
 const refresh_tokens = async () => { 
   const client = await connectToDatabase();
-  return client.collection("refresh_tokens");
+  return client.collection<Refresh_tokenDB>("refresh_tokens");
 };
 
 const machine_list = async () => { 
@@ -67,7 +67,7 @@ const bamboo_comment = async () => {
 
 const homecoming = async () => { 
   const client = await connectToDatabase();
-  return client.collection("homecoming");
+  return client.collection<Homecoming>("homecoming");
 };
 
 export const collections = {
@@ -80,4 +80,5 @@ export const collections = {
   last_request,
   bamboo,
   bamboo_comment,
+  homecoming,
 };

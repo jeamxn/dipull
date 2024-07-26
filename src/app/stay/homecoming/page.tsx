@@ -1,24 +1,61 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import React from "react";
 
 import { useAuth } from "@/hooks";
 
-type Times = "school" | "dinner" | "yaja1" | "yaja2";
-const times: Readonly<Times[]> = ["school", "dinner", "yaja1", "yaja2"];
-const koreanTimes: Readonly<Record<Times, string>> = {
-  school: "종례 후",
-  dinner: "저녁시간",
-  yaja1: "야자1 뒤",
-  yaja2: "야자2 뒤",
-};
+import { HomecomingResponse } from "./student/utils";
+import { koreanTimes, times, Times } from "./utils";
 
 const Stay = () => {
   const { user, needLogin, onlyStudent } = useAuth();
   const [reason, setReason] = React.useState("");
   const [time, setTime] = React.useState<Times>("school");
 
-  const disabled = React.useMemo(() => !user.id || user.type !== "student", [user]);
+  const { data, refetch } = useQuery({
+    queryKey: ["homecoming_get", user.id],
+    queryFn: async () => {
+      const response = await axios.get<HomecomingResponse>("/stay/homecoming/student");
+      const { data: res } = response.data;
+      setReason(res?.reason || "");
+      setTime(res?.time || "school");
+      return res;
+    },
+    enabled: Boolean(user.id && user.type === "student"),
+  });
+
+  const { refetch: refetchPut, isFetching: isFetchingPut } = useQuery({
+    queryKey: ["homecoming_put", time, reason, user.id],
+    queryFn: async () => {
+      const response = await axios.put<HomecomingResponse>("/stay/homecoming/student", {
+        reason,
+        time,
+      });
+      await refetch();
+      return response.data;
+    },
+    refetchOnWindowFocus: false,
+    enabled: false,
+    retry: false,
+  });
+
+  const { refetch: refetchDelete, isFetching: isFetchingDelete } = useQuery({
+    queryKey: ["homecoming_put", time, reason, user.id],
+    queryFn: async () => {
+      const response = await axios.delete<HomecomingResponse>("/stay/homecoming/student");
+      await refetch();
+      return response.data;
+    },
+    refetchOnWindowFocus: false,
+    enabled: false,
+    retry: false,
+  });
+
+  const disabled = React.useMemo(() => {
+    return Boolean(!user.id || user.type !== "student" || isFetchingPut || data?.reason);
+  }, [user, isFetchingPut, data?.reason]);
 
   return (
     <div className="flex flex-col gap-8 w-full">
@@ -81,19 +118,35 @@ const Stay = () => {
       </div>
 
       <div className="w-full px-4">
-        <button
-          className={[
-            "p-3 bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl font-semibold w-full transition-all",
-            reason ? "cursor-pointer" : "cursor-not-allowed opacity-50",
-          ].join(" ")}
-          disabled={!(reason)}
-          onClick={!user.id ? needLogin : user.type === "student" ? () => {} : onlyStudent}
-        >
-        신청하기
-          {/* {
-          isFetching ? "신청 중..." : "신청하기"
-        } */}
-        </button>
+        {
+          data?.reason ? (
+            <button
+              className={[
+                "p-3 bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl font-semibold w-full transition-all",
+                isFetchingDelete ? "cursor-not-allowed opacity-50" : "cursor-pointer",
+              ].join(" ")}
+              disabled={isFetchingDelete}
+              onClick={!user.id ? needLogin : user.type === "student" ? () => refetchDelete() : onlyStudent}
+            >
+              {
+                isFetchingDelete ? "취소 중..." : "취소하기"
+              }
+            </button>
+          ): (
+            <button
+              className={[
+                "p-3 bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl font-semibold w-full transition-all",
+                !reason || disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer",
+              ].join(" ")}
+              disabled={!reason || disabled}
+              onClick={!user.id ? needLogin : user.type === "student" ? () => refetchPut() : onlyStudent}
+            >
+              {
+                isFetchingPut ? "신청 중..." : "신청하기"
+              }
+            </button>
+          )
+        }
       </div>
     </div>
   );

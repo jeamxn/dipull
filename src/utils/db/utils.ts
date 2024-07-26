@@ -1,4 +1,5 @@
 import { MachineType } from "@/app/machine/[type]/utils";
+import { Times } from "@/app/stay/homecoming/utils";
 
 export type Timetable = {
   grd: number;
@@ -33,7 +34,7 @@ export const defaultUser = {
 };
 
 export type Refresh_tokenDB = {
-  id: string;
+  id: UserInfo["id"];
   refresh_token: string;
   expires_in: string;
 };
@@ -103,3 +104,10 @@ export type BambooComment = {
   bad: string[];
   timestamp: string;
 };
+
+export type Homecoming = {
+  week: string;
+  id: UserInfo["id"];
+  reason: string;
+  time: Times;
+}
