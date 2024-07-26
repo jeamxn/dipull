@@ -7,6 +7,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      borderWidth: {
+        1.5: "0.09375rem",
+      },
       lineHeight: {
         4.5: "1.125rem",
       },

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { OutingInfo } from "./utils";
+import { OutingInfo, sundayOuting } from "./utils";
 
 const Outing = ({
   select,
@@ -8,7 +8,8 @@ const Outing = ({
 }: {
     select: OutingInfo,
     setSelect: React.Dispatch<React.SetStateAction<OutingInfo>>;
-}) => { 
+  }) => {
+  const [reason, setReason] = React.useState("");
   return (
     <div className="w-full flex flex-col gap-4 overflow-hidden">
       <div className="p-1.5 rounded-xl w-full flex flex-row gap-2 relative border border-text/20 dark:border-text-dark/30">
@@ -18,40 +19,29 @@ const Outing = ({
         ].join(" ")}>
           <div className="bg-text dark:bg-text-dark w-[calc(50%-0.25rem)] h-full rounded-lg" />
         </div>
-        <button
-          className={[
-            "w-full rounded-lg px-6 py-2 bg-transparent z-50",
-          ].join(" ")}
-          onClick={() => {
-            // setDay("saturday")
-            setSelect({
-              ...select,
-              day: "saturday",
-            });
-          }}
-        >
-          <p className={[
-            "text-lg font-medium duration-100",
-            select.day === "saturday" ? "text-white dark:text-white-dark" : "text-text/30 dark:text-text-dark/40",
-          ].join(" ")}>토요일</p>
-        </button>
-        <button
-          className={[
-            "w-full rounded-lg px-6 py-2 bg-transparent z-50",
-          ].join(" ")}
-          onClick={() => {
-            // setDay("sunday")
-            setSelect({
-              ...select,
-              day: "sunday",
-            });
-          }}
-        >
-          <p className={[
-            "text-lg font-medium duration-100",
-            select.day === "sunday" ? "text-white dark:text-white-dark" : "text-text/30 dark:text-text-dark/40",
-          ].join(" ")}>일요일</p>
-        </button>
+        {
+          ["토요일", "일요일"].map((day) => (
+            <button
+              key={day}
+              className={[
+                "w-full rounded-lg px-6 py-2 bg-transparent z-50",
+              ].join(" ")}
+              onClick={() => {
+                setSelect({
+                  ...select,
+                  day: day === "토요일" ? "saturday" : "sunday",
+                });
+              }}
+            >
+              <p className={[
+                "text-lg font-medium duration-100",
+                select.day === (day === "토요일" ? "saturday" : "sunday") ? "text-white dark:text-white-dark" : "text-text/30 dark:text-text-dark/40",
+              ].join(" ")}>
+                {day}
+              </p>
+            </button>
+          ))
+        }
       </div>
 
       <div className="flex flex-col gap-2">
@@ -98,16 +88,16 @@ const Outing = ({
         <div className="flex flex-row items-center justify-center gap-2">
           <input
             type="text"
-            value={select.reason}
+            value={reason}
             onChange={(e) => {
-            // setReason(e.target.value)
+              setReason(e.target.value);
               setSelect({
                 ...select,
                 reason: e.target.value,
               });
             }}
             className={[
-              "w-full px-4 py-3 border border-text/20 dark:border-text-dark/30 rounded-xl outline-none text-text dark:text-text-dark cursor-pointer bg-transparent",
+              "w-full px-4 py-3 border border-text/20 dark:border-text-dark/30 rounded-xl outline-none text-text dark:text-text-dark bg-transparent",
             ].join(" ")}
             placeholder="외출 사유를 입력해주세요."
           />
@@ -116,15 +106,11 @@ const Outing = ({
               <button
                 className="rounded-xl px-6 py-3 bg-text dark:bg-text-dark border border-text dark:border-text-dark text-white dark:text-white-dark"
                 onClick={() => {
-                  setSelect({
-                    day: "sunday",
-                    start: "10:20",
-                    end: "14:00",
-                    reason: "자기계발외출",
-                  });
+                  setReason("자기계발외출");
+                  setSelect(sundayOuting);
                 }}
               >
-            자기계발외출
+                자기계발외출
               </button>
             ) : null
           }

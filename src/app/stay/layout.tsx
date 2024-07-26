@@ -15,6 +15,10 @@ const menus = [
     name: "잔류",
   },
   {
+    url: "/stay/outing",
+    name: "외출",
+  },
+  {
     url: "/stay/homecoming",
     name: "금요귀가",
   }

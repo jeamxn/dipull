@@ -65,6 +65,11 @@ const bamboo_comment = async () => {
   return client.collection<BambooComment>("bamboo_comment");
 };
 
+const homecoming = async () => { 
+  const client = await connectToDatabase();
+  return client.collection("homecoming");
+};
+
 export const collections = {
   timetable,
   users,

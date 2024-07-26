@@ -9,6 +9,20 @@ const Studyroom = ({
 }) => { 
   return (
     <div className="flex flex-col items-start justify-start gap-2">
+      <div className="flex flex-row items-center justify-start gap-4 pb-2">
+        <div className="flex flex-row items-center justify-start gap-1.5">
+          <div className="w-5 h-5 rounded bg-text dark:bg-text-dark border-transparent" />
+          <p className="text-text/50 dark:text-text-dark/60">내 좌석</p>
+        </div>
+        <div className="flex flex-row items-center justify-start gap-1.5">
+          <div className="w-5 h-5 rounded bg-text/10 dark:bg-text-dark/20 border-transparent" />
+          <p className="text-text/50 dark:text-text-dark/60">선택 가능한 좌석</p>
+        </div>
+        <div className="flex flex-row items-center justify-start gap-1.5">
+          <div className="w-5 h-5 rounded bg-transparen border-1.5 border-text/20 dark:border-text-dark/30" />
+          <p className="text-text/50 dark:text-text-dark/60">선택 불가능한 좌석</p>
+        </div>
+      </div>
       <div className="flex flex-row items-center justify-start gap-2">
         <div className="flex flex-row items-center justify-center w-4">
           <p className="text-text/30 dark:text-text-dark/40">@</p>
@@ -40,7 +54,7 @@ const Studyroom = ({
               {
                 Array(18).fill(0).map((_, j) => {
                   const _this = `${String.fromCharCode(65 + i)}${j + 1}`;
-                  const canClick = Math.random() > 0.5;
+                  const canClick = i < 4;
                   return (
                     <React.Fragment key={j}>
                       <button
