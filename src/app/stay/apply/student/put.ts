@@ -55,7 +55,7 @@ const PUT = async (
       if (!myStudyroom) {
         throw new Error("해당 학년이 이용 가능한 열람실 구역이 없습니다.");
       }
-      if(!myStudyroom?.allow[seat[0]].includes(seat[1])) {
+      if(!myStudyroom.allow[seat[0]].includes(Number(seat[1]))) {
         throw new Error("해당 좌석은 허용되지 않습니다.");
       }
     }
