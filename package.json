@@ -22,6 +22,7 @@
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
+    "react-to-print": "^2.15.1",
     "recoil": "^0.7.7",
     "tailwindcss-safe-area": "^0.5.1",
     "xss": "^1.0.15",
