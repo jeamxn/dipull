@@ -61,7 +61,7 @@ const PUT = async (
     const response = NextResponse.json<HomecomingResponse>({
       success: false,
       error: {
-        title: "금요귀가 신청을 하는 중 오류가 발생했습니다.",
+        title: "이럴수가...!",
         description: e.message,
       }
     }, {

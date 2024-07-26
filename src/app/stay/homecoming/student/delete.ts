@@ -40,7 +40,7 @@ const DELETE = async (
     const response = NextResponse.json<HomecomingResponse>({
       success: false,
       error: {
-        title: "금요귀가 신청을 취소하는 중 오류가 발생했습니다.",
+        title: "어라라?",
         description: e.message,
       }
     }, {

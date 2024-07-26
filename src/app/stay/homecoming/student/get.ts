@@ -48,7 +48,7 @@ const GET = async (
     const response = NextResponse.json<HomecomingResponse>({
       success: false,
       error: {
-        title: "금요귀가 신청을 불러오는 중 오류가 발생했습니다.",
+        title: "이런!!",
         description: e.message,
       }
     }, {
