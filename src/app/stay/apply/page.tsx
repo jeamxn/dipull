@@ -48,7 +48,7 @@ const Stay = () => {
     });
   }, [selectDispatchData]);
 
-  const disabled = React.useMemo(() => !user.id || user.type !== "student", [user]);
+  const disabled = React.useMemo(() => false, []);
 
   return (
     <div className="flex flex-col gap-8 w-full">

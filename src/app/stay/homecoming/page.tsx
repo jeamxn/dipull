@@ -54,8 +54,8 @@ const Stay = () => {
   });
 
   const disabled = React.useMemo(() => {
-    return Boolean(!user.id || user.type !== "student" || isFetchingPut || data?.reason);
-  }, [user, isFetchingPut, data?.reason]);
+    return Boolean(isFetchingPut || data?.reason);
+  }, [isFetchingPut, data?.reason]);
 
   return (
     <div className="flex flex-col gap-8 w-full">
@@ -72,7 +72,7 @@ const Stay = () => {
               "w-full px-4 py-3 border border-text/20 dark:border-text-dark/30 rounded-xl outline-none text-text dark:text-text-dark",
               disabled ? "cursor-not-allowed bg-text/10 dark:bg-text-dark/20" : "bg-transparent",
             ].join(" ")}
-            placeholder="금요귀가 사유를 입력해주세요."
+            placeholder={"금요귀가 사유를 입력해주세요."}
             disabled={disabled}
           />
         </div>

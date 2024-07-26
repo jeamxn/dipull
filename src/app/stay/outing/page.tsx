@@ -88,7 +88,7 @@ const Stay = () => {
     });
   }, [outingDispatchData]);
 
-  const disabled = React.useMemo(() => !user.id || user.type !== "student", [user]);
+  const disabled = React.useMemo(() => false, []);
 
   return (
     <div className="flex flex-col gap-8 w-full">
@@ -201,7 +201,6 @@ const Stay = () => {
             "p-3 bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl font-semibold w-full transition-all",
             disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer",
           ].join(" ")}
-          disabled={disabled}
           onClick={!user.id ? needLogin : user.type === "student" ? () => {} : onlyStudent}
         >
           신청하기
