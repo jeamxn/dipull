@@ -5,7 +5,6 @@ import React from "react";
 
 import { useAlertModalDispatch } from "@/components/AlertModal";
 import * as Select from "@/components/Select";
-import SelectUser from "@/components/SelectUser";
 import { useAuth } from "@/hooks";
 import { Machine as MachineInfo, Machine_list, MachineJoin, UserInfo, defaultUser } from "@/utils/db/utils";
 
@@ -41,12 +40,15 @@ const Apply = ({
   const [time, setTime] = React.useState<MachineInfo["time"]>();
 
   const { refetch, isFetching } = useQuery({
-    queryKey: ["machine_put", params.type, machine, time],
+    queryKey: ["machine_put", params.type, machine, time, selected.id],
     queryFn: async () => {
-      const response = await axios.put<MachineApplyResponse>(`/machine/${params.type}/grant/apply`, {
-        machine,
-        time,
-      });
+      const response = await axios.put<MachineApplyResponse>(
+        user.type === "teacher" ? `/teacher/machine/${params.type}/${selected.id}` : `/machine/${params.type}/grant/apply`,
+        {
+          machine,
+          time,
+        }
+      );
       refetchMachineCurrent();
       return response.data;
     },
@@ -84,11 +86,6 @@ const Apply = ({
 
   return (
     <>
-      {
-        user.type === "teacher" ? (
-          <SelectUser select={selected} setSelect={setSelected} />
-        ) : null
-      }
       <Select.Full
         label={`${current_korean}기 선택`}
         placeholder={`${current_korean}기를 선택해주세요.`}

@@ -7,6 +7,7 @@ import React from "react";
 
 import Linker from "@/components/Linker";
 import Menu from "@/components/Navigation/menu";
+import SelectUser from "@/components/SelectUser";
 import { useAuth } from "@/hooks";
 import { getUserInfo } from "@/utils/cookies";
 import { defaultUser, MachineJoin, UserInfo } from "@/utils/db/utils";
@@ -69,6 +70,11 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
     <>
       <div className="flex flex-col gap-4">
         <p className="text-lg font-semibold px-4 text-text dark:text-text-dark">{current_korean}기 신청하기</p>
+        {
+          user.type === "teacher" ? (
+            <SelectUser select={selected} setSelect={setSelected} />
+          ) : null
+        }
         {
           myApply?.code ? (
             <MyApply

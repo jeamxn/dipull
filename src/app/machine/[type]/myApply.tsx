@@ -42,9 +42,11 @@ const MyApply = ({
   };
 
   const { refetch, isFetching } = useQuery({
-    queryKey: ["machine_put", params.type],
+    queryKey: ["machine_put", params.type, selected.id],
     queryFn: async () => {
-      const response = await axios.delete<MachineApplyResponse>(`/machine/${params.type}/grant/apply`);
+      const response = await axios.delete<MachineApplyResponse>(
+        user.type === "teacher" ? `/teacher/machine/${params.type}/${selected.id}` : `/machine/${params.type}/grant/apply`,
+      );
       refetchMachineCurrent();
       return response.data;
     },
