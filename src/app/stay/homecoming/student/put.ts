@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import xss from "xss";
 
 
-import { getWeekStart } from "@/utils/date";
+import { getWeekStart, isApplyEnd } from "@/utils/date";
 import { collections } from "@/utils/db";
 import { accessVerify } from "@/utils/jwt";
 
@@ -32,6 +32,9 @@ const PUT = async (
     const { id, number } = await accessVerify(accessToken);
     if (number < 3000) {
       throw new Error("3학년만 금요귀가 신청을 할 수 있습니다.");
+    }
+    if (await isApplyEnd(number)) { 
+      throw new Error("신청 가능한 기간이 아닙니다.");
     }
 
     const week = await getWeekStart();

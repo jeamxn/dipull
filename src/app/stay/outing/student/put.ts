@@ -4,7 +4,7 @@ import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 import xss from "xss";
 
-import { getWeekStart } from "@/utils/date";
+import { getWeekStart, isApplyEnd } from "@/utils/date";
 import { collections } from "@/utils/db";
 import { Outing, Stay } from "@/utils/db/utils";
 import { accessVerify } from "@/utils/jwt";
@@ -25,7 +25,10 @@ const PUT = async (
     if (!meals) throw new Error("급식 정보를 입력해주세요.");
 
     const accessToken = req.cookies.get("access_token")?.value || "";
-    const { id } = await accessVerify(accessToken);
+    const { id, number } = await accessVerify(accessToken);
+    if (await isApplyEnd(number)) { 
+      throw new Error("신청 가능한 기간이 아닙니다.");
+    }
     const week = await getWeekStart();
 
     const outingDB = await collections.outing();
