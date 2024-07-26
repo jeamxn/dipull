@@ -2,8 +2,10 @@ import "moment-timezone";
 import moment from "moment";
 import { NextRequest, NextResponse } from "next/server";
 
+import { isMachineApplyAvailable } from "@/utils/date";
 import { collections } from "@/utils/db";
 import { MachineJoin } from "@/utils/db/utils";
+import { accessVerify } from "@/utils/jwt";
 
 import { MachineType } from "../../utils";
 
@@ -13,14 +15,25 @@ export const GET = async (
 ) => {
   try {
     const today = moment().tz("Asia/Seoul").format("YYYY-MM-DD");
+    const accessToken = req.cookies.get("access_token")?.value || "";
+    const { id, type } = await accessVerify(accessToken);
+    
+    const machineAvailable = await isMachineApplyAvailable();
+    console.log("machineAvailable", machineAvailable);
+
+    const matchQuery = machineAvailable || type === "teacher" ? {
+      type: params.type,
+      date: today,
+    } : {
+      type: params.type,
+      date: today,
+      owner: id,
+    };
 
     const machine = await collections.machine();
     const machine_current = await machine.aggregate<MachineJoin>([
       {
-        $match: {
-          type: params.type,
-          date: today,
-        },
+        $match: matchQuery,
       },
       {
         $lookup: {

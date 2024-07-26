@@ -3,7 +3,7 @@ import moment from "moment";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
-import { checkWeekend } from "@/utils/date";
+import { checkWeekend, isMachineApplyAvailable, machineApplyEndMessage } from "@/utils/date";
 import { collections } from "@/utils/db";
 import { accessVerify } from "@/utils/jwt";
 
@@ -23,6 +23,11 @@ const PUT = async (
     const { machine, time } = await req.json();
     if (!machine || !time) {
       throw new Error("빈칸을 모두 채워주세요.");
+    }
+
+    const machineAvailable = await isMachineApplyAvailable();
+    if (!machineAvailable) {
+      throw new Error(machineApplyEndMessage());
     }
 
     const today = moment().tz("Asia/Seoul").format("YYYY-MM-DD");

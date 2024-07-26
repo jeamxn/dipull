@@ -38,3 +38,49 @@ export const isApplyEnd = async (number: number): Promise<boolean> => {
   ) return true;
   return false;
 };
+
+const machineApplyAvailableTime = {
+  start: {
+    hour: 8,
+    minute: 0,
+  },
+  end: {
+    hour: 23,
+    minute: 0,
+  },
+};
+
+export const isMachineApplyAvailable = async () => { 
+  const m = moment().tz("Asia/Seoul");
+  const current = m.clone();
+  const machineStartTime = m.clone().set({
+    hour: machineApplyAvailableTime.start.hour,
+    minute: machineApplyAvailableTime.start.minute,
+  });
+  const machineEndTime = m.clone().set({
+    hour: machineApplyAvailableTime.end.hour,
+    minute: machineApplyAvailableTime.end.minute,
+  });
+  const isAvail = (
+    current.isBetween(machineStartTime, machineEndTime)
+    || current.isSame(machineStartTime) || current.isSame(machineEndTime)
+  );
+  console.log(current.format("HH:mm"), machineStartTime.format("HH:mm"), machineEndTime.format("HH:mm"));
+  console.log("isBetween", current.isBetween(machineStartTime, machineEndTime));
+  console.log("isSame", current.isSame(machineStartTime), current.isSame(machineEndTime));
+  console.log("result", isAvail);
+  return isAvail;
+};
+
+export const machineApplyEndMessage = (): string => {
+  const m = moment().tz("Asia/Seoul");
+  const machineStartTime = m.clone().set({
+    hour: machineApplyAvailableTime.start.hour,
+    minute: machineApplyAvailableTime.start.minute,
+  });
+  const machineEndTime = m.clone().set({
+    hour: machineApplyAvailableTime.end.hour,
+    minute: machineApplyAvailableTime.end.minute,
+  });
+  return `기기 예약 가능 시간이 아닙니다.\n${machineStartTime.format("HH시 mm분")}부터 ${machineEndTime.format("HH시 mm분")}까지만 예약 가능합니다.`;
+};
