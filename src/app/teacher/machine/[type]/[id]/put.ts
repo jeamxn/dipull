@@ -1,5 +1,6 @@
 import "moment-timezone";
 import moment from "moment";
+import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
 import { MachineApplyResponse } from "@/app/machine/[type]/grant/apply/utils";
@@ -45,7 +46,8 @@ const PUT = async (
 
     const machine_list = await collections.machine_list();
     const machines = await machine_list.findOne({
-      code: machine,
+      // code: machine,
+      _id: ObjectId.createFromHexString(machine),
       type: params.type,
       gender: gender,
     });
@@ -64,6 +66,7 @@ const PUT = async (
 
     const machineData = await machineDB.findOne({
       code: machine,
+      // _id: ObjectId.createFromHexString(machine),
       type: params.type,
       date: today,
       time: time,

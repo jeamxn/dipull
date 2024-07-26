@@ -27,9 +27,9 @@ export const GET = async (
       },
       {
         $project: {
+          code: { $toString: "$_id" },
           _id: 0,
           type: "$type",
-          code: "$code",
           name: "$name",
           gender: "$gender",
           allow: isWeekend ? "$allow.weekend" : "$allow.default",
