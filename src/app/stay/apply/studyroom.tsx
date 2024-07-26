@@ -1,5 +1,5 @@
+import domtoimage from "dom-to-image";
 import React from "react";
-import ReactToPrint from "react-to-print";
 
 const Studyroom = ({
   select,
@@ -8,7 +8,37 @@ const Studyroom = ({
   select: string;
   setSelect: React.Dispatch<React.SetStateAction<string>>;
   }) => { 
-  const ref = React.useRef(null);
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  const handleSaveAsImage = () => {
+    if (!ref.current) return;
+    const scale = 3;
+    const padding = 16;
+    const width = ref.current.offsetWidth + padding * 2 + 4;
+    const height = ref.current.offsetHeight + padding * 2;
+    const style = {
+      transform: `scale(${scale})`,
+      transformOrigin: "top left",
+      width: `${width}px`,
+      height: `${height}px`,
+      padding: `${padding}px`,
+    };
+    domtoimage.toPng(ref.current, {
+      width: width * scale,
+      height: height * scale,
+      style: style,
+    })
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.href = dataUrl;
+        link.download = "component.png";
+        link.click();
+      })
+      .catch((error) => {
+        console.error("oops, something went wrong!", error);
+      });
+  };
+
   return (
     <div className="flex flex-col items-start justify-start gap-2">
       <div className="flex flex-row w-full items-center justify-between">
@@ -26,16 +56,11 @@ const Studyroom = ({
             <p className="text-text/50 dark:text-text-dark/60">선택 불가능한 좌석</p>
           </div>
         </div>
-        <ReactToPrint
-          trigger={() => (
-            <button className="flex flex-row items-center justify-start gap-2">
-              <p className="text-text/50 dark:text-text-dark/60 underline">좌석 프린트하기</p>
-            </button>
-          )}
-          content={() => ref.current}
-        />
+        <button className="flex flex-row items-center justify-start gap-2" onClick={handleSaveAsImage}>
+          <p className="text-text/50 dark:text-text-dark/60 underline">현황 저장하기</p>
+        </button>
       </div>
-      <div className="flex flex-col items-start justify-start gap-2" ref={ref}>
+      <div className="flex flex-col items-start justify-start gap-2 bg-background dark:bg-background-dark" ref={ref}>
         <div className="flex flex-row items-center justify-start gap-2">
           <div className="flex flex-row items-center justify-center w-4">
             <p className="text-text/30 dark:text-text-dark/40">@</p>
@@ -83,16 +108,18 @@ const Studyroom = ({
                           }}
                           disabled={!canClick}
                         >
-                          <p
-                            className={[
-                              "leading-4.5",
-                              select === _this ? "text-white dark:text-white-dark" :
-                                canClick ? "text-text dark:text-text-dark" : "text-text/30 dark:text-text-dark/40",
-                            ].join(" ")}
-                          >
-                            {_this}
-                            {/* 3629 최재민 */}
-                          </p>
+                          <div className="w-full h-full flex items-center justify-center">
+                            <p
+                              className={[
+                                "leading-4.5",
+                                select === _this ? "text-white dark:text-white-dark" :
+                                  canClick ? "text-text dark:text-text-dark" : "text-text/30 dark:text-text-dark/40",
+                              ].join(" ")}
+                            >
+                              {/* {_this} */}
+                              3629 최재민
+                            </p>
+                          </div>
                         </button>
                         {
                           j === 8 ? (
