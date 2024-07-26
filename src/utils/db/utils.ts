@@ -1,5 +1,6 @@
 import { MachineType } from "@/app/machine/[type]/utils";
 import { Times } from "@/app/stay/homecoming/utils";
+import { Meals, OutingType } from "@/app/stay/outing/utils";
 
 export type Timetable = {
   grd: number;
@@ -130,4 +131,11 @@ export type Studyroom = {
   allow: {
     [key: string]: number[];
   }
+};
+
+export type Outing = {
+  week: string;
+  id: UserInfo["id"];
+  outing: OutingType;
+  meals: Meals;
 };

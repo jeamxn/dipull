@@ -1,5 +1,7 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import React from "react";
 
 import { useAlertModalDispatch } from "@/components/AlertModal";
@@ -7,7 +9,9 @@ import { ModalProps, useModalDispatch } from "@/components/Modal";
 import { useAuth } from "@/hooks";
 
 import Outing from "./outing";
-import { initailOuting, initialMeals, koreanMeals, koreanWeekends, meals, OutingInfo, OutingType, sundayOuting, Weekend, weekends } from "./utils";
+import { initailOutingResponse, OutingResponse } from "./student/utils";
+import { initailOuting, initialMeals, koreanMeals, koreanWeekends, Meals, meals, OutingInfo, OutingType, sundayOuting, Weekend, weekends } from "./utils";
+
 
 const Stay = () => {
   const { user, needLogin, onlyStudent } = useAuth();
@@ -16,12 +20,8 @@ const Stay = () => {
 
   const [modalOuting, setModalOuting] = React.useState<OutingInfo>(initailOuting);
 
-  const [select, setSelect] = React.useState("");
-  const [outing, setOuting] = React.useState<OutingType>({
-    saturday: [],
-    sunday: [],
-  });
-  const [meal, setMeal] = React.useState<Record<Weekend, Record<"breakfast" | "lunch" | "dinner", boolean>>>(initialMeals);
+  const [outing, setOuting] = React.useState<OutingType>(initailOutingResponse);
+  const [meal, setMeal] = React.useState<Meals>(initialMeals);
 
   React.useEffect(() => {
     if(outing.sunday.includes(sundayOuting)) {
@@ -34,6 +34,43 @@ const Stay = () => {
       }));
     }
   }, [outing]);
+
+  const { refetch, isFetching: loadingOuting, data } = useQuery({
+    queryKey: ["outing_get", user.id],
+    queryFn: async () => {
+      const response = await axios.get<OutingResponse>("/stay/outing/student");
+      if (response.data.outing) {
+        setOuting(response.data.outing);
+      }
+      if (response.data.meals) {
+        setMeal(response.data.meals);
+      }
+      return response.data;
+    },
+    enabled: Boolean(user.id && user.type === "student"),
+  });
+
+  const { refetch: refetchPut, isFetching: isFetchingPut } = useQuery({
+    queryKey: ["outing_put", outing, data],
+    queryFn: async () => {
+      const response = await axios.put<OutingResponse>("/stay/outing/student", {
+        outing,
+        meals: meal,
+      });
+      alertModalDispatch({
+        type: "show",
+        data: {
+          title: "외출 신청 완료!",
+          description: "신청한 시간 안에 귀교해주세요.",
+        }
+      });
+      await refetch();
+      return response.data;
+    },
+    refetchOnWindowFocus: false,
+    enabled: false,
+    retry: false,
+  });
 
   const outingDispatchData: ModalProps = React.useMemo(() => ({
     label: "외출 추가",
@@ -88,7 +125,9 @@ const Stay = () => {
     });
   }, [outingDispatchData]);
 
-  const disabled = React.useMemo(() => false, []);
+  const disabled = React.useMemo(() => {
+    return Boolean(isFetchingPut || loadingOuting);
+  }, [isFetchingPut, loadingOuting]);
 
   return (
     <div className="flex flex-col gap-8 w-full">
@@ -127,7 +166,7 @@ const Stay = () => {
                         </button>
                       )) : (
                         <p className="text-lg font-medium transition-all whitespace-nowrap text-text dark:text-text-dark">
-                          없음
+                          {loadingOuting ? "외출 정보를 불러오는 중..." : "없음"}
                         </p>
                       )
                     }
@@ -140,6 +179,7 @@ const Stay = () => {
             <button
               className="bg-text dark:bg-text-dark px-6 py-3 rounded-xl"
               onClick={showOuting}
+              disabled={disabled}
             >
               <p className="text-white dark:text-white-dark">추가하기</p>
             </button>
@@ -155,7 +195,10 @@ const Stay = () => {
               <p className="text-base font-normal transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">
                 {koreanWeekends[day]}요일
               </p>
-              <div className="flex flex-row items-center justify-between">
+              <div className={[
+                "flex flex-row items-center justify-between",
+                loadingOuting ? "opacity-50" : "",
+              ].join(" ")}>
                 {
                   meals.map((thisMeal) => (
                     <button
@@ -173,6 +216,7 @@ const Stay = () => {
                           },
                         }));
                       }}
+                      disabled={disabled}
                     >
                       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                         {
@@ -201,12 +245,12 @@ const Stay = () => {
             "p-3 bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl font-semibold w-full transition-all",
             disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer",
           ].join(" ")}
-          onClick={!user.id ? needLogin : user.type === "student" ? () => {} : onlyStudent}
+          onClick={!user.id ? needLogin : user.type === "student" ? () => refetchPut() : onlyStudent}
+          disabled={disabled}
         >
-          신청하기
-          {/* {
-          isFetching ? "신청 중..." : "신청하기"
-        } */}
+          {
+            isFetchingPut ? "신청 중..." : "신청하기"
+          }
         </button>
       </div>
     </div>

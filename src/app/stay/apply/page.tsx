@@ -20,8 +20,8 @@ const Stay = () => {
   const [select, setSelect] = React.useState("");
   const [reason, setReason] = React.useState("");
 
-  const { data, refetch } = useQuery({
-    queryKey: ["homecoming_get", user.id],
+  const { data, refetch, isFetching } = useQuery({
+    queryKey: ["stay_get", user.id],
     queryFn: async () => {
       const response = await axios.get<StayResponse>("/stay/apply/student");
       if (response.data.myStay) { 
@@ -42,7 +42,7 @@ const Stay = () => {
   });
 
   const { refetch: refetchDelete, isFetching: isFetchingDelete } = useQuery({
-    queryKey: ["homecoming_put", reason, select],
+    queryKey: ["stay_delete", reason, select],
     queryFn: async () => {
       const response = await axios.delete<StayResponse>("/stay/apply/student");
       await refetch();
@@ -102,8 +102,8 @@ const Stay = () => {
   }, [selectDispatchData]);
 
   const disabled = React.useMemo(() => {
-    return Boolean(isFetchingPut || data?.myStay);
-  }, [isFetchingPut, data?.myStay]);
+    return Boolean(isFetchingPut || data?.myStay || isFetching);
+  }, [isFetchingPut, data?.myStay, isFetching]);
 
   return (
     <div className="flex flex-col gap-8 w-full">
@@ -113,7 +113,7 @@ const Stay = () => {
           <div className="flex flex-col gap-1">
             <p className="text-base font-normal transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">내가 선택한 좌석</p>
             <p className="text-xl font-semibold transition-all whitespace-nowrap text-text dark:text-text-dark">
-              {select ? select : "미선택"}
+              {isFetching ? "잔류 정보를 불러오는 중..." : select ? select : "미선택"}
             </p>
           </div>
           <button className="bg-text dark:bg-text-dark px-6 py-3 rounded-xl" onClick={() => {
