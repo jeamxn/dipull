@@ -1,5 +1,12 @@
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import domtoimage from "dom-to-image";
 import React from "react";
+
+import { useModal } from "@/components/Modal";
+import { useAuth } from "@/hooks";
+
+import { StudyroomResponse } from "./grant/utils";
 
 const Studyroom = ({
   select,
@@ -8,7 +15,19 @@ const Studyroom = ({
   select: string;
   setSelect: React.Dispatch<React.SetStateAction<string>>;
   }) => { 
+  const { user } = useAuth();
   const ref = React.useRef<HTMLDivElement>(null);
+  const modal = useModal();
+
+  const { data: studyroomData, isFetching } = useQuery({
+    queryKey: ["studyroom_info", user.id, user.number, user.type, modal.show],
+    queryFn: async () => {
+      const response = await axios.get<StudyroomResponse>("/stay/apply/grant");
+      return response.data.allow;
+    },
+    enabled: Boolean(modal.show),
+    refetchOnWindowFocus: true,
+  });
 
   const handleSaveAsImage = () => {
     if (!ref.current) return;
@@ -93,13 +112,14 @@ const Studyroom = ({
                 {
                   Array(18).fill(0).map((_, j) => {
                     const _this = `${String.fromCharCode(65 + i)}${j + 1}`;
-                    const canClick = i < 4;
+                    const canClick = !isFetching &&
+                      studyroomData && studyroomData[String.fromCharCode(65 + i)]?.includes(j + 1);
                     return (
                       <React.Fragment key={j}>
                         <button
                           className={[
                             "border rounded-xl w-18 h-12 flex flex-row items-center justify-center",
-                            select === _this ? "bg-text dark:bg-text-dark border-transparent" :
+                            select === _this ? "bg-text dark:bg-text-dark border-transparent" : 
                               canClick ? "bg-text/10 dark:bg-text-dark/20 border-transparent" : "bg-transparent border-text/20 dark:border-text-dark/30",
                           ].join(" ")}
                           onClick={() => {

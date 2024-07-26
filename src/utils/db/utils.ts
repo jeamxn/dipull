@@ -123,3 +123,11 @@ export type Stay = {
     reason: string;
   }
 };
+
+export type Studyroom = {
+  grade: number;
+  gender: UserInfo["gender"];
+  allow: {
+    [key: string]: number[];
+  }
+};

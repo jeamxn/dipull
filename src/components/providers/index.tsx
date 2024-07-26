@@ -18,23 +18,23 @@ const Providers = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <Navigation>
-      <Modal>
+    <ReactQueryProvider>
+      <Navigation>
         <ConfirmModal>
           <MoreModal>
             <CalenderModal>
               <SelectModal>
                 <AlertModal>
-                  <ReactQueryProvider>
+                  <Modal>
                     {children}
-                  </ReactQueryProvider>
+                  </Modal>
                 </AlertModal>
               </SelectModal>
             </CalenderModal>
           </MoreModal>
         </ConfirmModal>
-      </Modal>
-    </Navigation>
+      </Navigation>
+    </ReactQueryProvider>
   );
 };
 

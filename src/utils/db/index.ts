@@ -1,20 +1,16 @@
 import { Db, MongoClient } from "mongodb";
 
-import { Bamboo, BambooComment, Homecoming, LastRequest, Machine, Machine_list, Refresh_tokenDB, Stay, Timetable, UserInfo, Wakeup } from "./utils";
+import { Bamboo, BambooComment, Homecoming, LastRequest, Machine, Machine_list, Refresh_tokenDB, Stay, Studyroom, Timetable, UserInfo, Wakeup } from "./utils";
 
 const uri = process.env.MONGODB_URI || "";
 const options = {};
 
 let cachedClient: Db | null = null;
 
-// DB 연결
 const connectToDatabase = async () => {
-  // 이미 연결된 클라이언트가 있다면 그 클라이언트를 반환
   if (cachedClient) {
     return cachedClient;
   }
-
-  // 새로운 클라이언트 생성
   const client = (await MongoClient.connect(uri, options)).db();
   cachedClient = client;
   return client;
@@ -75,6 +71,11 @@ const stay = async () => {
   return client.collection<Stay>("stay");
 };
 
+const studyroom = async () => {
+  const client = await connectToDatabase();
+  return client.collection<Studyroom>("studyroom");
+};
+
 export const collections = {
   timetable,
   users,
@@ -87,4 +88,5 @@ export const collections = {
   bamboo_comment,
   homecoming,
   stay,
+  studyroom,
 };
