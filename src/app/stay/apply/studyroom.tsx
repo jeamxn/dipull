@@ -116,8 +116,8 @@ const Studyroom = ({
                                   canClick ? "text-text dark:text-text-dark" : "text-text/30 dark:text-text-dark/40",
                               ].join(" ")}
                             >
-                              {/* {_this} */}
-                              3629 최재민
+                              {_this}
+                              {/* 3629 최재민 */}
                             </p>
                           </div>
                         </button>
