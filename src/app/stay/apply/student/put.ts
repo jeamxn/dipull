@@ -25,7 +25,7 @@ const PUT = async (
     }
 
     const accessToken = req.cookies.get("access_token")?.value || "";
-    const { id } = await accessVerify(accessToken);
+    const { id, number, gender } = await accessVerify(accessToken);
 
     const week = await getWeekStart();
 
@@ -44,6 +44,20 @@ const PUT = async (
     });
     if (myStay >= 1) {
       throw new Error("이미 잔류 신청을 하셨습니다.");
+    }
+
+    if (seat) {
+      const studyroom = await collections.studyroom();
+      const myStudyroom = await studyroom.findOne({
+        grade: Math.floor(number / 1000),
+        gender,
+      });
+      if (!myStudyroom) {
+        throw new Error("해당 학년이 이용 가능한 열람실 구역이 없습니다.");
+      }
+      if(!myStudyroom?.allow[seat[0]].includes(seat[1])) {
+        throw new Error("해당 좌석은 허용되지 않습니다.");
+      }
     }
 
     const put = await stay.insertOne({

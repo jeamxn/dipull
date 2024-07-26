@@ -112,8 +112,14 @@ const Studyroom = ({
                 {
                   Array(18).fill(0).map((_, j) => {
                     const _this = `${String.fromCharCode(65 + i)}${j + 1}`;
-                    const canClick = !isFetching &&
-                      studyroomData && studyroomData[String.fromCharCode(65 + i)]?.includes(j + 1);
+                    const canClick = (
+                      select === _this
+                    ) || (
+                      !isFetching
+                      && studyroomData
+                      && studyroomData[String.fromCharCode(65 + i)]?.includes(j + 1)
+                    );
+                    // const canClick = true;
                     return (
                       <React.Fragment key={j}>
                         <button
