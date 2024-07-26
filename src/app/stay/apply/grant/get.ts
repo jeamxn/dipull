@@ -111,7 +111,7 @@ const GET = async (
     const response = NextResponse.json<StudyroomResponse>({
       success: true,
       allow: myStudyroom ? myStudyroom.allow : {},
-      stays: stays[0].result,
+      stays: stays[0]?.result || {},
     });
 
     return response;
