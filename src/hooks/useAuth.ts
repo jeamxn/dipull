@@ -3,6 +3,7 @@ import React from "react";
 
 import { useAlertModalDispatch } from "@/components/AlertModal";
 import { useConfirmModalDispatch } from "@/components/ConfirmModal";
+import { UserContext } from "@/components/providers/UserProvider";
 import { getUserInfo } from "@/utils/cookies";
 import { defaultUser, UserInfo } from "@/utils/db/utils";
 
@@ -10,15 +11,16 @@ const useAuth = () => {
   const router = useRouter();
   const confirmModalDispatch = useConfirmModalDispatch();
   const alertModalDispatch = useAlertModalDispatch();
-  const [user, setUser] = React.useState<UserInfo>(defaultUser);
+  // const [user, setUser] = React.useState<UserInfo>(defaultUser);
+  const user = React.useContext(UserContext);
 
-  React.useEffect(() => {
-    setUser(getUserInfo());
-  }, []);
+  // React.useEffect(() => {
+  //   setUser(getUserInfo());
+  // }, []);
 
-  const refreshUser = () => { 
-    setUser(getUserInfo());
-  };
+  // const refreshUser = () => { 
+  //   setUser(getUserInfo());
+  // };
   const login = () => {
     router.push(`${process.env.NEXT_PUBLIC_DIMIGOIN_URI}/oauth?client=${process.env.NEXT_PUBLIC_DIMIGOIN_KEY}&redirect=${window.location.origin}/auth`);
   };
@@ -56,7 +58,7 @@ const useAuth = () => {
     });
   };
 
-  return { needLogin, login, logout, user, refreshUser, onlyStudent, onlyTeacher };
+  return { needLogin, login, logout, user, onlyStudent, onlyTeacher };
 };
 
 export default useAuth;

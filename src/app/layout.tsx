@@ -6,6 +6,8 @@ import React from "react";
 import Promotion from "@/components/Promotion";
 import Providers from "@/components/providers";
 import RecoilProvider from "@/components/providers/RecoilProvider";
+import { defaultUser, UserInfo } from "@/utils/db/utils";
+import { accessVerify } from "@/utils/jwt";
 
 import Loading from "./loading";
 
@@ -53,11 +55,20 @@ export const generateMetadata = async (): Promise<Metadata> => {
   };
 };
 
-export default function RootLayout({
+const RootLayout = async ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) => {
+  let user: UserInfo = defaultUser;
+  try {
+    const authorization = headers().get("cookie");
+    const accessToken = authorization?.split("refresh_token=")[1].split(";")[0] || "";
+    const { id, email, gender, name, number, type, profile_image } = await accessVerify(accessToken);
+    user = { id, email, gender, name, number, type, profile_image };
+  } catch {
+    user = defaultUser;
+  }
   return (
     <html lang="ko" className="overscroll-none w-full h-full overflow-x-hidden flex flex-col bg-background dark:bg-background-dark">
       <meta name="viewport" content="initial-scale=1, viewport-fit=cover"/>
@@ -67,7 +78,7 @@ export default function RootLayout({
             <Promotion showLogin />
           </aside> 
           <main className="flex flex-col max-md:w-full h-full bg-background dark:bg-background-dark relative border-text/5 dark:border-text-dark/20 w-128 max-md:border-x-0">
-            <Providers>
+            <Providers userInfo={user}>
               {children}
             </Providers>
             <Loading />
@@ -76,4 +87,7 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
+
+
+export default RootLayout;

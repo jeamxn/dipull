@@ -46,11 +46,11 @@ const refresh = async (req: NextRequest) => {
 
     const data = user[0];
     const refreshTokenExp = moment().tz("Asia/Seoul").add(30, "days");
-    response.cookies.set({
-      name: "user",
-      value: JSON.stringify(data),
-      expires: refreshTokenExp.toDate(),
-    });
+    // response.cookies.set({
+    //   name: "user",
+    //   value: JSON.stringify(data),
+    //   expires: refreshTokenExp.toDate(),
+    // });
 
     const refreshToken = await refreshSign(data);
     response.cookies.set({

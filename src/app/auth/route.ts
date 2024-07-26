@@ -26,11 +26,11 @@ export const GET = async (req: NextRequest) => {
 
     const data = decodedToken.payload.data;
     const refreshTokenExp = moment().tz("Asia/Seoul").add(30, "days");
-    response.cookies.set({
-      name: "user",
-      value: JSON.stringify(data),
-      expires: refreshTokenExp.toDate(),
-    });
+    // response.cookies.set({
+    //   name: "user",
+    //   value: JSON.stringify(data),
+    //   expires: refreshTokenExp.toDate(),
+    // });
 
     const refreshToken = await refreshSign(data);
     response.cookies.set({

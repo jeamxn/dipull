@@ -19,15 +19,15 @@ export const middleware = async (request: Readonly<NextRequest>) => {
     },
   });
 
-  const userdata = request.cookies.get("user");
-  if (!userdata?.value) {
-    const refreshTokenExp = moment().tz("Asia/Seoul").add(30, "days");
-    response.cookies.set({
-      name: "user",
-      value: JSON.stringify(defaultUser),
-      expires: refreshTokenExp.toDate(),
-    });
-  }
+  // const userdata = request.cookies.get("user");
+  // if (!userdata?.value) {
+  //   const refreshTokenExp = moment().tz("Asia/Seoul").add(30, "days");
+  //   response.cookies.set({
+  //     name: "user",
+  //     value: JSON.stringify(defaultUser),
+  //     expires: refreshTokenExp.toDate(),
+  //   });
+  // }
 
   try{
     const userAgent = requestHeaders.get("user-agent");

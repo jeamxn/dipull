@@ -29,11 +29,11 @@ const Logout = async (req: NextRequest) => {
       return response;
     }
   }
-  response.cookies.set({
-    name: "user",
-    value: JSON.stringify(defaultUser),
-    expires: moment().tz("Asia/Seoul").subtract(1, "days").toDate(),
-  });
+  // response.cookies.set({
+  //   name: "user",
+  //   value: JSON.stringify(defaultUser),
+  //   expires: moment().tz("Asia/Seoul").subtract(1, "days").toDate(),
+  // });
   response.cookies.set({
     name: "refresh_token",
     value: "",
