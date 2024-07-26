@@ -11,9 +11,11 @@ import { StudyroomResponse } from "./grant/utils";
 const Studyroom = ({
   select,
   setSelect,
+  disabled,
 }: {
   select: string;
-  setSelect: React.Dispatch<React.SetStateAction<string>>;
+    setSelect: React.Dispatch<React.SetStateAction<string>>;
+    disabled: boolean;
   }) => { 
   const { user } = useAuth();
   const ref = React.useRef<HTMLDivElement>(null);
@@ -23,7 +25,7 @@ const Studyroom = ({
     queryKey: ["studyroom_info", user.id, user.number, user.type, modal.show],
     queryFn: async () => {
       const response = await axios.get<StudyroomResponse>("/stay/apply/grant");
-      return response.data.allow;
+      return response.data;
     },
     enabled: Boolean(modal.show),
     refetchOnWindowFocus: true,
@@ -112,14 +114,15 @@ const Studyroom = ({
                 {
                   Array(18).fill(0).map((_, j) => {
                     const _this = `${String.fromCharCode(65 + i)}${j + 1}`;
+                    const thisUser = studyroomData?.stays?.[String.fromCharCode(65 + i)]?.[String(j + 1)];
                     const canClick = (
                       select === _this
                     ) || (
-                      !isFetching
+                      !thisUser
+                      && !isFetching
                       && studyroomData
-                      && studyroomData[String.fromCharCode(65 + i)]?.includes(j + 1)
+                      && studyroomData.allow?.[String.fromCharCode(65 + i)]?.includes(j + 1)
                     );
-                    // const canClick = true;
                     return (
                       <React.Fragment key={j}>
                         <button
@@ -129,6 +132,7 @@ const Studyroom = ({
                               canClick ? "bg-text/10 dark:bg-text-dark/20 border-transparent" : "bg-transparent border-text/20 dark:border-text-dark/30",
                           ].join(" ")}
                           onClick={() => {
+                            if(disabled) return;
                             if (select === _this) return setSelect("");
                             setSelect(_this);
                           }}
@@ -142,7 +146,7 @@ const Studyroom = ({
                                   canClick ? "text-text dark:text-text-dark" : "text-text/30 dark:text-text-dark/40",
                               ].join(" ")}
                             >
-                              {_this}
+                              {thisUser || _this}
                               {/* 3629 최재민 */}
                             </p>
                           </div>

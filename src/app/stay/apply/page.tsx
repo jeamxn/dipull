@@ -20,38 +20,6 @@ const Stay = () => {
   const [select, setSelect] = React.useState("");
   const [reason, setReason] = React.useState("");
 
-  const selectDispatchData: ModalProps = React.useMemo(() => {
-    const selected = modalSelect;
-    return {
-      label: "좌석 선택",
-      showCancelButton: true,
-      confirmButtonText: `${selected ? `${selected} ` : "미"}선택`,
-      inner: <Studyroom select={selected} setSelect={setModalSelect} />,
-      onConfirm: () => {
-        if (modalSelect) setReason("");
-        setSelect(modalSelect);
-        setModalSelect("");
-      },
-      onCancle: () => {
-        setModalSelect("");
-      },
-    };
-  }, [modalSelect, select]);
-
-  const showStudyroom = () => {
-    modalDispatch({
-      type: "show",
-      data: selectDispatchData,
-    });
-  };
-
-  React.useEffect(() => {
-    modalDispatch({
-      type: "update",
-      data: selectDispatchData,
-    });
-  }, [selectDispatchData]);
-
   const { data, refetch } = useQuery({
     queryKey: ["homecoming_get", user.id],
     queryFn: async () => {
@@ -100,6 +68,39 @@ const Stay = () => {
     retry: false,
   });
 
+  const selectDispatchData: ModalProps = React.useMemo(() => {
+    const selected = modalSelect;
+    const disabledThis = Boolean(data?.myStay);
+    return {
+      label: "좌석 선택",
+      showCancelButton: !disabledThis,
+      confirmButtonText: disabledThis ? "확인" : `${selected ? `${selected} ` : "미"}선택`,
+      inner: <Studyroom select={selected} setSelect={setModalSelect} disabled={disabledThis} />,
+      onConfirm: () => {
+        if (modalSelect) setReason("");
+        setSelect(modalSelect);
+        setModalSelect("");
+      },
+      onCancle: () => {
+        setModalSelect("");
+      },
+    };
+  }, [modalSelect, select, data?.myStay]);
+
+  const showStudyroom = () => {
+    modalDispatch({
+      type: "show",
+      data: selectDispatchData,
+    });
+  };
+
+  React.useEffect(() => {
+    modalDispatch({
+      type: "update",
+      data: selectDispatchData,
+    });
+  }, [selectDispatchData]);
+
   const disabled = React.useMemo(() => {
     return Boolean(isFetchingPut || data?.myStay);
   }, [isFetchingPut, data?.myStay]);
@@ -121,7 +122,9 @@ const Stay = () => {
             showStudyroom();
           }}>
             <p className="text-white dark:text-white-dark">
-              선택하기
+              {
+                data?.myStay ? "좌석보기" : "선택하기"
+              }
             </p>
           </button>
         </div>
@@ -163,7 +166,7 @@ const Stay = () => {
           data?.myStay ? (
             <button
               className={[
-                "p-3 bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl font-semibold w-full transition-all",
+                "p-3 bg-transparent border border-red-500 dark:bg-transparent dark:border-red-500 text-red-500 dark:text-red-500 rounded-xl font-semibold w-full transition-all",
                 isFetchingDelete ? "cursor-not-allowed opacity-50" : "cursor-pointer",
               ].join(" ")}
               disabled={isFetchingDelete}

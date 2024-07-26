@@ -122,7 +122,7 @@ const Stay = () => {
           data?.reason ? (
             <button
               className={[
-                "p-3 bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl font-semibold w-full transition-all",
+                "p-3 bg-transparent border border-red-500 dark:bg-transparent dark:border-red-500 text-red-500 dark:text-red-500 rounded-xl font-semibold w-full transition-all",
                 isFetchingDelete ? "cursor-not-allowed opacity-50" : "cursor-pointer",
               ].join(" ")}
               disabled={isFetchingDelete}

@@ -29,7 +29,10 @@ const PUT = async (
     }
 
     const accessToken = req.cookies.get("access_token")?.value || "";
-    const { id } = await accessVerify(accessToken);
+    const { id, number } = await accessVerify(accessToken);
+    if (number < 3000) {
+      throw new Error("3학년만 금요귀가 신청을 할 수 있습니다.");
+    }
 
     const week = await getWeekStart();
 
