@@ -4,15 +4,18 @@ import Link from "next/link";
 import React from "react";
 
 import { useAuth } from "@/hooks";
+import { UserInfo } from "@/utils/db/utils";
 
 import Mover from "./Mover";
 
 const Promotion = ({
   showLogin = false,
+  userInfo: user,
 }: {
     showLogin?: boolean;
+    userInfo: UserInfo;
   }) => {
-  const { login, user } = useAuth();
+  const { login } = useAuth();
 
   return (
     <div className="flex flex-col gap-6 items-start justify-center h-full">
