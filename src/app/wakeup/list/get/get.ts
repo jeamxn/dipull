@@ -5,7 +5,7 @@ import { collections } from "@/utils/db";
 
 import { WakeupListData, WakeupListResponse } from "./utlis";
 
-const POST = async (
+const GET = async (
   req: NextRequest,
 ) => {
   try {
@@ -52,4 +52,4 @@ const POST = async (
   }
 };
 
-export default POST;
+export default GET;

@@ -17,6 +17,8 @@ import { BambooResponse, BambooSort } from "./list/[sort]/[number]/utils";
 import { sortOptions, sortOptionValues } from "./sort";
 import Target from "./target";
 
+export const fetchCache = "force-no-store";
+
 function Home() {
   const { user, needLogin, onlyStudent } = useAuth();
   const [selected, setSelected] = React.useState<BambooSort>("recent");

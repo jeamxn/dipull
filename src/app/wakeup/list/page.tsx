@@ -11,12 +11,12 @@ import { MyWakeupResponseString } from "../my/grant/list/utils";
 
 import { WakeupListResponse } from "./get/utlis";
 
-const Machine = () => {
+const WakeupList = () => {
   const { user, login } = useAuth();
   const { data, refetch } = useQuery({
     queryKey: ["wakeup_apply_list"],
     queryFn: async () => {
-      const response = await axios.post<WakeupListResponse>("/wakeup/list/get");
+      const response = await axios.get<WakeupListResponse>("/wakeup/list/get");
       return response.data.data;
     },
     staleTime: 0,
@@ -61,4 +61,4 @@ const Machine = () => {
   );
 };
 
-export default Machine;
+export default WakeupList;

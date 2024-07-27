@@ -14,7 +14,7 @@ import { MyWakeupResponseString } from "../my/grant/list/utils";
 
 import { WakeupDeleteResponse } from "./[id]/delete/utils";
 
-const Machine = () => {
+const WakeupTeacher = () => {
   const { user, login } = useAuth();
 
   const [delete_id, setDelete_id] = React.useState<WakeupListData | null>(null);
@@ -24,7 +24,7 @@ const Machine = () => {
   const { data, refetch } = useQuery({
     queryKey: ["wakeup_apply_list"],
     queryFn: async () => {
-      const response = await axios.post<WakeupListResponse>("/wakeup/list/get");
+      const response = await axios.get<WakeupListResponse>("/wakeup/list/get");
       return response.data.data;
     },
     staleTime: 0,
@@ -108,4 +108,4 @@ const Machine = () => {
   );
 };
 
-export default Machine;
+export default WakeupTeacher;
