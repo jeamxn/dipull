@@ -67,6 +67,9 @@ const GET = async (
     const response = NextResponse.json<KeyHomecomingResponse>({
       success: true,
       data: object,
+      query: {
+        week
+      }
     });
     return response;
   }

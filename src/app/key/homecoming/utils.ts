@@ -19,4 +19,7 @@ export type KeyHomecomingResponse = {
     }
   };
   error?: ErrorMessage;
+  query?: {
+    week: string;
+  };
 };
