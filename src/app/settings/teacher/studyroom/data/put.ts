@@ -7,7 +7,6 @@ import { Studyroom } from "@/utils/db/utils";
 
 import { StudyroomAllResponse } from "./utils";
 
-
 const PUT = async (
   req: NextRequest,
 ) => {
@@ -32,7 +31,7 @@ const PUT = async (
     const response = NextResponse.json<StudyroomAllResponse>({
       success: false,
       error: {
-        title: "기기 정보 수정에 실패했어요.",
+        title: "열람실 좌석 정보 수정에 실패했어요.",
         description: e.message,
       }
     }, {
