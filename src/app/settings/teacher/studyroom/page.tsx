@@ -9,7 +9,7 @@ import { ModalProps, useModalDispatch } from "@/components/Modal";
 import Studyroom from "@/components/Studyroom";
 import { Studyroom as StudyroomType, UserInfo } from "@/utils/db/utils";
 
-import { StudyroomAllResponse, StudyroomArrayToObject, StudyroomObjectToArray } from "./data/utils";
+import { StudyroomAllResponse, StudyroomArrayToObject, StudyroomObjectToArray } from "./edit/utils";
 
 const Settings = () => {
   const [modalSelect, setModalSelect] = React.useState<string[]>([]);
@@ -58,7 +58,7 @@ const Settings = () => {
   const { isFetching } = useQuery({
     queryKey: ["studyroom_all_info"],
     queryFn: async () => {
-      const response = await axios.get<StudyroomAllResponse>("/settings/teacher/studyroom/data");
+      const response = await axios.get<StudyroomAllResponse>("/settings/teacher/studyroom/edit");
       setStudyroomData(response.data.data || []);
       return response.data.data;
     },
@@ -69,7 +69,7 @@ const Settings = () => {
   const { refetch, isFetching: isFetchingPut } = useQuery({
     queryKey: ["machine_teacher_setting_put", studyroomData],
     queryFn: async () => {
-      const response = await axios.put<StudyroomAllResponse>("/settings/teacher/studyroom/data", {
+      const response = await axios.put<StudyroomAllResponse>("/settings/teacher/studyroom/edit", {
         studyroomData
       });
       alertDispatch({
