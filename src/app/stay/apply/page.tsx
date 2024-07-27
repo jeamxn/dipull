@@ -32,10 +32,10 @@ const Stay = () => {
     queryFn: async () => {
       const response = await axios.get<StayResponse>(`/stay/apply/grant/${selected.id}/apply`);
       if (response.data.myStay) { 
-        if (response.data.seat?.onSeat) {
+        if (response.data.seat?.num) {
           setSelect(response.data.seat.num);
         }
-        else if(!response.data.seat?.onSeat) {
+        else if(response.data.seat?.reason) {
           setReason(response.data.seat?.reason || "");
         }
       }
