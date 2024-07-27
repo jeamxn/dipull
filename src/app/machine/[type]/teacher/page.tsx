@@ -5,17 +5,20 @@ import axios from "axios";
 import React from "react";
 
 import { MachineType, machineTypeToKorean } from "@/app/machine/[type]/utils";
+import { useAlertModalDispatch } from "@/components/AlertModal";
 import { useAuth } from "@/hooks";
 import { Machine_Time } from "@/utils/db/utils";
 
 import { Machine_list_Response } from "../list/[allow]/utils";
 
 import MachineSetting from "./machineSetting";
+import { MachineEditResponse } from "./set/utils";
 import { Times, TimesResponse } from "./time/utils";
 import { EditMachine } from "./utils";
 
 const Machine = ({ params }: { params: { type: MachineType } }) => {
   const current_korean = machineTypeToKorean(params.type);
+  const alertDispatch = useAlertModalDispatch();
 
   const [machines, setMachines] = React.useState<EditMachine[]>([]);
   const [times, setTimes] = React.useState<Times>({
@@ -23,7 +26,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
     weekend: [],
   });
 
-  const { isFetching: machinesLoading } = useQuery({
+  const { isFetching: machinesLoading, refetch: refetchMachines } = useQuery({
     queryKey: ["machine_list_teacher", params.type],
     queryFn: async () => {
       const response = await axios.get<Machine_list_Response[]>(`/machine/${params.type}/list/teacher`);
@@ -39,7 +42,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
     initialData: [],
   });
 
-  const { isFetching: timesLoading } = useQuery({
+  const { isFetching: timesLoading, refetch: refetchTimes } = useQuery({
     queryKey: ["time_list_teacher", params.type],
     queryFn: async () => {
       const response = await axios.get<TimesResponse>(`/machine/${params.type}/teacher/time`);
@@ -55,13 +58,34 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
     },
   });
 
+  const { refetch, isFetching } = useQuery({
+    queryKey: ["machine_teacher_setting_put", params.type, machines, times],
+    queryFn: async () => {
+      const response = await axios.put<MachineEditResponse>(`/machine/${params.type}/teacher/set`, {
+        machines,
+        times,
+      });
+      alertDispatch({
+        type: "show",
+        data: {
+          title: "수정 성공!",
+          description: "기기 목록 및 시간이 수정되었어요.",
+        }
+      });
+      return response.data;
+    },
+    refetchOnWindowFocus: false,
+    enabled: false,
+    retry: false,
+  });
+
   const disabled = React.useMemo(() => { 
-    return Boolean(machinesLoading || timesLoading);
-  }, [machinesLoading, timesLoading]);
+    return Boolean(machinesLoading || timesLoading || isFetching);
+  }, [machinesLoading, timesLoading, isFetching]);
 
   return (
     <>
-      <div className="flex flex-col gap-4 px-4">
+      <div className="flex flex-col gap-4 px-4 overflow-x-hidden">
         <p className="text-lg font-semibold text-text dark:text-text-dark">{current_korean}기 목록 설정</p>
         <div className="flex flex-col gap-2">
           {
@@ -172,13 +196,12 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
             "p-3 bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl font-semibold w-full transition-all",
             disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer",
           ].join(" ")}
-          // onClick={!user.id ? needLogin : user.type === "student" ? () => refetchPut() : onlyStudent}
+          onClick={() => refetch()}
           disabled={disabled}
         >
-            저장하기
-          {/* {
-            isFetchingPut ? "저장 중..." : "저장하기"
-          } */}
+          {
+            isFetching ? "수정 중..." : "수정하기"
+          }
         </button>
       </div>
     </>

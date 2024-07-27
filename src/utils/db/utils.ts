@@ -42,7 +42,7 @@ export type Refresh_tokenDB = {
 
 export type Machine_list = {
   type: MachineType;
-  code: string;
+  // code: string;
   name: string;
   gender: UserInfo["gender"];
   allow: {
