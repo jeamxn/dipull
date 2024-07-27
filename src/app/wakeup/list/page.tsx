@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import moment from "moment";
 import React from "react";
 
 import { useAuth } from "@/hooks";
@@ -14,7 +15,7 @@ import { WakeupListResponse } from "./get/utlis";
 const WakeupList = () => {
   const { user, login } = useAuth();
   const { data, refetch } = useQuery({
-    queryKey: ["wakeup_apply_list"],
+    queryKey: ["wakeup_apply_list", moment().format("YYYY-MM-DD HH:mm:ss")],
     queryFn: async () => {
       const response = await axios.get<WakeupListResponse>("/wakeup/list/get");
       return response.data.data;
@@ -22,7 +23,7 @@ const WakeupList = () => {
     staleTime: 0,
   });
   const { data: myList, refetch: refetchMyList } = useQuery({
-    queryKey: ["wakeup_my_list"],
+    queryKey: ["wakeup_my_list", moment().format("YYYY-MM-DD HH:mm:ss")],
     queryFn: async () => {
       const response = await axios.get<MyWakeupResponseString>("/wakeup/my/grant/list");
       return response.data.data;
