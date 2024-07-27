@@ -72,7 +72,9 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
         <p className="text-lg font-semibold px-4 text-text dark:text-text-dark">{current_korean}기 신청하기</p>
         {
           user.type === "teacher" ? (
-            <SelectUser select={selected} setSelect={setSelected} />
+            <div className="w-full px-4">
+              <SelectUser select={selected} setSelect={setSelected} />
+            </div>
           ) : null
         }
         {

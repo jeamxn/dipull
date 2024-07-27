@@ -133,7 +133,9 @@ const Stay = () => {
         <p className="px-4 text-xl font-semibold transition-all whitespace-nowrap text-text dark:text-text-dark">좌석 선택</p>
         {
           user.type === "teacher" ? (
-            <SelectUser select={selected} setSelect={setSelected} />
+            <div className="w-full px-4">
+              <SelectUser select={selected} setSelect={setSelected} />
+            </div>
           ) : null
         }
         <div className="flex flex-row items-center justify-between px-4 gap-2">

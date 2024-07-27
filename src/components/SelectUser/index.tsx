@@ -58,7 +58,7 @@ const SelectUser = ({
   }, [selectModalData]);
 
   return (
-    <div className="flex flex-row items-center justify-between px-4 gap-2">
+    <div className="flex flex-row items-center justify-between gap-2">
       <div className="flex flex-col gap-1">
         <p className="text-base font-medium transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">사용자 선택하기</p>
         <p className="text-xl font-semibold transition-all whitespace-nowrap text-text dark:text-text-dark">

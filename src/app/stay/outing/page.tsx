@@ -6,15 +6,21 @@ import React from "react";
 
 import { useAlertModalDispatch } from "@/components/AlertModal";
 import { ModalProps, useModalDispatch } from "@/components/Modal";
+import SelectUser from "@/components/SelectUser";
 import { useAuth } from "@/hooks";
+import { defaultUser, UserInfo } from "@/utils/db/utils";
 
 import Outing from "./outing";
 import { initailOutingResponse, OutingResponse } from "./student/utils";
 import { initailOuting, initialMeals, koreanMeals, koreanWeekends, Meals, meals, OutingInfo, OutingType, sundayOuting, Weekend, weekends } from "./utils";
 
-
 const Stay = () => {
   const { user, needLogin, onlyStudent } = useAuth();
+  const [selected, setSelected] = React.useState<UserInfo>(defaultUser);
+  React.useEffect(() => {
+    setSelected(user);
+  }, [user]);
+
   const modalDispatch = useModalDispatch();
   const alertModalDispatch = useAlertModalDispatch();
 
@@ -36,9 +42,11 @@ const Stay = () => {
   }, [outing]);
 
   const { refetch, isFetching: loadingOuting, data } = useQuery({
-    queryKey: ["outing_get", user.id],
+    queryKey: ["outing_get", selected.id, user.id],
     queryFn: async () => {
-      const response = await axios.get<OutingResponse>("/stay/outing/student");
+      const response = await axios.get<OutingResponse>(
+        user.type === "teacher" ? `/stay/outing/teacher/${selected.id}` : "/stay/outing/student",
+      );
       if (response.data.outing) {
         setOuting(response.data.outing);
       }
@@ -47,16 +55,19 @@ const Stay = () => {
       }
       return response.data;
     },
-    enabled: Boolean(user.id && user.type === "student"),
+    enabled: Boolean(selected.id && selected.type === "student"),
   });
 
   const { refetch: refetchPut, isFetching: isFetchingPut } = useQuery({
-    queryKey: ["outing_put", outing, data],
+    queryKey: ["outing_put", outing, data, user.id, selected.id],
     queryFn: async () => {
-      const response = await axios.put<OutingResponse>("/stay/outing/student", {
-        outing,
-        meals: meal,
-      });
+      const response = await axios.put<OutingResponse>(
+        user.type === "teacher" ? `/stay/outing/teacher/${selected.id}` : "/stay/outing/student",
+        {
+          outing,
+          meals: meal,
+        }
+      );
       alertModalDispatch({
         type: "show",
         data: {
@@ -134,6 +145,11 @@ const Stay = () => {
       
       <div className="flex flex-col gap-4 px-4 w-full overflow-hidden">
         <p className="text-xl font-semibold transition-all whitespace-nowrap text-text dark:text-text-dark">외출 신청</p>
+        {
+          user.type === "teacher" ? (
+            <SelectUser select={selected} setSelect={setSelected} />
+          ) : null
+        }
         <div className="flex flex-row items-start justify-between gap-4 w-full flex-wrap">
           <div className="flex flex-col gap-4">
             {
@@ -245,7 +261,7 @@ const Stay = () => {
             "p-3 bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl font-semibold w-full transition-all",
             disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer",
           ].join(" ")}
-          onClick={!user.id ? needLogin : user.type === "student" ? () => refetchPut() : onlyStudent}
+          onClick={!user.id ? needLogin : () => refetchPut()}
           disabled={disabled}
         >
           {

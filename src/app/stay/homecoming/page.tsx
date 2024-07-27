@@ -4,35 +4,47 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
 
+import SelectUser from "@/components/SelectUser";
 import { useAuth } from "@/hooks";
+import { defaultUser, UserInfo } from "@/utils/db/utils";
 
 import { HomecomingResponse } from "./student/utils";
 import { koreanTimes, times, Times } from "./utils";
 
 const Stay = () => {
   const { user, needLogin, onlyStudent } = useAuth();
+  const [selected, setSelected] = React.useState<UserInfo>(defaultUser);
+  React.useEffect(() => {
+    setSelected(user);
+  }, [user]);
+
   const [reason, setReason] = React.useState("");
   const [time, setTime] = React.useState<Times>("school");
 
   const { data, refetch, isFetching } = useQuery({
-    queryKey: ["homecoming_get", user.id],
+    queryKey: ["homecoming_get", user.id, selected.id],
     queryFn: async () => {
-      const response = await axios.get<HomecomingResponse>("/stay/homecoming/student");
+      const response = await axios.get<HomecomingResponse>(
+        user.type === "teacher" ? `/stay/homecoming/teacher/${selected.id}` : "/stay/homecoming/student",
+      );
       const { data: res } = response.data;
       setReason(res?.reason || "");
       setTime(res?.time || "school");
       return res;
     },
-    enabled: Boolean(user.id && user.type === "student"),
+    enabled: Boolean(selected.id && selected.type === "student"),
   });
 
   const { refetch: refetchPut, isFetching: isFetchingPut } = useQuery({
-    queryKey: ["homecoming_put", time, reason, user.id],
+    queryKey: ["homecoming_put", time, reason, user.id, selected.id],
     queryFn: async () => {
-      const response = await axios.put<HomecomingResponse>("/stay/homecoming/student", {
-        reason,
-        time,
-      });
+      const response = await axios.put<HomecomingResponse>(
+        user.type === "teacher" ? `/stay/homecoming/teacher/${selected.id}` : "/stay/homecoming/student",
+        {
+          reason,
+          time,
+        }
+      );
       await refetch();
       return response.data;
     },
@@ -44,7 +56,9 @@ const Stay = () => {
   const { refetch: refetchDelete, isFetching: isFetchingDelete } = useQuery({
     queryKey: ["homecoming_delete", time, reason, user.id],
     queryFn: async () => {
-      const response = await axios.delete<HomecomingResponse>("/stay/homecoming/student");
+      const response = await axios.delete<HomecomingResponse>(
+        user.type === "teacher" ? `/stay/homecoming/teacher/${selected.id}` : "/stay/homecoming/student",
+      );
       await refetch();
       return response.data;
     },
@@ -61,7 +75,13 @@ const Stay = () => {
     <div className="flex flex-col gap-8 w-full overflow-hidden">
       <div className="flex flex-col gap-4 w-full">
         <p className="px-4 text-xl font-semibold transition-all whitespace-nowrap text-text dark:text-text-dark">금요귀가 신청</p>
-
+        {
+          user.type === "teacher" ? (
+            <div className="w-full px-4">
+              <SelectUser select={selected} setSelect={setSelected} />
+            </div>
+          ) : null
+        }
         <div className="flex flex-col gap-2 px-4">
           <p className="text-base font-medium transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">금요귀가 사유</p>
           <input
@@ -126,7 +146,7 @@ const Stay = () => {
                 isFetchingDelete ? "cursor-not-allowed opacity-50" : "cursor-pointer",
               ].join(" ")}
               disabled={isFetchingDelete}
-              onClick={!user.id ? needLogin : user.type === "student" ? () => refetchDelete() : onlyStudent}
+              onClick={!user.id ? needLogin : () => refetchDelete()}
             >
               {
                 isFetchingDelete ? "취소 중..." : "취소하기"
@@ -139,7 +159,7 @@ const Stay = () => {
                 !reason || disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer",
               ].join(" ")}
               disabled={!reason || disabled}
-              onClick={!user.id ? needLogin : user.type === "student" ? () => refetchPut() : onlyStudent}
+              onClick={!user.id ? needLogin : () => refetchPut()}
             >
               {
                 isFetchingPut ? "신청 중..." : "신청하기"
