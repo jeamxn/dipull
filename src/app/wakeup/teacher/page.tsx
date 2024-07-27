@@ -53,11 +53,11 @@ const WakeupTeacher = () => {
   return (
     <div className="flex flex-col gap-5 w-full">
       {
-        isFetching ? (
+        !data ? (
           <div className="w-full px-4 flex flex-row items-center justify-center">
             <p className="text-text/40 dark:text-text-dark/50 text-center">기상속 목록을 불러오는 중...</p>
           </div>
-        ) : data?.length ? data.map((video, index) => (
+        ) : data.length ? data.map((video, index) => (
           <div
             key={index}
             className="w-full flex flex-col items-end justify-center gap-1"
