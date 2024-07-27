@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { getWeekStart } from "@/utils/date";
 import { collections } from "@/utils/db";
 import { UserInfo } from "@/utils/db/utils";
 import { accessVerify } from "@/utils/jwt";
@@ -44,11 +45,14 @@ const GET = async (
       result[key] = Array.from(combinedAllow[key]);
     }
 
+    const week = await getWeekStart();
+
     const stay = await collections.stay();
     const stays = await stay.aggregate([
       {
         $match: {
-          "seat.onSeat": true
+          "seat.onSeat": true,
+          week: week
         }
       },
       {
