@@ -57,7 +57,6 @@ export const GET = async (
         $project: {
           _id: 0,
           name: "$washerDetails.name",
-          code: "$code",
           owner: {
             $concat: [{
               $toString: "$user.number",
@@ -78,7 +77,6 @@ export const GET = async (
           _id: "$name",
           machines: {
             $push: {
-              code: "$code",
               owner: "$owner",
               time: "$time",
             }
