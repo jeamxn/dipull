@@ -66,7 +66,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
         <div className="flex flex-col gap-2">
           {
             machinesLoading ? (
-              <div className="w-full flex flex-col items-center justify-center py-8">
+              <div className="w-full flex flex-col items-center justify-center">
                 <p className="text-text/40 dark:text-text-dark/50">{current_korean}기 목록을 불러오는 중...</p>
               </div>
             ) : machines.length ? machines.map((machine, i) => (
@@ -76,11 +76,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
                 setMachines={setMachines}
                 machine={machine}
               />
-            )) : (
-              <div className="w-full flex flex-col items-center justify-center py-8">
-                <p className="text-text dark:text-text-dark">등록된 {current_korean}기가 없습니다.</p>
-              </div>
-            )
+            )) : null
           }
           <div className="flex flex-row items-center justify-center py-2">
             <button
@@ -115,7 +111,11 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
               </p>
               <div className="flex flex-col gap-2 bg-white dark:bg-white-dark p-4 rounded-xl">
                 {
-                  times?.[key].length ? times[key].map((time, j) => (
+                  timesLoading ? (
+                    <div className="w-full flex flex-col items-center justify-center">
+                      <p className="text-text/40 dark:text-text-dark/50">{current_korean} 시간을 불러오는 중...</p>
+                    </div>
+                  ) : times?.[key].length ? times[key].map((time, j) => (
                     <div
                       key={j}
                       className="flex flex-row items-center justify-between gap-2 rounded"
