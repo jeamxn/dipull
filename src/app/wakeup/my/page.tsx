@@ -10,7 +10,9 @@ import Card from "../card";
 
 import { MyWakeupResponseString } from "./grant/list/utils";
 
-const Machine = () => {
+export const fetchCache = "force-no-store";
+
+const WakeupMy = () => {
   const { user, login } = useAuth();
   const { data: myList, refetch: refetchMyList } = useQuery({
     queryKey: ["wakeup_my_list"],
@@ -57,4 +59,4 @@ const Machine = () => {
   );
 };
 
-export default Machine;
+export default WakeupMy;

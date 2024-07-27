@@ -14,7 +14,7 @@ import { initailOutingResponse, OutingResponse } from "./grant/[id]/utils";
 import Outing from "./outing";
 import { initailOuting, initialMeals, koreanMeals, koreanWeekends, Meals, meals, OutingInfo, OutingType, sundayOuting, Weekend, weekends } from "./utils";
 
-const Stay = () => {
+const StayOuting = () => {
   const { user, needLogin, onlyStudent } = useAuth();
   const [selected, setSelected] = React.useState<UserInfo>(defaultUser);
   React.useEffect(() => {
@@ -268,4 +268,4 @@ const Stay = () => {
   );
 };
 
-export default Stay;
+export default StayOuting;

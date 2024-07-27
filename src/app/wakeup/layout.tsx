@@ -4,6 +4,8 @@ import React from "react";
 import Menu from "@/components/Navigation/menu";
 import { getServerUser } from "@/utils/server";
 
+export const fetchCache = "force-no-store";
+
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "기상송 신청 :: 디풀",
