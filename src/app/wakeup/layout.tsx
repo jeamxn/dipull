@@ -2,6 +2,7 @@ import { Metadata, ResolvingMetadata } from "next";
 import React from "react";
 
 import Menu from "@/components/Navigation/menu";
+import { getServerUser } from "@/utils/server";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -24,14 +25,15 @@ const menus = [
   }
 ];
 
-const Layout = ({
+const Layout = async ({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
+  const { type } = await getServerUser();
   return (
     <div className="py-6 flex flex-col gap-6">
-      <Menu menus={menus} />
+      { type === "teacher" ? null : <Menu menus={menus} /> }
       {children}
     </div>
   );

@@ -31,6 +31,7 @@ const Card = ({
   parentRefetch,
   myList,
   isMyList,
+  disabled = false,
 }: {
   _id?: string;
   id: string;
@@ -41,6 +42,7 @@ const Card = ({
     parentRefetch?: () => any;
     myList?: MyWakeupResponseString["data"];
     isMyList?: boolean;
+    disabled?: boolean;
   }) => {
   const { user, needLogin } = useAuth();
   const [click, setClick] = React.useState<"" | "loading" | "success">("");
@@ -80,9 +82,10 @@ const Card = ({
   });
 
   return (
-    <div
-      className="px-4 w-full relative"
+    <button
+      className="px-4 w-full relative cursor-default"
       onClick={onClick}
+      disabled={disabled}
     >
       <img
         className="w-full h-auto aspect-video object-cover select-none rounded-2xl"
@@ -134,7 +137,7 @@ const Card = ({
           </button>
         </div>
       </div>
-    </div>
+    </button>
   );
 };
 
