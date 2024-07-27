@@ -60,6 +60,7 @@ const PUT = async (
     const machineDB = await collections.machine();
     const myMachine = await machineDB.findOne({
       owner: id,
+      type: params.type,
       date: today,
     });
     if (myMachine) { 

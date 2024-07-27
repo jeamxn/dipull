@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import moment from "moment";
 import React from "react";
 
 import { useAuth } from "@/hooks";
@@ -13,7 +14,7 @@ import { MyWakeupResponseString } from "./grant/list/utils";
 const WakeupMy = () => {
   const { user, login } = useAuth();
   const { data: myList, refetch: refetchMyList } = useQuery({
-    queryKey: ["wakeup_my_list"],
+    queryKey: ["wakeup_my_list", moment().format("YYYY-MM-DD HH:mm:ss")],
     queryFn: async () => {
       const response = await axios.get<MyWakeupResponseString>("/wakeup/my/grant/list");
       return response.data.data;

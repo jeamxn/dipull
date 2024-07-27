@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import moment from "moment";
 import React from "react";
 
 import { useAlertModalDispatch } from "@/components/AlertModal";
@@ -22,7 +23,7 @@ const WakeupTeacher = () => {
   const confirmDispatch = useConfirmModalDispatch();
 
   const { data, refetch } = useQuery({
-    queryKey: ["wakeup_apply_list"],
+    queryKey: ["wakeup_apply_list", moment().format("YYYY-MM-DD HH:mm:ss")],
     queryFn: async () => {
       const response = await axios.get<WakeupListResponse>("/wakeup/list/get");
       return response.data.data;
