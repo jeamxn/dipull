@@ -17,7 +17,7 @@ const WakeupList = () => {
   const { data, refetch } = useQuery({
     queryKey: ["wakeup_apply_list", moment().format("YYYY-MM-DD HH:mm:ss")],
     queryFn: async () => {
-      const response = await axios.get<WakeupListResponse>("/wakeup/list/get");
+      const response = await axios.post<WakeupListResponse>("/wakeup/list/get");
       return response.data.data;
     },
     staleTime: 0,
@@ -25,7 +25,7 @@ const WakeupList = () => {
   const { data: myList, refetch: refetchMyList } = useQuery({
     queryKey: ["wakeup_my_list", moment().format("YYYY-MM-DD HH:mm:ss")],
     queryFn: async () => {
-      const response = await axios.get<MyWakeupResponseString>("/wakeup/my/grant/list");
+      const response = await axios.post<MyWakeupResponseString>("/wakeup/my/grant/list");
       return response.data.data;
     },
     enabled: Boolean(user.id),
