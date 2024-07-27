@@ -34,6 +34,7 @@ const StudyroomModal = ({
     },
     enabled: Boolean(modal.show),
     refetchOnWindowFocus: true,
+    staleTime: 0,
   });
 
   const handleSaveAsImage = () => {

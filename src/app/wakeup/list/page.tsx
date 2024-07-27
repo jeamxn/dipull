@@ -16,9 +16,10 @@ const Machine = () => {
   const { data, refetch } = useQuery({
     queryKey: ["wakeup_apply_list"],
     queryFn: async () => {
-      const response = await axios.get<WakeupListResponse>("/wakeup/list/get");
+      const response = await axios.post<WakeupListResponse>("/wakeup/list/get");
       return response.data.data;
     },
+    staleTime: 0,
   });
   const { data: myList, refetch: refetchMyList } = useQuery({
     queryKey: ["wakeup_my_list"],
@@ -27,6 +28,7 @@ const Machine = () => {
       return response.data.data;
     },
     enabled: Boolean(user.id),
+    staleTime: 0,
   });
 
   return (
