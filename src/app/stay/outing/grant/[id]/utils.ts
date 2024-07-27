@@ -1,6 +1,6 @@
 import { Outing } from "@/utils/db/utils";
 
-import { Meals } from "../utils";
+import { Meals } from "../../utils";
 
 export type OutingResponse = {
   success: boolean;
