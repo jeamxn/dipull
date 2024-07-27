@@ -51,11 +51,23 @@ const GET = async (
       },
     ]).toArray();
 
-    const response = NextResponse.json<KeyHomecomingResponse>({
-      success: true,
-      data: myStay,
+    const object: {
+      [key: string]: {
+        [key: string]: KeyHomecoming[];
+      }
+    } = {};
+    myStay.forEach((stay) => { 
+      const grade = Math.floor(stay.number / 1000);
+      const classNum = Math.floor(stay.number / 100) % 10;
+      object[grade] = object[grade] || {};
+      object[grade][classNum] = object[grade][classNum] || [];
+      object[grade][classNum].push(stay);
     });
 
+    const response = NextResponse.json<KeyHomecomingResponse>({
+      success: true,
+      data: object,
+    });
     return response;
   }
   catch (e: any) {
