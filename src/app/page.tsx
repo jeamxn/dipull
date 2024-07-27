@@ -20,7 +20,7 @@ const Home = () => {
         >
           <img
             className="w-full h-full"
-            src="https://lh3.googleusercontent.com/a/ACg8ocKyDiVdNK5iuPoyj3TGnsK7daSEj3ciCDPT99KKr_qq10tUvmoC=s96-c"
+            src={user.profile_image || "/public/icons/icon-512-maskable.png"}
             alt="profile"
           />
         </div>
