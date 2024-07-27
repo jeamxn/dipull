@@ -69,7 +69,7 @@ const Settings = () => {
   const { refetch, isFetching: isFetchingPut } = useQuery({
     queryKey: ["studyroom_all_info_put", studyroomData],
     queryFn: async () => {
-      const response = await axios.put<StudyroomAllResponse>("/settings/teacher/studyroom/edit", {
+      const response = await axios.post<StudyroomAllResponse>("/settings/teacher/studyroom/edit", {
         studyroomData
       });
       alertDispatch({

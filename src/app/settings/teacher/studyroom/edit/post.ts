@@ -7,7 +7,7 @@ import { Studyroom } from "@/utils/db/utils";
 
 import { StudyroomAllResponse } from "./utils";
 
-const PUT = async (
+const POST = async (
   req: NextRequest,
 ) => {
   try {
@@ -42,4 +42,4 @@ const PUT = async (
   }
 };
 
-export default PUT;
+export default POST;
