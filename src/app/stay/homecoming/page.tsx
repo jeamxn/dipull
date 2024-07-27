@@ -8,7 +8,7 @@ import SelectUser from "@/components/SelectUser";
 import { useAuth } from "@/hooks";
 import { defaultUser, UserInfo } from "@/utils/db/utils";
 
-import { HomecomingResponse } from "./student/utils";
+import { HomecomingResponse } from "./grant/[id]/utils";
 import { koreanTimes, times, Times } from "./utils";
 
 const Stay = () => {
@@ -24,9 +24,7 @@ const Stay = () => {
   const { data, refetch, isFetching } = useQuery({
     queryKey: ["homecoming_get", user.id, selected.id],
     queryFn: async () => {
-      const response = await axios.get<HomecomingResponse>(
-        user.type === "teacher" ? `/stay/homecoming/teacher/${selected.id}` : "/stay/homecoming/student",
-      );
+      const response = await axios.get<HomecomingResponse>(`/stay/homecoming/grant/${selected.id}`);
       const { data: res } = response.data;
       setReason(res?.reason || "");
       setTime(res?.time || "school");
@@ -38,13 +36,10 @@ const Stay = () => {
   const { refetch: refetchPut, isFetching: isFetchingPut } = useQuery({
     queryKey: ["homecoming_put", time, reason, user.id, selected.id],
     queryFn: async () => {
-      const response = await axios.put<HomecomingResponse>(
-        user.type === "teacher" ? `/stay/homecoming/teacher/${selected.id}` : "/stay/homecoming/student",
-        {
-          reason,
-          time,
-        }
-      );
+      const response = await axios.put<HomecomingResponse>(`/stay/homecoming/grant/${selected.id}`, {
+        reason,
+        time,
+      });
       await refetch();
       return response.data;
     },
@@ -56,9 +51,7 @@ const Stay = () => {
   const { refetch: refetchDelete, isFetching: isFetchingDelete } = useQuery({
     queryKey: ["homecoming_delete", time, reason, user.id],
     queryFn: async () => {
-      const response = await axios.delete<HomecomingResponse>(
-        user.type === "teacher" ? `/stay/homecoming/teacher/${selected.id}` : "/stay/homecoming/student",
-      );
+      const response = await axios.delete<HomecomingResponse>(`/stay/homecoming/grant/${selected.id}`);
       await refetch();
       return response.data;
     },

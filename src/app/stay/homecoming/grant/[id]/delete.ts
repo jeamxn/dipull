@@ -9,8 +9,9 @@ import { getWeekStart, isApplyAvail, stayApplyErrorMessage } from "@/utils/date"
 import { collections } from "@/utils/db";
 import { UserInfo } from "@/utils/db/utils";
 import { accessVerify } from "@/utils/jwt";
+import { getUserByID } from "@/utils/server";
 
-import { HomecomingResponse } from "../../student/utils";
+import { HomecomingResponse } from "./utils";
 
 const DELETE = async (
   req: NextRequest,
@@ -21,18 +22,14 @@ const DELETE = async (
   }
 ) => {
   try {
-    if (!params.id) {
-      throw new Error("학생을 선택해주세요.");
+    const { target, isTeacher } = await getUserByID(req, params.id);
+    const { id, number } = target;
+
+    const applyStart = await isApplyAvail(number);
+    if (!applyStart && !isTeacher) {
+      throw new Error(await stayApplyErrorMessage(number));
     }
-    const user = await collections.users();
-    const getUser = await user.findOne({
-      id: params.id,
-      type: "student"
-    });
-    if (!getUser) {
-      throw new Error("존재하지 않는 학생입니다.");
-    }
-    const { id, gender, number } = getUser;
+
     const week = await getWeekStart();
 
     const homecoming = await collections.homecoming();

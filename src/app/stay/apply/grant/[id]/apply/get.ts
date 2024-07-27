@@ -4,48 +4,44 @@ import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 import xss from "xss";
 
-
 import { getWeekStart } from "@/utils/date";
 import { collections } from "@/utils/db";
+import { UserInfo } from "@/utils/db/utils";
 import { accessVerify } from "@/utils/jwt";
+import { getUserByID } from "@/utils/server";
 
-import { Times, times } from "../utils";
-
-import { HomecomingResponse } from "./utils";
+import { StayResponse } from "./utils";
 
 const GET = async (
   req: NextRequest,
+  { params }: {
+    params: {
+      id: UserInfo["id"];
+    }
+  }
 ) => {
   try {
-    const accessToken = req.cookies.get("access_token")?.value || "";
-    const { id } = await accessVerify(accessToken);
+    const { target } = await getUserByID(req, params.id);
+    const { id } = target;
 
     const week = await getWeekStart();
 
-    const homecoming = await collections.homecoming();
-    const myHomecoming = await homecoming.findOne({
+    const stay = await collections.stay();
+    const myStay = await stay.findOne({
       id: id,
       week: week,
     });
-    
-    const response = NextResponse.json<HomecomingResponse>({
+
+    const response = NextResponse.json<StayResponse>({
       success: true,
-      data: myHomecoming ? {
-        week: myHomecoming.week,
-        id: myHomecoming.id,
-        reason: myHomecoming.reason,
-        time: myHomecoming.time,
-      } : {
-        week: week,
-        id: id,
-        reason: "",
-        time: "school",
-      },
+      myStay: myStay ? true : false,
+      seat: myStay?.seat,
     });
+
     return response;
   }
   catch (e: any) {
-    const response = NextResponse.json<HomecomingResponse>({
+    const response = NextResponse.json<StayResponse>({
       success: false,
       error: {
         title: "이런!!",

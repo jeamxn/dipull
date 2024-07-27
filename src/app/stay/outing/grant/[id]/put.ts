@@ -6,15 +6,21 @@ import xss from "xss";
 
 import { getWeekStart, isApplyAvail, stayApplyErrorMessage } from "@/utils/date";
 import { collections } from "@/utils/db";
-import { Outing, Stay } from "@/utils/db/utils";
+import { Outing, Stay, UserInfo } from "@/utils/db/utils";
 import { accessVerify } from "@/utils/jwt";
+import { getUserByID } from "@/utils/server";
 
-import { Meals } from "../utils";
+import { Meals } from "../../utils";
 
 import { OutingResponse } from "./utils";
 
 const PUT = async (
   req: NextRequest,
+  { params }: {
+    params: {
+      id: UserInfo["id"];
+    }
+  }
 ) => {
   try {
     const { outing, meals }: {
@@ -24,10 +30,11 @@ const PUT = async (
     if (!outing) throw new Error("외출 정보를 입력해주세요.");
     if (!meals) throw new Error("급식 정보를 입력해주세요.");
 
-    const accessToken = req.cookies.get("access_token")?.value || "";
-    const { id, number } = await accessVerify(accessToken);
+    const { target, isTeacher } = await getUserByID(req, params.id);
+    const { id, number } = target;
+
     const applyStart = await isApplyAvail(number);
-    if (!applyStart) {
+    if (!applyStart && !isTeacher) {
       throw new Error(await stayApplyErrorMessage(number));
     }
     const week = await getWeekStart();

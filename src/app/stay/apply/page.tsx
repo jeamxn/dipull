@@ -9,7 +9,7 @@ import SelectUser from "@/components/SelectUser";
 import { useAuth } from "@/hooks";
 import { defaultUser, UserInfo } from "@/utils/db/utils";
 
-import { StayResponse } from "./student/utils";
+import { StayResponse } from "./grant/[id]/apply/utils";
 import Studyroom from "./studyroom";
 
 
@@ -30,9 +30,7 @@ const Stay = () => {
   const { data, refetch, isFetching } = useQuery({
     queryKey: ["stay_get", selected.id, user.id],
     queryFn: async () => {
-      const response = await axios.get<StayResponse>(
-        user.type === "teacher" ? `/stay/apply/teacher/${selected.id}` : "/stay/apply/student",
-      );
+      const response = await axios.get<StayResponse>(`/stay/apply/grant/${selected.id}/apply`);
       if (response.data.myStay) { 
         if (response.data.seat?.onSeat) {
           setSelect(response.data.seat.num);
@@ -53,9 +51,7 @@ const Stay = () => {
   const { refetch: refetchDelete, isFetching: isFetchingDelete } = useQuery({
     queryKey: ["stay_delete", reason, select, user.id],
     queryFn: async () => {
-      const response = await axios.delete<StayResponse>(
-        user.type === "teacher" ? `/stay/apply/teacher/${selected.id}` : "/stay/apply/student",
-      );
+      const response = await axios.delete<StayResponse>(`/stay/apply/grant/${selected.id}/apply`);
       await refetch();
       return response.data;
     },
@@ -67,13 +63,10 @@ const Stay = () => {
   const { refetch: refetchPut, isFetching: isFetchingPut } = useQuery({
     queryKey: ["stay_put", reason, select, user.id],
     queryFn: async () => {
-      const response = await axios.put<StayResponse>(
-        user.type === "teacher" ? `/stay/apply/teacher/${selected.id}` : "/stay/apply/student",
-        {
-          reason,
-          seat: select,
-        }
-      );
+      const response = await axios.put<StayResponse>(`/stay/apply/grant/${selected.id}/apply`, {
+        reason,
+        seat: select,
+      });
       await refetch();
       return response.data;
     },

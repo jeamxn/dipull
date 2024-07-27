@@ -7,18 +7,26 @@ import xss from "xss";
 
 import { getWeekStart, isApplyAvail, stayApplyErrorMessage } from "@/utils/date";
 import { collections } from "@/utils/db";
+import { defaultUser, UserInfo } from "@/utils/db/utils";
 import { accessVerify } from "@/utils/jwt";
+import { getUserByID } from "@/utils/server";
 
 import { StayResponse } from "./utils";
 
 const DELETE = async (
   req: NextRequest,
+  { params }: {
+    params: {
+      id: UserInfo["id"];
+    }
+  }
 ) => {
   try {
-    const accessToken = req.cookies.get("access_token")?.value || "";
-    const { id, number } = await accessVerify(accessToken);
+    const { target, isTeacher } = await getUserByID(req, params.id);
+    const { id, number, type, gender } = target;
+
     const applyStart = await isApplyAvail(number);
-    if (!applyStart) {
+    if (!applyStart && !isTeacher) {
       throw new Error(await stayApplyErrorMessage(number));
     }
 

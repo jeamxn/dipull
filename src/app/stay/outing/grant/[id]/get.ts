@@ -6,37 +6,46 @@ import xss from "xss";
 
 import { getWeekStart } from "@/utils/date";
 import { collections } from "@/utils/db";
+import { UserInfo } from "@/utils/db/utils";
 import { accessVerify } from "@/utils/jwt";
+import { getUserByID } from "@/utils/server";
 
-import { StayResponse } from "./utils";
+import { initialMeals } from "../../utils";
+
+import { initailOutingResponse, OutingResponse } from "./utils";
 
 const GET = async (
   req: NextRequest,
+  { params }: {
+    params: {
+      id: UserInfo["id"];
+    }
+  }
 ) => {
   try {
-    const accessToken = req.cookies.get("access_token")?.value || "";
-    const { id } = await accessVerify(accessToken);
+    const { target } = await getUserByID(req, params.id);
+    const { id } = target;
+
     const week = await getWeekStart();
 
-    const stay = await collections.stay();
-    const myStay = await stay.findOne({
+    const outingDB = await collections.outing();
+    const outing = await outingDB.findOne({
       id: id,
       week: week,
     });
-
-    const response = NextResponse.json<StayResponse>({
+    
+    const response = NextResponse.json<OutingResponse>({
       success: true,
-      myStay: myStay ? true : false,
-      seat: myStay?.seat,
+      outing: outing?.outing || initailOutingResponse,
+      meals: outing?.meals || initialMeals,
     });
-
     return response;
   }
   catch (e: any) {
-    const response = NextResponse.json<StayResponse>({
+    const response = NextResponse.json<OutingResponse>({
       success: false,
       error: {
-        title: "이런!!",
+        title: "이럴수가...!",
         description: e.message,
       }
     }, {

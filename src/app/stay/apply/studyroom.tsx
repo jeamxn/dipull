@@ -7,7 +7,7 @@ import { useModal } from "@/components/Modal";
 import { useAuth } from "@/hooks";
 import { UserInfo } from "@/utils/db/utils";
 
-import { StudyroomResponse } from "./grant/[id]/utils";
+import { StudyroomResponse } from "./grant/[id]/studyroom/utils";
 
 const Studyroom = ({
   select,
@@ -28,7 +28,7 @@ const Studyroom = ({
   const { data: studyroomData, isFetching } = useQuery({
     queryKey: ["studyroom_info", selected.id, selected.number, selected.type, modal.show],
     queryFn: async () => {
-      const response = await axios.get<StudyroomResponse>(`/stay/apply/grant/${selected.id}`);
+      const response = await axios.get<StudyroomResponse>(`/stay/apply/grant/${selected.id}/studyroom`);
       return response.data;
     },
     enabled: Boolean(modal.show),

@@ -10,8 +10,8 @@ import SelectUser from "@/components/SelectUser";
 import { useAuth } from "@/hooks";
 import { defaultUser, UserInfo } from "@/utils/db/utils";
 
+import { initailOutingResponse, OutingResponse } from "./grant/[id]/utils";
 import Outing from "./outing";
-import { initailOutingResponse, OutingResponse } from "./student/utils";
 import { initailOuting, initialMeals, koreanMeals, koreanWeekends, Meals, meals, OutingInfo, OutingType, sundayOuting, Weekend, weekends } from "./utils";
 
 const Stay = () => {
@@ -44,9 +44,7 @@ const Stay = () => {
   const { refetch, isFetching: loadingOuting, data } = useQuery({
     queryKey: ["outing_get", selected.id, user.id],
     queryFn: async () => {
-      const response = await axios.get<OutingResponse>(
-        user.type === "teacher" ? `/stay/outing/teacher/${selected.id}` : "/stay/outing/student",
-      );
+      const response = await axios.get<OutingResponse>(`/stay/outing/grant/${selected.id}`);
       if (response.data.outing) {
         setOuting(response.data.outing);
       }
@@ -61,13 +59,10 @@ const Stay = () => {
   const { refetch: refetchPut, isFetching: isFetchingPut } = useQuery({
     queryKey: ["outing_put", outing, data, user.id, selected.id],
     queryFn: async () => {
-      const response = await axios.put<OutingResponse>(
-        user.type === "teacher" ? `/stay/outing/teacher/${selected.id}` : "/stay/outing/student",
-        {
-          outing,
-          meals: meal,
-        }
-      );
+      const response = await axios.put<OutingResponse>(`/stay/outing/grant/${selected.id}`, {
+        outing,
+        meals: meal,
+      });
       alertModalDispatch({
         type: "show",
         data: {

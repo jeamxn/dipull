@@ -7,14 +7,21 @@ import xss from "xss";
 
 import { getWeekStart, isApplyAvail, stayApplyErrorMessage } from "@/utils/date";
 import { collections } from "@/utils/db";
+import { UserInfo } from "@/utils/db/utils";
 import { accessVerify } from "@/utils/jwt";
+import { getUserByID } from "@/utils/server";
 
-import { Times, times } from "../utils";
+import { Times, times } from "../../utils";
 
 import { HomecomingResponse } from "./utils";
 
 const PUT = async (
   req: NextRequest,
+  { params }: {
+    params: {
+      id: UserInfo["id"];
+    }
+  }
 ) => {
   try {
     const { reason, time } = await req.json();
@@ -28,13 +35,14 @@ const PUT = async (
       throw new Error("올바르지 않은 시간입니다.");
     }
 
-    const accessToken = req.cookies.get("access_token")?.value || "";
-    const { id, number } = await accessVerify(accessToken);
-    if (number < 3000) {
+    const { target, isTeacher } = await getUserByID(req, params.id);
+    const { id, number } = target;
+
+    if (number < 3000 && !isTeacher) {
       throw new Error("3학년만 금요귀가 신청을 할 수 있습니다.");
     }
     const applyStart = await isApplyAvail(number);
-    if (!applyStart) {
+    if (!applyStart && !isTeacher) {
       throw new Error(await stayApplyErrorMessage(number));
     }
 
