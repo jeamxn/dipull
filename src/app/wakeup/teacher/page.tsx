@@ -27,6 +27,7 @@ const Machine = () => {
       const response = await axios.get<WakeupListResponse>("/wakeup/list/get");
       return response.data.data;
     },
+    staleTime: 0,
   });
   const { refetch: deleteWakeup, isError } = useQuery({
     queryKey: ["wakeup_delete", delete_id?._id],
