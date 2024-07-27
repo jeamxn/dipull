@@ -25,7 +25,7 @@ const WakeupList = () => {
   const { data: myList, refetch: refetchMyList } = useQuery({
     queryKey: ["wakeup_my_list"],
     queryFn: async () => {
-      const response = await axios.post<MyWakeupResponseString>("/wakeup/my/grant/list");
+      const response = await axios.get<MyWakeupResponseString>("/wakeup/my/grant/list");
       return response.data.data;
     },
     enabled: Boolean(user.id),
