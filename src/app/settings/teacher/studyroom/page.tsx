@@ -96,7 +96,11 @@ const Settings = () => {
         <p className="px-4 text-xl font-semibold transition-all whitespace-nowrap text-text dark:text-text-dark">구역 설정하기</p>
         <div className="flex flex-col gap-2 px-4">
           {
-            studyroomData?.map((studyroom, i) => (
+            isFetching ? (
+              <div className="w-full flex items-center justify-center">
+                <p className="text-lg transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">열람실 좌석을 불러오는 중...</p>
+              </div>
+            ) : studyroomData?.map((studyroom, i) => (
               <div key={i} className="w-full rounded-xl px-4 py-4 bg-white dark:bg-white-dark flex flex-col gap-4 dark:border border-text-dark/20">
                 <div className="flex flex-row items-center justify-between gap-2">
                   <div className="flex flex-col gap-1 w-full overflow-hidden">
