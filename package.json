@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/third-parties": "^14.2.5",
     "@tanstack/react-query": "^5.51.11",
     "@uiw/react-markdown-editor": "^6.1.2",
     "@uiw/react-markdown-preview": "^5.1.2",
