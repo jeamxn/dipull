@@ -4,7 +4,7 @@ import React from "react";
 import { useAuth } from "@/hooks";
 import { MachineJoin } from "@/utils/db/utils";
 
-import { Machine_list_Response } from "./list/utils";
+import { Machine_list_Response } from "./list/[allow]/utils";
 
 const MachineInfo = ({
   machine,

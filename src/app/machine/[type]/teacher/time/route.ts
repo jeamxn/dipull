@@ -7,7 +7,9 @@ import { checkWeekend } from "@/utils/date";
 import { collections } from "@/utils/db";
 import { Machine_Time } from "@/utils/db/utils";
 
-import { MachineType } from "../utils";
+import { MachineType } from "../../utils";
+
+import { TimesResponse } from "./utils";
 
 export const GET = async (
   req: NextRequest,
@@ -15,21 +17,29 @@ export const GET = async (
 ) => {
   try {
     const today = moment().tz("Asia/Seoul").format("YYYY-MM-DD");
-    const isWeekend = await checkWeekend(today);
 
     const machine_time = await collections.machine_time();
-    const machineTime = await machine_time.findOne({
-      type: params.type,
-      when: isWeekend ? "weekend" : "default",
-    });
+    const [default_, weekend] = await Promise.all([
+      machine_time.findOne({
+        type: params.type,
+        when: "default",
+      }),
+      machine_time.findOne({
+        type: params.type,
+        when: "weekend",
+      })
+    ]);
   
-    const response = NextResponse.json<Machine_Time["time"]>(machineTime?.time || []);
+    const response = NextResponse.json<TimesResponse>({
+      data: {
+        default: default_?.time || [],
+        weekend: weekend?.time || [],
+      }
+    });
     return response;
   }
   catch (e: any) {
-    const response = NextResponse.json<{
-      error: ErrorMessage;
-    }>({
+    const response = NextResponse.json<TimesResponse>({
       error: {
         title: "시간 조회를 실패했어요.",
         description: e.message,

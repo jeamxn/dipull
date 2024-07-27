@@ -1,6 +1,6 @@
 import { UserInfo } from "@/utils/db/utils";
 
-import { MachineType } from "../utils";
+import { MachineType } from "../../utils";
 
 export type Machine_list_Response = {
   type: MachineType;

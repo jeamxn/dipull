@@ -8,7 +8,7 @@ import { useAuth } from "@/hooks";
 import { MachineJoin, UserInfo } from "@/utils/db/utils";
 
 import { MachineApplyResponse } from "./grant/apply/utils";
-import { Machine_list_Response } from "./list/utils";
+import { Machine_list_Response } from "./list/[allow]/utils";
 import { MachineType, machineTypeToKorean } from "./utils";
 
 const MyApply = ({

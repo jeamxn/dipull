@@ -10,10 +10,10 @@ import Menu from "@/components/Navigation/menu";
 import SelectUser from "@/components/SelectUser";
 import { useAuth } from "@/hooks";
 import { getUserInfo } from "@/utils/cookies";
-import { defaultUser, MachineJoin, UserInfo } from "@/utils/db/utils";
+import { defaultUser, Machine_Time, MachineJoin, UserInfo } from "@/utils/db/utils";
 
 import Apply from "./apply";
-import { Machine_list_Response } from "./list/utils";
+import { Machine_list_Response } from "./list/[allow]/utils";
 import MachineInfo from "./machineInfo";
 import MyApply from "./myApply";
 import { MachineType, machineTypeToKorean } from "./utils";
@@ -30,7 +30,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
   const { data: machines, isFetching: machinesLoading } = useQuery({
     queryKey: ["machine_list", params.type],
     queryFn: async () => {
-      const response = await axios.get<Machine_list_Response[]>(`/machine/${params.type}/list`);
+      const response = await axios.get<Machine_list_Response[]>(`/machine/${params.type}/list/all`);
       return response.data;
     },
     initialData: [],
@@ -39,7 +39,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
   const { data: times } = useQuery({
     queryKey: ["time_list", params.type],
     queryFn: async () => {
-      const response = await axios.get<string[]>(`/machine/${params.type}/time`);
+      const response = await axios.get<Machine_Time["time"]>(`/machine/${params.type}/time`);
       return response.data;
     },
     initialData: [],

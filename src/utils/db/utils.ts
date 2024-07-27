@@ -139,3 +139,9 @@ export type Outing = {
   outing: OutingType;
   meals: Meals;
 };
+
+export type Machine_Time = {
+  type: MachineType;
+  when: "weekend" | "default";
+  time: string[];
+};
