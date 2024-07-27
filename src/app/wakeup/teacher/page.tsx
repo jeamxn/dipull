@@ -5,6 +5,7 @@ import axios from "axios";
 import React from "react";
 
 import { useAlertModalDispatch } from "@/components/AlertModal";
+import { useConfirmModalDispatch } from "@/components/ConfirmModal";
 import { useAuth } from "@/hooks";
 
 import Card from "../card";
@@ -18,6 +19,7 @@ const Machine = () => {
 
   const [delete_id, setDelete_id] = React.useState<WakeupListData | null>(null);
   const alertDispatch = useAlertModalDispatch();
+  const confirmDispatch = useConfirmModalDispatch();
 
   const { data, refetch } = useQuery({
     queryKey: ["wakeup_apply_list"],
@@ -75,7 +77,16 @@ const Machine = () => {
               </button>
               <button
                 onClick={() => {
-                  setDelete_id(video);
+                  confirmDispatch({
+                    type: "show",
+                    data: {
+                      title: "기상송 삭제",
+                      description: `기상송을 삭제하시겠습니까?\n선택된 기상송: ${video.title}`,
+                      onConfirm: () => {
+                        setDelete_id(video);
+                      },
+                    },
+                  });
                 }}
               >
                 <p className="underline text-text dark:text-text-dark">삭제하기</p>

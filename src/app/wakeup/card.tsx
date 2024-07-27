@@ -82,10 +82,9 @@ const Card = ({
   });
 
   return (
-    <button
+    <div
       className="px-4 w-full relative cursor-default"
-      onClick={onClick}
-      disabled={disabled}
+      onClick={disabled ? () => { } : onClick}
     >
       <img
         className="w-full h-auto aspect-video object-cover select-none rounded-2xl"
@@ -137,7 +136,7 @@ const Card = ({
           </button>
         </div>
       </div>
-    </button>
+    </div>
   );
 };
 
