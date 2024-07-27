@@ -13,8 +13,8 @@ import { MyWakeupResponseString } from "./grant/list/utils";
 
 const WakeupMy = () => {
   const { user, login } = useAuth();
-  const { data: myList, refetch: refetchMyList } = useQuery({
-    queryKey: ["wakeup_my_list", moment().format("YYYY-MM-DD HH:mm:ss")],
+  const { data: myList, refetch: refetchMyList, isFetching } = useQuery({
+    queryKey: ["wakeup_my_list"],
     queryFn: async () => {
       const response = await axios.post<MyWakeupResponseString>("/wakeup/my/grant/list");
       return response.data.data;
@@ -26,7 +26,11 @@ const WakeupMy = () => {
     <div className="flex flex-col gap-4 w-full">
       {
         user.id ? 
-          myList ? myList.length ? myList.map((video, index) => (
+          isFetching ? (
+            <div className="w-full px-4 flex flex-row items-center justify-center">
+              <p className="text-text/40 dark:text-text-dark/50 text-center">내 신청 목록을 불러오는 중...</p>
+            </div>
+          ) : myList?.length ? myList.map((video, index) => (
             <Card
               key={index}
               _id={video._id}
@@ -41,11 +45,7 @@ const WakeupMy = () => {
             <div className="w-full px-4 flex flex-row items-center justify-center">
               <p className="text-text/40 dark:text-text-dark/50 text-center">신청한 기상송이 없습니다.</p>
             </div>
-          ) : (
-            <div className="w-full px-4 flex flex-row items-center justify-center">
-              <p className="text-text/40 dark:text-text-dark/50 text-center">내 신청 목록을 불러오는 중...</p>
-            </div>
-          ) : (
+          )  : (
             <div className="w-full px-4 flex flex-col items-center justify-center gap-1">
               <p className="text-text/40 dark:text-text-dark/50 text-center">이 페이지는 로그인 후 이용할 수 있어요.</p>
               <button onClick={login} className="-m-3 p-3">
