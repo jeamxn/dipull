@@ -14,10 +14,10 @@ const menus = [
     name: "열람실 좌석 설정하기",
     url: "/settings/teacher/studyroom",
   },
-  // {
-  //   name: "건조기",
-  //   url: "/machine/dryer",
-  // },
+  {
+    name: "교실로 보내기",
+    url: "/settings/teacher/where",
+  },
 ];
 
 const Layout = ({
@@ -26,7 +26,7 @@ const Layout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <div className="py-6 flex flex-col gap-6">
+    <div className="py-6 flex flex-col gap-6 overflow-hidden">
       <Menu menus={menus} />
       {children}
     </div>

@@ -28,7 +28,7 @@ const Menu = ({
               <Linker
                 href={menu.url}
                 className={[
-                  "text-xl font-semibold select-none cursor-pointer transition-all -m-2 p-2",
+                  "text-xl font-semibold select-none cursor-pointer transition-all -m-2 p-2 whitespace-nowrap",
                   path === menu.url ? "text-text dark:text-text-dark" : "text-text/30 dark:text-text-dark/60",
                 ].join(" ")}
                 disabled={path === menu.url}
