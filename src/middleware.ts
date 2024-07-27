@@ -12,6 +12,8 @@ export const middleware = async (request: Readonly<NextRequest>) => {
   requestHeaders.set("x-url", request.url);
   requestHeaders.set("x-origin", origin);
 
+  console.log(request.nextUrl.search);
+
   const response = NextResponse.next({
     request: {
       ...request,
@@ -34,6 +36,13 @@ export const middleware = async (request: Readonly<NextRequest>) => {
     if(userAgent?.includes("KAKAOTALK")){
       return NextResponse.redirect(`kakaotalk://web/openExternal?url=${encodeURIComponent(request.url)}`);
     }
+
+    const isKey = request.url.includes("/key");
+    const search = request.nextUrl.searchParams.get("key");
+    if (isKey && search !== process.env.TEACHERS_CODE) {
+      return NextResponse.redirect(new URL("/", origin));
+    }
+
     const isGrant = request.url.includes("/grant");
     const isStudent = request.url.includes("/student");
     const isTeacher = request.url.includes("/teacher");

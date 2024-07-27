@@ -117,12 +117,10 @@ export type Stay = {
   week: string;
   id: UserInfo["id"];
   seat: {
-    onSeat: true;
-    num: string;
-  } | {
-    onSeat: false;
-    reason: string;
-  }
+    onSeat: boolean;
+    num?: string;
+    reason?: string;
+  };
 };
 
 export type Studyroom = {
