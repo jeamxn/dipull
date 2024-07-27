@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Metadata } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
@@ -9,6 +10,7 @@ import RecoilProvider from "@/components/providers/RecoilProvider";
 import { getServerUser } from "@/utils/server";
 
 import Loading from "./loading";
+
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const x_origin = headers().get("x-origin") || "";
@@ -62,7 +64,14 @@ const RootLayout = async ({
   const user = await getServerUser();
   return (
     <html lang="ko" className="overscroll-none w-full h-full overflow-x-hidden flex flex-col bg-background dark:bg-background-dark">
-      <meta name="viewport" content="initial-scale=1, viewport-fit=cover"/>
+      <meta name="viewport" content="initial-scale=1, viewport-fit=cover" />
+      <meta name="google-adsense-account" content="ca-pub-7372688315698125" />
+      <meta name="apple-mobile-web-app-capable" content="yes"/>
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafaff"/>
+      <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#000000"/>
+      <link rel="apple-touch-icon" href="/public/icons/apple-touch-icon.png" />
+      
       <body className="overscroll-none w-full h-full overflow-x-hidden flex flex-row bg-background dark:bg-background-dark justify-around max-md:gap-0 gap-10 py-safe-or-0 px-safe-offset-16 max-md:px-safe-or-0">
         <RecoilProvider>
           <aside className="max-md:hidden flex flex-col justify-center">
@@ -75,6 +84,7 @@ const RootLayout = async ({
             <Loading />
           </main>
         </RecoilProvider>
+        <GoogleAnalytics gaId="G-1X4669WKHE" />
       </body>
     </html>
   );
