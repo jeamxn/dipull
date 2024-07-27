@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { collections } from "@/utils/db";
 import { UserInfo } from "@/utils/db/utils";
 import { accessVerify } from "@/utils/jwt";
+import { getUserByID } from "@/utils/server";
 
 import { StudyroomResponse } from "./utils";
 
@@ -15,23 +16,33 @@ const GET = async (
   }
 ) => {
   try {
-    if (!params.id) {
-      throw new Error("사용자를 선택해주세요.");
-    }
-    const user = await collections.users();
-    const getUser = await user.findOne({
-      id: params.id,
-    });
-    if (!getUser) {
-      throw new Error("존재하지 않는 사용자입니다.");
-    }
-    const { id, gender, number } = getUser;
+    const { target } = await getUserByID(req, params.id, false);
+    const { number, gender } = target;
 
     const studyroom = await collections.studyroom();
-    const myStudyroom = await studyroom.findOne({ 
+    const myStudyroom = await studyroom.find({ 
       grade: Math.floor(number / 1000),
       gender,
+    }).toArray();
+
+    const combinedAllow: { [key: string]: Set<number> } = {};
+    
+    myStudyroom.forEach(doc => {
+      for (const key in doc.allow) {
+        if (!combinedAllow[key]) {
+          combinedAllow[key] = new Set<number>();
+        }
+        doc.allow[key].forEach(value => {
+          combinedAllow[key].add(value);
+        });
+      }
     });
+
+    // Set을 Array로 변환
+    const result: { [key: string]: number[] } = {};
+    for (const key in combinedAllow) {
+      result[key] = Array.from(combinedAllow[key]);
+    }
 
     const stay = await collections.stay();
     const stays = await stay.aggregate([
@@ -125,7 +136,7 @@ const GET = async (
 
     const response = NextResponse.json<StudyroomResponse>({
       success: true,
-      allow: myStudyroom ? myStudyroom.allow : {},
+      allow: result ? result : {},
       stays: stays[0]?.result || {},
     });
 

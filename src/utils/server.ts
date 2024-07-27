@@ -20,25 +20,27 @@ export const getServerUser = async (): Promise<UserInfo> => {
   return user;
 };
 
-export const getUserByID = async (req: NextRequest, id: UserInfo["id"]): Promise<{
+export const getUserByID = async (req: NextRequest, id: UserInfo["id"], isOnlyStudent: boolean = true): Promise<{
   my: UserInfo;
   target: UserInfo;
   isTeacher: boolean;
 }> => { 
   if (!id) {
-    throw new Error("학생을 선택해주세요.");
+    throw new Error(`${isOnlyStudent ? "학생을" : "사용자를"} 선택해주세요.`);
   }
   const accessToken = req.cookies.get("access_token")?.value || "";
   const accessVerified = await accessVerify(accessToken);
   const isTeacher = accessVerified.type === "teacher";
   if (isTeacher) {
     const userDB = await collections.users();
-    const getUser = await userDB.findOne({
+    const getUser = await userDB.findOne(isOnlyStudent ? {
       id: id,
       type: "student"
+    } : {
+      id: id,
     });
     if (!getUser) {
-      throw new Error("존재하지 않는 학생입니다.");
+      throw new Error(`존재하지 않는 ${isOnlyStudent ? "학생" : "사용자"}입니다.`);
     }
     return {
       my: accessVerified,

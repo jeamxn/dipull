@@ -10,7 +10,7 @@ import { useAuth } from "@/hooks";
 import { defaultUser, UserInfo } from "@/utils/db/utils";
 
 import { StayResponse } from "./grant/[id]/apply/utils";
-import Studyroom from "./studyroom";
+import StudyroomModal from "./studyroomModal";
 
 
 const Stay = () => {
@@ -83,7 +83,7 @@ const Stay = () => {
       showCancelButton: !disabledThis,
       confirmButtonText: disabledThis ? "확인" : `${selected_ ? `${selected_} ` : "미"}선택`,
       inner: (
-        <Studyroom
+        <StudyroomModal
           selected={selected}
           setSelected={setSelected}
           select={selected_}

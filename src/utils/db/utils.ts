@@ -126,7 +126,7 @@ export type Stay = {
 };
 
 export type Studyroom = {
-  grade: number;
+  grade: number[];
   gender: UserInfo["gender"];
   allow: {
     [key: string]: number[];

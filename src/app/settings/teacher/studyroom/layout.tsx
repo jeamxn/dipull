@@ -3,7 +3,7 @@ import React from "react";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "설정 :: 디풀",
+    title: "열람실 좌석 설정 :: 디풀",
   };
 }
 
