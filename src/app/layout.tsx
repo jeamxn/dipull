@@ -11,6 +11,7 @@ import { getServerUser } from "@/utils/server";
 
 import Loading from "./loading";
 
+export const fetchCache = "force-no-store";
 
 export const generateMetadata = async (): Promise<Metadata> => {
   const x_origin = headers().get("x-origin") || "";
