@@ -3,10 +3,15 @@ import moment from "moment";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
-import { MachineApplyResponse } from "@/app/machine/[type]/grant/apply/utils";
-import { MachineType, machineTypeToKorean } from "@/app/machine/[type]/utils";
+import { checkWeekend, isMachineApplyAvailable, machineApplyEndMessage } from "@/utils/date";
 import { collections } from "@/utils/db";
 import { UserInfo } from "@/utils/db/utils";
+import { accessVerify } from "@/utils/jwt";
+import { getUserByID } from "@/utils/server";
+
+import { MachineType, machineTypeToKorean } from "../../../utils";
+
+import { MachineApplyResponse } from "./utils";
 
 const PUT = async (
   req: NextRequest,
@@ -18,31 +23,27 @@ const PUT = async (
   }
 ) => {
   try {
-    if (!params.type) {
-      throw new Error("예약할 기기를 선택해주세요.");
-    }
-    if (params.type !== "washer" && params.type !== "dryer") { 
-      throw new Error("올바르지 않은 기기입니다.");
-    }
-
     const { machine, time } = await req.json();
     if (!machine || !time) {
       throw new Error("빈칸을 모두 채워주세요.");
     }
 
+    const { target, isTeacher } = await getUserByID(req, params.id);
+    const { id, number, gender } = target;
+
+    const machineAvailable = await isMachineApplyAvailable();
+    if (!machineAvailable && !isTeacher) {
+      throw new Error(await machineApplyEndMessage());
+    }
+
     const today = moment().tz("Asia/Seoul").format("YYYY-MM-DD");
 
-    if (!params.id) {
-      throw new Error("사용자를 선택해주세요.");
-    }
-    const user = await collections.users();
-    const getUser = await user.findOne({
-      id: params.id,
-    });
-    if (!getUser) {
-      throw new Error("존재하지 않는 사용자입니다.");
-    }
-    const { id, gender, number } = getUser;
+    const grade = Math.floor(number / 1000);
+    const query = await checkWeekend(today) ? {
+      "allow.weekend": grade
+    } : {
+      "allow.default": grade
+    };
 
     const machine_list = await collections.machine_list();
     const machines = await machine_list.findOne({
@@ -50,6 +51,7 @@ const PUT = async (
       _id: ObjectId.createFromHexString(machine),
       type: params.type,
       gender: gender,
+      ...query,
     });
     if (!machines) { 
       throw new Error("예약할 수 없는 기기입니다.");

@@ -8,7 +8,7 @@ import * as Select from "@/components/Select";
 import { useAuth } from "@/hooks";
 import { Machine as MachineInfo, Machine_list, MachineJoin, UserInfo, defaultUser } from "@/utils/db/utils";
 
-import { MachineApplyResponse } from "./grant/apply/utils";
+import { MachineApplyResponse } from "./grant/apply/[id]/utils";
 import { Machine_list_Response } from "./list/[allow]/utils";
 import { MachineType, machineTypeToKorean } from "./utils";
 
@@ -42,13 +42,10 @@ const Apply = ({
   const { refetch, isFetching } = useQuery({
     queryKey: ["machine_put", params.type, machine, time, selected.id],
     queryFn: async () => {
-      const response = await axios.put<MachineApplyResponse>(
-        user.type === "teacher" ? `/machine/${params.type}/teacher/${selected.id}/apply` : `/machine/${params.type}/grant/apply`,
-        {
-          machine,
-          time,
-        }
-      );
+      const response = await axios.put<MachineApplyResponse>(`/machine/${params.type}/grant/apply/${selected.id}`, {
+        machine,
+        time,
+      });
       refetchMachineCurrent();
       return response.data;
     },

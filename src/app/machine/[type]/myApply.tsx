@@ -7,7 +7,7 @@ import { useAlertModalDispatch } from "@/components/AlertModal";
 import { useAuth } from "@/hooks";
 import { MachineJoin, UserInfo } from "@/utils/db/utils";
 
-import { MachineApplyResponse } from "./grant/apply/utils";
+import { MachineApplyResponse } from "./grant/apply/[id]/utils";
 import { Machine_list_Response } from "./list/[allow]/utils";
 import { MachineType, machineTypeToKorean } from "./utils";
 
@@ -44,9 +44,7 @@ const MyApply = ({
   const { refetch, isFetching } = useQuery({
     queryKey: ["machine_put", params.type, selected.id],
     queryFn: async () => {
-      const response = await axios.delete<MachineApplyResponse>(
-        user.type === "teacher" ? `/machine/${params.type}/teacher/${selected.id}/apply` : `/machine/${params.type}/grant/apply`,
-      );
+      const response = await axios.delete<MachineApplyResponse>(`/machine/${params.type}/grant/apply/${selected.id}`);
       refetchMachineCurrent();
       return response.data;
     },

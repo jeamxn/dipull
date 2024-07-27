@@ -2,11 +2,14 @@ import "moment-timezone";
 import moment from "moment";
 import { NextRequest, NextResponse } from "next/server";
 
-import { MachineApplyResponse } from "@/app/machine/[type]/grant/apply/utils";
-import { MachineType, machineTypeToKorean } from "@/app/machine/[type]/utils";
 import { collections } from "@/utils/db";
 import { UserInfo } from "@/utils/db/utils";
 import { accessVerify } from "@/utils/jwt";
+import { getUserByID } from "@/utils/server";
+
+import { MachineType, machineTypeToKorean } from "../../../utils";
+
+import { MachineApplyResponse } from "./utils";
 
 const DELETE = async (
   req: NextRequest,
@@ -18,26 +21,10 @@ const DELETE = async (
   }
 ) => {
   try {
-    if (!params.type) {
-      throw new Error("예약할 기기를 선택해주세요.");
-    }
-    if (params.type !== "washer" && params.type !== "dryer") { 
-      throw new Error("올바르지 않은 기기입니다.");
-    }
-
     const today = moment().tz("Asia/Seoul").format("YYYY-MM-DD");
 
-    if (!params.id) {
-      throw new Error("사용자를 선택해주세요.");
-    }
-    const user = await collections.users();
-    const getUser = await user.findOne({
-      id: params.id,
-    });
-    if (!getUser) {
-      throw new Error("존재하지 않는 사용자입니다.");
-    }
-    const { id, gender, number } = getUser;
+    const { target } = await getUserByID(req, params.id);
+    const { id } = target;
 
     const machineDB = await collections.machine();
     const machineData = await machineDB.deleteOne({
