@@ -12,7 +12,7 @@ const SelectUserInner = ({
   setSelect,
 }: {
   select: UserInfo;
-  setSelect: React.Dispatch<React.SetStateAction<UserInfo>>;
+    setSelect: React.Dispatch<React.SetStateAction<UserInfo>>;
   }) => { 
   const { user, needLogin, onlyTeacher } = useAuth();
   const [search, setSearch] = React.useState("");

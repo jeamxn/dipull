@@ -24,18 +24,18 @@ const DELETE = async (
     if (params.type !== "washer" && params.type !== "dryer") { 
       throw new Error("올바르지 않은 기기입니다.");
     }
-    if (!params.id) {
-      throw new Error("예약할 학생을 선택해주세요.");
-    }
 
     const today = moment().tz("Asia/Seoul").format("YYYY-MM-DD");
 
+    if (!params.id) {
+      throw new Error("사용자를 선택해주세요.");
+    }
     const user = await collections.users();
     const getUser = await user.findOne({
       id: params.id,
     });
     if (!getUser) {
-      throw new Error("존재하지 않는 학생입니다.");
+      throw new Error("존재하지 않는 사용자입니다.");
     }
     const { id, gender, number } = getUser;
 

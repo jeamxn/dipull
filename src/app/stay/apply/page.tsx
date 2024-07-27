@@ -5,7 +5,9 @@ import axios from "axios";
 import React from "react";
 
 import { ModalProps, useModalDispatch } from "@/components/Modal";
+import SelectUser from "@/components/SelectUser";
 import { useAuth } from "@/hooks";
+import { defaultUser, UserInfo } from "@/utils/db/utils";
 
 import { StayResponse } from "./student/utils";
 import Studyroom from "./studyroom";
@@ -13,6 +15,11 @@ import Studyroom from "./studyroom";
 
 const Stay = () => {
   const { user, needLogin, onlyStudent } = useAuth();
+  const [selected, setSelected] = React.useState<UserInfo>(defaultUser);
+  React.useEffect(() => {
+    setSelected(user);
+  }, [user]);
+  
   const modalDispatch = useModalDispatch();
 
   const [modalSelect, setModalSelect] = React.useState("");
@@ -21,9 +28,11 @@ const Stay = () => {
   const [reason, setReason] = React.useState("");
 
   const { data, refetch, isFetching } = useQuery({
-    queryKey: ["stay_get", user.id],
+    queryKey: ["stay_get", selected.id, user.id],
     queryFn: async () => {
-      const response = await axios.get<StayResponse>("/stay/apply/student");
+      const response = await axios.get<StayResponse>(
+        user.type === "teacher" ? `/stay/apply/teacher/${selected.id}` : "/stay/apply/student",
+      );
       if (response.data.myStay) { 
         if (response.data.seat?.onSeat) {
           setSelect(response.data.seat.num);
@@ -38,13 +47,15 @@ const Stay = () => {
       }
       return response.data;
     },
-    enabled: Boolean(user.id && user.type === "student"),
+    enabled: Boolean(selected.id && selected.type === "student"),
   });
 
   const { refetch: refetchDelete, isFetching: isFetchingDelete } = useQuery({
-    queryKey: ["stay_delete", reason, select],
+    queryKey: ["stay_delete", reason, select, user.id],
     queryFn: async () => {
-      const response = await axios.delete<StayResponse>("/stay/apply/student");
+      const response = await axios.delete<StayResponse>(
+        user.type === "teacher" ? `/stay/apply/teacher/${selected.id}` : "/stay/apply/student",
+      );
       await refetch();
       return response.data;
     },
@@ -54,12 +65,15 @@ const Stay = () => {
   });
 
   const { refetch: refetchPut, isFetching: isFetchingPut } = useQuery({
-    queryKey: ["stay_put", reason, select],
+    queryKey: ["stay_put", reason, select, user.id],
     queryFn: async () => {
-      const response = await axios.put<StayResponse>("/stay/apply/student", {
-        reason,
-        seat: select,
-      });
+      const response = await axios.put<StayResponse>(
+        user.type === "teacher" ? `/stay/apply/teacher/${selected.id}` : "/stay/apply/student",
+        {
+          reason,
+          seat: select,
+        }
+      );
       await refetch();
       return response.data;
     },
@@ -109,9 +123,16 @@ const Stay = () => {
     <div className="flex flex-col gap-8 w-full">
       <div className="flex flex-col gap-4 w-full">
         <p className="px-4 text-xl font-semibold transition-all whitespace-nowrap text-text dark:text-text-dark">좌석 선택</p>
+        {
+          user.type === "teacher" ? (
+            <SelectUser select={selected} setSelect={setSelected} />
+          ) : null
+        }
         <div className="flex flex-row items-center justify-between px-4 gap-2">
           <div className="flex flex-col gap-1">
-            <p className="text-base font-medium transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">내가 선택한 좌석</p>
+            <p className="text-base font-medium transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">
+              {user.type === "teacher" ? "선택된" : "내가 선택한"} 좌석
+            </p>
             <p className="text-xl font-semibold transition-all whitespace-nowrap text-text dark:text-text-dark">
               {isFetching ? "잔류 정보를 불러오는 중..." : select ? select : "미선택"}
             </p>
@@ -147,7 +168,7 @@ const Stay = () => {
               className="bg-text dark:bg-text-dark px-6 py-3 rounded-xl"
               onClick={() => {
                 if (!user.id) return needLogin();
-                if (user.type !== "student") return onlyStudent();
+                // if (user.type !== "student") return onlyStudent();
                 setReason("교실 잔류");
               }}
               disabled={Boolean(select) || disabled}
@@ -167,10 +188,10 @@ const Stay = () => {
             <button
               className={[
                 "p-3 bg-transparent border border-red-500 dark:bg-transparent dark:border-red-500 text-red-500 dark:text-red-500 rounded-xl font-semibold w-full transition-all",
-                isFetchingDelete ? "cursor-not-allowed opacity-50" : "cursor-pointer",
+                isFetchingDelete || !selected.id ? "cursor-not-allowed opacity-50" : "cursor-pointer",
               ].join(" ")}
-              disabled={isFetchingDelete}
-              onClick={!user.id ? needLogin : user.type === "student" ? () => refetchDelete() : onlyStudent}
+              disabled={isFetchingDelete || !selected.id}
+              onClick={!user.id ? needLogin : () => refetchDelete()}
             >
               {
                 isFetchingDelete ? "취소 중..." : "취소하기"
@@ -180,10 +201,10 @@ const Stay = () => {
             <button
               className={[
                 "p-3 bg-text dark:bg-text-dark text-white dark:text-white-dark rounded-xl font-semibold w-full transition-all",
-                !(select || reason) || disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer",
+                !(select || reason) || disabled || !selected.id ? "cursor-not-allowed opacity-50" : "cursor-pointer",
               ].join(" ")}
-              disabled={!(select || reason) || disabled}
-              onClick={!user.id ? needLogin : user.type === "student" ? () => refetchPut() : onlyStudent}
+              disabled={!(select || reason) || disabled || !selected.id}
+              onClick={!user.id ? needLogin : () => refetchPut()}
             >
               {
                 isFetchingPut ? "신청 중..." : "신청하기"

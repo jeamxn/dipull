@@ -19,6 +19,10 @@ const SelectUser = ({
   const [modalSelect, setModalSelect] = React.useState<UserInfo>(defaultUser);
   // const [selected, setSelected] = React.useState<UserInfo>(defaultUser);
 
+  React.useEffect(() => {
+    setModalSelect(selected);
+  }, [selected]);
+
   const selectModalData: ModalProps = React.useMemo(() => {
     return {
       label: "사용자 선택",

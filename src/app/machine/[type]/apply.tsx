@@ -43,7 +43,7 @@ const Apply = ({
     queryKey: ["machine_put", params.type, machine, time, selected.id],
     queryFn: async () => {
       const response = await axios.put<MachineApplyResponse>(
-        user.type === "teacher" ? `/teacher/machine/${params.type}/${selected.id}` : `/machine/${params.type}/grant/apply`,
+        user.type === "teacher" ? `/machine/${params.type}/teacher/${selected.id}/apply` : `/machine/${params.type}/grant/apply`,
         {
           machine,
           time,
