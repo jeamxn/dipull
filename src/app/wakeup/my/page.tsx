@@ -10,8 +10,6 @@ import Card from "../card";
 
 import { MyWakeupResponseString } from "./grant/list/utils";
 
-export const fetchCache = "force-no-store";
-
 const WakeupMy = () => {
   const { user, login } = useAuth();
   const { data: myList, refetch: refetchMyList } = useQuery({
