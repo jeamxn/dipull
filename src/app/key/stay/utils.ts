@@ -26,4 +26,7 @@ export type KeyStayResponse = {
     }
   };
   error?: ErrorMessage;
+  query?: {
+    week: string;
+  };
 };
