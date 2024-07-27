@@ -9,11 +9,6 @@ import { StudyroomAllResponse } from "./utils";
 
 const GET = async (
   req: NextRequest,
-  { params }: {
-    params: {
-      id: UserInfo["id"];
-    }
-  }
 ) => {
   try {
     const studyroom = await collections.studyroom();
