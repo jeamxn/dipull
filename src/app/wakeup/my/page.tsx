@@ -26,11 +26,11 @@ const WakeupMy = () => {
     <div className="flex flex-col gap-4 w-full">
       {
         user.id ? 
-          isFetching ? (
+          !myList ? (
             <div className="w-full px-4 flex flex-row items-center justify-center">
               <p className="text-text/40 dark:text-text-dark/50 text-center">내 신청 목록을 불러오는 중...</p>
             </div>
-          ) : myList?.length ? myList.map((video, index) => (
+          ) : myList.length ? myList.map((video, index) => (
             <Card
               key={index}
               _id={video._id}
