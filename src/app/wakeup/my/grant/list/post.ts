@@ -8,7 +8,7 @@ import { accessVerify } from "@/utils/jwt";
 
 import { MyWakeupResponse } from "./utils";
 
-const GET = async (
+const POST = async (
   req: NextRequest,
 ) => {
   try {
@@ -44,4 +44,4 @@ const GET = async (
   }
 };
 
-export default GET;
+export default POST;
