@@ -13,6 +13,10 @@ export type KeyHomecoming = {
 
 export type KeyHomecomingResponse = {
   success: boolean;
-  data?: KeyHomecoming[];
+  data?: {
+    [key: string]: {
+      [key: string]: KeyHomecoming[];
+    }
+  };
   error?: ErrorMessage;
 };

@@ -20,6 +20,10 @@ export type KeyStay = {
 
 export type KeyStayResponse = {
   success: boolean;
-  data?: KeyStay[];
+  data?: {
+    [key: string]: {
+      [key: string]: KeyStay[];
+    }
+  };
   error?: ErrorMessage;
 };
