@@ -1,16 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { collections } from "@/utils/db";
+import { UserInfo } from "@/utils/db/utils";
 import { accessVerify } from "@/utils/jwt";
 
 import { StudyroomResponse } from "./utils";
 
 const GET = async (
   req: NextRequest,
+  { params }: {
+    params: {
+      id: UserInfo["id"];
+    }
+  }
 ) => {
   try {
-    const accessToken = req.cookies.get("access_token")?.value || "";
-    const { number, gender } = await accessVerify(accessToken);
+    if (!params.id) {
+      throw new Error("사용자를 선택해주세요.");
+    }
+    const user = await collections.users();
+    const getUser = await user.findOne({
+      id: params.id,
+    });
+    if (!getUser) {
+      throw new Error("존재하지 않는 사용자입니다.");
+    }
+    const { id, gender, number } = getUser;
 
     const studyroom = await collections.studyroom();
     const myStudyroom = await studyroom.findOne({ 

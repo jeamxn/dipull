@@ -5,26 +5,30 @@ import React from "react";
 
 import { useModal } from "@/components/Modal";
 import { useAuth } from "@/hooks";
+import { UserInfo } from "@/utils/db/utils";
 
-import { StudyroomResponse } from "./grant/utils";
+import { StudyroomResponse } from "./grant/[id]/utils";
 
 const Studyroom = ({
   select,
   setSelect,
   disabled,
+  selected,
+  setSelected,
 }: {
   select: string;
     setSelect: React.Dispatch<React.SetStateAction<string>>;
     disabled: boolean;
+    selected: UserInfo;
+    setSelected: React.Dispatch<React.SetStateAction<UserInfo>>;
   }) => { 
-  const { user } = useAuth();
   const ref = React.useRef<HTMLDivElement>(null);
   const modal = useModal();
 
   const { data: studyroomData, isFetching } = useQuery({
-    queryKey: ["studyroom_info", user.id, user.number, user.type, modal.show],
+    queryKey: ["studyroom_info", selected.id, selected.number, selected.type, modal.show],
     queryFn: async () => {
-      const response = await axios.get<StudyroomResponse>("/stay/apply/grant");
+      const response = await axios.get<StudyroomResponse>(`/stay/apply/grant/${selected.id}`);
       return response.data;
     },
     enabled: Boolean(modal.show),

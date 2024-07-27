@@ -83,13 +83,21 @@ const Stay = () => {
   });
 
   const selectDispatchData: ModalProps = React.useMemo(() => {
-    const selected = modalSelect;
+    const selected_ = modalSelect;
     const disabledThis = Boolean(data?.myStay);
     return {
       label: "좌석 선택",
       showCancelButton: !disabledThis,
-      confirmButtonText: disabledThis ? "확인" : `${selected ? `${selected} ` : "미"}선택`,
-      inner: <Studyroom select={selected} setSelect={setModalSelect} disabled={disabledThis} />,
+      confirmButtonText: disabledThis ? "확인" : `${selected_ ? `${selected_} ` : "미"}선택`,
+      inner: (
+        <Studyroom
+          selected={selected}
+          setSelected={setSelected}
+          select={selected_}
+          setSelect={setModalSelect}
+          disabled={disabledThis}
+        />
+      ),
       onConfirm: () => {
         if (modalSelect) setReason("");
         setSelect(modalSelect);
@@ -99,7 +107,7 @@ const Stay = () => {
         setModalSelect("");
       },
     };
-  }, [modalSelect, select, data?.myStay]);
+  }, [modalSelect, select, data?.myStay, selected.id]);
 
   const showStudyroom = () => {
     modalDispatch({
