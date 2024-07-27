@@ -3,6 +3,7 @@ import axios from "axios";
 import domtoimage from "dom-to-image";
 import React from "react";
 
+import { useAlertModalDispatch } from "@/components/AlertModal";
 import { useModal } from "@/components/Modal";
 import Studyroom from "@/components/Studyroom";
 import { useAuth } from "@/hooks";
@@ -25,6 +26,7 @@ const StudyroomModal = ({
   }) => { 
   const ref = React.useRef<HTMLDivElement>(null);
   const modal = useModal();
+  const alertDispatch = useAlertModalDispatch();
 
   const { data: studyroomData, isFetching } = useQuery({
     queryKey: ["studyroom_info", selected.id, selected.number, selected.type, modal.show],
@@ -39,6 +41,13 @@ const StudyroomModal = ({
 
   const handleSaveAsImage = () => {
     if (!ref.current) return;
+    alertDispatch({
+      type: "show",
+      data: {
+        title: "열람실 현황 저장하기",
+        description: "곧 이미지가 다운로드 됩니다! 잠시만 기다려주세요.",
+      },
+    });
     const scale = 3;
     const padding = 16;
     const width = ref.current.offsetWidth + padding * 2 + 4;
