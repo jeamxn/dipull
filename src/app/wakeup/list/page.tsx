@@ -14,7 +14,7 @@ import { WakeupListResponse } from "./get/utlis";
 
 const WakeupList = () => {
   const { user, login } = useAuth();
-  const { data, refetch } = useQuery({
+  const { data, refetch, isFetching } = useQuery({
     queryKey: ["wakeup_apply_list"],
     queryFn: async () => {
       const response = await axios.post<WakeupListResponse>("/wakeup/list/get");
@@ -25,7 +25,7 @@ const WakeupList = () => {
   const { data: myList, refetch: refetchMyList } = useQuery({
     queryKey: ["wakeup_my_list"],
     queryFn: async () => {
-      const response = await axios.get<MyWakeupResponseString>("/wakeup/my/grant/list");
+      const response = await axios.post<MyWakeupResponseString>("/wakeup/my/grant/list");
       return response.data.data;
     },
     enabled: Boolean(user.id),
@@ -35,7 +35,11 @@ const WakeupList = () => {
   return (
     <div className="flex flex-col gap-4 w-full">
       {
-        data ? data.length ? data.map((video, index) => (
+        isFetching ? (
+          <div className="w-full px-4 flex flex-row items-center justify-center">
+            <p className="text-text/40 dark:text-text-dark/50 text-center">기상속 목록을 불러오는 중...</p>
+          </div>
+        ) : data?.length ? data.map((video, index) => (
           <Card
             key={index}
             id={video._id}
@@ -51,10 +55,6 @@ const WakeupList = () => {
         )) : (
           <div className="w-full px-4 flex flex-row items-center justify-center">
             <p className="text-text/40 dark:text-text-dark/50 text-center">신청된 기상송이 없습니다.</p>
-          </div>
-        ) : (
-          <div className="w-full px-4 flex flex-row items-center justify-center">
-            <p className="text-text/40 dark:text-text-dark/50 text-center">기상속 목록을 불러오는 중...</p>
           </div>
         )
       }
