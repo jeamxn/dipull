@@ -27,6 +27,7 @@ const PUT = async (
     const myQuery = {
       owner: id,
       date: today,
+      week: week,
     };
     const myWakeup = await wakeup.countDocuments(myQuery);
     if (myWakeup >= 3) {
