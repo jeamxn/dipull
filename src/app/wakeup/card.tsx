@@ -83,7 +83,7 @@ const Card = ({
 
   return (
     <div
-      className="px-4 w-full relative cursor-default"
+      className="px-4 w-full relative cursor-default overflow-x-hidden"
       onClick={disabled ? () => { } : onClick}
     >
       <img
@@ -94,8 +94,8 @@ const Card = ({
       <div className="absolute top-0 left-0 px-4 w-full h-full">
         <div className={[
           "bg-text/50 p-4 w-full h-full rounded-2xl flex flex-col justify-end items-start gap-1 max-sm:gap-0 max-md:gap-1 max-lg:gap-0",
-          click === "loading" ? "border-8 border-yellow-400" : "",
-          isInclude && !isMyList ? "border-8 border-green-400" : "",
+          click === "loading" ? "border-8 max-lg:border-4 max-md:border-8 max-sm:border-4 border-yellow-400" : "",
+          isInclude && !isMyList ? "border-8 max-lg:border-4 max-md:border-8 max-sm:border-4 border-green-400" : "",
         ].join(" ")}>
           {
             rank || vote ? (
@@ -126,13 +126,13 @@ const Card = ({
             ) : null
           }
           <button
-            className=""
+            className="overflow-x-hidden w-full"
             onClick={(event) => {
               event.stopPropagation();
               window.open(`https://youtu.be/${id}`, "_blank");
             }}
           >
-            <p className="select-none text-white text-xl max-sm:text-base max-md:text-xl max-lg:text-base font-bold drop-shadow-2xl text-left">{title}</p>
+            <p className="select-none text-white text-xl max-sm:text-base max-md:text-xl max-lg:text-base font-bold drop-shadow-2xl text-left overflow-x-hidden">{title}</p>
           </button>
         </div>
       </div>
