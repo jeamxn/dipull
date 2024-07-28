@@ -156,7 +156,7 @@ const Comment = ({
                 <p className={[
                   "font-medium text-sm select-none cursor-pointer duration-150",
                   emotion === "good" || emotion === "initGood" ?
-                    isFetching ? "fill-green-700 dark:fill-green-400" : "text-blue-700 dark:text-blue-400" : "text-text/50 dark:text-text-dark/60"
+                    isFetching ? "text-green-700 dark:text-green-400" : "text-blue-700 dark:text-blue-400" : "text-text/50 dark:text-text-dark/60"
                 ].join(" ")}>
                   {(data || bambooComment).goods + (!data && emotion === "good" ? 1 : 0)}개
                 </p>
@@ -181,7 +181,7 @@ const Comment = ({
                 <p className={[
                   "font-medium text-sm select-none cursor-pointer duration-150",
                   emotion === "bad" || emotion === "initBad" ?
-                    isFetching ? "fill-green-700 dark:fill-green-400" : "text-blue-700 dark:text-blue-400" : "text-text/50 dark:text-text-dark/60"
+                    isFetching ? "text-green-700 dark:text-green-400" : "text-blue-700 dark:text-blue-400" : "text-text/50 dark:text-text-dark/60"
                 ].join(" ")}>
                   {(data || bambooComment).bads + (!data && emotion === "bad" ? 1 : 0)}개
                 </p>
