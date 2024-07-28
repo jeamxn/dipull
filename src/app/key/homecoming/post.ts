@@ -8,7 +8,7 @@ import { Stay, UserInfo } from "@/utils/db/utils";
 
 import { KeyHomecoming, KeyHomecomingResponse } from "./utils";
 
-const GET = async (
+const POST = async (
   req: NextRequest,
   { params }: {
     params: {
@@ -88,4 +88,4 @@ const GET = async (
   }
 };
 
-export default GET;
+export default POST;

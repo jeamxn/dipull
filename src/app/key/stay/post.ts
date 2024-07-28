@@ -8,13 +8,8 @@ import { Stay, UserInfo } from "@/utils/db/utils";
 
 import { KeyStay, KeyStayResponse } from "./utils";
 
-const GET = async (
+const POST = async (
   req: NextRequest,
-  { params }: {
-    params: {
-      id: UserInfo["id"];
-    }
-  }
 ) => {
   try {
     const week = await getWeekStart();
@@ -109,4 +104,4 @@ const GET = async (
   }
 };
 
-export default GET;
+export default POST;
