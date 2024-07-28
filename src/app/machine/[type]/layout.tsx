@@ -35,7 +35,7 @@ const Layout = async ({
   const newMenus = type === "teacher" ? [...machine_menus, ...machine_teacher_menus] : machine_menus;
 
   return (
-    <div className="py-6 flex flex-col gap-6">
+    <div className="py-6 flex flex-col gap-6 overflow-x-hidden">
       <Menu menus={newMenus} />
       {children}
     </div>
