@@ -27,6 +27,7 @@ const POST = async (
       {
         $sort: {
           count: -1,
+          _id: -1,
         },
       },
     ]).toArray();
