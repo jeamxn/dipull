@@ -136,7 +136,7 @@ const Machine = ({ params }: { params: { type: MachineType } }) => {
                 <div className={[
                   "flex flex-row gap-1 opacity-30",
                 ].join(" ")}>
-                  <p className="text-text dark:text-text-dark">{machineTypeToKorean(params.type)} 현황을 불러노는 중...</p>
+                  <p className="text-text dark:text-text-dark">{machineTypeToKorean(params.type)} 현황을 불러오는 중...</p>
                 </div>
               </div>
             )
