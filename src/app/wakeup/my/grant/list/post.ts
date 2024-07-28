@@ -2,6 +2,7 @@ import "moment-timezone";
 import moment from "moment";
 import { NextRequest, NextResponse } from "next/server";
 
+import { getWeekStart } from "@/utils/date";
 import { collections } from "@/utils/db";
 import { Wakeup } from "@/utils/db/utils";
 import { accessVerify } from "@/utils/jwt";
@@ -15,11 +16,13 @@ const POST = async (
     const accessToken = req.cookies.get("access_token")?.value || "";
     const { id } = await accessVerify(accessToken);
 
+    const week = await getWeekStart();
     const wakeup = await collections.wakeup();
     const today = moment().tz("Asia/Seoul").format("YYYY-MM-DD");
     const myQuery = {
       owner: id,
       date: today,
+      week: week,
     };
     const myWakeup = await wakeup.find(myQuery).toArray();
 
