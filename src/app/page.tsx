@@ -14,7 +14,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="w-full h-40 bg-text dark:bg-text-dark px-4 flex flex-col items-start justify-end">
+      <div className="w-full h-40 bg-text dark:bg-text-dark/30 px-4 flex flex-col items-start justify-end">
         <div
           className="bg-background dark:bg-background-dark border-8 border-background dark:border-background-dark rounded-full w-28 h-28 translate-y-1/2 overflow-hidden"
         >
