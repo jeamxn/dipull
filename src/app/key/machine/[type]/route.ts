@@ -4,9 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { MachineType } from "@/app/machine/[type]/utils";
 import { ErrorMessage } from "@/components/providers/utils";
-import { checkWeekend } from "@/utils/date";
 import { collections } from "@/utils/db";
-import { Machine_Time } from "@/utils/db/utils";
 
 export const GET = async (
   req: NextRequest,
@@ -14,13 +12,13 @@ export const GET = async (
 ) => {
   try {
     const today = moment().tz("Asia/Seoul").format("YYYY-MM-DD");
-    const isWeekend = await checkWeekend(today);
 
     const machine = await collections.machine();
     const machines = await machine.aggregate([
       {
         $match: {
           type: params.type,
+          date: today,
         },
       },
       {
