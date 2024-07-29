@@ -2,6 +2,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { Metadata } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
+import Script from "next/script";
 import React from "react";
 
 import Promotion from "@/components/Promotion";
@@ -86,6 +87,11 @@ const RootLayout = async ({
           </main>
         </RecoilProvider>
         <GoogleAnalytics gaId="G-1X4669WKHE" />
+        <Script
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7372688315698125"
+          crossOrigin="anonymous"
+          async
+        />
       </body>
     </html>
   );
