@@ -53,7 +53,7 @@ const PUT = async (
       gender: gender,
       ...query,
     });
-    if (!machines) { 
+    if (!machines && !isTeacher) { 
       throw new Error("예약할 수 없는 기기입니다.");
     }
 
