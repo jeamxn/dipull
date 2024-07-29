@@ -25,9 +25,9 @@ const DELETE = async (
     const { target, isTeacher } = await getUserByID(req, params.id);
     const { id, number } = target;
 
-    const applyStart = await isApplyAvail(number);
+    const applyStart = await isApplyAvail(number, "homecoming");
     if (!applyStart && !isTeacher) {
-      throw new Error(await stayApplyErrorMessage(number));
+      throw new Error(await stayApplyErrorMessage(number, "homecoming"));
     }
 
     const week = await getWeekStart();
