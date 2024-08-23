@@ -59,14 +59,33 @@ const PUT = async (
 
     if (seat) {
       const studyroom = await collections.studyroom();
-      const myStudyroom = await studyroom.findOne({
+      const myStudyroom = await studyroom.find({ 
         grade: Math.floor(number / 1000),
         gender,
+      }).toArray();
+
+      const combinedAllow: { [key: string]: Set<number> } = {};
+    
+      myStudyroom.forEach(doc => {
+        for (const key in doc.allow) {
+          if (!combinedAllow[key]) {
+            combinedAllow[key] = new Set<number>();
+          }
+          doc.allow[key].forEach(value => {
+            combinedAllow[key].add(value);
+          });
+        }
       });
-      if (!myStudyroom) {
+
+      const result: { [key: string]: number[] } = {};
+      for (const key in combinedAllow) {
+        result[key] = Array.from(combinedAllow[key]);
+      }
+
+      if (!myStudyroom.length) {
         throw new Error("해당 학년이 이용 가능한 열람실 구역이 없습니다.");
       }
-      if(!myStudyroom.allow[seat[0]].includes(Number(seat[1]))) {
+      if(!result[seat[0]].includes(Number(seat[1]))) {
         throw new Error("해당 좌석은 허용되지 않습니다.");
       }
     }
