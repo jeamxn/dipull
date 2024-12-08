@@ -155,11 +155,3 @@ Github의 `Main` 브랜치에 `Merge`하면 `Vercel`을 통해 자동으로 배�
 여러분들은 권한이 없기 때문에 `Main` 브랜치에 `Push` 및 배포를 직접 할 수 없습니다.
 
 또한 `Main` 브랜치에 직접 `Push`하지 않고 `Github Pull Request`를 통해 `Merge`를 요청해주세요.
-
-
-
-<!-- 배포를 위해서는 아래와 같은 명령어를 입력하여 빌드를 진행해주세요.
-
-```bash
-bun run build
-``` -->
