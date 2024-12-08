@@ -183,6 +183,13 @@ const Stay = () => {
           </div>
           
         </div>
+
+        <div className="flex flex-col gap-1 px-4">
+          <p className="text-base font-medium transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">잔류 신청 현황</p>
+          <p className="text-lg font-semibold transition-all whitespace-nowrap text-text dark:text-text-dark">
+            <a href="https://docs.google.com/spreadsheets/d/12vEO_54NcGbkePTFKxRXQ7s7SXTiuuzFmwXavHrUgB8/edit?usp=sharing" className="underline" target="_blank" rel="noreferrer">여기</a>에서 잔류 신청 현황을 확인하세요!
+          </p>
+        </div>
       </div>
 
       <div className="w-full px-4">
