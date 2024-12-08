@@ -128,6 +128,13 @@ const Stay = () => {
             }
           </div>
         </div>
+
+        <div className="flex flex-col gap-1 px-4">
+          <p className="text-base font-medium transition-all whitespace-nowrap text-text/40 dark:text-text-dark/50">금요귀가 신청 현황</p>
+          <p className="text-lg font-semibold transition-all whitespace-nowrap text-text dark:text-text-dark">
+            <a href="https://docs.google.com/spreadsheets/d/1TWnV8rk39ukaWG0JqHbteC8sG6PrDYku0u7lXvmg33k/edit?gid=0#gid=0" className="underline" target="_blank" rel="noreferrer">여기</a>에서 금요귀가 신청 현황을 확인하세요!
+          </p>
+        </div>
       </div>
 
       <div className="w-full px-4">
