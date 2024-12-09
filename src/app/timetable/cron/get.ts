@@ -14,7 +14,7 @@ const GET = async (
   new_headers.append("Content-Type", "application/json; charset=utf-8");
   
   const authHeader = req.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}` && process.env.NODE_ENV !== "development") {
     return new NextResponse(JSON.stringify({
       success: false,
       message: "Unauthorized",
@@ -96,7 +96,7 @@ const GET = async (
     {
       "payload": {
         "title": "아침에는 무엇을 먹을까요?",
-        "body": meal.breakfast
+        "body": meal.breakfast.join("/")
       },
       "type": "meal-breakfast",
       "filter": {
@@ -107,7 +107,7 @@ const GET = async (
     {
       "payload": {
         "title": "우와!! 곧 점심 시간이에요!",
-        "body": meal.lunch
+        "body": meal.lunch.join("/")
       },
       "type": "meal-lunch",
       "filter": {
@@ -118,7 +118,7 @@ const GET = async (
     {
       "payload": {
         "title": "오늘 저녁 어때요?",
-        "body": meal.dinner
+        "body": meal.dinner.join("/")
       },
       "type": "meal-dinner",
       "filter": {

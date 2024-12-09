@@ -143,3 +143,17 @@ export type Machine_Time = {
   when: "weekend" | "default";
   time: string[];
 };
+
+export type Meal = {
+  info: {
+    year: number;
+    month: number;
+    date: number;
+    url: string;
+  };
+  data: {
+    breakfast: string[];
+    lunch: string[];
+    dinner: string[];
+  };
+}
