@@ -6,9 +6,9 @@ import moment from "moment";
 import React from "react";
 
 import { useCalenderModalDispatch } from "@/components/CalenderModal";
+import type { Meal as MealType } from "@/utils/db/utils";
 
 import { MealResponse } from "./[date]/get";
-import { MealKey } from "./[date]/utils";
 
 const Meal = () => {
   const calenderDispatch = useCalenderModalDispatch();
@@ -63,7 +63,7 @@ const Meal = () => {
       <div className="px-4 overflow-x-auto overflow-y-hidden snap-x snap-mandatory block">
         <div className="flex flex-row gap-2 w-max h-full">
           {
-            (["breakfast", "lunch", "dinner"] as MealKey[]).map((type, i) => (
+            (["breakfast", "lunch", "dinner"] as (keyof MealType["data"])[]).map((type, i) => (
               <div key={i} className="h-unset snap-center">
                 <div
                   className={[
@@ -77,7 +77,7 @@ const Meal = () => {
                   </p>
                   <div className="flex flex-col gap-0.5">
                     {
-                      data?.[type].split("/").map((e, i) => (
+                      data?.[type].map((e, i) => (
                         <div key={i} className="flex flex-row gap-1 opacity-80">
                           <p className="text-text dark:text-text-dark">{e}</p>
                         </div>
@@ -89,7 +89,7 @@ const Meal = () => {
                           <p className="text-text dark:text-text-dark">급식 데이터를 찾는 중...</p>
                         </div>
                       ) : (
-                        data?.[type] === "" && (
+                        !data?.[type].length && (
                           <div className="flex flex-row gap-1 opacity-80">
                             <p className="text-text dark:text-text-dark">급식 정보가 없습니다.</p>
                           </div>

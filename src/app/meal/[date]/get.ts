@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
+import { Meal } from "@/utils/db/utils";
+
 import { getMeal } from "./server";
-import { Meal } from "./utils";
 
 type MealParams = {
   date: string; // YYYY-MM-DD
@@ -10,14 +11,13 @@ type MealParams = {
 export type MealResponse = {
   success: boolean;
   message: string;
-  data: Meal;
+  data: Meal["data"];
 };
 
 const GET = async (
   req: NextRequest,
   { params }: { params: MealParams }
 ) => {
-  // 헤더 설정
   const new_headers = new Headers();
   new_headers.append("Content-Type", "application/json; charset=utf-8");
 
@@ -37,9 +37,9 @@ const GET = async (
       success: false,
       message: "급식 데이터가 없습니다.",
       data: {
-        breakfast: "",
-        lunch: "",
-        dinner: ""
+        breakfast: [],
+        lunch: [],
+        dinner: []
       }
     };
     return new NextResponse(JSON.stringify(response), {
