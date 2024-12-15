@@ -17,7 +17,7 @@ export const getMealDatas = async () => {
   
   for(const col of cols) {
     const $$ = cheerio.load(col)(".title > div > a");
-    const title = $$.text().trim();
+    const title = $$.text().trim().replaceAll(" ", "");
     const url = $$.attr("href");
     if(!title || !url) continue;
 
@@ -32,8 +32,8 @@ export const getMealDatas = async () => {
       dinner: parseMeal(mealTexts, "석식"),
     };
 
-    const month = Number(title.split("월 ")[0]);
-    const date = Number(title.split("월 ")[1].split("일 ")[0]);
+    const month = Number(title.split("월")[0]);
+    const date = Number(title.split("월")[1].split("일")[0]);
     const json: Meal = {
       info: {
         year: new Date().getFullYear(),
