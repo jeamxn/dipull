@@ -49,8 +49,10 @@ const POST = async (
         },
       },
       {
-        $unwind: "$outing",
-        preserveNullAndEmptyArrays: true,
+        $unwind: {
+          path: "$outing",
+          preserveNullAndEmptyArrays: true,
+        },
       },
       {
         $addFields: {
