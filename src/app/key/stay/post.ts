@@ -53,6 +53,7 @@ const POST = async (
       },
       {
         $unwind: "$outing",
+        preserveNullAndEmptyArrays: true,
       },
       {
         $project: {
@@ -66,12 +67,20 @@ const POST = async (
           },
           week: "$week",
           saturday: {
-            meal: "$outing.meals.saturday",
-            outing: "$outing.outing.saturday",
+            meal: {
+              $ifNull: ["$outing.meals.saturday", { breakfast: true, lunch: true, dinner: true }],
+            },
+            outing: {
+              $ifNull: ["$outing.outing.saturday", []],
+            },
           },
           sunday: {
-            meal: "$outing.meals.sunday",
-            outing: "$outing.outing.sunday",
+            meal: {
+              $ifNull: ["$outing.meals.sunday", { breakfast: true, lunch: true, dinner: true }],
+            },
+            outing: {
+              $ifNull: ["$outing.outing.sunday", []],
+            },
           },
         },
       },
