@@ -1,10 +1,7 @@
-import "moment-timezone";
-import moment from "moment";
 import { NextRequest, NextResponse } from "next/server";
 
 import { getWeekStart } from "@/utils/date";
 import { collections } from "@/utils/db";
-import { Stay, UserInfo } from "@/utils/db/utils";
 
 import { KeyStay, KeyStayResponse } from "./utils";
 
@@ -56,6 +53,18 @@ const POST = async (
         preserveNullAndEmptyArrays: true,
       },
       {
+        $addFields: {
+          "outing.meals.saturday": {
+            $ifNull: ["$outing.meals.saturday", { breakfast: true, lunch: true, dinner: true }],
+          },
+          "outing.meals.sunday": {
+            $ifNull: ["$outing.meals.sunday", { breakfast: true, lunch: true, dinner: true }],
+          },
+          "outing.outing.saturday": { $ifNull: ["$outing.outing.saturday", []] },
+          "outing.outing.sunday": { $ifNull: ["$outing.outing.sunday", []] },
+        },
+      },
+      {
         $project: {
           _id: 0,
           id: "$id",
@@ -67,20 +76,12 @@ const POST = async (
           },
           week: "$week",
           saturday: {
-            meal: {
-              $ifNull: ["$outing.meals.saturday", { breakfast: true, lunch: true, dinner: true }],
-            },
-            outing: {
-              $ifNull: ["$outing.outing.saturday", []],
-            },
+            meal: "$outing.meals.saturday",
+            outing: "$outing.outing.saturday",
           },
           sunday: {
-            meal: {
-              $ifNull: ["$outing.meals.sunday", { breakfast: true, lunch: true, dinner: true }],
-            },
-            outing: {
-              $ifNull: ["$outing.outing.sunday", []],
-            },
+            meal: "$outing.meals.sunday",
+            outing: "$outing.outing.sunday",
           },
         },
       },
