@@ -35,8 +35,19 @@ const POST = async (
       {
         $lookup: {
           from: "outing",
-          localField: "id",
-          foreignField: "id",
+          let: { id: "$id", week: "$week" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$id", "$$id"] },
+                    { $eq: ["$week", "$$week"] },
+                  ],
+                },
+              },
+            },
+          ],
           as: "outing",
         },
       },
