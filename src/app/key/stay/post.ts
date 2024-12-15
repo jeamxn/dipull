@@ -76,7 +76,15 @@ const POST = async (
       const classNum = Math.floor(stay.number / 100) % 10;
       object[grade] = object[grade] || {};
       object[grade][classNum] = object[grade][classNum] || [];
-      object[grade][classNum].push(stay);
+      const hasUserStay = object[grade][classNum].findIndex((user) => user.id === stay.id);
+      if (hasUserStay !== -1) {
+        object[grade][classNum][hasUserStay] = stay;
+        return;
+      }
+      else {
+        object[grade][classNum].push(stay);
+        return;
+      }
     });
 
     const response = NextResponse.json<KeyStayResponse>({
