@@ -1,14 +1,9 @@
-import "moment-timezone";
-import moment from "moment";
-import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 import xss from "xss";
-
 
 import { getWeekStart, isApplyAvail, stayApplyErrorMessage } from "@/utils/date";
 import { collections } from "@/utils/db";
 import { Stay, UserInfo } from "@/utils/db/utils";
-import { accessVerify } from "@/utils/jwt";
 import { getUserByID } from "@/utils/server";
 
 import { StayResponse } from "./utils";
@@ -76,16 +71,23 @@ const PUT = async (
           });
         }
       });
-
       const result: { [key: string]: number[] } = {};
       for (const key in combinedAllow) {
         result[key] = Array.from(combinedAllow[key]);
       }
-
       if (!myStudyroom.length) {
         throw new Error("해당 학년이 이용 가능한 열람실 구역이 없습니다.");
       }
-      if(!result[seat[0]].includes(Number(seat[1]))) {
+      let isAllow = false;
+      const onlyAlpabet = seat.match(/[a-zA-Z]/g).join("");
+      const onlyNumber = Number(seat.match(/[0-9]/g).join(""));
+      for (const studyroom of myStudyroom) {
+        if (studyroom.allow[onlyAlpabet].includes(onlyNumber)) {
+          isAllow = true;
+          break;
+        }
+      }
+      if(!isAllow) {
         throw new Error("해당 좌석은 허용되지 않습니다.");
       }
     }
